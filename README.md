@@ -16,14 +16,14 @@ being the result index modulo the length of that parameter.
 Example expressions (I and J are IDs of RealParameters with elements
 {1.0, 2.0, 3.0} and {5.0, 10.0}, respectively.)
 
-Expression                 |  Loggable/Function value
-------------------------------------------------------
-2.5*I                      | {2.5, 5.0, 7.5}
-I+J                        | {6.0, 12.0, 8.0}
-exp(I[0])                  | {2.718...}
--log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
-sqrt(J)                    | {2.236..., 3.162...}
-sum(I)                     | {6.0}
+    Expression                 |  Loggable/Function value
+    ------------------------------------------------------
+    2.5*I                      | {2.5, 5.0, 7.5}
+    I+J                        | {6.0, 12.0, 8.0}
+    exp(I[0])                  | {2.718...}
+    -log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
+    sqrt(J)                    | {2.236..., 3.162...}
+    sum(I)                     | {6.0}
 
 Inspired by RPNcalculator by Joseph Heled (BEAST 1, BEAST 2 port by
 Denise Kuehnert).  (This parser uses [ANTLR](http://www.antlr.org),
