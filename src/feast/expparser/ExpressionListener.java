@@ -64,6 +64,17 @@ public interface ExpressionListener extends ParseTreeListener {
 	void exitAddSub(@NotNull ExpressionParser.AddSubContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link ExpressionParser#Exponentiation}.
+	 * @param ctx the parse tree
+	 */
+	void enterExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ExpressionParser#Exponentiation}.
+	 * @param ctx the parse tree
+	 */
+	void exitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link ExpressionParser#ELSEWHERE1}.
 	 * @param ctx the parse tree
 	 */
@@ -73,6 +84,17 @@ public interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ExpressionParser#ELSEWHERE3}.
+	 * @param ctx the parse tree
+	 */
+	void enterELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ExpressionParser#ELSEWHERE3}.
+	 * @param ctx the parse tree
+	 */
+	void exitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ExpressionParser#Negation}.

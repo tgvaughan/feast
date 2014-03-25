@@ -1,0 +1,45 @@
+<beast version='2.0'
+       namespace='beast.core:beast.core.parameter:beast.evolution.operators:feast'>
+
+    <run spec="MCMC" id="mcmc" chainLength="2000000">
+        <state>
+            <input name='stateNode' spec='RealParameter' value="20" id="x" />
+            <input name='stateNode' spec='RealParameter' value="50" id="y" />
+        </state>
+
+        <distribution spec="ExpCalculatorDistribution" id="target"
+		      expression="exp(-R^2/2)">
+
+	  <parameter id="R" spec='ExpCalculator'
+		     expression="sqrt((x-20)^2+(y-50)^2)">
+
+	    <parameter idref="x"/>
+	    <parameter idref="y"/>
+	  </parameter>
+        </distribution>
+
+        <operator id='scalerx' spec='ScaleOperator' scaleFactor="0.5" weight="1">
+            <parameter idref="x"/>
+        </operator>
+
+        <operator id='scalery' spec='ScaleOperator' scaleFactor="0.5" weight="1">
+            <parameter idref="y"/>
+        </operator>
+
+        <logger logEvery="100" fileName="ECdistribTest.log">
+	  <model idref='target'/>
+            <log idref="target"/>
+            <log idref="x"/>
+            <log idref="y"/>
+	    <log idref="R"/>
+        </logger>
+        <logger logEvery="100">
+	  <model idref='target'/>
+	  <log idref="target"/>
+	  <log idref="x"/>
+	  <log idref="y"/>
+	  <log idref="R"/>
+        </logger>
+    </run>
+
+</beast>

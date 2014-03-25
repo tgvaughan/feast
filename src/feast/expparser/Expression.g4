@@ -1,7 +1,5 @@
 grammar Expression;
 
-//start: expression;
-
 // Parser rules:
 
 expression :
@@ -10,14 +8,19 @@ expression :
     ;
 
 factor :
-        factor op=('*'|'/') atom   # MulDiv
-    |   atom                       # ELSEWHERE2
+        factor op=('*'|'/') molecule   # MulDiv
+    |   molecule                       # ELSEWHERE2
+    ;
+
+molecule :
+        '-' molecule       			             # Negation
+    |   atom '^' molecule                        # Exponentiation
+    |   atom                                     # ELSEWHERE3
     ;
 
 atom :
         '(' expression ')'                       # Bracketed
     |   op=(EXP|LOG|SQRT|SUM) '(' expression ')' # UnaryOp
-    |   '-' atom       			                 # Negation
     |   VARNAME  ('[' i=NNINT ']')?              # Variable
     |   val=(NNFLOAT | NNINT)                    # Number
     ;
@@ -28,6 +31,7 @@ ADD : '+' ;
 SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
+POW : '^' ;
 
 EXP : 'exp' ;
 LOG : 'log' ;
@@ -39,6 +43,6 @@ NNFLOAT : NNINT ('.' D*) ([eE] '-'? D+)? ;
 fragment D : [0-9] ;
 fragment NZD : [1-9] ;
 
-VARNAME : [a-zA-Z_][a-zA-Z_\-0-9]* ;
+VARNAME : [a-zA-Z_][a-zA-Z_0-9]* ;
 
 WHITESPACE : [ \t\r\n]+ -> skip ;

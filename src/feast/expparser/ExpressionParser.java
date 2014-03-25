@@ -15,16 +15,16 @@ public class ExpressionParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__3=1, T__2=2, T__1=3, T__0=4, ADD=5, SUB=6, MUL=7, DIV=8, EXP=9, LOG=10, 
-		SQRT=11, SUM=12, NNINT=13, NNFLOAT=14, VARNAME=15, WHITESPACE=16;
+		T__3=1, T__2=2, T__1=3, T__0=4, ADD=5, SUB=6, MUL=7, DIV=8, POW=9, EXP=10, 
+		LOG=11, SQRT=12, SUM=13, NNINT=14, NNFLOAT=15, VARNAME=16, WHITESPACE=17;
 	public static final String[] tokenNames = {
-		"<INVALID>", "']'", "')'", "'['", "'('", "'+'", "'-'", "'*'", "'/'", "'exp'", 
-		"'log'", "'sqrt'", "'sum'", "NNINT", "NNFLOAT", "VARNAME", "WHITESPACE"
+		"<INVALID>", "']'", "')'", "'['", "'('", "'+'", "'-'", "'*'", "'/'", "'^'", 
+		"'exp'", "'log'", "'sqrt'", "'sum'", "NNINT", "NNFLOAT", "VARNAME", "WHITESPACE"
 	};
 	public static final int
-		RULE_expression = 0, RULE_factor = 1, RULE_atom = 2;
+		RULE_expression = 0, RULE_factor = 1, RULE_molecule = 2, RULE_atom = 3;
 	public static final String[] ruleNames = {
-		"expression", "factor", "atom"
+		"expression", "factor", "molecule", "atom"
 	};
 
 	@Override
@@ -121,10 +121,10 @@ public class ExpressionParser extends Parser {
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(7); factor(0);
+			setState(9); factor(0);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(14);
+			setState(16);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
@@ -135,20 +135,20 @@ public class ExpressionParser extends Parser {
 					{
 					_localctx = new AddSubContext(new ExpressionContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_expression);
-					setState(9);
+					setState(11);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(10);
+					setState(12);
 					((AddSubContext)_localctx).op = _input.LT(1);
 					_la = _input.LA(1);
 					if ( !(_la==ADD || _la==SUB) ) {
 						((AddSubContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 					}
 					consume();
-					setState(11); factor(0);
+					setState(13); factor(0);
 					}
 					} 
 				}
-				setState(16);
+				setState(18);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			}
@@ -177,8 +177,8 @@ public class ExpressionParser extends Parser {
 		}
 	}
 	public static class ELSEWHERE2Context extends FactorContext {
-		public AtomContext atom() {
-			return getRuleContext(AtomContext.class,0);
+		public MoleculeContext molecule() {
+			return getRuleContext(MoleculeContext.class,0);
 		}
 		public ELSEWHERE2Context(FactorContext ctx) { copyFrom(ctx); }
 		@Override
@@ -197,11 +197,11 @@ public class ExpressionParser extends Parser {
 	}
 	public static class MulDivContext extends FactorContext {
 		public Token op;
+		public MoleculeContext molecule() {
+			return getRuleContext(MoleculeContext.class,0);
+		}
 		public FactorContext factor() {
 			return getRuleContext(FactorContext.class,0);
-		}
-		public AtomContext atom() {
-			return getRuleContext(AtomContext.class,0);
 		}
 		public MulDivContext(FactorContext ctx) { copyFrom(ctx); }
 		@Override
@@ -240,10 +240,10 @@ public class ExpressionParser extends Parser {
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(18); atom();
+			setState(20); molecule();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(25);
+			setState(27);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
@@ -254,20 +254,20 @@ public class ExpressionParser extends Parser {
 					{
 					_localctx = new MulDivContext(new FactorContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_factor);
-					setState(20);
+					setState(22);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(21);
+					setState(23);
 					((MulDivContext)_localctx).op = _input.LT(1);
 					_la = _input.LA(1);
 					if ( !(_la==MUL || _la==DIV) ) {
 						((MulDivContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 					}
 					consume();
-					setState(22); atom();
+					setState(24); molecule();
 					}
 					} 
 				}
-				setState(27);
+				setState(29);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			}
@@ -280,6 +280,123 @@ public class ExpressionParser extends Parser {
 		}
 		finally {
 			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class MoleculeContext extends ParserRuleContext {
+		public MoleculeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_molecule; }
+	 
+		public MoleculeContext() { }
+		public void copyFrom(MoleculeContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ExponentiationContext extends MoleculeContext {
+		public MoleculeContext molecule() {
+			return getRuleContext(MoleculeContext.class,0);
+		}
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
+		}
+		public ExponentiationContext(MoleculeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).enterExponentiation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).exitExponentiation(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitExponentiation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NegationContext extends MoleculeContext {
+		public MoleculeContext molecule() {
+			return getRuleContext(MoleculeContext.class,0);
+		}
+		public NegationContext(MoleculeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).enterNegation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).exitNegation(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitNegation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ELSEWHERE3Context extends MoleculeContext {
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
+		}
+		public ELSEWHERE3Context(MoleculeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).enterELSEWHERE3(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).exitELSEWHERE3(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitELSEWHERE3(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final MoleculeContext molecule() throws RecognitionException {
+		MoleculeContext _localctx = new MoleculeContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_molecule);
+		try {
+			setState(37);
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
+				_localctx = new NegationContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(30); match(SUB);
+				setState(31); molecule();
+				}
+				break;
+
+			case 2:
+				_localctx = new ExponentiationContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(32); atom();
+				setState(33); match(POW);
+				setState(34); molecule();
+				}
+				break;
+
+			case 3:
+				_localctx = new ELSEWHERE3Context(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(36); atom();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
 		}
 		return _localctx;
 	}
@@ -376,40 +493,21 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class NegationContext extends AtomContext {
-		public AtomContext atom() {
-			return getRuleContext(AtomContext.class,0);
-		}
-		public NegationContext(AtomContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).enterNegation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).exitNegation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitNegation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final AtomContext atom() throws RecognitionException {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_atom);
+		enterRule(_localctx, 6, RULE_atom);
 		int _la;
 		try {
-			setState(46);
+			setState(55);
 			switch (_input.LA(1)) {
 			case 4:
 				_localctx = new BracketedContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(28); match(4);
-				setState(29); expression(0);
-				setState(30); match(2);
+				setState(39); match(4);
+				setState(40); expression(0);
+				setState(41); match(2);
 				}
 				break;
 			case EXP:
@@ -419,38 +517,30 @@ public class ExpressionParser extends Parser {
 				_localctx = new UnaryOpContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(32);
+				setState(43);
 				((UnaryOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM))) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(33); match(4);
-				setState(34); expression(0);
-				setState(35); match(2);
-				}
-				break;
-			case SUB:
-				_localctx = new NegationContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(37); match(SUB);
-				setState(38); atom();
+				setState(44); match(4);
+				setState(45); expression(0);
+				setState(46); match(2);
 				}
 				break;
 			case VARNAME:
 				_localctx = new VariableContext(_localctx);
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(39); match(VARNAME);
-				setState(43);
-				switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+				setState(48); match(VARNAME);
+				setState(52);
+				switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 				case 1:
 					{
-					setState(40); match(3);
-					setState(41); ((VariableContext)_localctx).i = match(NNINT);
-					setState(42); match(1);
+					setState(49); match(3);
+					setState(50); ((VariableContext)_localctx).i = match(NNINT);
+					setState(51); match(1);
 					}
 					break;
 				}
@@ -459,9 +549,9 @@ public class ExpressionParser extends Parser {
 			case NNINT:
 			case NNFLOAT:
 				_localctx = new NumberContext(_localctx);
-				enterOuterAlt(_localctx, 5);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(45);
+				setState(54);
 				((NumberContext)_localctx).val = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==NNINT || _la==NNFLOAT) ) {
@@ -507,21 +597,23 @@ public class ExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\22\63\4\2\t\2\4\3"+
-		"\t\3\4\4\t\4\3\2\3\2\3\2\3\2\3\2\3\2\7\2\17\n\2\f\2\16\2\22\13\2\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\7\3\32\n\3\f\3\16\3\35\13\3\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4.\n\4\3\4\5\4\61\n\4\3\4\2\4\2"+
-		"\4\5\2\4\6\2\6\3\2\7\b\3\2\t\n\3\2\13\16\3\2\17\20\66\2\b\3\2\2\2\4\23"+
-		"\3\2\2\2\6\60\3\2\2\2\b\t\b\2\1\2\t\n\5\4\3\2\n\20\3\2\2\2\13\f\f\4\2"+
-		"\2\f\r\t\2\2\2\r\17\5\4\3\2\16\13\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2"+
-		"\20\21\3\2\2\2\21\3\3\2\2\2\22\20\3\2\2\2\23\24\b\3\1\2\24\25\5\6\4\2"+
-		"\25\33\3\2\2\2\26\27\f\4\2\2\27\30\t\3\2\2\30\32\5\6\4\2\31\26\3\2\2\2"+
-		"\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\5\3\2\2\2\35\33\3\2\2\2"+
-		"\36\37\7\6\2\2\37 \5\2\2\2 !\7\4\2\2!\61\3\2\2\2\"#\t\4\2\2#$\7\6\2\2"+
-		"$%\5\2\2\2%&\7\4\2\2&\61\3\2\2\2\'(\7\b\2\2(\61\5\6\4\2)-\7\21\2\2*+\7"+
-		"\5\2\2+,\7\17\2\2,.\7\3\2\2-*\3\2\2\2-.\3\2\2\2.\61\3\2\2\2/\61\t\5\2"+
-		"\2\60\36\3\2\2\2\60\"\3\2\2\2\60\'\3\2\2\2\60)\3\2\2\2\60/\3\2\2\2\61"+
-		"\7\3\2\2\2\6\20\33-\60";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\23<\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\7\2\21\n\2\f\2\16\2\24\13\2"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\7\3\34\n\3\f\3\16\3\37\13\3\3\4\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\5\4(\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\5\5\5\67\n\5\3\5\5\5:\n\5\3\5\2\4\2\4\6\2\4\6\b\2\6\3\2\7\b\3\2\t\n\3"+
+		"\2\f\17\3\2\20\21?\2\n\3\2\2\2\4\25\3\2\2\2\6\'\3\2\2\2\b9\3\2\2\2\n\13"+
+		"\b\2\1\2\13\f\5\4\3\2\f\22\3\2\2\2\r\16\f\4\2\2\16\17\t\2\2\2\17\21\5"+
+		"\4\3\2\20\r\3\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2"+
+		"\2\2\24\22\3\2\2\2\25\26\b\3\1\2\26\27\5\6\4\2\27\35\3\2\2\2\30\31\f\4"+
+		"\2\2\31\32\t\3\2\2\32\34\5\6\4\2\33\30\3\2\2\2\34\37\3\2\2\2\35\33\3\2"+
+		"\2\2\35\36\3\2\2\2\36\5\3\2\2\2\37\35\3\2\2\2 !\7\b\2\2!(\5\6\4\2\"#\5"+
+		"\b\5\2#$\7\13\2\2$%\5\6\4\2%(\3\2\2\2&(\5\b\5\2\' \3\2\2\2\'\"\3\2\2\2"+
+		"\'&\3\2\2\2(\7\3\2\2\2)*\7\6\2\2*+\5\2\2\2+,\7\4\2\2,:\3\2\2\2-.\t\4\2"+
+		"\2./\7\6\2\2/\60\5\2\2\2\60\61\7\4\2\2\61:\3\2\2\2\62\66\7\22\2\2\63\64"+
+		"\7\5\2\2\64\65\7\20\2\2\65\67\7\3\2\2\66\63\3\2\2\2\66\67\3\2\2\2\67:"+
+		"\3\2\2\28:\t\5\2\29)\3\2\2\29-\3\2\2\29\62\3\2\2\298\3\2\2\2:\t\3\2\2"+
+		"\2\7\22\35\'\669";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

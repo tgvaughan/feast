@@ -19,6 +19,7 @@
 
 package feast;
 
+import beast.core.BEASTObject;
 import beast.core.CalculationNode;
 import beast.core.Description;
 import beast.core.Function;
@@ -72,9 +73,9 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     public Input<String> expressionInput = new Input<String>("expression",
             "Expression needed for calculations.", Validate.REQUIRED);
     
-    public Input<List<Parameter>> parametersInput = new Input<List<Parameter>>(
-            "parameter", "Parameters needed for the calculation",
-            new ArrayList<Parameter>());
+    public Input<List<Function>> functionsInput = new Input<List<Function>>(
+            "parameter", "Parameters/functions needed for the calculation",
+            new ArrayList<Function>());
 
     
     ParseTree parseTree;
@@ -89,9 +90,11 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     public void initAndValidate() throws Exception {
         
         // Assemble name->param map
-        Map<String, Parameter> parameterMap = new HashMap<String, Parameter>();
-        for (Parameter param : parametersInput.get())
-            parameterMap.put(param.getID(), param);
+        Map<String, Function> functionsMap = new HashMap<String, Function>();
+        for (Function func : functionsInput.get()) {
+            BEASTObject obj = (BEASTObject)func;
+            functionsMap.put(obj.getID(), func);
+        }
 
         // Build AST from expression string
         ANTLRInputStream input = new ANTLRInputStream(expressionInput.get());
@@ -101,7 +104,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
         parseTree = parser.expression();
         
         // Create new visitor for calculating expression values:
-        visitor = new ExpCalculatorVisitor(parameterMap);
+        visitor = new ExpCalculatorVisitor(functionsMap);
         
         update();
     }

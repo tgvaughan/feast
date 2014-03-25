@@ -19,6 +19,7 @@
 
 package feast.expparser;
 
+import beast.core.Function;
 import beast.core.parameter.Parameter;
 import java.util.Map;
 
@@ -27,15 +28,15 @@ import java.util.Map;
  */
 public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
-    Map<String, Parameter> parameterMap;
+    Map<String, Function> functionsMap;
     
     /**
      * Create a new Expression AST visitor.
      * 
-     * @param parameterMap
+     * @param functionMap
      */
-    public ExpCalculatorVisitor(Map<String, Parameter> parameterMap) {
-        this.parameterMap = parameterMap;
+    public ExpCalculatorVisitor(Map<String, Function> functionMap) {
+        this.functionsMap = functionMap;
     }
     
     @Override
@@ -53,12 +54,12 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     public Double[] visitVariable(ExpressionParser.VariableContext ctx) {
 
         String paramName = ctx.VARNAME().getText();
-        if (!parameterMap.containsKey(paramName))
-            throw new IllegalArgumentException("Paramter " + paramName
+        if (!functionsMap.containsKey(paramName))
+            throw new IllegalArgumentException("Paramter/Function " + paramName
                     + " in expression was not found in list of provided"
-                    + " parameters.");
+                    + " parameters/functions.");
                 
-        Parameter param = parameterMap.get(paramName);
+        Function param = functionsMap.get(paramName);
         
         int paramIdx = -1;
         if (ctx.i != null)
@@ -80,7 +81,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitMulDiv(ExpressionParser.MulDivContext ctx) {
         Double [] left = visit(ctx.factor());
-        Double [] right = visit(ctx.atom());
+        Double [] right = visit(ctx.molecule());
         
         Double [] res = new Double[Math.max(left.length, right.length)];
         for (int i=0; i<res.length; i++) {
@@ -154,11 +155,23 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitNegation(ExpressionParser.NegationContext ctx) {
  
-        Double [] res = visit(ctx.atom());
+        Double [] res = visit(ctx.molecule());
         for (int i=0; i<res.length; i++)
             res[i] = -res[i];
         
         return res;
     }
-    
+
+    @Override
+    public Double[] visitExponentiation(ExpressionParser.ExponentiationContext ctx) {
+        Double [] base = visit(ctx.atom());
+        Double [] power = visit(ctx.molecule());
+        
+        Double [] res = new Double[Math.max(base.length, power.length)];
+        for (int i=0; i<res.length; i++) {
+                res[i] = Math.pow(base[i%base.length], power[i%power.length]);
+        }
+        
+        return res;
+    }
 }

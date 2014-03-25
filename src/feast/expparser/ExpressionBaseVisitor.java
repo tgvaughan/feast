@@ -58,7 +58,23 @@ public class ExpressionBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

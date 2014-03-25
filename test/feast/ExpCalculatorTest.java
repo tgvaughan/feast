@@ -56,9 +56,19 @@ public class ExpCalculatorTest {
         
         instance.initByName(
                 "expression", "sqrt(sum(I*2)+4) + J",
-                "parameter", iparam);
+                "parameter", iparam,
+                "parameter", jparam);
         assertEquals(instance.getDimension(), 2);
         assertTrue(Math.abs(instance.getArrayValue(0)-31.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-17.5)<1e-15);
+        
+        instance.initByName(
+                "expression", "1.5^I^2",
+                "parameter", iparam);
+        assertEquals(instance.getDimension(), 3);
+        assertTrue(Math.abs(instance.getArrayValue(0)-1.5)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(1)-5.0625)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(2)-38.443359375)<1e-15);
+
     }
 }

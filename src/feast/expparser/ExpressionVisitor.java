@@ -47,11 +47,25 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAddSub(@NotNull ExpressionParser.AddSubContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#Exponentiation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#ELSEWHERE1}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#ELSEWHERE3}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#Negation}.

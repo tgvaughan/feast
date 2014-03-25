@@ -82,6 +82,19 @@ public class ExpressionBaseListener implements ExpressionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -89,6 +102,19 @@ public class ExpressionBaseListener implements ExpressionListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx) { }
 
 	/**
 	 * {@inheritDoc}
