@@ -19,9 +19,10 @@ Expression Calculator (ExpCalculator)
 
 Takes simple arithmetic expressions and returns the result by acting
 as a Loggable or a Function.  Binary operators can be applied to
-Parameters of different lengths as in R, with the result having the
-maximum of the two lengths, and the index into the shortest parameter
-being the result index modulo the length of that parameter.
+Functions (including Parameters) of different lengths as in R, with
+the result having the maximum of the two lengths, and the index into
+the shortest parameter being the result index modulo the length of
+that parameter.
 
 Example expressions (I and J are IDs of RealParameters with elements
 {1.0, 2.0, 3.0} and {5.0, 10.0}, respectively.)
@@ -34,10 +35,29 @@ Example expressions (I and J are IDs of RealParameters with elements
     -log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
     sqrt(J)                    | {2.236..., 3.162...}
     sum(I)                     | {6.0}
+    2^I			       | {2.0, 4.0, 6.0}  
+
+Note that since each ExpCalculator is a Function object itself, it can
+be used as the input for other ExpCalculators.
 
 Inspired by RPNcalculator by Joseph Heled (BEAST 1, BEAST 2 port by
 Denise Kuehnert).  (This parser uses [ANTLR](http://www.antlr.org),
 which is cheating.)
+
+
+Expression Calculator Distribution (ExpCalculatorDistribution)
+--------------------------------------------------------------
+
+This is basically identical to ExpCalculator, but extends the abstract
+Distribution class, allowing the definition of arbitrary distributions
+over R^n at runtime.  Distributions can be specified in terms of their
+log or directly as probabilities (/probability densities).
+
+The file `ECdistribTest.xml` in the examples/ folder is a simple
+example where a multi-variate normal distribution is constructed.
+This example also illustrates the nested expression concept mentioned
+above.
+
 
 License
 -------
