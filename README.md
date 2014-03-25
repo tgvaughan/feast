@@ -13,6 +13,12 @@ on your operating system:
  * Mac OS X: /library/Application Support/BEAST/feast
  * Windows: #HOME#\BEAST\feast (#HOME# is your user home directory)
 
+Alternatively, for BEAST 2.1.2 and higher, you can install directly
+from within BEAUti by adding the following URL
+`http://tgvaughan.github.io/feast/package.xml` to the list of
+package repositories and selecting feast from the package list when
+it appears.
+
 
 Expression Calculator (ExpCalculator)
 -------------------------------------
