@@ -35,7 +35,7 @@ Example expressions (I and J are IDs of RealParameters with elements
     -log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
     sqrt(J)                    | {2.236..., 3.162...}
     sum(I)                     | {6.0}
-    2^I			       | {2.0, 4.0, 6.0}  
+    2^I			               | {2.0, 4.0, 6.0}  
 
 Note that since each ExpCalculator is a Function object itself, it can
 be used as the input for other ExpCalculators.
