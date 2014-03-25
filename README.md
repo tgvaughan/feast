@@ -16,7 +16,7 @@ on your operating system:
 Alternatively, for BEAST 2.1.2 and higher, you can install directly
 from within BEAUti by adding the following URL
 `http://tgvaughan.github.io/feast/package.xml` to the list of
-package repositories and selecting feast from the package.
+package repositories and selecting feast from the package list.
 
 
 Expression Calculator (ExpCalculator)
