@@ -26,7 +26,6 @@ import beast.core.Function;
 import beast.core.Input;
 import beast.core.Input.Validate;
 import beast.core.Loggable;
-import beast.core.parameter.Parameter;
 import feast.expparser.ExpCalculatorVisitor;
 import feast.expparser.ExpressionLexer;
 import feast.expparser.ExpressionParser;

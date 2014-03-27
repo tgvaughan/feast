@@ -20,7 +20,6 @@
 package feast.expparser;
 
 import beast.core.Function;
-import beast.core.parameter.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
