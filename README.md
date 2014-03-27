@@ -2,12 +2,18 @@ feast:  Bite-sized additions to BEAST 2
 =======================================
 
 This is a small [BEAST 2](http://www.beast2.org) package which
-contains some additions to the core functionality.  It is
-compatible with BEAST 2.1 and higher.  To install, download
-the latest release from
-[here](https://github.com/tgvaughan/feast/releases)
-and extract it into one of the following locations, depending
-on your operating system:
+contains some additions to the core functionality.  It is compatible
+with BEAST 2.1 and higher.
+
+[![Build Status](https://travis-ci.org/tgvaughan/feast.svg?branch=master)](https://travis-ci.org/tgvaughan/feast)
+
+Installation
+------------
+
+To install, download the latest release from
+[here](https://github.com/tgvaughan/feast/releases) and extract it
+into one of the following locations, depending on your operating
+system:
 
  * GNU/Linux: ~/.beast/feast
  * Mac OS X: /library/Application Support/BEAST/feast
