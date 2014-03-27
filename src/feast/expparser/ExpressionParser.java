@@ -15,11 +15,12 @@ public class ExpressionParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__3=1, T__2=2, T__1=3, T__0=4, ADD=5, SUB=6, MUL=7, DIV=8, POW=9, EXP=10, 
-		LOG=11, SQRT=12, SUM=13, NNINT=14, NNFLOAT=15, VARNAME=16, WHITESPACE=17;
+		T__4=1, T__3=2, T__2=3, T__1=4, T__0=5, ADD=6, SUB=7, MUL=8, DIV=9, POW=10, 
+		EXP=11, LOG=12, SQRT=13, SUM=14, NNINT=15, NNFLOAT=16, VARNAME=17, WHITESPACE=18;
 	public static final String[] tokenNames = {
-		"<INVALID>", "']'", "')'", "'['", "'('", "'+'", "'-'", "'*'", "'/'", "'^'", 
-		"'exp'", "'log'", "'sqrt'", "'sum'", "NNINT", "NNFLOAT", "VARNAME", "WHITESPACE"
+		"<INVALID>", "']'", "')'", "','", "'['", "'('", "'+'", "'-'", "'*'", "'/'", 
+		"'^'", "'exp'", "'log'", "'sqrt'", "'sum'", "NNINT", "NNFLOAT", "VARNAME", 
+		"WHITESPACE"
 	};
 	public static final int
 		RULE_expression = 0, RULE_factor = 1, RULE_molecule = 2, RULE_atom = 3;
@@ -493,21 +494,66 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class ArrayContext extends AtomContext {
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ArrayContext(AtomContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).enterArray(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ExpressionListener ) ((ExpressionListener)listener).exitArray(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitArray(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final AtomContext atom() throws RecognitionException {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_atom);
 		int _la;
 		try {
-			setState(55);
+			setState(66);
 			switch (_input.LA(1)) {
-			case 4:
+			case 5:
 				_localctx = new BracketedContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(39); match(4);
+				setState(39); match(5);
 				setState(40); expression(0);
 				setState(41); match(2);
+				}
+				break;
+			case 4:
+				_localctx = new ArrayContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(43); match(4);
+				setState(44); expression(0);
+				setState(49);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==3) {
+					{
+					{
+					setState(45); match(3);
+					setState(46); expression(0);
+					}
+					}
+					setState(51);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(52); match(1);
 				}
 				break;
 			case EXP:
@@ -515,32 +561,32 @@ public class ExpressionParser extends Parser {
 			case SQRT:
 			case SUM:
 				_localctx = new UnaryOpContext(_localctx);
-				enterOuterAlt(_localctx, 2);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(43);
+				setState(54);
 				((UnaryOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM))) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(44); match(4);
-				setState(45); expression(0);
-				setState(46); match(2);
+				setState(55); match(5);
+				setState(56); expression(0);
+				setState(57); match(2);
 				}
 				break;
 			case VARNAME:
 				_localctx = new VariableContext(_localctx);
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(48); match(VARNAME);
-				setState(52);
-				switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+				setState(59); match(VARNAME);
+				setState(63);
+				switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 				case 1:
 					{
-					setState(49); match(3);
-					setState(50); ((VariableContext)_localctx).i = match(NNINT);
-					setState(51); match(1);
+					setState(60); match(4);
+					setState(61); ((VariableContext)_localctx).i = match(NNINT);
+					setState(62); match(1);
 					}
 					break;
 				}
@@ -549,9 +595,9 @@ public class ExpressionParser extends Parser {
 			case NNINT:
 			case NNFLOAT:
 				_localctx = new NumberContext(_localctx);
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 5);
 				{
-				setState(54);
+				setState(65);
 				((NumberContext)_localctx).val = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==NNINT || _la==NNFLOAT) ) {
@@ -597,23 +643,25 @@ public class ExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\23<\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\24G\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\7\2\21\n\2\f\2\16\2\24\13\2"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\7\3\34\n\3\f\3\16\3\37\13\3\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\3\4\5\4(\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\5\5\67\n\5\3\5\5\5:\n\5\3\5\2\4\2\4\6\2\4\6\b\2\6\3\2\7\b\3\2\t\n\3"+
-		"\2\f\17\3\2\20\21?\2\n\3\2\2\2\4\25\3\2\2\2\6\'\3\2\2\2\b9\3\2\2\2\n\13"+
-		"\b\2\1\2\13\f\5\4\3\2\f\22\3\2\2\2\r\16\f\4\2\2\16\17\t\2\2\2\17\21\5"+
-		"\4\3\2\20\r\3\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2"+
-		"\2\2\24\22\3\2\2\2\25\26\b\3\1\2\26\27\5\6\4\2\27\35\3\2\2\2\30\31\f\4"+
-		"\2\2\31\32\t\3\2\2\32\34\5\6\4\2\33\30\3\2\2\2\34\37\3\2\2\2\35\33\3\2"+
-		"\2\2\35\36\3\2\2\2\36\5\3\2\2\2\37\35\3\2\2\2 !\7\b\2\2!(\5\6\4\2\"#\5"+
-		"\b\5\2#$\7\13\2\2$%\5\6\4\2%(\3\2\2\2&(\5\b\5\2\' \3\2\2\2\'\"\3\2\2\2"+
-		"\'&\3\2\2\2(\7\3\2\2\2)*\7\6\2\2*+\5\2\2\2+,\7\4\2\2,:\3\2\2\2-.\t\4\2"+
-		"\2./\7\6\2\2/\60\5\2\2\2\60\61\7\4\2\2\61:\3\2\2\2\62\66\7\22\2\2\63\64"+
-		"\7\5\2\2\64\65\7\20\2\2\65\67\7\3\2\2\66\63\3\2\2\2\66\67\3\2\2\2\67:"+
-		"\3\2\2\28:\t\5\2\29)\3\2\2\29-\3\2\2\29\62\3\2\2\298\3\2\2\2:\t\3\2\2"+
-		"\2\7\22\35\'\669";
+		"\4\3\4\3\4\5\4(\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5\62\n\5\f\5\16"+
+		"\5\65\13\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5B\n\5\3\5\5"+
+		"\5E\n\5\3\5\2\4\2\4\6\2\4\6\b\2\6\3\2\b\t\3\2\n\13\3\2\r\20\3\2\21\22"+
+		"L\2\n\3\2\2\2\4\25\3\2\2\2\6\'\3\2\2\2\bD\3\2\2\2\n\13\b\2\1\2\13\f\5"+
+		"\4\3\2\f\22\3\2\2\2\r\16\f\4\2\2\16\17\t\2\2\2\17\21\5\4\3\2\20\r\3\2"+
+		"\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2\2\2\24\22\3\2"+
+		"\2\2\25\26\b\3\1\2\26\27\5\6\4\2\27\35\3\2\2\2\30\31\f\4\2\2\31\32\t\3"+
+		"\2\2\32\34\5\6\4\2\33\30\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2\2\35\36\3\2"+
+		"\2\2\36\5\3\2\2\2\37\35\3\2\2\2 !\7\t\2\2!(\5\6\4\2\"#\5\b\5\2#$\7\f\2"+
+		"\2$%\5\6\4\2%(\3\2\2\2&(\5\b\5\2\' \3\2\2\2\'\"\3\2\2\2\'&\3\2\2\2(\7"+
+		"\3\2\2\2)*\7\7\2\2*+\5\2\2\2+,\7\4\2\2,E\3\2\2\2-.\7\6\2\2.\63\5\2\2\2"+
+		"/\60\7\5\2\2\60\62\5\2\2\2\61/\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2\2\63"+
+		"\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\66\67\7\3\2\2\67E\3\2\2\289\t"+
+		"\4\2\29:\7\7\2\2:;\5\2\2\2;<\7\4\2\2<E\3\2\2\2=A\7\23\2\2>?\7\6\2\2?@"+
+		"\7\21\2\2@B\7\3\2\2A>\3\2\2\2AB\3\2\2\2BE\3\2\2\2CE\t\5\2\2D)\3\2\2\2"+
+		"D-\3\2\2\2D8\3\2\2\2D=\3\2\2\2DC\3\2\2\2E\t\3\2\2\2\b\22\35\'\63AD";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

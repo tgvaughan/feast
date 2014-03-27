@@ -21,6 +21,9 @@ package feast.expparser;
 
 import beast.core.Function;
 import beast.core.parameter.Parameter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -173,5 +176,16 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         }
         
         return res;
+    }
+
+    @Override
+    public Double[] visitArray(ExpressionParser.ArrayContext ctx) {
+
+        List<Double> resList = new ArrayList<Double>();
+        for (ExpressionParser.ExpressionContext ectx : ctx.expression()) {
+            resList.addAll(Arrays.asList(visit(ectx)));
+        }
+        
+        return resList.toArray(new Double[resList.size()]);
     }
 }

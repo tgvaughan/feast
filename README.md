@@ -39,8 +39,10 @@ Example expressions (I and J are IDs of RealParameters with elements
     exp(I[0])                  | {2.718...}
     -log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
     sqrt(J)                    | {2.236..., 3.162...}
+    2^I	                       | {2.0, 4.0, 6.0}  
     sum(I)                     | {6.0}
-    2^I			               | {2.0, 4.0, 6.0}  
+    [1,2,3]^2                  | {1.0, 4.0, 9.0}
+    [I,J]                      | {1.0, 2.0, 3.0, 5.0, 10.0}
 
 Note that since each ExpCalculator is a Function object itself, it can
 be used as the input for other ExpCalculators.
@@ -61,7 +63,9 @@ log or directly as probabilities (/probability densities).
 The file `ECdistribTest.xml` in the examples/ folder is a simple
 example where a multi-variate normal distribution is constructed.
 This example also illustrates the nested expression concept mentioned
-above.
+above.  The file `ECdistribArraytest.xml` in the same folder samples
+the same posterior, but uses array notation to express the target
+density.
 
 
 License

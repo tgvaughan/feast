@@ -69,6 +69,15 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(0)-1.5)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-5.0625)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(2)-38.443359375)<1e-15);
-
+        
+        instance.initByName(
+                "expression", "[I,J] + [1,2,3,4,5]",
+                "parameter", iparam);
+        assertEquals(instance.getDimension(), 5);
+        assertTrue(Math.abs(instance.getArrayValue(0)-2.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(1)-4.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(2)-6.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(3)-31.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(4)-18.5)<1e-15);
     }
 }

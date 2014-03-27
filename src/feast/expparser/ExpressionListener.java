@@ -64,6 +64,17 @@ public interface ExpressionListener extends ParseTreeListener {
 	void exitAddSub(@NotNull ExpressionParser.AddSubContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link ExpressionParser#Array}.
+	 * @param ctx the parse tree
+	 */
+	void enterArray(@NotNull ExpressionParser.ArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ExpressionParser#Array}.
+	 * @param ctx the parse tree
+	 */
+	void exitArray(@NotNull ExpressionParser.ArrayContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link ExpressionParser#Exponentiation}.
 	 * @param ctx the parse tree
 	 */

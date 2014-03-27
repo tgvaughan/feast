@@ -47,6 +47,13 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAddSub(@NotNull ExpressionParser.AddSubContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#Array}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArray(@NotNull ExpressionParser.ArrayContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#Exponentiation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
