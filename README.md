@@ -7,6 +7,7 @@ with BEAST 2.1 and higher.
 
 [![Build Status](https://travis-ci.org/tgvaughan/feast.svg?branch=master)](https://travis-ci.org/tgvaughan/feast)
 
+
 Installation
 ------------
 
@@ -23,6 +24,14 @@ Alternatively, for BEAST 2.1.2 and higher, you can install directly
 from within BEAUti by adding the following URL
 `http://tgvaughan.github.io/feast/package.xml` to the list of
 package repositories and selecting feast from the package list.
+
+
+Building from source
+--------------------
+
+The default target in the provided [Apache ANT](http://ant.apache.org)
+build script can be used to build the BEAST 2 package from scratch.
+The package will be left in the `dist/` directory.
 
 
 Expression Calculator (ExpCalculator)
