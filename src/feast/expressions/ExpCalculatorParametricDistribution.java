@@ -20,7 +20,6 @@ package feast.expressions;
 import beast.core.Description;
 import beast.core.Function;
 import beast.core.Input;
-import beast.core.parameter.RealParameter;
 import beast.math.distributions.ParametricDistribution;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
