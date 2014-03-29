@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package feast;
+package feast.expressions;
 
 import beast.core.BEASTObject;
 import beast.core.Description;
@@ -12,9 +12,9 @@ import beast.core.Distribution;
 import beast.core.Function;
 import beast.core.Input;
 import beast.core.State;
-import feast.expparser.ExpCalculatorVisitor;
-import feast.expparser.ExpressionLexer;
-import feast.expparser.ExpressionParser;
+import feast.expressions.parser.ExpCalculatorVisitor;
+import feast.expressions.parser.ExpressionLexer;
+import feast.expressions.parser.ExpressionParser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

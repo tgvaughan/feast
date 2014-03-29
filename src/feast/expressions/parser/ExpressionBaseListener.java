@@ -1,5 +1,5 @@
 // Generated from Expression.g4 by ANTLR 4.2
-package feast.expparser;
+package feast.expressions.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;

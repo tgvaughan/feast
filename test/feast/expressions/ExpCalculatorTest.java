@@ -17,8 +17,9 @@
  * MA 02110-1301  USA
  */
 
-package feast;
+package feast.expressions;
 
+import feast.expressions.ExpCalculator;
 import beast.core.parameter.RealParameter;
 import static org.junit.Assert.*;
 import org.junit.Test;

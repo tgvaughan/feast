@@ -17,7 +17,7 @@
  * MA 02110-1301  USA
  */
 
-package feast;
+package feast.expressions;
 
 import beast.core.BEASTObject;
 import beast.core.CalculationNode;
@@ -26,9 +26,9 @@ import beast.core.Function;
 import beast.core.Input;
 import beast.core.Input.Validate;
 import beast.core.Loggable;
-import feast.expparser.ExpCalculatorVisitor;
-import feast.expparser.ExpressionLexer;
-import feast.expparser.ExpressionParser;
+import feast.expressions.parser.ExpCalculatorVisitor;
+import feast.expressions.parser.ExpressionLexer;
+import feast.expressions.parser.ExpressionParser;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;

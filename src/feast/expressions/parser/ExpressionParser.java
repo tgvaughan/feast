@@ -1,5 +1,5 @@
 // Generated from Expression.g4 by ANTLR 4.2
-package feast.expparser;
+package feast.expressions.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;

@@ -17,7 +17,7 @@
  * MA 02110-1301  USA
  */
 
-package feast.expparser;
+package feast.expressions.parser;
 
 import beast.core.Function;
 import java.util.ArrayList;
