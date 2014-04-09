@@ -43,7 +43,7 @@ compact creaction of Inputs.
 All inputs created using this class are by default optional.  The
 following creates a basic optional real-valued input:
 ```java
-    public Input<Double> xInput = new In<Double>("x", "Tip text.");
+public Input<Double> xInput = new In<Double>("x", "Tip text.");
 ```
 
 Default values are set using the method `setDefault()` and rules are
