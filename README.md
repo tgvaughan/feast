@@ -34,6 +34,49 @@ build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
 
+Input class wrapper
+-------------------
+
+The class `feast.input.In` extends `beast.core.Input` and allows
+compact creaction of Inputs.
+
+All inputs created using this class are by default optional.  The
+following creates a basic optional real-valued input:
+```java
+    public Input<Double> xInput = new In<Double>("x", "Tip text.");
+```
+
+Default values are set using the method `setDefault()` and rules are
+set using the methods `setRequired()` and `setXOR()`.  These methods
+return `this` and can therefore be chained (not so useful) or applied
+in the input field initialiser (very useful).
+
+For example, the following creates a required boolean input:
+```java
+    public Input<Boolean> yInput = new In<Boolean>("y", "Tip text.").setRequired();
+```
+while this creates an optional string with default value "default":
+```java
+    public Input<String> yInput = new In<String>("z", "Tip text.").setDefault("default");
+```
+
+An XOR-rule is applied between two inputs in the following way:
+```java
+    public Input<Integer> AInput = new In<Integer>("A", "Tip text.");
+    public Input<Integer> BInput = new In<Integer>("B", "Tip text.").setXOR(AInput);
+```
+
+Finally, a simple optional input with no default value can be
+initialized with the static method `In.create()` which uses type
+inference (yes, even in Java 6) to avoid having the input type repeated:
+```java
+	public Input<MyLongObjectName> anInput = In.create("input", "Tip text.");
+```
+Due to limitations in Java 6, `setDefault()` etc. cannot be appended
+to this line - if you require rules or default values, you'll need to
+use the long form.
+
+
 Expression Calculator
 ---------------------
 
