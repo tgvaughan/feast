@@ -65,12 +65,49 @@ public class In<T> extends beast.core.Input<T> {
     }
     
     /**
+     * Static method for setting the default value of an existing Input.
+     * 
+     * @param <T>
+     * @param input Input instance
+     * @param value new default value
+     * @return Input instance (maybe no good reason?)
+     */
+    public static <T> beast.core.Input<T> setDefault(beast.core.Input<T> input, T value) {
+        input.defaultValue = value;
+        return input;
+    }
+    
+    /**
      * Set the input to be required. Returns input to allow for method chaining.
      * @return this
      */
     public In<T> setRequired() {
         setRule(Validate.REQUIRED);
         return this;
+    }
+    
+    /**
+     * Static method for making existing input required.
+     * 
+     * @param <T>
+     * @param input Input instance
+     * @return Input instance (maybe no good reason?)
+     */
+    public static <T> beast.core.Input<T> setRequired(beast.core.Input<T> input) {
+        input.setRule(Validate.REQUIRED);
+        return input;
+    }
+    
+    /**
+     * Static method for making existing input optional.
+     * 
+     * @param <T>
+     * @param input Input instance
+     * @return Input instance (maybe no good reason?)
+     */
+    public static <T> beast.core.Input<T> setOptional(beast.core.Input<T> input) {
+        input.setRule(Validate.OPTIONAL);
+        return input;
     }
     
     /**
