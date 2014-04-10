@@ -66,7 +66,7 @@ public Input<Integer> AInput = new In<Integer>("A", "Tip text.");
 public Input<Integer> BInput = new In<Integer>("B", "Tip text.").setXOR(AInput);
 ```
 
-Finally, a simple optional input with no default value can be
+Also, a simple optional input with no default value can be
 initialized with the static method `In.create()` which uses type
 inference (yes, even in Java 6) to avoid having the input type repeated:
 ```java
@@ -75,6 +75,25 @@ public Input<MyLongObjectName> anInput = In.create("input", "Tip text.");
 Due to limitations in Java 6, `setDefault()` etc. cannot be appended
 to this line - if you require rules or default values, you'll need to
 use the long form.
+
+Finally, `feast.input.In` also contains a few static methods for
+dealing with regular `beast.core.Input` instances.  These include
+`In.setRequired()`, `In.setOptional()` and `In.setDefault()`.  The
+most useful of these is probably `In.setOptional()`, which can be
+called in a constructor to make an input that was required in the
+superclass optional in the child:
+```java
+class Parent extends BEASTObject {
+      public Input<Integer> reqIntInput = new In<Integer<(
+      	     "reqInt", "Tip text.").setRequired();
+}
+
+class Child extends Parent {
+      Child() {
+      	      In.setOptional(reqIntInput);
+      }
+}
+```
 
 
 Expression Calculator
