@@ -34,6 +34,21 @@ build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
 
+NexusWriter
+-----------
+
+This class complements `NexusParser`, allowing both trees and alignments to be
+written to [Nexus files](http://dx.doi.org/10.1093%2Fsysbio%2F46.4.590).
+It contains a single static method
+```java
+public static void write(Alignment alignment, List<Tree> trees, PrintStream ps)
+```
+that writes the Nexus-formatted data to the given `PrintStream`.
+
+This could be easily used as the basis for a utility which extracts alignments
+from BEAST 2 input files.
+
+
 Input class wrapper
 -------------------
 
