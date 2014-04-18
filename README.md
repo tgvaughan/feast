@@ -20,6 +20,13 @@ system:
  * Mac OS X: /library/Application Support/BEAST/feast
  * Windows: #HOME#\BEAST\feast (#HOME# is your user home directory)
 
+More recent releases are also made available as archives containing
+only the necessary jar files and the associated javadocs. These are
+for the use of BEAST 2 package developers who want to use some of the
+classes but don't want to add a full package dependency.  These
+archives have the form `*-jarsOnly.zip` and are also found at
+https://github.com/tgvaughan/feast/releases.
+
 Alternatively, for BEAST 2.1.2 and higher, you can install directly
 from within BEAUti by adding the following URL
 `http://tgvaughan.github.io/feast/package.xml` to the list of
