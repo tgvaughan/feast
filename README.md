@@ -98,12 +98,12 @@ Due to limitations in Java 6, `setDefault()` etc. cannot be appended
 to this line - if you require rules or default values, you'll need to
 use the long form.
 
-Finally, `feast.input.In` also contains a few static methods for
+Finally, `feast.input.In` also contains a couple of static methods for
 dealing with regular `beast.core.Input` instances.  These include
-`In.setRequired()`, `In.setOptional()` and `In.setDefault()`.  The
-most useful of these is probably `In.setOptional()`, which can be
-called in a constructor to make an input that was required in the
-superclass optional in the child:
+`In.setRequired()` and `In.setOptional()`.  The most useful of these
+is probably `In.setOptional()`, which can be called in a constructor
+to make an input that was required in the superclass optional in the
+child:
 ```java
 class Parent extends BEASTObject {
       public Input<Integer> reqIntInput = new In<Integer<(
