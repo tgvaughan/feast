@@ -32,15 +32,17 @@ public class InTest extends BEASTObject {
     public Input<String> stringInput = In.create("string", "A test string input.");
     
     public Input<Integer> requiredInput = new In<Integer>("requiredInt","An integer")
-            .setDefault(5).setRequired();
+            .setRequired();
+    
+    public Input<Integer> optionalInput = new In<Integer>("optionalInt", "Another integer")
+            .setDefault(42);
     
     public Input<Double> xorAInput = In.create("xorA", "An XOR input (A).");
     
     public Input<Double> xorBInput = new In<Double>("xorB", "An XOR input (B).")
             .setXOR(xorAInput);
 
-    public InTest() {
-    }
+    public InTest() { }
 
     @Override
     public void initAndValidate() throws Exception { }
@@ -152,5 +154,24 @@ public class InTest extends BEASTObject {
             valid = false;
         }
         assertFalse(valid);
+    }
+    
+    /**
+     * Test that optional values are set correctly.
+     */
+    @Test
+    public void test7() {
+
+        boolean valid = true;
+        try {
+            InTest instance = new InTest();
+            instance.initByName("requiredInt", 5,
+                    "xorA", 1.0);
+            instance.validateInputs();
+            assertTrue(42==instance.optionalInput.get());
+        } catch (Exception ex) {
+            valid = false;
+        }
+        assertTrue(valid);
     }
 }

@@ -20,13 +20,22 @@ package feast.input;
 
 /**
  * An extension of BEAST's Input class that allows for some simpler idioms.
+ * 
+ * Some of this code is a bit hacky.  This is because in spite of maintaining
+ * the illusion of modifying a persistent Input/In object, we're actually
+ * creating new an entirely new object every time a default value is set or
+ * a rule is changed.
  *
  * @author Tim Vaughan <tgvaughan@gmail.com>
  * @param <T> Type of input
  */
 public class In<T> extends beast.core.Input<T> {
 
-    String name, tipText;
+    /**
+     * Fields we need because we can't access them in Input.
+     */
+    final private String name, tipText;
+    final private T myDefault;
     
     /**
      * Construct a new input with the chosen name and tip text.
@@ -38,19 +47,36 @@ public class In<T> extends beast.core.Input<T> {
         super(name, tipText);
         this.name = name;
         this.tipText = tipText;
+        this.myDefault = null;
     }
     
     /**
+     * Private constructor for optional input with a start value.
+     * 
+     * @param name         name of input
+     * @param tipText      tip text for BEAUti
+     * @param defaultValue default value for input
+     */
+    private In(In<T> prevIn, T defaultValue) {
+        super(prevIn.name, prevIn.tipText, defaultValue);
+        this.name = prevIn.name;
+        this.tipText = prevIn.tipText;
+        this.myDefault = defaultValue;
+    }
+
+    /**
      * Private constructor for inputs with an XOR validation rule.
      * 
-     * @param name    name of input
-     * @param tipText tip text for BEAUti
-     * @param other   Other input
+     * @param name         name of input
+     * @param tipText      tip text for BEAUti
+     * @param defaultValue default value for input
+     * @param other        other input
      */
-    private In(String name, String tipText, beast.core.Input other) {
-        super(name, tipText, Validate.XOR, other);
-        this.name = name;
-        this.tipText = tipText;
+    private In(In<T> prevIn, beast.core.Input other) {
+        super(prevIn.name, prevIn.tipText, prevIn.myDefault, Validate.XOR, other);
+        this.name = prevIn.name;
+        this.tipText = prevIn.tipText;
+        this.myDefault = prevIn.myDefault;
     }
     
     /**
@@ -59,23 +85,10 @@ public class In<T> extends beast.core.Input<T> {
      * @param value
      * @return this
      */
-    public In<T> setDefault(T value) {        
-        this.defaultValue = value;
-        return this;
+    public In<T> setDefault(T value) {
+        return new In(this, value);
     }
-    
-    /**
-     * Static method for setting the default value of an existing Input.
-     * 
-     * @param <T>
-     * @param input Input instance
-     * @param value new default value
-     * @return Input instance (maybe no good reason?)
-     */
-    public static <T> beast.core.Input<T> setDefault(beast.core.Input<T> input, T value) {
-        input.defaultValue = value;
-        return input;
-    }
+
     
     /**
      * Set the input to be required. Returns input to allow for method chaining.
@@ -85,7 +98,36 @@ public class In<T> extends beast.core.Input<T> {
         setRule(Validate.REQUIRED);
         return this;
     }
+
+    /**
+     * Set an XOR validation rule with other.  Returns input to allow for
+     * method chaining.
+     * 
+     * @param other input with which to create XOR validation rule
+     * @return this
+     */
+    public In<T> setXOR(beast.core.Input other) {
+        return new In(this, other);
+    }
     
+
+    // Static methods
+
+    /**
+     * Static factory method for creating inputs.  The advantage over the
+     * standard constructor is that here we get to use type inference, even
+     * in Java 6.  The disadvantage is that we can't use this at the
+     * start of a method chain due to the limitations of this inference.
+     * 
+     * @param <T> The type.  Note that this is not required.
+     * @param name    the input name
+     * @param tipText the tip text for BEAUti
+     * @return a new input object
+     */
+    public static <T> In<T> create(String name, String tipText) {
+        return new In<T>(name, tipText);
+    }
+
     /**
      * Static method for making existing input required.
      * 
@@ -108,32 +150,5 @@ public class In<T> extends beast.core.Input<T> {
     public static <T> beast.core.Input<T> setOptional(beast.core.Input<T> input) {
         input.setRule(Validate.OPTIONAL);
         return input;
-    }
-    
-    /**
-     * Set an XOR validation rule with other.  Returns input to allow for
-     * method chaining.
-     * 
-     * @param other input with which to create XOR validation rule
-     * @return this
-     */
-    public In<T> setXOR(beast.core.Input other) {
-        // This is a bit hacky due to Input.other being package private.
-        return new In(name, tipText, other);
-    }
-    
-    /**
-     * Static factory method for creating inputs.  The advantage over the
-     * standard constructor is that here we get to use type inference, even
-     * in Java 6.  The disadvantage is that we can't use this at the
-     * start of a method chain due to the limitations of this inference.
-     * 
-     * @param <T> The type.  Note that this is not required.
-     * @param name    the input name
-     * @param tipText the tip text for BEAUti
-     * @return a new input object
-     */
-    public static <T> In<T> create(String name, String tipText) {
-        return new In<T>(name, tipText);
     }
 }
