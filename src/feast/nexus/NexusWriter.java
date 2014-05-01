@@ -20,6 +20,7 @@
 package feast.nexus;
 
 import beast.evolution.alignment.Alignment;
+import beast.evolution.alignment.TaxonSet;
 import beast.evolution.tree.Tree;
 import java.io.PrintStream;
 import java.util.List;
@@ -43,83 +44,27 @@ public class NexusWriter {
     public static void write(Alignment alignment, List<Tree> trees,
             PrintStream pstream) throws Exception {
         
-        pstream.println("#NEXUS");
-
-        List<String> taxaNames = null;
+        TaxonSet taxonSet = null;
         if (alignment != null) {
-            taxaNames = alignment.getTaxaNames();
+            taxonSet = new TaxonSet(alignment);
         } else {
             if (trees != null && !trees.isEmpty())
-                taxaNames = trees.get(0).getTaxonset().asStringList();
+                taxonSet = trees.get(0).getTaxonset();
         }
-        
-        if (taxaNames == null)
-            return;
-        
-        // Construct space-delimited list of taxon names
-        StringBuilder sb = new StringBuilder();
-        boolean first=true;
-        for (String taxonName : taxaNames) {
-            if (first)
-                first = false;
-            else
-                sb.append(" ");
-            sb.append(taxonName);
-        }
-        String taxaNamesString = sb.toString();
-        
-        // Taxa block
-        pstream.println("Begin taxa;");
-        pstream.format("\tdimensions ntax=%d;\n", taxaNames.size());
-        pstream.format("\ttaxLabels %s;\n", taxaNamesString);
-        pstream.println("End;\n");
 
-        // Character block
-        if (alignment != null) {
-            pstream.println("Begin characters;");
-            pstream.format("\tdimensions nchar=%d;\n",
-                    alignment.getSiteCount());
-            
-            // Assumes BEAST sequence data types map directly
-            // onto nexus data types.  No doubt a bad idea in general...
-            pstream.format("\tformat datatype=%s;\n",
-                    alignment.getDataType().getDescription());
-            
-            pstream.println("\tmatrix");
-            for (int i=0; i<taxaNames.size(); i++) {
-                String taxonName = alignment.getTaxaNames().get(i);
-                String sequence = alignment.getDataType().state2string(
-                        alignment.getCounts().get(i));
-                pstream.format("\t\t%s %s", taxonName, sequence);
-                if (i<taxaNames.size()-1)
-                    pstream.println();
-                else
-                    pstream.println(";");
-            }
-            
-            pstream.println("End;");
+        NexusBuilder nb = new NexusBuilder();
+        
+        if (taxonSet != null) {
+            nb.append(new TaxaBlock(taxonSet));
         }
         
-        // Tree block
-        if (trees != null) {
-            pstream.println("Begin trees;");
-            
-            pstream.println("\ttranslate");
-            for (int i=0; i<taxaNames.size(); i++) {
-                pstream.format("\t\t%d %s", i, taxaNames.get(i));
-                if (i<taxaNames.size()-1)
-                    pstream.println(",");
-                else
-                    pstream.println(";");
-            }
-            
-            for (int i=0; i<trees.size(); i++) {
-                Tree tree = trees.get(i);
-                pstream.format("\ttree TREE_%d = %s;\n", i+1, tree.toString());
-            }
-            
-            pstream.println("End;");
-        }
+        if (alignment != null)
+            nb.append(new CharactersBlock(alignment));
+        
+        if (trees != null && !trees.isEmpty())
+            nb.append(new TreesBlock(trees));
+        
+        nb.write(pstream);
     }
     
 }
