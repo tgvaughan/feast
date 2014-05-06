@@ -115,8 +115,13 @@ public class TreesBlock extends NexusBlock {
         lines.add(translate.toString());
         
         for (int i=0; i<trees.size(); i++) {
-            lines.add(String.format("tree %s = [&R] %s", names.get(i),
-                    getTreeString(trees.get(i))));
+            
+            // Remove trailing ";" if present (as it should be!)
+            String newick = getTreeString(trees.get(i));
+            if (newick.endsWith(";"))
+                newick = newick.substring(0, newick.length()-1);
+            
+            lines.add(String.format("tree %s = [&R] %s", names.get(i), newick));
         }
         
         return lines;
