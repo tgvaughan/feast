@@ -69,10 +69,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
         + " parameter being repeated as many times as necessary.")
 public class ExpCalculator extends CalculationNode implements Loggable, Function {
     
-    public Input<String> expressionInput = new Input<String>("expression",
+    public Input<String> expressionInput = new Input<>("expression",
             "Expression needed for calculations.", Validate.REQUIRED);
     
-    public Input<List<Function>> functionsInput = new Input<List<Function>>(
+    public Input<List<Function>> functionsInput = new Input<>(
             "parameter", "Parameters/functions needed for the calculation",
             new ArrayList<Function>());
 
@@ -89,7 +89,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     public void initAndValidate() throws Exception {
         
         // Assemble name->param map
-        Map<String, Function> functionsMap = new HashMap<String, Function>();
+        Map<String, Function> functionsMap = new HashMap<>();
         for (Function func : functionsInput.get()) {
             BEASTObject obj = (BEASTObject)func;
             functionsMap.put(obj.getID(), func);
@@ -109,7 +109,8 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     }
 
     private void update() {
-        res = visitor.visit(parseTree);
+        if (visitor != null)
+            res = visitor.visit(parseTree);
     }
     
     @Override

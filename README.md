@@ -40,6 +40,19 @@ The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
+AlignmentFromNexus
+------------------
+
+This class allows alignments to be loaded at runtime from Nexus files
+rather than stored in the BEAST 2 XML:
+```xml
+<alignment spec='feast.fileio.AlignmentFromNexus' fileName="example.nexus"/>
+```
+Obviously this runs contrary to BEAST's philosophy of keeping
+everything necessary to run an analysis in the XML file.  However, it
+is sometimes convenient to be able to do this.  As a bonus, the
+`xmlFileName` attribute can be used to write the appropriate XML
+fragment to disk.
 
 NexusWriter
 -----------

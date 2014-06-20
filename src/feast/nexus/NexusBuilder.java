@@ -37,7 +37,7 @@ public class NexusBuilder {
      * @param blockArray vararg of NexusBlock objects
      */
     public NexusBuilder(NexusBlock ... blockArray) {
-        blocks = new ArrayList<NexusBlock>(Arrays.asList(blockArray));
+        blocks = new ArrayList<>(Arrays.asList(blockArray));
     }
     /**
      * Append a block to the Nexus file.

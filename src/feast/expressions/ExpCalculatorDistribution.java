@@ -31,14 +31,14 @@ import org.antlr.v4.runtime.tree.ParseTree;
 @Description("A distribution composed from an expression string.")
 public class ExpCalculatorDistribution extends Distribution {
     
-    public Input<String> expressionInput = new Input<String>("expression",
+    public Input<String> expressionInput = new Input<>("expression",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
     
-    public Input<List<Function>> functionsInput = new Input<List<Function>>(
+    public Input<List<Function>> functionsInput = new Input<>(
             "parameter", "Parameters/functions needed for the calculation",
             new ArrayList<Function>());
 
-    public Input<Boolean> isLogInput = new Input<Boolean>("isLog",
+    public Input<Boolean> isLogInput = new Input<>("isLog",
             "True if expression represents log(P), false if it represents P. "
             + "Default is false.", false);
     
@@ -54,7 +54,7 @@ public class ExpCalculatorDistribution extends Distribution {
     public void initAndValidate() throws Exception {
         
         // Assemble name->param map
-        Map<String, Function> functionsMap = new HashMap<String, Function>();
+        Map<String, Function> functionsMap = new HashMap<>();
         for (Function func : functionsInput.get()) {
             BEASTObject obj = (BEASTObject)func;
             functionsMap.put(obj.getID(), func);
@@ -78,7 +78,8 @@ public class ExpCalculatorDistribution extends Distribution {
     }
 
     private void update() {
-        res = visitor.visit(parseTree);
+        if (parseTree != null)
+            res = visitor.visit(parseTree);
     }
 
     @Override

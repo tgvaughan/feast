@@ -6,7 +6,6 @@
 
 package feast.expressions;
 
-import feast.expressions.ExpCalculatorDistribution;
 import beast.core.parameter.RealParameter;
 import org.junit.Test;
 import static org.junit.Assert.*;

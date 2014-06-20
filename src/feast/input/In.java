@@ -125,7 +125,7 @@ public class In<T> extends beast.core.Input<T> {
      * @return a new input object
      */
     public static <T> In<T> create(String name, String tipText) {
-        return new In<T>(name, tipText);
+        return new In<>(name, tipText);
     }
 
     /**

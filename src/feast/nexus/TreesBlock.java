@@ -36,8 +36,8 @@ public class TreesBlock extends NexusBlock {
      * Construct an empty trees block.
      */
     public TreesBlock() {
-        trees = new ArrayList<Tree>();
-        names = new ArrayList<String>();
+        trees = new ArrayList<>();
+        names = new ArrayList<>();
     }
     
     /**
@@ -47,7 +47,7 @@ public class TreesBlock extends NexusBlock {
      */
     public TreesBlock(List<Tree> trees) {
         this.trees = trees;
-        this.names = new ArrayList<String>();
+        this.names = new ArrayList<>();
         for (int i=0; i<trees.size(); i++)
             this.names.add("TREE_" + i);
     }
@@ -97,7 +97,7 @@ public class TreesBlock extends NexusBlock {
 
     @Override
     public List<String> getBlockLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         
         if (trees.isEmpty())
             return lines;

@@ -180,7 +180,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitArray(ExpressionParser.ArrayContext ctx) {
 
-        List<Double> resList = new ArrayList<Double>();
+        List<Double> resList = new ArrayList<>();
         for (ExpressionParser.ExpressionContext ectx : ctx.expression()) {
             resList.addAll(Arrays.asList(visit(ectx)));
         }

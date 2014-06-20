@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package feast.nexus;
+package feast.fileio;
 
 import beast.core.BEASTObject;
 import beast.core.Input;
 import beast.core.Runnable;
 import beast.evolution.alignment.Alignment;
 import beast.util.XMLParser;
+import feast.nexus.NexusWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.logging.Level;

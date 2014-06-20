@@ -44,7 +44,7 @@ public class CharactersBlock extends NexusBlock {
 
     @Override
     public List<String> getBlockLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         
         lines.add("dimensions nchar=" + alignment.getSiteCount());
         

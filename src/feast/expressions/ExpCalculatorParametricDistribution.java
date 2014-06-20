@@ -42,10 +42,10 @@ import org.apache.commons.math.distribution.Distribution;
         + "multivariate distributions.")
 public class ExpCalculatorParametricDistribution extends ParametricDistribution {
 
-    public Input<String> expressionInput = new Input<String>("expression",
+    public Input<String> expressionInput = new Input<>("expression",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
     
-    public Input<Boolean> isLogInput = new Input<Boolean>("isLog",
+    public Input<Boolean> isLogInput = new Input<>("isLog",
             "True if expression represents log(P), false if it represents P. "
             + "Default is false.", false);
     
@@ -63,7 +63,7 @@ public class ExpCalculatorParametricDistribution extends ParametricDistribution 
         param = new LightParameter(1.0);
         
         // Assemble name->param map
-        Map<String, Function> functionsMap = new HashMap<String, Function>();
+        Map<String, Function> functionsMap = new HashMap<>();
         functionsMap.put("x", param);
 
         // Build AST from expression string
@@ -125,7 +125,7 @@ public class ExpCalculatorParametricDistribution extends ParametricDistribution 
         
     }
     
-    private class LightParameter implements Function {
+    private static class LightParameter implements Function {
 
         double value;
 

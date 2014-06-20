@@ -41,7 +41,7 @@ public class TaxaBlock extends NexusBlock {
 
     @Override
     public List<String> getBlockLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
 
         int ntax=taxonSet.asStringList().size();
 
