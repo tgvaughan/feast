@@ -3,7 +3,7 @@ feast:  Bite-sized additions to BEAST 2
 
 This is a small [BEAST 2](http://www.beast2.org) package which
 contains some additions to the core functionality.  It is compatible
-with BEAST 2.1 and higher.
+with BEAST 2.2 and higher.
 
 [![Build Status](https://travis-ci.org/tgvaughan/feast.svg?branch=master)](https://travis-ci.org/tgvaughan/feast)
 
@@ -27,10 +27,10 @@ classes but don't want to add a full package dependency.  These
 archives have the form `*-jarsOnly.zip` and are also found at
 https://github.com/tgvaughan/feast/releases.
 
-Alternatively, for BEAST 2.1.2 and higher, you can install directly
-from within BEAUti by adding the following URL
-`http://tgvaughan.github.io/feast/package.xml` to the list of
-package repositories and selecting feast from the package list.
+Alternatively, you can install directly from within BEAUti by adding
+the following URL `http://tgvaughan.github.io/feast/package.xml` to
+the list of package repositories and selecting feast from the package
+list.
 
 
 Building from source
