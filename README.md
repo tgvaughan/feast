@@ -73,7 +73,7 @@ Input class wrapper
 -------------------
 
 The class `feast.input.In` extends `beast.core.Input` and allows
-compact creaction of Inputs.
+compact creation of Inputs.
 
 All inputs created using this class are by default optional.  The
 following creates a basic optional real-valued input:
@@ -107,9 +107,13 @@ inference (yes, even in Java 6) to avoid having the input type repeated:
 ```java
 public Input<MyLongObjectName> anInput = In.create("input", "Tip text.");
 ```
-Due to limitations in Java 6, `setDefault()` etc. cannot be appended
-to this line - if you require rules or default values, you'll need to
-use the long form.
+This is equivalent to the the following which uses Java 7's "diamond operator":
+```java
+public Input<MyLongObjectName> anInput = In<>("input", "Tip text.");
+```
+Unfortunately, due to limitations in Java, `setDefault()` etc. cannot
+be appended in either of these cases. If you require rules or default
+values, you'll need to use the long form.
 
 Finally, `feast.input.In` also contains a couple of static methods for
 dealing with regular `beast.core.Input` instances.  These include
