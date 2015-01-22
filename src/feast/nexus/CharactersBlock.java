@@ -53,7 +53,7 @@ public class CharactersBlock extends NexusBlock {
         lines.add("format datatype=" + alignment.getDataType().getTypeDescription());
         
         StringBuilder matrix = new StringBuilder("matrix ");
-        for (int i=0; i<alignment.getNrTaxa(); i++) {
+        for (int i=0; i<alignment.getTaxonCount(); i++) {
             try {
                 String taxonName = alignment.getTaxaNames().get(i);
                 String sequence = alignment.getDataType()
