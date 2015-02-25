@@ -56,6 +56,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * -log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
  * sqrt(J)                    | {2.236..., 3.162...}
  * sum(I)                     | {6.0}
+ * theta(I-2)                 | {0.0, 1.0, 1.0}
  * 
  * Inspired by RPNcalculator by Joseph Heled (BEAST1, BEAST 2 port by 
  * Denise Kuehnert).  (This parser uses ANTLR, which is cheating.)

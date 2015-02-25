@@ -19,11 +19,11 @@ molecule :
     ;
 
 atom :
-        '(' expression ')'                       # Bracketed
-    |   '[' expression (',' expression)* ']'     # Array
-    |   op=(EXP|LOG|SQRT|SUM) '(' expression ')' # UnaryOp
-    |   VARNAME  ('[' i=NNINT ']')?              # Variable
-    |   val=(NNFLOAT | NNINT)                    # Number
+        '(' expression ')'                             # Bracketed
+    |   '[' expression (',' expression)* ']'           # Array
+    |   op=(EXP|LOG|SQRT|SUM|THETA) '(' expression ')' # UnaryOp
+    |   VARNAME  ('[' i=NNINT ']')?                    # Variable
+    |   val=(NNFLOAT | NNINT)                          # Number
     ;
 
 // Lexer rules:
@@ -38,6 +38,7 @@ EXP : 'exp' ;
 LOG : 'log' ;
 SQRT : 'sqrt' ;
 SUM : 'sum' ;
+THETA : 'theta' ;
 
 NNINT : '0' | NZD D* ;
 NNFLOAT : NNINT ('.' D*) ([eE] '-'? D+)? ;

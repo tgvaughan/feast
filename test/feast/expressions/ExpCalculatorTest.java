@@ -79,5 +79,13 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(2)-6.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(3)-31.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(4)-18.5)<1e-15);
+
+        instance.initByName(
+                "expression", "theta(I-2)",
+                "parameter", iparam);
+        assertEquals(instance.getDimension(), 3);
+        assertTrue(Math.abs(instance.getArrayValue(0)-0.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(1)-1.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(2)-1.0)<1e-15);
     }
 }

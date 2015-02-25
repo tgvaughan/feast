@@ -149,6 +149,12 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                 for (Double el : arg)
                     res[0] += el;
                 break;
+                
+            case ExpressionParser.THETA:
+                res = new Double[arg.length];
+                for (int i=0; i<arg.length; i++)
+                    res[i] = arg[i] < 0.0 ? 0.0 : 1.0;
+                break;
         }
         
         return res;
