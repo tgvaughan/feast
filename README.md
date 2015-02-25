@@ -165,6 +165,7 @@ Example expressions (I and J are IDs of RealParameters with elements
     sum(I)                     | {6.0}
     [1,2,3]^2                  | {1.0, 4.0, 9.0}
     [I,J]                      | {1.0, 2.0, 3.0, 5.0, 10.0}
+    theta(I-2)                 | {0.0, 1.0, 1.0}
 
 Note that since each ExpCalculator is a Function object itself, it can
 be used as the input for other ExpCalculators.
