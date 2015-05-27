@@ -1,4 +1,4 @@
-<project default="build" basedir=".">
+<project default="build-all" basedir=".">
 
   <!-- Source, JUnit test code and jar library locations. -->
   <property name="src" location="src"/>
@@ -139,9 +139,11 @@
     <fail if="testFailed" status="1" message="Unit test failed."/>
   </target>
 
+  <!-- Build all -->
+  <target name="build-all" depends="build-package, build-jar"/>
 
   <!-- Create BEAST 2 package -->
-  <target name="build" depends="compile">
+  <target name="build-package" depends="compile">
 
     <mkdir dir="${pack}"/>
     <mkdir dir="${pack}/examples"/>
@@ -190,6 +192,7 @@
   </target>
 
 
+  <!-- Build non-package JAR file -->
   <target name="build-jar" depends="compile, javadoc">
     <property name="jardir" value="${dist}/${fullName}-jarsOnly"/>
     <mkdir dir="${jardir}"/>
