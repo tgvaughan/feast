@@ -43,13 +43,13 @@ public class TaxaBlock extends NexusBlock {
     public List<String> getBlockLines() {
         List<String> lines = new ArrayList<>();
 
-        int ntax=taxonSet.asStringList().size();
+        int ntax=taxonSet.getTaxonCount();
 
         lines.add("dimensions ntax=" + ntax);
 
         StringBuilder taxLabels = new StringBuilder("taxlabels");
         for (int i=0; i<ntax; i++)
-            taxLabels.append(" ").append(taxonSet.asStringList().get(i));
+            taxLabels.append(" ").append(taxonSet.getTaxonId(i));
 
         lines.add(taxLabels.toString());
         

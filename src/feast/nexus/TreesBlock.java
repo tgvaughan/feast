@@ -104,12 +104,11 @@ public class TreesBlock extends NexusBlock {
         
         StringBuilder translate = new StringBuilder("translate");
         TaxonSet taxonSet = trees.get(0).getTaxonset();
-        List<String> taxonNames = taxonSet.asStringList();
-        for (int i=0; i<taxonNames.size(); i++) {
+        for (int i=0; i<taxonSet.getTaxonCount(); i++) {
             translate.append("\n\t\t").append(i).append(" ")
-                    .append(taxonNames.get(i));
+                    .append(taxonSet.getTaxonId(i));
             
-            if (i<taxonNames.size()-1)
+            if (i<taxonSet.getTaxonCount()-1)
                 translate.append(",");
         }
         lines.add(translate.toString());
