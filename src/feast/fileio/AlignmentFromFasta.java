@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Read in an alignment from a fasta file.  Sequence labels are assumed
+ * to be taxon labels.
  *
  * @author Tim Vaughan <tgvaughan@gmail.com>
  */
@@ -47,13 +49,12 @@ public class AlignmentFromFasta extends Alignment {
     @Override
     public void initAndValidate() throws Exception {
 
-
-        List<Sequence> sequenceList = new ArrayList<>();
-
         BufferedReader reader = new BufferedReader(new FileReader(fileNameInput.get()));
-        String line;
+
         StringBuilder seqBuilder = new StringBuilder();
+        String line;
         String header = null;
+
         while ((line = reader.readLine()) != null) {
             line = line.trim();
             if (line.startsWith(">")) {
@@ -66,6 +67,8 @@ public class AlignmentFromFasta extends Alignment {
             }
             seqBuilder.append(line);
         }
+
+        sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
 
         super.initAndValidate();
 
