@@ -57,9 +57,7 @@ public class SequenceExtractor {
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file '" + args[0] + "'.");
             System.exit(1);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(SequenceExtractor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(SequenceExtractor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(SequenceExtractor.class.getName()).log(Level.SEVERE, null, ex);

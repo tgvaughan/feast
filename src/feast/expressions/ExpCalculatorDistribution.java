@@ -36,7 +36,7 @@ public class ExpCalculatorDistribution extends Distribution {
     
     public Input<List<Function>> functionsInput = new Input<>(
             "parameter", "Parameters/functions needed for the calculation",
-            new ArrayList<Function>());
+            new ArrayList<>());
 
     public Input<Boolean> isLogInput = new Input<>("isLog",
             "True if expression represents log(P), false if it represents P. "

@@ -17,7 +17,6 @@
 
 package feast.fileio;
 
-import beast.util.XMLProducer;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

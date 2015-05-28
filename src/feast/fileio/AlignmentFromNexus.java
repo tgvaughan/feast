@@ -18,7 +18,6 @@
 package feast.fileio;
 
 import beast.core.Input;
-import beast.core.Input.Validate;
 import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
 import beast.util.NexusParser;

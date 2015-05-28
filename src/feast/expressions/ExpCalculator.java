@@ -75,7 +75,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     
     public Input<List<Function>> functionsInput = new Input<>(
             "parameter", "Parameters/functions needed for the calculation",
-            new ArrayList<Function>());
+            new ArrayList<>());
 
     
     ParseTree parseTree;

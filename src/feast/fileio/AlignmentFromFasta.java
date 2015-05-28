@@ -20,15 +20,11 @@ package feast.fileio;
 import beast.core.Input;
 import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
-import beast.util.NexusParser;
 import feast.input.In;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Read in an alignment from a fasta file.  Sequence labels are assumed
