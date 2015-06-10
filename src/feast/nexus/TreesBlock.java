@@ -104,8 +104,9 @@ public class TreesBlock extends NexusBlock {
         
         StringBuilder translate = new StringBuilder("translate");
         TaxonSet taxonSet = trees.get(0).getTaxonset();
+        int translationOffset = trees.get(0).taxaTranslationOffset;
         for (int i=0; i<taxonSet.getTaxonCount(); i++) {
-            translate.append("\n\t\t").append(i).append(" ")
+            translate.append("\n\t\t").append(i + translationOffset).append(" ")
                     .append(taxonSet.getTaxonId(i));
             
             if (i<taxonSet.getTaxonCount()-1)
