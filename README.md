@@ -40,6 +40,7 @@ The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
+
 AlignmentFromNexus/Fasta
 ------------------------
 
@@ -62,6 +63,7 @@ is sometimes convenient to be able to do this.  As a bonus, the
 `xmlFileName` attribute can be used to write the appropriate XML
 fragment to disk.
 
+
 NexusWriter
 -----------
 
@@ -75,72 +77,6 @@ that writes the Nexus-formatted data to the given `PrintStream`.
 
 This could be easily used as the basis for a utility which extracts alignments
 from BEAST 2 input files.
-
-
-Input class wrapper
--------------------
-
-The class `feast.input.In` extends `beast.core.Input` and allows
-compact creation of Inputs.
-
-All inputs created using this class are by default optional.  The
-following creates a basic optional real-valued input:
-```java
-public Input<Double> xInput = new In<Double>("x", "Tip text.");
-```
-
-Default values are set using the method `setDefault()` and rules are
-set using the methods `setRequired()` and `setXOR()`.  These methods
-return `this` and can therefore be chained (not so useful) or applied
-in the input field initialiser (very useful).
-
-For example, the following creates a required boolean input:
-```java
-public Input<Boolean> yInput = new In<Boolean>("y", "Tip text.").setRequired();
-```
-while this creates an optional string with default value "default":
-```java
-public Input<String> yInput = new In<String>("z", "Tip text.").setDefault("default");
-```
-
-An XOR-rule is applied between two inputs in the following way:
-```java
-public Input<Integer> AInput = new In<Integer>("A", "Tip text.");
-public Input<Integer> BInput = new In<Integer>("B", "Tip text.").setXOR(AInput);
-```
-
-Also, a simple optional input with no default value can be
-initialized with the static method `In.create()` which uses type
-inference (yes, even in Java 6) to avoid having the input type repeated:
-```java
-public Input<MyLongObjectName> anInput = In.create("input", "Tip text.");
-```
-This is equivalent to the the following which uses Java 7's "diamond operator":
-```java
-public Input<MyLongObjectName> anInput = In<>("input", "Tip text.");
-```
-Unfortunately, due to limitations in Java, `setDefault()` etc. cannot
-be appended in either of these cases. If you require rules or default
-values, you'll need to use the long form.
-
-Finally, `feast.input.In` also contains a couple of static methods for
-dealing with regular `beast.core.Input` instances.  These include
-`In.setRequired()` and `In.setOptional()`.  The most useful of these
-is probably `In.setOptional()`, which can be called in a constructor
-to make an input that was required in the superclass optional in the
-child:
-```java
-class Parent extends BEASTObject {
-      public Input<Integer> reqIntInput = new In<Integer<(
-      	     "reqInt", "Tip text.").setRequired();
-}
-
-class Child extends Parent {
-      Child() {
-      	      In.setOptional(reqIntInput);
-      }
-}
-```
 
 
 Expression Calculator

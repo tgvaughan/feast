@@ -20,7 +20,6 @@ package feast.fileio;
 import beast.core.Input;
 import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
-import feast.input.In;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,10 +33,10 @@ import java.io.PrintStream;
  */
 public class AlignmentFromFasta extends Alignment {
 
-    public Input<String> fileNameInput = new In<String>("fileName", "Name of file "
-            + "containing sequence alignment in format.").setRequired();
+    public Input<String> fileNameInput = new Input<>("fileName", "Name of file "
+            + "containing sequence alignment in format.", Input.Validate.REQUIRED);
 
-    public Input<String> outFileNameInput = new In<>("xmlFileName",
+    public Input<String> outFileNameInput = new Input<>("xmlFileName",
             "Name of file to write XML fragment to.");
 
     public AlignmentFromFasta() { }
