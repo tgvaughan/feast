@@ -3,4 +3,5 @@
 /feast.iml
 *.log
 *.state
-
+/META-INF
+/.localrc*
