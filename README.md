@@ -40,6 +40,57 @@ The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
+DensityMapper
+-------------
+
+This class provides an easy way to produce plots of the variation in a
+particular `Distribution` (i.e. probability density) as a function of one or
+more parameters.  The class extends the BEAST `Runnable` abstract class and
+thus takes the place of the `MCMC` class in a regular BEAST XML.  To use
+`DensityMapper` you'll therefore need to create an XML with the following
+general form:
+
+```xml
+<beast version="2.0">
+    <run spec="DensityMapper">
+        <distribution id="distrib" ... />
+
+        <realParam spec="RealParameter" id="paramA" value="V_A" lower="LOWER_A" upper="UPPER_A"/>
+        <steps spec="IntegerParameter" value="STEPS_A"/>
+
+        <realParam spec="RealParameter" id="paramB" value="V_B1 V_B2" lower="LOWER_B" upper="UPPER_B"/>
+        <steps spec="IntegerParameter" value="STEPS_B1 STEPS_B2"/>
+
+        <logger spec="Logger" logEvery="1">
+            <log idref="paramA"/>
+            <log idref="paramB"/>
+            <log idref="distrib"/>
+        <logger>
+
+        <!-- Additional (screen?) loggers -->
+    </run>
+</beast>
+```
+
+The `<realParam>` elements specify which parameters are varied, the upper and
+lower bounds of these parameters specify the range over which the parameter is
+varied, and the corresponding `<steps>` elements specify the number of steps to
+use for each parameter. When the number of steps is 1 the parameter is not
+varied and instead the contents of the `value` attribute is used.
+
+When parameters are vectors, the associated `<steps>` parameter may have
+dimension 1 in which case all elements of the vector parameter are varied
+together (e.g. [0,0], [0.1,0.1], ..., [1, 1]).  Alternatively, the steps
+parameter may have dimension equal to that of the real parameter in which case
+each element of the parameter is varied independently with the corresponding
+number of steps (e.g. [0,0], [0, 0.1], ..., [0, 1], [0.1, 0.0], ..., [1, 1]).
+To keep one component of a vector parameter fixed, set the corresponding steps
+element to 1.
+
+An example usage of `DensityMapper` which produces the variation in a
+coalescent tree density as a function of the population size is provided as
+`DensityMapper.xml` which can be found in the examples directory.
+
 
 AlignmentFromNexus/Fasta
 ------------------------

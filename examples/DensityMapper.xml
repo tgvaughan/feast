@@ -1,0 +1,31 @@
+<beast version="2.0"
+    namespace="
+        beast.util
+        :beast.core.parameter
+        :beast.evolution.tree.coalescent
+        :feast.mapping">
+    <run spec="DensityMapper">
+
+        <realParam spec="RealParameter" id="popSize" value="0" lower="0.5" upper="2.0"/>
+        <steps spec="IntegerParameter" value="100"/>
+
+        <distribution spec="Coalescent" id="density">
+            <treeIntervals spec="TreeIntervals">
+                <tree spec="TreeParser"
+                    newick="((((8:0.0738872736972333,11:0.0738872736972333):0.43079608217430715,((((2:0.020412647867865234,16:0.020412647867865234):0.015633371174565053,6:0.03604601904243029):0.1833052286799498,(17:0.04248700749698919,19:0.04248700749698919):0.1768642402253909):0.10363320642702786,((7:0.005494759880002819,13:0.005494759880002819):0.020795674209601,20:0.02629043408960382):0.29669402005980416):0.1816989017221325):0.2323235159494086,((1:0.009482244774952485,15:0.009482244774952485):0.18554044611027729,14:0.19502269088522978):0.5419841809357193):2.409661800582346,(4:0.7206553731137046,((18:0.1191033397542409,(5:4.20228445501808E-4,9:4.20228445501808E-4):0.11868311130873908):0.19038861855086622,(3:0.046064166044469924,(12:0.007879817691409148,10:0.007879817691409148):0.038184348353060775):0.2634277922606372):0.4111634148085975):2.42601329928959):0.0"/>
+            </treeIntervals>
+            <populationModel spec="ConstantPopulation" popSize="@popSize"/>
+        </distribution>
+
+        <logger fileName="$(filebase).log" logEvery="1">
+            <log idref="popSize"/>
+            <log idref="density"/>
+        </logger>
+
+        <logger id="screenlog" logEvery="1">
+            <log idref="popSize"/>
+            <log idref="density"/>
+        </logger>
+    </run>
+
+</beast>

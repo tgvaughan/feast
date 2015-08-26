@@ -20,7 +20,8 @@ public class DensityMapper extends beast.core.Runnable {
 
     public Input<List<IntegerParameter>> stepsInput = new Input<>(
             "steps",
-            "Number of steps to take between parameter bounds (minimum 1).",
+            "Number of steps to take between parameter bounds. 1 means use" +
+            "initial value.",
             new ArrayList<>());
 
     public Input<List<Distribution>> distribsInput = new Input<>(
@@ -82,8 +83,7 @@ public class DensityMapper extends beast.core.Runnable {
         nestedLoop(0);
 
         // Finalize loggers
-        for (Logger logger : loggersInput.get())
-            logger.close();
+        loggersInput.get().forEach(beast.core.Logger::close);
     }
 
     /**
@@ -94,7 +94,7 @@ public class DensityMapper extends beast.core.Runnable {
     void nestedLoop(int depth) {
 
         if (depth<nValues) {
-            int paramIdx = 0;
+            int paramIdx;
             int elIdx = 0;
             int count = 0;
             for (paramIdx = 0; paramIdx<realParamsInput.get().size(); paramIdx++) {
@@ -123,15 +123,18 @@ public class DensityMapper extends beast.core.Runnable {
             if (stepAll) {
                 for (int i=0; i<stepsInput.get().get(paramIdx).getValue(); i++) {
                     for (elIdx = 0; elIdx < param.getDimension(); elIdx++)
-                        param.setValue(elIdx, param.getLower() + i * delta);
+                        if (delta>0.0)
+                            param.setValue(elIdx, param.getLower() + i * delta);
 
                     nestedLoop(depth + param.getDimension());
                 }
             } else {
-                for (int i=0; i<stepsInput.get().get(paramIdx).getValue(elIdx); i++) {
-                    param.setValue(elIdx, param.getLower() + i * delta);
+                for (int i = 0; i < stepsInput.get().get(paramIdx).getValue(elIdx); i++) {
+                    if (delta>0.0)
+                        param.setValue(elIdx, param.getLower() + i * delta);
                     nestedLoop(depth + 1);
                 }
+
             }
 
         } else {
