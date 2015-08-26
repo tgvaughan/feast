@@ -55,11 +55,15 @@ general form:
     <run spec="DensityMapper">
         <distribution id="distrib" ... />
 
-        <realParam spec="RealParameter" id="paramA" value="V_A" lower="LOWER_A" upper="UPPER_A"/>
-        <steps spec="IntegerParameter" value="STEPS_A"/>
+        <realParam spec="RealParameter" id="paramA"
+            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
+        <steps spec="IntegerParameter"
+            value="STEPS_A"/>
 
-        <realParam spec="RealParameter" id="paramB" value="V_B1 V_B2" lower="LOWER_B" upper="UPPER_B"/>
-        <steps spec="IntegerParameter" value="STEPS_B1 STEPS_B2"/>
+        <realParam spec="RealParameter" id="paramB"
+            value="V_B1 V_B2" lower="LOWER_B" upper="UPPER_B"/>
+        <steps spec="IntegerParameter"
+            value="STEPS_B1 STEPS_B2"/>
 
         <logger spec="Logger" logEvery="1">
             <log idref="paramA"/>
