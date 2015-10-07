@@ -40,6 +40,13 @@ The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
+Function Slicing
+----------------
+
+Instances of the `Slice` class are `Function`s and `Loggable`s which
+represent or more elements of another `Function`.  This allows
+element-specific priors to be set, and individual elements to be logged.
+
 DensityMapper
 -------------
 

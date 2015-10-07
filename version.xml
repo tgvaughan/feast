@@ -1,5 +1,5 @@
-<addon name="feast" version="2.1.0">
-  <depends on="beast2" atleast="2.3.0"/>
+<addon name="feast" version="2.2.0">
+  <depends on="beast2" atleast="2.3.1"/>
 
   <!-- Add other dependencies as necessary. -->
 </addon>
