@@ -11,14 +11,10 @@ with BEAST 2.2 and higher.
 Installation
 ------------
 
-To install, download the latest release from
-[here](https://github.com/tgvaughan/feast/releases) and extract it
-into one of the following locations, depending on your operating
-system:
-
- * GNU/Linux: ~/.beast/feast
- * Mac OS X: /library/Application Support/BEAST/feast
- * Windows: #HOME#\BEAST\feast (#HOME# is your user home directory)
+You can install directly from within BEAUti by adding
+the following URL `http://tgvaughan.github.io/feast/package.xml` to
+the list of package repositories and selecting feast from the package
+list.
 
 More recent releases are also made available as archives containing
 only the necessary jar files and the associated javadocs. These are
@@ -26,11 +22,6 @@ for the use of BEAST 2 package developers who want to use some of the
 classes but don't want to add a full package dependency.  These
 archives have the form `*-jarsOnly.zip` and are also found at
 https://github.com/tgvaughan/feast/releases.
-
-Alternatively, you can install directly from within BEAUti by adding
-the following URL `http://tgvaughan.github.io/feast/package.xml` to
-the list of package repositories and selecting feast from the package
-list.
 
 
 Building from source
