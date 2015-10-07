@@ -3,7 +3,7 @@ feast:  Bite-sized additions to BEAST 2
 
 This is a small [BEAST 2](http://www.beast2.org) package which
 contains some additions to the core functionality.  It is compatible
-with BEAST 2.2 and higher.
+with BEAST 2.3 and higher.
 
 [![Build Status](https://travis-ci.org/tgvaughan/feast.svg?branch=master)](https://travis-ci.org/tgvaughan/feast)
 
