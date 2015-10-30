@@ -138,13 +138,21 @@ public class DensityMapper extends beast.core.Runnable {
             }
 
         } else {
-            for (Distribution distrib : distribsInput.get())
+            for (Distribution distrib : distribsInput.get()) {
+                try {
+                    dummyState.setPosterior(distrib);
+                    dummyState.checkCalculationNodesDirtiness();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 try {
                     distrib.calculateLogP();
                 } catch (Exception e) {
                     System.out.println("Error computing density.");
                     e.printStackTrace();
                 }
+            }
+
             for (Logger logger : loggersInput.get()) {
                 logger.log(sample);
             }
