@@ -1,4 +1,4 @@
-// Generated from Expression.g4 by ANTLR 4.2
+// Generated from Expression.g4 by ANTLR 4.5
 package feast.expressions.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -12,86 +12,87 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#UnaryOp}.
+	 * Visit a parse tree produced by the {@code AddSub}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnaryOp(@NotNull ExpressionParser.UnaryOpContext ctx);
-
+	T visitAddSub(ExpressionParser.AddSubContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#Bracketed}.
+	 * Visit a parse tree produced by the {@code ELSEWHERE1}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBracketed(@NotNull ExpressionParser.BracketedContext ctx);
-
+	T visitELSEWHERE1(ExpressionParser.ELSEWHERE1Context ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#Variable}.
+	 * Visit a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link ExpressionParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVariable(@NotNull ExpressionParser.VariableContext ctx);
-
+	T visitMulDiv(ExpressionParser.MulDivContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#Number}.
+	 * Visit a parse tree produced by the {@code ELSEWHERE2}
+	 * labeled alternative in {@link ExpressionParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumber(@NotNull ExpressionParser.NumberContext ctx);
-
+	T visitELSEWHERE2(ExpressionParser.ELSEWHERE2Context ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#AddSub}.
+	 * Visit a parse tree produced by the {@code Negation}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAddSub(@NotNull ExpressionParser.AddSubContext ctx);
-
+	T visitNegation(ExpressionParser.NegationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#Array}.
+	 * Visit a parse tree produced by the {@code Exponentiation}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArray(@NotNull ExpressionParser.ArrayContext ctx);
-
+	T visitExponentiation(ExpressionParser.ExponentiationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#Exponentiation}.
+	 * Visit a parse tree produced by the {@code ELSEWHERE3}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx);
-
+	T visitELSEWHERE3(ExpressionParser.ELSEWHERE3Context ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#ELSEWHERE1}.
+	 * Visit a parse tree produced by the {@code Bracketed}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx);
-
+	T visitBracketed(ExpressionParser.BracketedContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#ELSEWHERE3}.
+	 * Visit a parse tree produced by the {@code Array}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx);
-
+	T visitArray(ExpressionParser.ArrayContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#Negation}.
+	 * Visit a parse tree produced by the {@code UnaryOp}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNegation(@NotNull ExpressionParser.NegationContext ctx);
-
+	T visitUnaryOp(ExpressionParser.UnaryOpContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#ELSEWHERE2}.
+	 * Visit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitELSEWHERE2(@NotNull ExpressionParser.ELSEWHERE2Context ctx);
-
+	T visitVariable(ExpressionParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#MulDiv}.
+	 * Visit a parse tree produced by the {@code Number}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMulDiv(@NotNull ExpressionParser.MulDivContext ctx);
+	T visitNumber(ExpressionParser.NumberContext ctx);
 }

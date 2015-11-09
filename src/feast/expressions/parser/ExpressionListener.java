@@ -1,4 +1,4 @@
-// Generated from Expression.g4 by ANTLR 4.2
+// Generated from Expression.g4 by ANTLR 4.5
 package feast.expressions.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -9,134 +9,147 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface ExpressionListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#UnaryOp}.
+	 * Enter a parse tree produced by the {@code AddSub}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnaryOp(@NotNull ExpressionParser.UnaryOpContext ctx);
+	void enterAddSub(ExpressionParser.AddSubContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#UnaryOp}.
+	 * Exit a parse tree produced by the {@code AddSub}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnaryOp(@NotNull ExpressionParser.UnaryOpContext ctx);
-
+	void exitAddSub(ExpressionParser.AddSubContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#Bracketed}.
+	 * Enter a parse tree produced by the {@code ELSEWHERE1}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterBracketed(@NotNull ExpressionParser.BracketedContext ctx);
+	void enterELSEWHERE1(ExpressionParser.ELSEWHERE1Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#Bracketed}.
+	 * Exit a parse tree produced by the {@code ELSEWHERE1}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitBracketed(@NotNull ExpressionParser.BracketedContext ctx);
-
+	void exitELSEWHERE1(ExpressionParser.ELSEWHERE1Context ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#Variable}.
+	 * Enter a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link ExpressionParser#factor}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariable(@NotNull ExpressionParser.VariableContext ctx);
+	void enterMulDiv(ExpressionParser.MulDivContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#Variable}.
+	 * Exit a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link ExpressionParser#factor}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariable(@NotNull ExpressionParser.VariableContext ctx);
-
+	void exitMulDiv(ExpressionParser.MulDivContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#Number}.
+	 * Enter a parse tree produced by the {@code ELSEWHERE2}
+	 * labeled alternative in {@link ExpressionParser#factor}.
 	 * @param ctx the parse tree
 	 */
-	void enterNumber(@NotNull ExpressionParser.NumberContext ctx);
+	void enterELSEWHERE2(ExpressionParser.ELSEWHERE2Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#Number}.
+	 * Exit a parse tree produced by the {@code ELSEWHERE2}
+	 * labeled alternative in {@link ExpressionParser#factor}.
 	 * @param ctx the parse tree
 	 */
-	void exitNumber(@NotNull ExpressionParser.NumberContext ctx);
-
+	void exitELSEWHERE2(ExpressionParser.ELSEWHERE2Context ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#AddSub}.
+	 * Enter a parse tree produced by the {@code Negation}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddSub(@NotNull ExpressionParser.AddSubContext ctx);
+	void enterNegation(ExpressionParser.NegationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#AddSub}.
+	 * Exit a parse tree produced by the {@code Negation}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddSub(@NotNull ExpressionParser.AddSubContext ctx);
-
+	void exitNegation(ExpressionParser.NegationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#Array}.
+	 * Enter a parse tree produced by the {@code Exponentiation}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 */
-	void enterArray(@NotNull ExpressionParser.ArrayContext ctx);
+	void enterExponentiation(ExpressionParser.ExponentiationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#Array}.
+	 * Exit a parse tree produced by the {@code Exponentiation}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 */
-	void exitArray(@NotNull ExpressionParser.ArrayContext ctx);
-
+	void exitExponentiation(ExpressionParser.ExponentiationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#Exponentiation}.
+	 * Enter a parse tree produced by the {@code ELSEWHERE3}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 */
-	void enterExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx);
+	void enterELSEWHERE3(ExpressionParser.ELSEWHERE3Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#Exponentiation}.
+	 * Exit a parse tree produced by the {@code ELSEWHERE3}
+	 * labeled alternative in {@link ExpressionParser#molecule}.
 	 * @param ctx the parse tree
 	 */
-	void exitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx);
-
+	void exitELSEWHERE3(ExpressionParser.ELSEWHERE3Context ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#ELSEWHERE1}.
+	 * Enter a parse tree produced by the {@code Bracketed}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx);
+	void enterBracketed(ExpressionParser.BracketedContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#ELSEWHERE1}.
+	 * Exit a parse tree produced by the {@code Bracketed}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx);
-
+	void exitBracketed(ExpressionParser.BracketedContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#ELSEWHERE3}.
+	 * Enter a parse tree produced by the {@code Array}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx);
+	void enterArray(ExpressionParser.ArrayContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#ELSEWHERE3}.
+	 * Exit a parse tree produced by the {@code Array}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx);
-
+	void exitArray(ExpressionParser.ArrayContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#Negation}.
+	 * Enter a parse tree produced by the {@code UnaryOp}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterNegation(@NotNull ExpressionParser.NegationContext ctx);
+	void enterUnaryOp(ExpressionParser.UnaryOpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#Negation}.
+	 * Exit a parse tree produced by the {@code UnaryOp}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitNegation(@NotNull ExpressionParser.NegationContext ctx);
-
+	void exitUnaryOp(ExpressionParser.UnaryOpContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#ELSEWHERE2}.
+	 * Enter a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterELSEWHERE2(@NotNull ExpressionParser.ELSEWHERE2Context ctx);
+	void enterVariable(ExpressionParser.VariableContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#ELSEWHERE2}.
+	 * Exit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitELSEWHERE2(@NotNull ExpressionParser.ELSEWHERE2Context ctx);
-
+	void exitVariable(ExpressionParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ExpressionParser#MulDiv}.
+	 * Enter a parse tree produced by the {@code Number}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterMulDiv(@NotNull ExpressionParser.MulDivContext ctx);
+	void enterNumber(ExpressionParser.NumberContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ExpressionParser#MulDiv}.
+	 * Exit a parse tree produced by the {@code Number}
+	 * labeled alternative in {@link ExpressionParser#atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitMulDiv(@NotNull ExpressionParser.MulDivContext ctx);
+	void exitNumber(ExpressionParser.NumberContext ctx);
 }

@@ -24,7 +24,7 @@ public class ExpCalculatorDistributionTest {
         
         ExpCalculatorDistribution instance = new ExpCalculatorDistribution();
         instance.initByName(
-                "expression", "exp(-sum((x-[11,19])^2)/2)",
+                "expression", "exp(-sum((x-{11,19})^2)/2)",
                 "parameter", xparam);
         
         assertTrue(Math.abs(instance.calculateLogP()- (-1.0))<1e-15);

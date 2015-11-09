@@ -20,7 +20,7 @@ molecule :
 
 atom :
         '(' expression ')'                             # Bracketed
-    |   '[' expression (',' expression)* ']'           # Array
+    |   '{' expression (',' expression)* '}'           # Array
     |   op=(EXP|LOG|SQRT|SUM|THETA) '(' expression ')' # UnaryOp
     |   VARNAME  ('[' i=NNINT ']')?                    # Variable
     |   val=(NNFLOAT | NNINT)                          # Number

@@ -1,4 +1,4 @@
-// Generated from Expression.g4 by ANTLR 4.2
+// Generated from Expression.g4 by ANTLR 4.5
 package feast.expressions.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -18,93 +18,82 @@ public class ExpressionBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnaryOp(@NotNull ExpressionParser.UnaryOpContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitAddSub(ExpressionParser.AddSubContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBracketed(@NotNull ExpressionParser.BracketedContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitELSEWHERE1(ExpressionParser.ELSEWHERE1Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariable(@NotNull ExpressionParser.VariableContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitMulDiv(ExpressionParser.MulDivContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNumber(@NotNull ExpressionParser.NumberContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitELSEWHERE2(ExpressionParser.ELSEWHERE2Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAddSub(@NotNull ExpressionParser.AddSubContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitNegation(ExpressionParser.NegationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArray(@NotNull ExpressionParser.ArrayContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExponentiation(ExpressionParser.ExponentiationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExponentiation(@NotNull ExpressionParser.ExponentiationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitELSEWHERE3(ExpressionParser.ELSEWHERE3Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitELSEWHERE1(@NotNull ExpressionParser.ELSEWHERE1Context ctx) { return visitChildren(ctx); }
-
+	@Override public T visitBracketed(ExpressionParser.BracketedContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitELSEWHERE3(@NotNull ExpressionParser.ELSEWHERE3Context ctx) { return visitChildren(ctx); }
-
+	@Override public T visitArray(ExpressionParser.ArrayContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNegation(@NotNull ExpressionParser.NegationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitUnaryOp(ExpressionParser.UnaryOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitELSEWHERE2(@NotNull ExpressionParser.ELSEWHERE2Context ctx) { return visitChildren(ctx); }
-
+	@Override public T visitVariable(ExpressionParser.VariableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMulDiv(@NotNull ExpressionParser.MulDivContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNumber(ExpressionParser.NumberContext ctx) { return visitChildren(ctx); }
 }

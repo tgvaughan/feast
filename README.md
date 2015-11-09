@@ -160,8 +160,8 @@ Example expressions (I and J are IDs of RealParameters with elements
     sqrt(J)                    | {2.236..., 3.162...}
     2^I	                       | {2.0, 4.0, 6.0}  
     sum(I)                     | {6.0}
-    [1,2,3]^2                  | {1.0, 4.0, 9.0}
-    [I,J]                      | {1.0, 2.0, 3.0, 5.0, 10.0}
+    {1,2,3}^2                  | {1.0, 4.0, 9.0}
+    {I,J}                      | {1.0, 2.0, 3.0, 5.0, 10.0}
     theta(I-2)                 | {0.0, 1.0, 1.0}
 
 Note that since each ExpCalculator is a Function object itself, it can
@@ -200,10 +200,3 @@ This software is free (as in freedom).  With the exception of the
 libraries on which it depends, it is made available under the terms of
 the GNU General Public Licence version 3, which is contained in this
 directory in the file named COPYING.
-
-The following libraries are bundled with Feast:
-
-* ANTLR (http://www.antlr.org)
-
-Those libraries are distributed under the licences provided in the
-LICENCE.* files included in this archive.
