@@ -31,7 +31,7 @@ import java.io.PrintStream;
 public class AlignmentFromNexus extends Alignment {
     
     public Input<String> fileNameInput = new Input<>("fileName", "Name of file "
-            + "containing sequence alignment in format.", Input.Validate.REQUIRED);
+            + "containing sequence alignment in Nexus format.", Input.Validate.REQUIRED);
     
     public Input<String> outFileNameInput = new Input<>("xmlFileName",
             "Name of file to write XML fragment to.");
