@@ -142,7 +142,7 @@
 
 
     <!-- Create BEAST 2 package -->
-    <target name="build" depends="compile">
+    <target name="build" depends="compile,build-jar">
 
         <mkdir dir="${pack}"/>
         <mkdir dir="${pack}/examples"/>
