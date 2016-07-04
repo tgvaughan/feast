@@ -156,6 +156,12 @@
         <copy todir="${pack}/lib">
             <fileset dir="${lib}" includes="*.jar" />
         </copy>
+
+        <copy todir="${build}">
+            <fileset dir="${src}"
+                     includes="**/*.png" />
+        </copy>
+
         <jar jarfile="${pack}/lib/${fullName}.jar" basedir="${build}" />
 
         <copy file="README.md" tofile="${pack}/README" />

@@ -1,5 +1,7 @@
-<addon name="feast" version="4.0.0">
+<addon name="feast" version="4.1.0">
   <depends on="beast2" atleast="2.4.0"/>
 
-  <!-- Add other dependencies as necessary. -->
+  <addonapp class="feast.fileio.SequenceExtractor"
+      description="SequenceExtractor"
+      icon="feast/fileio/SequenceExtractorIcon.png"/>
 </addon>

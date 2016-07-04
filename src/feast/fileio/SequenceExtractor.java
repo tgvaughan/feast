@@ -21,12 +21,16 @@ import beast.core.BEASTObject;
 import beast.core.Input;
 import beast.core.Runnable;
 import beast.evolution.alignment.Alignment;
+import beast.evolution.alignment.FilteredAlignment;
 import beast.util.XMLParser;
 import feast.nexus.NexusWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,9 +55,32 @@ public class SequenceExtractor {
         try {
             XMLParser parser = new XMLParser();
             Runnable runnable = parser.parseFile(new File(args[0]));
-            Alignment alignment = findAlignment(runnable);
-            if (alignment != null)
-                NexusWriter.write(alignment, null, new PrintStream(args[1]));
+            Set<Alignment> alignments = findAlignments(runnable);
+            if (alignments.isEmpty()) {
+                System.out.println("No alignments found!");
+                System.exit(1);
+            }
+            if (alignments.size()>1) {
+                String prefix;
+                int extIndex = args[0].lastIndexOf('.');
+                if (extIndex<0) {
+                    // No extension
+                    prefix = args[0];
+                } else {
+                    prefix = args[0].substring(0, extIndex);
+                }
+
+                for (Alignment alignment : alignments) {
+                    if (alignment instanceof FilteredAlignment)
+                        continue;
+
+                    NexusWriter.write(alignment, null,
+                            new PrintStream(prefix + "_" + alignment.getID() + ".nexus"));
+                }
+
+            } else {
+                NexusWriter.write((Alignment)alignments.toArray()[0], null, new PrintStream(args[1]));
+            }
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file '" + args[0] + "'.");
             System.exit(1);
@@ -73,28 +100,26 @@ public class SequenceExtractor {
      * @throws IllegalArgumentException
      * @throws IllegalAccessException 
      */
-    private static Alignment findAlignment(BEASTObject obj) throws IllegalArgumentException, IllegalAccessException {
+    private static Set<Alignment> findAlignments(BEASTObject obj) throws IllegalArgumentException, IllegalAccessException {
+       Set<Alignment> alignments = new HashSet<>();
+
         for (Input input : obj.listInputs()) {
             if (input.get() != null) {
                 if (input.get() instanceof Alignment)
-                    return (Alignment)input.get();
+                    alignments.add((Alignment)input.get());
                 if (input.get() instanceof List) {
                     for (Object child : (List)input.get()) {
                         if (child instanceof BEASTObject) {
-                            Alignment alignment = findAlignment((BEASTObject)child);
-                            if (alignment != null)
-                                return alignment;
+                            alignments.addAll(findAlignments((BEASTObject)child));
                         }
                     }
                 }
                 if (input.get() instanceof BEASTObject) {
-                    Alignment alignment = findAlignment((BEASTObject)(input.get()));
-                    if (alignment != null)
-                        return alignment;
+                    alignments.addAll(findAlignments((BEASTObject)(input.get())));
                 }
             }
         }
-        return null;
+        return alignments;
     }
     
 }
