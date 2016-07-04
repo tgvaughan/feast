@@ -43,7 +43,7 @@ public class DensityMapper extends beast.core.Runnable {
     public DensityMapper() { }
 
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
 
         if (realParamsInput.get().size() != stepsInput.get().size())
             throw new IllegalArgumentException("Number of step sizes " +

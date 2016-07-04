@@ -57,7 +57,7 @@ public class ExpCalculatorParametricDistribution extends ParametricDistribution 
     }
 
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
         
         // Parameter to house real value
         param = new LightParameter(1.0);

@@ -51,7 +51,7 @@ public class ExpCalculatorDistribution extends Distribution {
     public ExpCalculatorDistribution () { }
     
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
         
         // Assemble name->param map
         Map<String, Function> functionsMap = new HashMap<>();
@@ -83,7 +83,7 @@ public class ExpCalculatorDistribution extends Distribution {
     }
 
     @Override
-    public double calculateLogP() throws Exception {
+    public double calculateLogP() {
         update();
         if (isLogInput.get())
             logP = res[0];

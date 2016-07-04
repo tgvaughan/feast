@@ -22,7 +22,7 @@ public class Slice extends CalculationNode implements Function, Loggable {
     protected int indexStart, indexEnd, count;
 
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
         indexStart = startIndexInput.get();
         count = countInput.get();
         indexEnd = indexStart + count - 1;
@@ -51,7 +51,7 @@ public class Slice extends CalculationNode implements Function, Loggable {
     }
 
     @Override
-    public void init(PrintStream out) throws Exception {
+    public void init(PrintStream out) {
         for (int i=0; i<count; i++)
             out.print(((BEASTObject)functionInput.get()).getID()
                     + "[" + (indexStart + i) + "]\t");

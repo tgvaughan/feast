@@ -5,9 +5,7 @@ import beast.core.Input;
 import beast.evolution.tree.Tree;
 import beast.util.TreeParser;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * @author Tim Vaughan <tgvaughan@gmail.com>
@@ -22,14 +20,23 @@ public class TreeFromNewickFile extends TreeParser {
     public TreeFromNewickFile() { }
 
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
 
-        BufferedReader reader = new BufferedReader(new FileReader(fileNameInput.get()));
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(fileNameInput.get()));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Input file not found.");
+        }
         String line;
         StringBuilder newickBuilder = new StringBuilder();
 
-        while ((line = reader.readLine()) != null)
-            newickBuilder.append(line.trim());
+        try {
+            while ((line = reader.readLine()) != null)
+                newickBuilder.append(line.trim());
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading from input file.");
+        }
 
         newickInput.setValue(newickBuilder.toString(), this);
 

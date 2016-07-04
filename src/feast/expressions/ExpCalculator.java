@@ -87,7 +87,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     }
     
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
         
         // Assemble name->param map
         Map<String, Function> functionsMap = new HashMap<>();
@@ -115,7 +115,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     }
     
     @Override
-    public void init(PrintStream out) throws Exception {
+    public void init(PrintStream out) {
         String name = this.getID();
         if (name == null)
             name = "expression";

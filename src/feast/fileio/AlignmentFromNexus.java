@@ -22,6 +22,8 @@ import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
 import beast.util.NexusParser;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 
 /**
@@ -39,10 +41,14 @@ public class AlignmentFromNexus extends Alignment {
     public AlignmentFromNexus() { }
 
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
 
         NexusParser parser = new NexusParser();
-        parser.parseFile(new File(fileNameInput.get()));
+        try {
+            parser.parseFile(new File(fileNameInput.get()));
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading NEXUS file '" + fileNameInput.get() + "'.");
+        }
         if (parser.m_alignment == null)
             throw new IllegalArgumentException("Failed to read alignment from"
                     + " file '" + fileNameInput.get() + "'");
@@ -53,7 +59,12 @@ public class AlignmentFromNexus extends Alignment {
         super.initAndValidate();
         
         if (outFileNameInput.get() != null) {
-            PrintStream pstream = new PrintStream(outFileNameInput.get());
+            PrintStream pstream = null;
+            try {
+                pstream = new PrintStream(outFileNameInput.get());
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("Error writing to NEXUS file '" + outFileNameInput.get() + "'.");
+            }
             pstream.println("<alignment spec='beast.evolution.alignment.Alignment'>");
             for (Sequence seq : sequenceInput.get())
                 pstream.format("\t<sequence taxon='%s' value='%s'/>\n",

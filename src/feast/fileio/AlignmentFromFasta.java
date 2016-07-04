@@ -21,9 +21,7 @@ import beast.core.Input;
 import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PrintStream;
+import java.io.*;
 
 /**
  * Read in an alignment from a fasta file.  Sequence labels are assumed
@@ -42,25 +40,36 @@ public class AlignmentFromFasta extends Alignment {
     public AlignmentFromFasta() { }
 
     @Override
-    public void initAndValidate() throws Exception {
+    public void initAndValidate() {
 
-        BufferedReader reader = new BufferedReader(new FileReader(fileNameInput.get()));
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(fileNameInput.get()));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("FASTA file '"
+                    + fileNameInput.get() + "' not found.");
+        }
 
         StringBuilder seqBuilder = new StringBuilder();
         String line;
         String header = null;
 
-        while ((line = reader.readLine()) != null) {
-            line = line.trim();
-            if (line.startsWith(">")) {
-                if (header != null) {
-                    sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
-                    seqBuilder = new StringBuilder();
+        try {
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith(">")) {
+                    if (header != null) {
+                        sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
+                        seqBuilder = new StringBuilder();
+                    }
+                    header = line.substring(1).trim();
+                    continue;
                 }
-                header = line.substring(1).trim();
-                continue;
+                seqBuilder.append(line);
             }
-            seqBuilder.append(line);
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading from FASTA file '"
+                    + fileNameInput.get() + "'.");
         }
 
         sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
@@ -68,7 +77,13 @@ public class AlignmentFromFasta extends Alignment {
         super.initAndValidate();
 
         if (outFileNameInput.get() != null) {
-            PrintStream pstream = new PrintStream(outFileNameInput.get());
+            PrintStream pstream = null;
+            try {
+                pstream = new PrintStream(outFileNameInput.get());
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("Error writing to output file '"
+                        + outFileNameInput.get() + "'.");
+            }
             pstream.println("<alignment spec='beast.evolution.alignment.Alignment'>");
             for (Sequence seq : sequenceInput.get())
                 pstream.format("\t<sequence taxon='%s' value='%s'/>\n",
