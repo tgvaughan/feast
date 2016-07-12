@@ -45,6 +45,6 @@ NNFLOAT : NNINT ('.' D*) ([eE] '-'? D+)? ;
 fragment D : [0-9] ;
 fragment NZD : [1-9] ;
 
-VARNAME : [a-zA-Z_][a-zA-Z_0-9]* ;
+VARNAME : [a-zA-Z_][a-zA-Z_0-9.:]* ;
 
 WHITESPACE : [ \t\r\n]+ -> skip ;
