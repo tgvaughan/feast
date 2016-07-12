@@ -202,7 +202,7 @@
         <mkdir dir="${jardir}"/>
         <jar jarfile="${jardir}/${fullName}.jar" basedir="${build}" />
         <jar jarfile="${jardir}/${fullName}-javadoc.jar" basedir="${jddir}"/>
-        <copy todir="${jardir}">
+        <copy todir="${jardir}" failonerror="false">
             <fileset dir="${lib}" includes="*.jar" />
             <fileset dir="${lib}" includes="LICENSE*" />
         </copy>
