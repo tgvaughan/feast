@@ -53,7 +53,7 @@
         <mkdir dir="${build-lib}"/>
         <mkdir dir="${dist}"/>
 
-        <copy todir="${build-lib}">
+        <copy todir="${build-lib}" failonerror="false">
             <fileset dir="${lib}" includes="*.jar"/>
         </copy>
     </target>
