@@ -5,23 +5,27 @@
     <property name="test" location="test"/>
     <property name="lib" location="lib"/>
 
-    <!-- Java source and JVM versions -->
+    <!-- Location to check for local copy of beast2 repository -->
+    <property name="beastDir" location="../beast2"/>
+
+    <!-- BEAST 2 currently uses Java 1.8 -->
     <property name="sourceVersion" value="1.8"/>
     <property name="targetVersion" value="1.8"/>
-
-    <!-- Beast version to build against -->
-    <property name="beastRev" value="master"/>
-    <property name="beastAr" value="beast2-master"/>
 
     <!-- Directories necessary for all BEAST 2 packages -->
     <property name="doc" location="doc"/>
     <property name="examples" location="examples"/>
     <property name="templates" location="templates"/>
 
+    <!-- BEAST branch and version to build against
+         (only different for version tags because of
+         a Github peculiarity) -->
+    <property name="beast-branch" value="master"/>
+    <property name="beast-version" value="master"/>
+
     <!-- Names of temporary build/test directories -->
     <property name="build" location="build"/>
     <property name="build-lib" location="build-lib"/>
-    <property name="build-beast" location="build-beast"/>
     <property name="build-test" location="build-test"/>
     <property name="test-reports" location="test-reports"/>
     <property name="dist" location="dist"/>
@@ -49,45 +53,122 @@
         <mkdir dir="${build-lib}"/>
         <mkdir dir="${dist}"/>
 
-
-        <copy todir="${build-lib}" failonerror="false">
+        <copy todir="${build-lib}">
             <fileset dir="${lib}" includes="*.jar"/>
         </copy>
     </target>
 
     <!-- Get beast -->
-    <target name="get-beast" depends="init">
+
+    <target name="find-beast" depends="init">
+        <available file="${beastDir}" property="localBeastAvailable"/>
+    </target>
+
+    <target name="build-remote-beast" depends="find-beast" unless="localBeastAvailable">
+        <echo>No local copy of the beast2 source found at ${beastDir}.</echo>
+        <echo>Compiling against version ${beast-version} from GitHub.</echo>
+
+        <property name="build-beast" location="build-beast"/>
         <mkdir dir="${build-beast}"/>
 
-        <get src="https://github.com/CompEvol/beast2/archive/${beastRev}.zip" dest="${build-beast}/beast.zip"/>
+        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip" dest="${build-beast}/beast.zip"/>
         <unzip src="${build-beast}/beast.zip" dest="${build-beast}"/>
-        <mkdir dir="${build-beast}/${beastAr}/build"/>
+        <mkdir dir="${build-beast}/beast2-${beast-version}/build"/>
         <javac target="${targetVersion}" source="${sourceVersion}"
-            srcdir="${build-beast}/${beastAr}/src"
-            destdir="${build-beast}/${beastAr}/build" includeantruntime="false">
+            srcdir="${build-beast}/beast2-${beast-version}/src"
+            destdir="${build-beast}/beast2-${beast-version}/build" includeantruntime="false">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <fileset dir="${build-beast}/${beastAr}/lib" includes="*.jar"/>
+                <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
             </classpath>
         </javac>
-        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/${beastAr}/build" />
+        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />
         <copy todir="${build-lib}">
-            <fileset dir="${build-beast}/${beastAr}/lib" includes="*.jar"/>
+            <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
         </copy>
 
         <delete dir="${build-beast}" />
     </target>
 
-    <!-- Compile -->
-    <target name="compile" depends="init,get-beast">
+    <target name="build-local-beast" depends="find-beast" if="localBeastAvailable">
+        <echo>Compiling against beast2 source found at ${beastDir}.</echo>
+
+        <property name="build-beast" location="build-beast"/>
+        <mkdir dir="${build-beast}"/>
+
         <javac target="${targetVersion}" source="${sourceVersion}"
-            srcdir="${src}" destdir="${build}" includeantruntime="false">
+            srcdir="${beastDir}/src"
+            destdir="${build-beast}" includeantruntime="false">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <pathelement path="${build-beast}/${beastAr}/build"/>
+                <fileset dir="${beastDir}/lib" includes="*.jar"/>
+            </classpath>
+        </javac>
+        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}" />
+        <copy todir="${build-lib}">
+            <fileset dir="${beastDir}/lib" includes="*.jar"/>
+        </copy>
+
+        <delete dir="${build-beast}" />
+    </target>
+
+    <target name="build-beast" depends="build-local-beast,build-remote-beast"/>
+
+    <!-- Compile -->
+    <target name="compile" depends="build-beast">
+        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${src}" destdir="${build}" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}"/>
                 <fileset dir="${build-lib}" includes="*.jar"/>
             </classpath>
         </javac>
+    </target>
+
+    <target name="copy-resources" depends="compile">
+        <copy todir="${build}">
+            <fileset dir="${src}"
+                     includes="**/*.png" />
+        </copy>
+    </target>
+
+    <!-- Prepare for unit test compilation -->
+    <target name="init-test" depends="init">
+        <mkdir dir="${build-test}"/>
+        <mkdir dir="${test-reports}"/>
+    </target>
+
+
+    <!-- Compile unit tests -->
+    <target name="compile-test" depends="init-test,compile,copy-resources">
+        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${test}" destdir="${build-test}" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <pathelement path="${build}" />
+                <fileset dir="${build-lib}" includes="*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+
+    <!-- Run unit tests -->
+    <target name="test" depends="compile-test">
+        <junit printsummary="yes" failureproperty="testFailed" showoutput="true">
+            <classpath>
+                <pathelement path="${classpath}"/>
+                <pathelement path="${build}" />
+                <pathelement path="${build-test}" />
+                <fileset dir="${build-lib}" includes="*.jar"/>
+            </classpath>
+            <batchtest fork="yes" todir="${test-reports}">
+                <fileset dir="${test}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+                <formatter type="plain"/>
+                <!--formatter type="plain" usefile="false"/--> <!-- to screen -->
+            </batchtest>
+        </junit>
+
+        <fail if="testFailed" status="1" message="Unit test failed."/>
     </target>
 
     <!-- Build javadocs -->
@@ -101,102 +182,7 @@
         </javadoc>
     </target>
 
-    <!-- Prepare for unit test compilation -->
-    <target name="init-test" depends="init">
-        <mkdir dir="${build-test}"/>
-        <mkdir dir="${test-reports}"/>
-    </target>
-
-
-    <!-- Compile unit tests -->
-    <target name="compile-test" depends="init-test,compile">
-        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${test}" destdir="${build-test}" includeantruntime="false">
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <pathelement path="${build}" />
-                <fileset dir="${build-lib}" includes="*.jar"/>
-            </classpath>
-        </javac>
-    </target>
-
-
-    <!-- Run unit tests -->
-    <target name="test" depends="compile-test">
-        <junit printsummary="yes" failureproperty="testFailed">
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <pathelement path="${build}" />
-                <pathelement path="${build-test}" />
-                <fileset dir="${build-lib}" includes="*.jar"/>
-            </classpath>
-            <batchtest fork="yes" todir="${test-reports}">
-                <fileset dir="${test}">
-                    <include name="**/*.java"/>
-                </fileset>
-                <formatter type="plain"/>
-            </batchtest>
-        </junit>
-
-        <fail if="testFailed" status="1" message="Unit test failed."/>
-    </target>
-
-
-    <!-- Create BEAST 2 package -->
-    <target name="build" depends="compile,build-jar">
-
-        <mkdir dir="${pack}"/>
-        <mkdir dir="${pack}/examples"/>
-        <mkdir dir="${pack}/templates"/>
-        <mkdir dir="${pack}/lib"/>
-        <mkdir dir="${pack}/doc"/>
-
-        <jar jarfile="${pack}/${fullName}.src.jar" basedir="${src}" />
-
-        <mkdir dir="${lib}" />
-        <copy todir="${pack}/lib">
-            <fileset dir="${lib}" includes="*.jar" />
-        </copy>
-
-        <copy todir="${build}">
-            <fileset dir="${src}"
-                     includes="**/*.png" />
-        </copy>
-
-        <jar jarfile="${pack}/lib/${fullName}.jar" basedir="${build}" />
-
-        <copy file="README.md" tofile="${pack}/README" />
-        <copy file="COPYING" todir="${pack}" />
-        <copy todir="${pack}">
-            <fileset dir="${lib}" includes="LICENSE*" />
-        </copy>
-
-        <mkdir dir="${examples}" />
-        <copy todir="${pack}/examples">
-            <fileset dir="${examples}" includes="*.xml" />
-        </copy>
-
-        <mkdir dir="${templates}" />
-        <copy todir="${pack}/templates">
-            <fileset dir="${templates}" includes="*.xml" />
-        </copy>
-
-        <mkdir dir="${doc}" />
-        <copy todir="${pack}/doc">
-            <fileset dir="${doc}" includes="*.tex,*.doc,*.lyx,*.txt"/>
-        </copy>
-
-        <copy file="version.xml" todir="${pack}" />
-
-        <zip destfile="${dist}/${fullName}.zip" basedir="${pack}" />
-
-        <delete dir="${pack}"/>
-
-        <echo/>
-        <echo/>
-        <echo>** Package ${dist}/${fullName}.zip created successfully! **</echo>
-    </target>
-
-
+    <!-- Build jar-only library -->
     <target name="build-jar" depends="compile, javadoc">
         <property name="jardir" value="${dist}/${fullName}-jarsOnly"/>
         <mkdir dir="${jardir}"/>
@@ -219,11 +205,65 @@
         <echo>** Jar archive ${dist}/${fullName}-jarsOnly.zip created successfully! **</echo>
     </target>
 
+
+    <!-- Create BEAST 2 package -->
+    <target name="build-package" depends="compile,copy-resources">
+        <property name="fullName" value="${projName}.v${projVersion}"/>
+
+        <mkdir dir="${pack}"/>
+        <mkdir dir="${pack}/examples"/>
+        <mkdir dir="${pack}/templates"/>
+        <mkdir dir="${pack}/lib"/>
+        <mkdir dir="${pack}/doc"/>
+
+        <jar jarfile="${pack}/${fullName}.src.jar" basedir="${src}" />
+
+        <mkdir dir="${lib}" />
+        <copy todir="${pack}/lib">
+            <fileset dir="${lib}" includes="*.jar" />
+        </copy>
+        <jar jarfile="${pack}/lib/${fullName}.jar" basedir="${build}" />
+
+        <copy file="README.md" tofile="${pack}/README" />
+        <copy file="COPYING" todir="${pack}" />
+        <copy todir="${pack}">
+            <fileset dir="${lib}" includes="LICENSE*" />
+        </copy>
+
+        <mkdir dir="${examples}" />
+        <copy todir="${pack}/examples">
+            <fileset dir="${examples}" includes="**/*.xml" />
+            <fileset dir="${examples}" includes="**/*.fasta" />
+        </copy>
+
+        <mkdir dir="${templates}" />
+        <copy todir="${pack}/templates">
+            <fileset dir="${templates}" includes="*.xml" />
+        </copy>
+
+        <mkdir dir="${doc}" />
+        <copy todir="${pack}/doc">
+            <fileset dir="${doc}" includes="*.tex,*.doc,*.lyx,*.txt"/>
+        </copy>
+
+        <copy file="version.xml" todir="${pack}" />
+
+        <zip destfile="${dist}/${fullName}.zip" basedir="${pack}" />
+
+        <delete dir="${pack}"/>
+
+        <echo/>
+        <echo/>
+        <echo>** Package ${dist}/${fullName}.zip created successfuly! **</echo>
+    </target>
+
+    <target name="build" depends="build-jar,build-package"/>
+
+
     <!-- Revert to pristine state. -->
     <target name="clean">
         <delete dir="${build}" />
         <delete dir="${build-lib}" />
-
         <delete dir="${dist}" />
         <delete dir="${build-test}" />
         <delete dir="${test-reports}" />
