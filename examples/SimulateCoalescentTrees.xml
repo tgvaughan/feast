@@ -1,0 +1,32 @@
+<beast version="2.0"
+       namespace="beast.core.parameter
+                 :beast.evolution.alignment
+                 :beast.evolution.tree
+                 :beast.evolution.tree.coalescent">
+
+    <run spec="feast.simulation.GPSimulator" nSims="100">
+        <simulationObject spec="RandomTree" id="tree">
+            <taxonset spec="TaxonSet">
+                <taxon spec="Taxon" id="t1"/>
+                <taxon spec="Taxon" id="t2"/>
+                <taxon spec="Taxon" id="t3"/>
+                <taxon spec="Taxon" id="t4"/>
+                <taxon spec="Taxon" id="t5"/>
+                <taxon spec="Taxon" id="t6"/>
+                <taxon spec="Taxon" id="t7"/>
+                <taxon spec="Taxon" id="t8"/>
+                <taxon spec="Taxon" id="t9"/>
+                <taxon spec="Taxon" id="t10"/>
+            </taxonset>
+
+            <populationModel spec="ConstantPopulation">
+                <popSize spec="RealParameter" value="1.0"/>
+            </populationModel>
+        </simulationObject>
+
+        <logger logEvery="1" fileName="$(filebase).trees">
+            <log idref="tree"/>
+        </logger>
+    </run>
+
+</beast>

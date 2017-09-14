@@ -30,10 +30,38 @@ The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package will be left in the `dist/` directory.
 
+Features
+========
+
+Easy state simulation
+---------------------
+
+One BEAST 2 idiom which is pervasive in my code at least is the existance
+of StateNodes that initialize their own state stochastically.  `RandomTree`
+is an example of this in the core: this class is a `Tree` that initializes
+itself by drawing from a coalescent distribution with a given population
+function.
+
+While such classes usually exist to choose a starting state for the
+MCMC chain, it is often necessary - particularly in the validation phase
+of model development - to simulate a large number of instances of this
+simulated state.  This is usually because the simulation is often done from some
+known distribution, which can then be compared against the output of MCMC.
+
+The class `feast.simulation.GPSimulator` (from "general purpose simulator")
+class simply makes it possible to configure this kind of simulation using
+a BEAST XML file.  It is simply a `beast.core.Runnable` that takes a `BEASTObject`
+as input, a number of iterations and some loggers. For each iteration, it then simply calls the
+`BEASTObject`'s `initAndValidate` method and tells the loggers to write their
+results.
+
+See `examples/SimulateCoalescentTrees.xml` for an example of using `GPSimulator`
+to simulate 100 coalescent trees.
+
 Function Slicing
 ----------------
 
-Instances of the `Slice` class are `Function`s and `Loggable`s which
+Instances of the `feast.function.Slice` class are `Function`s and `Loggable`s which
 represent or more elements of another `Function`.  This allows
 element-specific priors to be set, and individual elements to be logged.
 
