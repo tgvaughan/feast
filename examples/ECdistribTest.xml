@@ -1,4 +1,8 @@
-<beast version='2.0' namespace='beast.core:beast.core.parameter:beast.evolution.operators:feast:feast.expressions'>
+<beast version='2.0'
+       namespace='beast.core
+                 :beast.core.parameter
+                 :beast.evolution.operators
+                 :feast:feast.expressions'>
 
     <run spec="MCMC" id="mcmc" chainLength="2000000">
         <state>
@@ -7,14 +11,14 @@
         </state>
 
         <distribution spec="ExpCalculatorDistribution" id="target"
-		      expression="exp(-R^2/2)">
+                      expression="exp(-R^2/2)">
 
-	  <parameter id="R" spec='ExpCalculator'
-		     expression="sqrt((x-20)^2+(y-50)^2)">
+            <parameter id="R" spec='ExpCalculator'
+                       expression="sqrt((x-20)^2+(y-50)^2)">
 
-	    <parameter idref="x"/>
-	    <parameter idref="y"/>
-	  </parameter>
+                <parameter idref="x"/>
+                <parameter idref="y"/>
+            </parameter>
         </distribution>
 
         <operator id='scalerx' spec='ScaleOperator' scaleFactor="0.5" weight="1">
@@ -26,18 +30,19 @@
         </operator>
 
         <logger logEvery="100" fileName="ECdistribTest.log">
-	  <model idref='target'/>
+            <model idref='target'/>
             <log idref="target"/>
             <log idref="x"/>
             <log idref="y"/>
-	    <log idref="R"/>
+            <log idref="R"/>
         </logger>
+
         <logger logEvery="100">
-	  <model idref='target'/>
-	  <log idref="target"/>
-	  <log idref="x"/>
-	  <log idref="y"/>
-	  <log idref="R"/>
+            <model idref='target'/>
+            <log idref="target"/>
+            <log idref="x"/>
+            <log idref="y"/>
+            <log idref="R"/>
         </logger>
     </run>
 
