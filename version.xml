@@ -1,4 +1,4 @@
-<addon name="feast" version="4.2.0">
+<addon name="feast" version="4.3.0">
   <depends on="beast2" atleast="2.4.0"/>
 
   <addonapp class="feast.fileio.SequenceExtractor"
