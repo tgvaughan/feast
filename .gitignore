@@ -1,7 +1,13 @@
+# IntelliJ cruft
 /.idea
 /out
 /feast.iml
+/META-INF
+
+# BEAST cruft
 *.log
 *.state
-/META-INF
-/.localrc*
+*.trees
+
+# Mac cruft
+.DS_Store
