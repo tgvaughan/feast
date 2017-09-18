@@ -116,6 +116,25 @@ number of steps (e.g. [0,0], [0, 0.1], ..., [0, 1], [0.1, 0.0], ..., [1, 1]).
 To keep one component of a vector parameter fixed, set the corresponding steps
 element to 1.
 
+If, in addition to the `<realParam>` and `<steps>` elements a
+`<logScale>` BooleanParameter element is provided, DensityMapper will
+evaluate the densities at a logarithmic distribution of parameter
+values between the same bounds.  I.e., the following snippet will
+cause `paramA` to be set to values logarithmically distributed between
+LOWER_A and UPPER_A:
+
+```xml
+        <realParam spec="RealParameter" id="paramA"
+            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
+        <steps spec="IntegerParameter"
+            value="STEPS_A"/>
+        <logScale spec="BooleanParameter"
+            value="true"/>
+```
+
+Take care that if the log-scale element is provided for one parameter that it is
+also provided for all other parameters.
+
 An example usage of `DensityMapper` which produces the variation in a
 coalescent tree density as a function of the population size is provided as
 `DensityMapper.xml` which can be found in the examples directory.

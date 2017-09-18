@@ -8,6 +8,7 @@
 
         <realParam spec="RealParameter" id="popSize" value="0" lower="0.5" upper="2.0"/>
         <steps spec="IntegerParameter" value="100"/>
+        <logScale spec="BooleanParameter" value="true"/>
 
         <distribution spec="Coalescent" id="density">
             <treeIntervals spec="TreeIntervals">

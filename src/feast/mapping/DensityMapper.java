@@ -1,6 +1,7 @@
 package feast.mapping;
 
 import beast.core.*;
+import beast.core.parameter.BooleanParameter;
 import beast.core.parameter.IntegerParameter;
 import beast.core.parameter.RealParameter;
 
@@ -22,6 +23,11 @@ public class DensityMapper extends beast.core.Runnable {
             "steps",
             "Number of steps to take between parameter bounds. 1 means use" +
             "initial value.",
+            new ArrayList<>());
+
+    public Input<List<BooleanParameter>> logScaleInput = new Input<>(
+            "logScale",
+            "Whether to use log scale when stepping. Default false.",
             new ArrayList<>());
 
     public Input<List<Distribution>> distribsInput = new Input<>(
@@ -47,6 +53,10 @@ public class DensityMapper extends beast.core.Runnable {
 
         if (realParamsInput.get().size() != stepsInput.get().size())
             throw new IllegalArgumentException("Number of step sizes " +
+                    "must match number of real params.");
+
+        if (logScaleInput.get() != null && logScaleInput.get().size() != realParamsInput.get().size())
+            throw new IllegalArgumentException("Number of logScale elements " +
                     "must match number of real params.");
 
         // Calculate total number of params to vary
@@ -116,15 +126,29 @@ public class DensityMapper extends beast.core.Runnable {
 
             RealParameter param = realParamsInput.get().get(paramIdx);
 
-            double delta = nSteps > 1
-                    ? (param.getUpper()-param.getLower())/(nSteps-1)
-                    : 0.0; // Unused in this case.
+            boolean useLog = logScaleInput.get().get(paramIdx).getValue();
+            double delta;
+            if (nSteps>1) {
+                if (useLog) {
+                    delta = (Math.log(param.getUpper()) - Math.log(param.getLower()))/(nSteps-1);
+                } else {
+                    delta = (param.getUpper()-param.getLower())/(nSteps-1);
+                }
+            } else {
+                delta = 0.0;
+            }
 
             if (stepAll) {
                 for (int i=0; i<stepsInput.get().get(paramIdx).getValue(); i++) {
-                    for (elIdx = 0; elIdx < param.getDimension(); elIdx++)
-                        if (delta>0.0)
-                            param.setValue(elIdx, param.getLower() + i * delta);
+                    for (elIdx = 0; elIdx < param.getDimension(); elIdx++) {
+                        if (delta > 0.0) {
+                            if (useLog) {
+                                param.setValue(elIdx, Math.exp(Math.log(param.getLower()) + i * delta));
+                            } else {
+                                param.setValue(elIdx, param.getLower() + i * delta);
+                            }
+                        }
+                    }
 
                     nestedLoop(depth + param.getDimension());
                 }
