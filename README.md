@@ -64,7 +64,11 @@ This is completely equivalent to
 but much more readable.
 
 Note that the time format specification string is the same as used by the
-`dateFormat` input to `TraitSet`.
+`dateFormat` input to `TraitSet`, and applies both to the values of `time`
+and the value of `mostRecentSampleTime`.  If this format specifier is not provided,
+the time is assumed to have already been converted to fractional years, so
+the only action taken by TimeParameter is to subtract this value from
+`mostRecentSampleTime`.
 
 
 Easy state simulation
