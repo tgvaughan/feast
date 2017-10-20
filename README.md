@@ -33,6 +33,40 @@ The package will be left in the `dist/` directory.
 Features
 ========
 
+Initializing RealParameters using formatted times
+-------------------------------------------------
+
+Particularly in birth-death models, it is often desirable to specify
+several points in time as ages relative to the "present".  This is done
+when setting up change times for birth-death parameters, and requires
+one to do a fairly large number of error-prone calculations involving
+converting date strings like "05/03/1980" and "27/02/1980" to fractional
+years before some later date such as "01/01/1990".  Once converted, these
+values become extremely important yet difficult to interpret entries in
+the final BEAST XML file.
+
+The `TimeParameter` class is intended to combat this.  It can be used
+anywhere that a `RealParameter` is expected.  For example, to create
+a `RealParameter` with the ages corresponding to the times above, use
+
+```xml
+<TimeParameter time="05/03/1980 27/02/1980"
+               mostRecentSampleTime="01/01/1990"
+               timeFormat="dd/MM/yyyy"/>
+```
+
+This is completely equivalent to
+
+```xml
+<RealParameter value="9.825137 9.844262"/>
+```
+
+but much more readable.
+
+Note that the time format specification string is the same as used by the
+`dateFormat` input to `TraitSet`.
+
+
 Easy state simulation
 ---------------------
 
