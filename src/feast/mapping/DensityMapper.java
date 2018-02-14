@@ -55,7 +55,7 @@ public class DensityMapper extends beast.core.Runnable {
             throw new IllegalArgumentException("Number of step sizes " +
                     "must match number of real params.");
 
-        if (logScaleInput.get() != null && logScaleInput.get().size() != realParamsInput.get().size())
+        if (!logScaleInput.get().isEmpty() && logScaleInput.get().size() != realParamsInput.get().size())
             throw new IllegalArgumentException("Number of logScale elements " +
                     "must match number of real params.");
 
