@@ -95,19 +95,6 @@ public class SimulatedAlignment extends Alignment {
                 NexusBuilder nb = new NexusBuilder();
                 nb.append(new TaxaBlock(new TaxonSet(this)));
                 nb.append(new CharactersBlock(this));
-                nb.append(new NexusBlock() {
-                    @Override
-                    public String getBlockName() {
-                        return "EpiInf";
-                    }
-
-                    @Override
-                    public List<String> getBlockLines() {
-                        List<String> lines = new ArrayList<>();
-                        lines.add("ancestralSeq " + ancestralSeqStr);
-                        return lines;
-                    }
-                });
                 nb.write(pstream);
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException("Error writing to file "
