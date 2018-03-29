@@ -24,14 +24,16 @@ import beast.math.distributions.ParametricDistribution;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;
-import java.util.HashMap;
-import java.util.Map;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.Distribution;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Tim Vaughan <tgvaughan@gmail.com>
@@ -67,7 +69,8 @@ public class ExpCalculatorParametricDistribution extends ParametricDistribution 
         functionsMap.put("x", param);
 
         // Build AST from expression string
-        ANTLRInputStream input = new ANTLRInputStream(expressionInput.get());
+//        ANTLRInputStream input = new ANTLRInputStream(expressionInput.get());
+        CharStream input = CharStreams.fromString(expressionInput.get());
         ExpressionLexer lexer = new ExpressionLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpressionParser parser = new ExpressionParser(tokens);

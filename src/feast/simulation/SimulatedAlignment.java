@@ -26,10 +26,9 @@ import beast.evolution.datatype.DataType;
 import beast.evolution.sitemodel.SiteModel;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
-import beast.util.AddOnManager;
+import beast.util.PackageManager;
 import beast.util.Randomizer;
 import feast.nexus.CharactersBlock;
-import feast.nexus.NexusBlock;
 import feast.nexus.NexusBuilder;
 import feast.nexus.TaxaBlock;
 
@@ -204,7 +203,7 @@ public class SimulatedAlignment extends Alignment {
         } else {
 
             List<String> dataTypeDescList = new ArrayList<>();
-            List<String> classNames = AddOnManager.find(beast.evolution.datatype.DataType.class, "beast.evolution.datatype");
+            List<String> classNames = PackageManager.find(beast.evolution.datatype.DataType.class, "beast.evolution.datatype");
             for (String className : classNames) {
                 try {
                     DataType thisDataType = (DataType) Class.forName(className).newInstance();

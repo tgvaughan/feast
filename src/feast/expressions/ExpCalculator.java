@@ -34,8 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
@@ -97,7 +97,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
         }
 
         // Build AST from expression string
-        ANTLRInputStream input = new ANTLRInputStream(expressionInput.get());
+        CharStream input = CharStreams.fromString(expressionInput.get());
         ExpressionLexer lexer = new ExpressionLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpressionParser parser = new ExpressionParser(tokens);
@@ -128,7 +128,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     }
 
     @Override
-    public void log(int nSample, PrintStream out) {
+    public void log(long nSample, PrintStream out) {
         update();
         for (int i = 0; i < getDimension(); i++)
             out.print(res[i] + "\t");

@@ -6,23 +6,16 @@
 
 package feast.expressions;
 
-import beast.core.BEASTObject;
-import beast.core.Description;
-import beast.core.Distribution;
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.State;
+import beast.core.*;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.util.*;
 
 /**
  *
@@ -61,7 +54,7 @@ public class ExpCalculatorDistribution extends Distribution {
         }
 
         // Build AST from expression string
-        ANTLRInputStream input = new ANTLRInputStream(expressionInput.get());
+        CharStream input = CharStreams.fromString(expressionInput.get());
         ExpressionLexer lexer = new ExpressionLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpressionParser parser = new ExpressionParser(tokens);

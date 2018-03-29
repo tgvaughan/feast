@@ -58,7 +58,7 @@ public class Slice extends CalculationNode implements Function, Loggable {
     }
 
     @Override
-    public void log(int nSample, PrintStream out) {
+    public void log(long nSample, PrintStream out) {
         for (int i=0; i<count; i++)
             out.print(getArrayValue(i) + "\t");
     }
