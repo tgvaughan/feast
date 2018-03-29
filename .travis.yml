@@ -1,6 +1,10 @@
-language: java
+sudo: require
 
-jdk:
-        - oraclejdk9
+services:
+    - docker
 
-sudo: false
+before_install:
+    - docker build -t docker-image .
+
+script:
+    - docker run docker-image
