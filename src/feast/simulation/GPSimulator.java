@@ -10,10 +10,10 @@ import java.util.List;
 
 public class GPSimulator extends Runnable {
 
-    public Input<BEASTObject> beastObjectInput = new Input<>(
+    public Input<List<BEASTObject>> beastObjectInput = new Input<>(
             "simulationObject",
             "BEASTObject constituting simulated quantity.",
-            Input.Validate.REQUIRED);
+            new ArrayList<>());
 
     public Input<Integer> nSimsInput = new Input<>(
             "nSims",
@@ -31,14 +31,20 @@ public class GPSimulator extends Runnable {
     @Override
     public void run() throws Exception {
 
+        if (beastObjectInput.get().isEmpty())
+            throw new IllegalArgumentException("Need to specify at least one" +
+                    " simulation object.");
+
         // Initialize loggers
         for (Logger logger : loggersInput.get()) {
             logger.init();
         }
 
         for (int i=0; i<nSimsInput.get(); i++) {
-            if (i>0)
-               beastObjectInput.get().initAndValidate();
+            if (i>0) {
+                for (BEASTObject beastObject : beastObjectInput.get())
+                    beastObject.initAndValidate();
+            }
 
             // Log state
             for (Logger logger : loggersInput.get())
