@@ -1,4 +1,4 @@
-// Generated from Expression.g4 by ANTLR 4.5
+// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.7
 package feast.expressions.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ExpressionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -181,7 +181,10 @@ public class ExpressionParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==ADD || _la==SUB) ) {
 						((AddSubContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-					} else {
+					}
+					else {
+						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+						_errHandler.reportMatch(this);
 						consume();
 					}
 					setState(13);
@@ -303,7 +306,10 @@ public class ExpressionParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==MUL || _la==DIV) ) {
 						((MulDivContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-					} else {
+					}
+					else {
+						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+						_errHandler.reportMatch(this);
 						consume();
 					}
 					setState(24);
@@ -405,6 +411,7 @@ public class ExpressionParser extends Parser {
 		enterRule(_localctx, 4, RULE_molecule);
 		try {
 			setState(37);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				_localctx = new NegationContext(_localctx);
@@ -571,6 +578,7 @@ public class ExpressionParser extends Parser {
 		int _la;
 		try {
 			setState(66);
+			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				_localctx = new BracketedContext(_localctx);
@@ -625,7 +633,10 @@ public class ExpressionParser extends Parser {
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA))) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				} else {
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
 					consume();
 				}
 				setState(55);
@@ -643,6 +654,7 @@ public class ExpressionParser extends Parser {
 				setState(59);
 				match(VARNAME);
 				setState(63);
+				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 				case 1:
 					{
@@ -667,7 +679,10 @@ public class ExpressionParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==NNINT || _la==NNFLOAT) ) {
 					((NumberContext)_localctx).val = (Token)_errHandler.recoverInline(this);
-				} else {
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
 					consume();
 				}
 				}
@@ -712,25 +727,26 @@ public class ExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\27G\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27G\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\7\2\21\n\2\f\2\16\2\24\13\2"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\7\3\34\n\3\f\3\16\3\37\13\3\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\5\4(\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5\62\n\5\f\5\16"+
 		"\5\65\13\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5B\n\5\3\5\5"+
 		"\5E\n\5\3\5\2\4\2\4\6\2\4\6\b\2\6\3\2\n\13\3\2\f\r\3\2\17\23\3\2\24\25"+
-		"L\2\n\3\2\2\2\4\25\3\2\2\2\6\'\3\2\2\2\bD\3\2\2\2\n\13\b\2\1\2\13\f\5"+
-		"\4\3\2\f\22\3\2\2\2\r\16\f\4\2\2\16\17\t\2\2\2\17\21\5\4\3\2\20\r\3\2"+
-		"\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2\2\2\24\22\3\2"+
-		"\2\2\25\26\b\3\1\2\26\27\5\6\4\2\27\35\3\2\2\2\30\31\f\4\2\2\31\32\t\3"+
-		"\2\2\32\34\5\6\4\2\33\30\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2\2\35\36\3\2"+
-		"\2\2\36\5\3\2\2\2\37\35\3\2\2\2 !\7\13\2\2!(\5\6\4\2\"#\5\b\5\2#$\7\16"+
-		"\2\2$%\5\6\4\2%(\3\2\2\2&(\5\b\5\2\' \3\2\2\2\'\"\3\2\2\2\'&\3\2\2\2("+
-		"\7\3\2\2\2)*\7\3\2\2*+\5\2\2\2+,\7\4\2\2,E\3\2\2\2-.\7\5\2\2.\63\5\2\2"+
-		"\2/\60\7\6\2\2\60\62\5\2\2\2\61/\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2\2\63"+
-		"\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\66\67\7\7\2\2\67E\3\2\2\289\t"+
-		"\4\2\29:\7\3\2\2:;\5\2\2\2;<\7\4\2\2<E\3\2\2\2=A\7\26\2\2>?\7\b\2\2?@"+
-		"\7\24\2\2@B\7\t\2\2A>\3\2\2\2AB\3\2\2\2BE\3\2\2\2CE\t\5\2\2D)\3\2\2\2"+
-		"D-\3\2\2\2D8\3\2\2\2D=\3\2\2\2DC\3\2\2\2E\t\3\2\2\2\b\22\35\'\63AD";
+		"\2L\2\n\3\2\2\2\4\25\3\2\2\2\6\'\3\2\2\2\bD\3\2\2\2\n\13\b\2\1\2\13\f"+
+		"\5\4\3\2\f\22\3\2\2\2\r\16\f\4\2\2\16\17\t\2\2\2\17\21\5\4\3\2\20\r\3"+
+		"\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2\2\2\24\22\3"+
+		"\2\2\2\25\26\b\3\1\2\26\27\5\6\4\2\27\35\3\2\2\2\30\31\f\4\2\2\31\32\t"+
+		"\3\2\2\32\34\5\6\4\2\33\30\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2\2\35\36\3"+
+		"\2\2\2\36\5\3\2\2\2\37\35\3\2\2\2 !\7\13\2\2!(\5\6\4\2\"#\5\b\5\2#$\7"+
+		"\16\2\2$%\5\6\4\2%(\3\2\2\2&(\5\b\5\2\' \3\2\2\2\'\"\3\2\2\2\'&\3\2\2"+
+		"\2(\7\3\2\2\2)*\7\3\2\2*+\5\2\2\2+,\7\4\2\2,E\3\2\2\2-.\7\5\2\2.\63\5"+
+		"\2\2\2/\60\7\6\2\2\60\62\5\2\2\2\61/\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2"+
+		"\2\63\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\66\67\7\7\2\2\67E\3\2\2\2"+
+		"89\t\4\2\29:\7\3\2\2:;\5\2\2\2;<\7\4\2\2<E\3\2\2\2=A\7\26\2\2>?\7\b\2"+
+		"\2?@\7\24\2\2@B\7\t\2\2A>\3\2\2\2AB\3\2\2\2BE\3\2\2\2CE\t\5\2\2D)\3\2"+
+		"\2\2D-\3\2\2\2D8\3\2\2\2D=\3\2\2\2DC\3\2\2\2E\t\3\2\2\2\b\22\35\'\63A"+
+		"D";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

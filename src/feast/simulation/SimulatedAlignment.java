@@ -127,14 +127,14 @@ public class SimulatedAlignment extends Alignment {
         for (int i=0; i<parentSequence.length; i++)
             parentSequence[i] = Randomizer.randomChoicePDF(frequencies);
 
-        ancestralSeqStr = dataType.state2string(parentSequence);
+        ancestralSeqStr = dataType.encodingToString(parentSequence);
 
         traverse(root, parentSequence,
                 categories, transitionProbs,
                 alignment);
 
         for (int leafIdx=0; leafIdx<nTaxa; leafIdx++) {
-            String seqString = dataType.state2string(alignment[leafIdx]);
+            String seqString = dataType.encodingToString(alignment[leafIdx]);
 
             String taxonName;
             if (tree.getNode(leafIdx).getID() != null)

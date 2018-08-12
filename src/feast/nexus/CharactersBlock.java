@@ -57,7 +57,7 @@ public class CharactersBlock extends NexusBlock {
             try {
                 String taxonName = alignment.getTaxaNames().get(i);
                 String sequence = alignment.getDataType()
-                        .state2string(alignment.getCounts().get(i));
+                        .encodingToString(alignment.getCounts().get(i));
                 matrix.append("\n\t\t").append(taxonName).append(" ").append(sequence);
             } catch (Exception ex) {
                 Logger.getLogger(CharactersBlock.class.getName()).log(Level.SEVERE, null, ex);
