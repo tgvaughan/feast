@@ -126,9 +126,9 @@ public class DensityMapper extends beast.core.Runnable {
 
             RealParameter param = realParamsInput.get().get(paramIdx);
 
-            boolean useLog = logScaleInput.get() != null
-                    ? logScaleInput.get().get(paramIdx).getValue()
-                    : false;
+            boolean useLog = logScaleInput.get().isEmpty()
+                    ? false
+                    : logScaleInput.get().get(paramIdx).getValue();
 
             double delta;
             if (nSteps>1) {
