@@ -58,6 +58,10 @@ public class BlockScaleOperator extends Operator {
         for (int i=0; i<parameter.getDimension(); i++) {
             if (hasIndicator && !indicator.getValue(i))
                 continue;
+
+            if (parameter.getValue(i) == 0.0)
+                continue;
+
             uniqueValues.add(parameter.getValue(i));
         }
 
