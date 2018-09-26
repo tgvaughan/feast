@@ -33,6 +33,31 @@ The package will be left in the `dist/` directory.
 Features
 ========
 
+Scaling subsets of RealParameter elements together
+--------------------------------------------------
+
+It's occasionally necessary to tie multiple elements of a RealParameter
+together, for instance to represent a vector of rates where a subset of
+these rates are conditioned to be identical.  The `BlockScaleOperator`
+operator makes this possible.  It behaves essentially identically to the
+standard BEAST 2 `ScaleOperator`, with inputs "parameter" and "indicator"
+specifying respectively the `RealParameter` to scale and the `BooleanParameter`
+indicating which elements to scale.  The differences are that `BlockScaleOperator`
+
+  1. _always_ scales the selected elements together (i.e. using the same
+      scale factor), and
+  2. it correctly takes into account the number of degrees of freedom
+     (i.e. unique element values) among the selected elements.
+     
+An example usage of this operator is as follows:
+```xml
+<operator spec="BlockScaleOperator" parameter="@paramToScale" weight="1.0">
+    <indicator spec="BooleanParameter" value="true true false false"/>
+</operator>
+```
+Here "@paramToScale" references a `RealParameter` with 4 elements, and the
+operator jointly scales the first two.
+
 Initializing RealParameters using formatted times
 -------------------------------------------------
 
@@ -50,15 +75,17 @@ anywhere that a `RealParameter` is expected.  For example, to create
 a `RealParameter` with the ages corresponding to the times above, use
 
 ```xml
-<TimeParameter time="05/03/1980 27/02/1980"
-               mostRecentSampleTime="01/01/1990"
-               timeFormat="dd/MM/yyyy"/>
+<parameter spec="TimeParameter"
+           time="05/03/1980 27/02/1980"
+           mostRecentSampleTime="01/01/1990"
+           timeFormat="dd/MM/yyyy"/>
 ```
 
 This is completely equivalent to
 
 ```xml
-<RealParameter value="9.825137 9.844262"/>
+<parameter spec="RealParameter"
+           value="9.825137 9.844262"/>
 ```
 
 but much more readable.
