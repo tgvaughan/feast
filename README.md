@@ -52,7 +52,7 @@ indicating which elements to scale.  The differences are that `BlockScaleOperato
 An example usage of this operator is as follows:
 ```xml
 <operator spec="BlockScaleOperator" parameter="@paramToScale" weight="1.0">
-    <indicator spec="BooleanParameter" value="true true false false"/>
+    <indicator spec="BooleanParameter" value="true true false false" estimate="false"/>
 </operator>
 ```
 Here "@paramToScale" references a `RealParameter` with 4 elements, and the
