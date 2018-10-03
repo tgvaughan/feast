@@ -204,19 +204,28 @@ An example usage of `DensityMapper` which produces the variation in a
 coalescent tree density as a function of the population size is provided as
 `DensityMapper.xml` which can be found in the examples directory.
 
-TreeFromNewickFile
-------------------
+TreeFromNewickFile & TreeFromNexusFile
+--------------------------------------
 
-This class allows trees to be loaded at runtime from Newick files rather
+These classes allow trees to be loaded at runtime from Newick files rather
 than stored in the BEAST 2 XML:
 
 ```xml
 <tree spec='feast.fileio.TreeFromNewickFile' fileName="example.tree"
     IsLabelledNewick="true" adjustTipHeights="false" .../>
 ```
+or 
+```xml
+<tree spec='feast.fileio.TreeFromNexusFile' fileName="example.nexus"
+    IsLabelledNewick="true" adjustTipHeights="false" .../>
+```
 
-This is a short extension to `TreeParser`, so all of the various inputs
-supported by that class are also supported by `TreeFromNewickFile`.
+Note that for Nexus files, only the first tree encountered in the first
+trees block is read.  Also, the translate block or command is completely
+ignored for now.
+
+They are both thin wrappers around `TreeParser`, so all of the various inputs
+supported by that class are also supported.
 
 AlignmentFromNexus/Fasta
 ------------------------
