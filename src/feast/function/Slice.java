@@ -5,7 +5,7 @@ import beast.core.*;
 import java.io.PrintStream;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("A Function representing a number of elements of another Function.")
 public class Slice extends CalculationNode implements Function, Loggable {

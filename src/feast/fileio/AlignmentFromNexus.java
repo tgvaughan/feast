@@ -28,7 +28,7 @@ import java.io.PrintStream;
 
 /**
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class AlignmentFromNexus extends Alignment {
     

@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("Wrapper around TreeParser to enable reading newick " +
         "strings from files.")

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Class for producing NEXUS files.
  * 
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class NexusWriter {
     
@@ -39,10 +39,9 @@ public class NexusWriter {
      * @param alignment Alignment to write (may be null)
      * @param trees Zero or more trees with taxa corresponding to alignment. (May be null)
      * @param pstream Print stream where output is sent
-     * @throws java.lang.Exception
      */
     public static void write(Alignment alignment, List<Tree> trees,
-            PrintStream pstream) throws Exception {
+            PrintStream pstream) {
         
         TaxonSet taxonSet = null;
         if (alignment != null) {

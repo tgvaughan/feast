@@ -26,6 +26,7 @@ import beast.evolution.datatype.DataType;
 import beast.evolution.sitemodel.SiteModel;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
+import beast.util.BEASTClassLoader;
 import beast.util.PackageManager;
 import beast.util.Randomizer;
 import feast.nexus.CharactersBlock;
@@ -39,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("A more flexible alignment simulator. Doesn't require " +
         "pre-specification of number of taxa.")
@@ -152,8 +153,8 @@ public class SimulatedAlignment extends Alignment {
      * @param node Node of the tree
      * @param parentSequence Sequence at the parent node in the tree
      * @param categories Mapping from sites to categories
-     * @param transitionProbs
-     * @param regionAlignment
+     * @param transitionProbs transition probabilities
+     * @param regionAlignment alignment for particular region
      */
     private void traverse(Node node,
             int[] parentSequence,
@@ -194,8 +195,6 @@ public class SimulatedAlignment extends Alignment {
 
     /**
      * HORRIBLE function to identify data type from given description.
-     *
-     * @return DataType instance (null if none found)
      */
     private void grabDataType() {
         if (userDataTypeInput.get() != null) {
@@ -206,7 +205,7 @@ public class SimulatedAlignment extends Alignment {
             List<String> classNames = PackageManager.find(beast.evolution.datatype.DataType.class, "beast.evolution.datatype");
             for (String className : classNames) {
                 try {
-                    DataType thisDataType = (DataType) Class.forName(className).newInstance();
+                    DataType thisDataType = (DataType) BEASTClassLoader.forName(className).newInstance();
                     if (dataTypeInput.get().equals(thisDataType.getTypeDescription())) {
                         dataType = thisDataType;
                         break;

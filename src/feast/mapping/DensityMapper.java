@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("Utility for mapping probability density surfaces.")
 public class DensityMapper extends beast.core.Runnable {

@@ -61,7 +61,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * Inspired by RPNcalculator by Joseph Heled (BEAST1, BEAST 2 port by 
  * Denise Kuehnert).  (This parser uses ANTLR, which is cheating.)
  * 
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("Evaluates simple expressions of parameters involving parameters,"
         + " including parameters of different lengths.  Individual elements of"

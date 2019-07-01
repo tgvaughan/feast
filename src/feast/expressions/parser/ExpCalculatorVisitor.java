@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
@@ -35,7 +35,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     /**
      * Create a new Expression AST visitor.
      * 
-     * @param functionMap
+     * @param functionMap map from function names to Functions
      */
     public ExpCalculatorVisitor(Map<String, Function> functionMap) {
         this.functionsMap = functionMap;

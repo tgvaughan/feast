@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Nexus Taxa block.
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class TaxaBlock extends NexusBlock {
     

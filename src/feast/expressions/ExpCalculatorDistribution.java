@@ -19,7 +19,7 @@ import java.util.*;
 
 /**
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("A distribution composed from an expression string.")
 public class ExpCalculatorDistribution extends Distribution {

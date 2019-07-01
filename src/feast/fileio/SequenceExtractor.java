@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  * BEAST 2 input file, not simply a fragment.  This unfortunately means that
  * we can't handle the XML output of SequenceSimulator.
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class SequenceExtractor {
     

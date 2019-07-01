@@ -8,7 +8,7 @@ import beast.util.TreeParser;
 import java.io.*;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 @Description("Wrapper around TreeParser to enable reading newick " +
         "strings from files.")

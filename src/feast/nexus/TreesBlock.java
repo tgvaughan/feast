@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Nexus block specifying a number of trees.
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class TreesBlock extends NexusBlock {
 
@@ -43,7 +43,7 @@ public class TreesBlock extends NexusBlock {
     /**
      * Construct a trees block containing those trees in the provided list.
      * 
-     * @param trees 
+     * @param trees list of trees
      */
     public TreesBlock(List<Tree> trees) {
         this.trees = trees;
@@ -55,7 +55,7 @@ public class TreesBlock extends NexusBlock {
     /**
      * Add tree to existing trees block.
      * 
-     * @param tree
+     * @param tree tree to add
      * @return TreesBlock object for method chaining.
      */
     public TreesBlock addTree(Tree tree) {
@@ -68,8 +68,8 @@ public class TreesBlock extends NexusBlock {
     /**
      * Add tree (with name) to existing trees block
      * 
-     * @param tree
-     * @param name
+     * @param tree tree to add
+     * @param name name of tree
      * @return TreesBlock object for method chaining.
      */
     public TreesBlock addTree(Tree tree, String name) {
@@ -83,7 +83,7 @@ public class TreesBlock extends NexusBlock {
      * Method used to generate string representation of Tree.  Useful
      * for overriding in cases where tree.toString() is not appropriate.
      * 
-     * @param tree
+     * @param tree tree to represent
      * @return string representation of tree (some variant of Newick).
      */
     public String getTreeString(Tree tree) {

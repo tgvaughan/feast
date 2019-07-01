@@ -27,7 +27,7 @@ import java.io.*;
  * Read in an alignment from a fasta file.  Sequence labels are assumed
  * to be taxon labels.
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class AlignmentFromFasta extends Alignment {
 

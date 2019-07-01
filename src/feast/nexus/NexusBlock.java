@@ -20,7 +20,7 @@ package feast.nexus;
 import java.util.List;
 
 /**
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public abstract class NexusBlock {
     

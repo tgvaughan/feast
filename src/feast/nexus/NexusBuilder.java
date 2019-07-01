@@ -26,7 +26,7 @@ import java.util.List;
  * Class for piecewise construction of Nexus files.  Analogous to StringBuilder,
  * but instead of piecing together strings, we piece together NexusBlocks.
  *
- * @author Tim Vaughan <tgvaughan@gmail.com>
+ * @author Tim Vaughan
  */
 public class NexusBuilder {
     List<NexusBlock> blocks;
@@ -42,7 +42,7 @@ public class NexusBuilder {
     /**
      * Append a block to the Nexus file.
      * 
-     * @param block
+     * @param block block to include
      * @return the NexusBuilder (for method chaining)
      */
     public NexusBuilder append(NexusBlock block) {
@@ -54,7 +54,7 @@ public class NexusBuilder {
     /**
      * Write the assembled Nexus file to pstream.
      * 
-     * @param pstream 
+     * @param pstream PrintStream to send Nexus to
      */
     public void write(PrintStream pstream) {
         pstream.println("#NEXUS");
