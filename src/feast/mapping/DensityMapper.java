@@ -35,11 +35,16 @@ public class DensityMapper extends beast.core.Runnable {
             "Distribution to map.",
             new ArrayList<>());
 
-
     public Input<List<Logger>> loggersInput = new Input<>(
             "logger",
             "Logger used to store output.",
             new ArrayList<>());
+
+    public Input<Boolean> acceptAfterDistribCalculationInput = new Input<>(
+            "acceptAfterDistribCalculation",
+            "If true, call state.acceptCalculationNodes() after distribution " +
+                    "has been computed.  Default true.",
+            true);
 
     int nValues;
     int sample;
@@ -178,6 +183,9 @@ public class DensityMapper extends beast.core.Runnable {
                     System.out.println("Error computing density.");
                     e.printStackTrace();
                 }
+
+                if (acceptAfterDistribCalculationInput.get())
+                    dummyState.acceptCalculationNodes();
             }
 
             for (Logger logger : loggersInput.get()) {
@@ -186,7 +194,5 @@ public class DensityMapper extends beast.core.Runnable {
 
             sample += 1;
         }
-
     }
-
 }
