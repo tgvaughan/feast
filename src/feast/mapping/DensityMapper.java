@@ -5,8 +5,7 @@ import beast.core.parameter.BooleanParameter;
 import beast.core.parameter.IntegerParameter;
 import beast.core.parameter.RealParameter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Tim Vaughan
@@ -79,13 +78,33 @@ public class DensityMapper extends beast.core.Runnable {
 
         // Add RealParameters to dummy state:
         dummyState = new State();
-        for (RealParameter param : realParamsInput.get())
-            dummyState.stateNodeInput.setValue(param, dummyState);
+
+        Set<StateNode> stateNodes = new HashSet<>();
+        for (Distribution distrib : distribsInput.get())
+            stateNodes.addAll(collectStateNodes(distrib));
+
+        for (StateNode stateNode : stateNodes)
+            dummyState.stateNodeInput.setValue(stateNode, dummyState);
+
         dummyState.initAndValidate();
         dummyState.initialise();
 
         sample = 0;
 
+    }
+
+    Set<StateNode> collectStateNodes(BEASTObject rootObject) {
+       HashSet<StateNode> stateNodes = new HashSet<>();
+
+        for (Input input : rootObject.getInputs().values()) {
+            if (input.get() instanceof  StateNode)
+                stateNodes.add((StateNode) input.get());
+            else if (input.get() instanceof BEASTObject) {
+                stateNodes.addAll(collectStateNodes((BEASTObject)input.get()));
+            }
+        }
+
+        return stateNodes;
     }
 
     @Override
@@ -172,21 +191,25 @@ public class DensityMapper extends beast.core.Runnable {
         } else {
             for (Distribution distrib : distribsInput.get()) {
                 try {
+                    for (StateNode stateNode : dummyState.stateNodeInput.get())
+                        stateNode.setEverythingDirty(true);
+
                     dummyState.setPosterior(distrib);
                     dummyState.checkCalculationNodesDirtiness();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
-                    distrib.calculateLogP();
+                    dummyState.robustlyCalcPosterior(distrib);
                 } catch (Exception e) {
                     System.out.println("Error computing density.");
                     e.printStackTrace();
                 }
-
-                if (acceptAfterDistribCalculationInput.get())
-                    dummyState.acceptCalculationNodes();
             }
+
+            if (acceptAfterDistribCalculationInput.get())
+                dummyState.acceptCalculationNodes();
 
             for (Logger logger : loggersInput.get()) {
                 logger.log(sample);
