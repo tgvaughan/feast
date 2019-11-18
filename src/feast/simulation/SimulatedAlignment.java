@@ -83,6 +83,8 @@ public class SimulatedAlignment extends Alignment {
         siteModel = siteModelInput.get();
         seqLength = sequenceLengthInput.get();
 
+        sequences.clear();
+
         grabDataType();
 
         simulate();
