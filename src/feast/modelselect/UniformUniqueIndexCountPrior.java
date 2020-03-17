@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class ModelSelectionIndexPrior extends Distribution {
+public class UniformUniqueIndexCountPrior extends Distribution {
 
     public Input<IntegerParameter> selectionIndiciesInput = new Input<>("selectionIndices",
             "Model selection index.", Input.Validate.REQUIRED);
