@@ -130,6 +130,16 @@ Instances of the `feast.function.Slice` class are `Function`s and `Loggable`s wh
 represent or more elements of another `Function`.  This allows
 element-specific priors to be set, and individual elements to be logged.
 
+Here's a simple example of using `Slice` to place a prior on a subset of elements
+of a `RealParameter`:
+
+```xml
+<distrib spec="Prior">
+    <x spec="feast.function.Slice" arg="@samplingProportion" index="2" count="1"/>
+    <distr spec="LogNormalDistributionModel" M="0" S="1"/>
+</distrib>
+```
+
 DensityMapper
 -------------
 
