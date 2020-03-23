@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LogFileIterator extends Runnable {
 
-    public Input<List<LogFileState>> logFileStateInput = new Input<>("logFileState",
+    public Input<List<TraceLogFileState>> logFileStateInput = new Input<>("logFileState",
             "Log file state.",
             new ArrayList<>());
 
@@ -18,7 +18,7 @@ public class LogFileIterator extends Runnable {
             "Logger used to produce output.",
             new ArrayList<>());
 
-    List<LogFileState> logFileStates;
+    List<TraceLogFileState> logFileStates;
     List<Logger> loggers;
 
     @Override
@@ -67,7 +67,7 @@ public class LogFileIterator extends Runnable {
 
             int nextSample = 0;
 
-            for (LogFileState logFileState : logFileStates) {
+            for (TraceLogFileState logFileState : logFileStates) {
 
                 int thisSample = logFileState.updateToNextEntry();
 
@@ -82,7 +82,7 @@ public class LogFileIterator extends Runnable {
 
             // Bring all input log files up to the same state
 
-            for (LogFileState logFileState : logFileStates) {
+            for (TraceLogFileState logFileState : logFileStates) {
 
                 while (logFileState.getCurrentSample() < nextSample)
                     logFileState.updateToNextEntry();

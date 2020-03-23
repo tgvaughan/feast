@@ -8,7 +8,7 @@
                                 :feast.fileio.logfileiterator'>
 
   <run spec="LogFileIterator">
-    <logFileState spec="LogFileState" logFileName="ECdistribArrayTest.log">
+    <logFileState spec="TraceLogFileState" logFileName="ECdistribArrayTest.log">
       <logFileEntry spec="LogFileRealParameter" fieldName="R">
         <fieldParameter id="R" spec="RealParameter" value="0.0"/>
       </logFileEntry>
