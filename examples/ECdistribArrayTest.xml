@@ -1,32 +1,32 @@
 <beast version='2.0' namespace='beast.core:beast.core.parameter:beast.evolution.operators:feast:feast.expressions'>
 
-    <run spec="MCMC" id="mcmc" chainLength="2000000">
+    <run spec="MCMC" id="mcmc" chainLength="1000000">
         <state>
             <input name='stateNode' spec='RealParameter' value="20 50" id="x" />
         </state>
 
         <distribution spec="ExpCalculatorDistribution" id="target"
-                      expression="exp(-R^2/2)">
+                      value="exp(-R^2/2)">
 
-            <parameter id="R" spec='ExpCalculator'
+            <arg id="R" spec='ExpCalculator'
                        value="sqrt(sum((x - {20, 50})^2))">
 
                 <arg idref="x"/>
-            </parameter>
+            </arg>
         </distribution>
 
         <operator id='scalerx' spec='ScaleOperator' scaleFactor="0.5" weight="1">
             <parameter idref="x"/>
         </operator>
 
-        <logger logEvery="100" fileName="ECdistribArrayTest.log">
+        <logger logEvery="100" fileName="$(filebase).log">
             <model idref='target'/>
             <log idref="target"/>
             <log idref="x"/>
             <log idref="R"/>
         </logger>
 
-        <logger logEvery="100">
+        <logger logEvery="10000">
             <model idref='target'/>
             <log idref="target"/>
             <log idref="x"/>
