@@ -24,11 +24,11 @@ import java.util.*;
 @Description("A distribution composed from an expression string.")
 public class ExpCalculatorDistribution extends Distribution {
     
-    public Input<String> expressionInput = new Input<>("expression",
+    public Input<String> expressionInput = new Input<>("value",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
     
     public Input<List<Function>> functionsInput = new Input<>(
-            "parameter", "Parameters/functions needed for the calculation",
+            "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
     public Input<Boolean> isLogInput = new Input<>("isLog",

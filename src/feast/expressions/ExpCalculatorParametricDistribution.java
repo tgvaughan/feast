@@ -44,7 +44,7 @@ import java.util.Map;
         + "multivariate distributions.")
 public class ExpCalculatorParametricDistribution extends ParametricDistribution {
 
-    public Input<String> expressionInput = new Input<>("expression",
+    public Input<String> expressionInput = new Input<>("value",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
     
     public Input<Boolean> isLogInput = new Input<>("isLog",

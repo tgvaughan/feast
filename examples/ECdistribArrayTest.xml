@@ -9,9 +9,9 @@
                       expression="exp(-R^2/2)">
 
             <parameter id="R" spec='ExpCalculator'
-                       expression="sqrt(sum((x - {20, 50})^2))">
+                       value="sqrt(sum((x - {20, 50})^2))">
 
-                <parameter idref="x"/>
+                <arg idref="x"/>
             </parameter>
         </distribution>
 

@@ -39,9 +39,9 @@ public class ExpCalculatorTest {
         
         ExpCalculator instance = new ExpCalculator();
         instance.initByName(
-                "expression", "-(J[0]/J + log(exp(I))*-3 - 1.5 + 1.5 + 1 + -3)",
-                "parameter", iparam,
-                "parameter", jparam);
+                "value", "-(J[0]/J + log(exp(I))*-3 - 1.5 + 1.5 + 1 + -3)",
+                "arg", iparam,
+                "arg", jparam);
         
         assertEquals(instance.getDimension(), 3);
         assertTrue(Math.abs(instance.getArrayValue(0)-4.0)<1e-15);
@@ -49,30 +49,30 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(2)-10.0)<1e-15);
         
         instance.initByName(
-                "expression", "sum(I*2)",
-                "parameter", iparam);
+                "value", "sum(I*2)",
+                "arg", iparam);
         assertEquals(instance.getDimension(), 1);
         assertTrue(Math.abs(instance.getArrayValue(0)-12.0)<1e-15);
         
         instance.initByName(
-                "expression", "sqrt(sum(I*2)+4) + J",
-                "parameter", iparam,
-                "parameter", jparam);
+                "value", "sqrt(sum(I*2)+4) + J",
+                "arg", iparam,
+                "arg", jparam);
         assertEquals(instance.getDimension(), 2);
         assertTrue(Math.abs(instance.getArrayValue(0)-31.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-17.5)<1e-15);
         
         instance.initByName(
-                "expression", "1.5^I^2",
-                "parameter", iparam);
+                "value", "1.5^I^2",
+                "arg", iparam);
         assertEquals(instance.getDimension(), 3);
         assertTrue(Math.abs(instance.getArrayValue(0)-1.5)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-5.0625)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(2)-38.443359375)<1e-15);
         
         instance.initByName(
-                "expression", "{I,J} + {1,2,3,4,5}",
-                "parameter", iparam);
+                "value", "{I,J} + {1,2,3,4,5}",
+                "arg", iparam);
         assertEquals(instance.getDimension(), 5);
         assertTrue(Math.abs(instance.getArrayValue(0)-2.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-4.0)<1e-15);
@@ -81,8 +81,8 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(4)-18.5)<1e-15);
 
         instance.initByName(
-                "expression", "theta(I-2)",
-                "parameter", iparam);
+                "value", "theta(I-2)",
+                "arg", iparam);
         assertEquals(instance.getDimension(), 3);
         assertTrue(Math.abs(instance.getArrayValue(0)-0.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-1.0)<1e-15);

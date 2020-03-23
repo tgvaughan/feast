@@ -70,11 +70,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
         + " parameter being repeated as many times as necessary.")
 public class ExpCalculator extends CalculationNode implements Loggable, Function {
     
-    public Input<String> expressionInput = new Input<>("expression",
+    public Input<String> expressionInput = new Input<>("value",
             "Expression needed for calculations.", Validate.REQUIRED);
     
     public Input<List<Function>> functionsInput = new Input<>(
-            "parameter", "Parameters/functions needed for the calculation",
+            "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
     

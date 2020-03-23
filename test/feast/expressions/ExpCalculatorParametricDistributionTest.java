@@ -27,7 +27,7 @@ public class ExpCalculatorParametricDistributionTest {
         
         ExpCalculatorParametricDistribution instance = new ExpCalculatorParametricDistribution();
         instance.initByName(
-                "expression", "exp(-(x-11)^2/2)");
+                "value", "exp(-(x-11)^2/2)");
         
         Prior prior = new Prior();
         prior.initByName("x", xparam, "distr", instance);

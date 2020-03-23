@@ -14,7 +14,7 @@
                       expression="exp(-R^2/2)">
 
             <parameter id="R" spec='ExpCalculator'
-                       expression="sqrt((x-20)^2+(y-50)^2)">
+                       value="sqrt((x-20)^2+(y-50)^2)">
 
                 <parameter idref="x"/>
                 <parameter idref="y"/>

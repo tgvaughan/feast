@@ -5,7 +5,7 @@
         <!-- Expression -->
         <subtemplate id='Expression' class='feast.expressions.ExpCalculatorParametricDistribution' mainid='[top]'>
             <![CDATA[
-		<distr spec='feast.expressions.ExpCalculatorParametricDistribution' expression="exp(-(x-1/2)^2/(2*0.01))" isLog="false" offset="0.0">
+		<distr spec='feast.expressions.ExpCalculatorParametricDistribution' value="exp(-(x-1/2)^2/(2*0.01))" isLog="false" offset="0.0">
 		</distr>
         ]]>
         </subtemplate>
