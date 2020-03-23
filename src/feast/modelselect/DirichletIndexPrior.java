@@ -21,7 +21,8 @@ public class DirichletIndexPrior extends Distribution {
     RealParameter scalingParameter;
     int[] counts;
 
-    public DirichletIndexPrior() {
+    @Override
+    public void initAndValidate() {
         selectionIndices = selectionIndiciesInput.get();
         scalingParameter = scalingParameterInput.get();
 
