@@ -46,7 +46,7 @@ public class TreeLogFileState extends LogFileState {
 
         // Assume translate is first (sloppy, I know, but we're processing BEAST output here).
         line = readNexusLine();
-        if (!line.toLowerCase().startsWith("translate ")) {
+        if (!line.toLowerCase().startsWith("translate")) {
             throw new RuntimeException("No translate command found in " + logFileName + ". Aborting.");
         }
 

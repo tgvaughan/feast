@@ -1,0 +1,31 @@
+<!-- IMPORTANT: Requires coalescent.xml to be run first. -->
+
+<beast version='2.0' namespace='beast.core
+                                :beast.core.parameter
+                                :beast.evolution.operators
+                                :feast
+                                :feast.expressions
+                                :feast.fileio.logfileiterator'>
+
+  <run spec="LogFileIterator">
+    <logFileState spec="TraceLogFileState" logFileName="coalescent.log">
+      <logFileEntry spec="LogFileRealParameter" fieldName="hky.kappa">
+        <fieldParameter id="kappa" spec="RealParameter" value="0.0"/>
+      </logFileEntry>
+    </logFileState>
+
+    <logFileState spec="TreeLogFileState" logFileName="coalescent.trees">
+      <tree spec="beast.evolution.tree.Tree" id="tree"/>
+    </logFileState>
+
+    <logger logEvery="10000" fileName="$(filebase).log">
+      <log idref="kappa"/>
+      <log id="treestat" spec="beast.evolution.tree.TreeStatLogger" tree="@tree"/>
+    </logger>
+
+    <logger logEvery="100000">
+      <log idref="kappa"/>
+      <log idref="treestat"/>
+    </logger>
+  </run>
+</beast>
