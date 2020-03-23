@@ -237,6 +237,32 @@ ignored for now.
 They are both thin wrappers around `TreeParser`, so all of the various inputs
 supported by that class are also supported.
 
+TraitSetFromTaxonSet
+--------------------
+
+This class allows `TraitSet`s to be configured directly from `TaxonSet`s.  This
+is similar in spirit to the "auto configuration" option provided by BEAUti to
+set up tree tip dates from information encoded in the sequence names.
+
+Use this as you would usually use a `TraitSet`, but instead of including the
+trait assignments directly in the body, specify inputs indicating how to extract
+the trait values from the taxon names.
+
+For instance:
+
+```xml
+<trait spec="feast.fileio.TraitSetFromTaxonSet"
+       delimiter="|"
+       everythingAfterLast="true"
+       traitname="date"
+       dateFormat="yyyy-M-dd">
+       <taxa id="taxonSet" spec="TaxonSet" alignment="@alignment"/>
+</trait>
+```
+
+Instead of `everythingAfterLast="true"`, one can also use `everythingBeforeFirst="true"` or
+`takeGroup="N"` where N is the index of the group (delimited by the chosen delimiter).
+
 AlignmentFromNexus/Fasta
 ------------------------
 
