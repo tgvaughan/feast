@@ -33,6 +33,54 @@ The package will be left in the `dist/` directory.
 Features
 ========
 
+Log File Post-processing
+------------------------
+
+Occasionally it's useful to be able to resurrect BEAST states from trace
+and tree log files in order to perform further processing.  This is useful,
+for instance, if you realise that it would have been useful to compute
+additional tree statistics.  Or perhaps you'd like to stochastically map
+ancestral traits onto trees belonging to the posterior of a multi-type
+birth-death analysis.  The `feast.fileio.LogFileIterator` class and its
+friends allow you to do these things and more.
+
+The `LogFileIterator` class is a `Runnable` class, meaning that you use it
+in place of BEAST's usual `MCMC` class at the top level.  A trivial example
+is as follows:
+
+```xml
+<beast version='2.0' namespace='feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'>
+
+  <run spec="LogFileIterator">
+    <logFileState spec="TraceLogFileState" logFileName="original_analysis.log">
+      <logFileEntry spec="LogFileRealParameter" fieldName="hky.kappa">
+        <fieldParameter id="kappa" spec="RealParameter" value="0.0"/>
+      </logFileEntry>
+    </logFileState>
+
+    <logFileState spec="TreeLogFileState" logFileName="original_analysis.trees">
+      <tree spec="beast.evolution.tree.Tree" id="tree"/>
+    </logFileState>
+
+    <logger logEvery="10000" fileName="processed.log">
+      <log idref="recoveredParameter"/>
+      <log id="treestat" spec="beast.evolution.tree.TreeStatLogger" tree="@tree"/>
+    </logger>
+
+    <logger logEvery="100000">
+      <log idref="kappa"/>
+      <log idref="treestat"/>
+    </logger>
+  </run>
+</beast>
+```
+
+In this example (which is also provided in the examples directory as `TreeLogFileIteratorTest.xml`)
+we use the "hky.kappa" field of the `original_analysis.log` trace log file to set the value of a
+`RealParameter` named "kappa".  Simultaneously, we use the trees in the tree log file `original_analysis.trees`
+to set the value of the `Tree` named "tree".  The value of "kappa" and the height and length statistics
+of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
+
 Scaling subsets of RealParameter elements together
 --------------------------------------------------
 
