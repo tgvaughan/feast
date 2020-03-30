@@ -66,10 +66,8 @@ public class TraceLogFileState extends LogFileState {
             return currentSample;
         }
 
-        for (int c=0; c<colCount; c++) {
-            if (columnEntryMap.containsKey(c)) {
-                columnEntryMap.get(c).setFieldParameterValue(values[c]);
-            }
+        for (int c : columnEntryMap.keySet()) {
+            columnEntryMap.get(c).setFieldParameterValue(values[c]);
         }
 
         currentSample = Integer.parseInt(values[0]);
