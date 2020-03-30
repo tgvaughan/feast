@@ -4,6 +4,8 @@ import beast.core.Description;
 import beast.core.Input;
 import beast.evolution.tree.TraitSet;
 
+import java.util.regex.Pattern;
+
 @Description("Initialize a trait set from a taxon set. " +
         "Permits similar functionality to the 'autoconfigure' option in BEAUti.")
 public class TraitSetFromTaxonSet extends TraitSet {
@@ -53,7 +55,7 @@ public class TraitSetFromTaxonSet extends TraitSet {
             } else if (after) {
                 traitSB.append(taxon, taxon.lastIndexOf(delimiter)+1, taxon.length());
             } else {
-                traitSB.append(taxon.split(delimiter)[group]);
+                traitSB.append(taxon.split(Pattern.quote(delimiter))[group]);
             }
         }
 
