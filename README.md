@@ -171,8 +171,8 @@ results.
 See `examples/SimulateCoalescentTrees.xml` for an example of using `GPSimulator`
 to simulate 100 coalescent trees.
 
-Function Slicing
-----------------
+Function Slicing and Reversing
+------------------------------
 
 Instances of the `feast.function.Slice` class are `Function`s and `Loggable`s which
 represent or more elements of another `Function`.  This allows
@@ -187,6 +187,10 @@ of a `RealParameter`:
     <distr spec="LogNormalDistributionModel" M="0" S="1"/>
 </distrib>
 ```
+
+Similarly, instances of the `feast.function.Reverse` class are
+`Funtion`s and `Loggable`s which represent the elements of another
+`Function` but in reverse order.
 
 DensityMapper
 -------------
