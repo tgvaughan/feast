@@ -8,7 +8,7 @@ import java.io.PrintStream;
  * @author Tim Vaughan
  */
 @Description("A Function representing a number of elements of another Function.")
-public class Slice extends CalculationNode implements Function, Loggable {
+public class Slice extends LoggableFunction {
 
     public Input<Function> functionInput = new Input<>("arg",
             "Argument to extract element from.", Input.Validate.REQUIRED);
@@ -48,23 +48,5 @@ public class Slice extends CalculationNode implements Function, Loggable {
             return functionInput.get().getArrayValue(indexStart + iDim);
         else
             return 0;
-    }
-
-    @Override
-    public void init(PrintStream out) {
-        for (int i=0; i<count; i++)
-            out.print(((BEASTObject)functionInput.get()).getID()
-                    + "[" + (indexStart + i) + "]\t");
-    }
-
-    @Override
-    public void log(long nSample, PrintStream out) {
-        for (int i=0; i<count; i++)
-            out.print(getArrayValue(i) + "\t");
-    }
-
-    @Override
-    public void close(PrintStream out) {
-
     }
 }

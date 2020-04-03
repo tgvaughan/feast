@@ -171,8 +171,8 @@ results.
 See `examples/SimulateCoalescentTrees.xml` for an example of using `GPSimulator`
 to simulate 100 coalescent trees.
 
-Function Slicing and Reversing
-------------------------------
+Function Slicing, Reversing and Concatenating
+---------------------------------------------
 
 Instances of the `feast.function.Slice` class are `Function`s and `Loggable`s which
 represent or more elements of another `Function`.  This allows
@@ -191,6 +191,20 @@ of a `RealParameter`:
 Similarly, instances of the `feast.function.Reverse` class are
 `Funtion`s and `Loggable`s which represent the elements of another
 `Function` but in reverse order.
+
+Instances of the `feast.function.Concatenate` class are `Function`s
+and `Loggable`s whose elements are composed of the elements of their
+input `Function`s joined together.  For example, here is a `Function`
+representing a piecewise constant reproductive number to be used as
+input to the BDSKY tree prior, but composed of distinct input parameters
+rather than a single real parameter with multiple dimensions:
+
+```xml
+<reproductiveNumber spec="feast.function.Concatenate">
+    <arg spec="RealParameter" value="1.0"/>
+    <arg spec="RealParameter" value="2.0"/>
+</reproductiveNumber>
+```
 
 DensityMapper
 -------------
