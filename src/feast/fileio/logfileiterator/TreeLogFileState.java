@@ -15,9 +15,6 @@ public class TreeLogFileState extends LogFileState {
     public Input<Tree> treeInput = new Input<>("tree",
             "Tree to read log file state into.", Input.Validate.REQUIRED);
 
-    public Input<TaxonSet> taxonSetInput = new Input<>("taxonSet",
-            "Taxon set initialized with taxa from tree log. (Optional)");
-
     Tree tree;
     TaxonSet taxonSet;
 

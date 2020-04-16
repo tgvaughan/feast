@@ -11,10 +11,10 @@ public abstract class LogFileState extends BEASTObject {
     public Input<String> logFileNameInput = new Input<>("logFileName", "Name of log file",
             Input.Validate.REQUIRED);
 
-    String logFileName;
-    BufferedReader inFile;
+    protected String logFileName;
+    protected BufferedReader inFile;
 
-    int currentSample;
+    protected int currentSample;
 
     @Override
     public void initAndValidate() {
