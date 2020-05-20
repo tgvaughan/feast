@@ -1,4 +1,4 @@
-// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.7
+// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.8
 package feast.expressions.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,30 +11,40 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ExpressionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, ADD=8, SUB=9, 
-		MUL=10, DIV=11, POW=12, EXP=13, LOG=14, SQRT=15, SUM=16, THETA=17, NNINT=18, 
-		NNFLOAT=19, VARNAME=20, WHITESPACE=21;
+		MUL=10, DIV=11, POW=12, EXP=13, LOG=14, SQRT=15, SUM=16, THETA=17, MIN=18, 
+		MAX=19, LEN=20, NNINT=21, NNFLOAT=22, VARNAME=23, WHITESPACE=24;
 	public static final int
 		RULE_expression = 0, RULE_factor = 1, RULE_molecule = 2, RULE_atom = 3;
-	public static final String[] ruleNames = {
-		"expression", "factor", "molecule", "atom"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"expression", "factor", "molecule", "atom"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'('", "')'", "'{'", "','", "'}'", "'['", "']'", "'+'", "'-'", "'*'", 
-		"'/'", "'^'", "'exp'", "'log'", "'sqrt'", "'sum'", "'theta'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, "ADD", "SUB", "MUL", "DIV", 
-		"POW", "EXP", "LOG", "SQRT", "SUM", "THETA", "NNINT", "NNFLOAT", "VARNAME", 
-		"WHITESPACE"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'('", "')'", "'{'", "','", "'}'", "'['", "']'", "'+'", "'-'", 
+			"'*'", "'/'", "'^'", "'exp'", "'log'", "'sqrt'", "'sum'", "'theta'", 
+			"'min'", "'max'", "'len'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, "ADD", "SUB", "MUL", 
+			"DIV", "POW", "EXP", "LOG", "SQRT", "SUM", "THETA", "MIN", "MAX", "LEN", 
+			"NNINT", "NNFLOAT", "VARNAME", "WHITESPACE"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -84,6 +94,7 @@ public class ExpressionParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class ExpressionContext extends ParserRuleContext {
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -103,6 +114,8 @@ public class ExpressionParser extends Parser {
 		public FactorContext factor() {
 			return getRuleContext(FactorContext.class,0);
 		}
+		public TerminalNode ADD() { return getToken(ExpressionParser.ADD, 0); }
+		public TerminalNode SUB() { return getToken(ExpressionParser.SUB, 0); }
 		public AddSubContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -228,6 +241,8 @@ public class ExpressionParser extends Parser {
 		public MoleculeContext molecule() {
 			return getRuleContext(MoleculeContext.class,0);
 		}
+		public TerminalNode MUL() { return getToken(ExpressionParser.MUL, 0); }
+		public TerminalNode DIV() { return getToken(ExpressionParser.DIV, 0); }
 		public MulDivContext(FactorContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -346,6 +361,7 @@ public class ExpressionParser extends Parser {
 		}
 	}
 	public static class NegationContext extends MoleculeContext {
+		public TerminalNode SUB() { return getToken(ExpressionParser.SUB, 0); }
 		public MoleculeContext molecule() {
 			return getRuleContext(MoleculeContext.class,0);
 		}
@@ -368,6 +384,7 @@ public class ExpressionParser extends Parser {
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
 		}
+		public TerminalNode POW() { return getToken(ExpressionParser.POW, 0); }
 		public MoleculeContext molecule() {
 			return getRuleContext(MoleculeContext.class,0);
 		}
@@ -499,6 +516,9 @@ public class ExpressionParser extends Parser {
 		public TerminalNode SQRT() { return getToken(ExpressionParser.SQRT, 0); }
 		public TerminalNode SUM() { return getToken(ExpressionParser.SUM, 0); }
 		public TerminalNode THETA() { return getToken(ExpressionParser.THETA, 0); }
+		public TerminalNode MIN() { return getToken(ExpressionParser.MIN, 0); }
+		public TerminalNode MAX() { return getToken(ExpressionParser.MAX, 0); }
+		public TerminalNode LEN() { return getToken(ExpressionParser.LEN, 0); }
 		public UnaryOpContext(AtomContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -625,13 +645,16 @@ public class ExpressionParser extends Parser {
 			case SQRT:
 			case SUM:
 			case THETA:
+			case MIN:
+			case MAX:
+			case LEN:
 				_localctx = new UnaryOpContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(54);
 				((UnaryOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA) | (1L << MIN) | (1L << MAX) | (1L << LEN))) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
@@ -727,12 +750,12 @@ public class ExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27G\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\32G\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\7\2\21\n\2\f\2\16\2\24\13\2"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\7\3\34\n\3\f\3\16\3\37\13\3\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\5\4(\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5\62\n\5\f\5\16"+
 		"\5\65\13\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5B\n\5\3\5\5"+
-		"\5E\n\5\3\5\2\4\2\4\6\2\4\6\b\2\6\3\2\n\13\3\2\f\r\3\2\17\23\3\2\24\25"+
+		"\5E\n\5\3\5\2\4\2\4\6\2\4\6\b\2\6\3\2\n\13\3\2\f\r\3\2\17\26\3\2\27\30"+
 		"\2L\2\n\3\2\2\2\4\25\3\2\2\2\6\'\3\2\2\2\bD\3\2\2\2\n\13\b\2\1\2\13\f"+
 		"\5\4\3\2\f\22\3\2\2\2\r\16\f\4\2\2\16\17\t\2\2\2\17\21\5\4\3\2\20\r\3"+
 		"\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2\2\2\24\22\3"+
@@ -743,8 +766,8 @@ public class ExpressionParser extends Parser {
 		"\2(\7\3\2\2\2)*\7\3\2\2*+\5\2\2\2+,\7\4\2\2,E\3\2\2\2-.\7\5\2\2.\63\5"+
 		"\2\2\2/\60\7\6\2\2\60\62\5\2\2\2\61/\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2"+
 		"\2\63\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\66\67\7\7\2\2\67E\3\2\2\2"+
-		"89\t\4\2\29:\7\3\2\2:;\5\2\2\2;<\7\4\2\2<E\3\2\2\2=A\7\26\2\2>?\7\b\2"+
-		"\2?@\7\24\2\2@B\7\t\2\2A>\3\2\2\2AB\3\2\2\2BE\3\2\2\2CE\t\5\2\2D)\3\2"+
+		"89\t\4\2\29:\7\3\2\2:;\5\2\2\2;<\7\4\2\2<E\3\2\2\2=A\7\31\2\2>?\7\b\2"+
+		"\2?@\7\27\2\2@B\7\t\2\2A>\3\2\2\2AB\3\2\2\2BE\3\2\2\2CE\t\5\2\2D)\3\2"+
 		"\2\2D-\3\2\2\2D8\3\2\2\2D=\3\2\2\2DC\3\2\2\2E\t\3\2\2\2\b\22\35\'\63A"+
 		"D";
 	public static final ATN _ATN =

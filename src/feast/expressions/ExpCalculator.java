@@ -57,7 +57,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * sqrt(J)                    | {2.236..., 3.162...}
  * sum(I)                     | {6.0}
  * theta(I-2)                 | {0.0, 1.0, 1.0}
- * 
+ * max({1,2,3})               | {2}
+ * min({1,2,3})               | {1}
+ * len({1,2,3})               | {3}
+ *
  * Inspired by RPNcalculator by Joseph Heled (BEAST1, BEAST 2 port by 
  * Denise Kuehnert).  (This parser uses ANTLR, which is cheating.)
  * 

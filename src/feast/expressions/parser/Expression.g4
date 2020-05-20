@@ -21,7 +21,7 @@ molecule :
 atom :
         '(' expression ')'                             # Bracketed
     |   '{' expression (',' expression)* '}'           # Array
-    |   op=(EXP|LOG|SQRT|SUM|THETA) '(' expression ')' # UnaryOp
+    |   op=(EXP|LOG|SQRT|SUM|THETA|MIN|MAX|LEN) '(' expression ')' # UnaryOp
     |   VARNAME  ('[' i=NNINT ']')?                    # Variable
     |   val=(NNFLOAT | NNINT)                          # Number
     ;
@@ -39,6 +39,9 @@ LOG : 'log' ;
 SQRT : 'sqrt' ;
 SUM : 'sum' ;
 THETA : 'theta' ;
+MIN : 'min' ;
+MAX : 'max' ;
+LEN : 'len' ;
 
 NNINT : '0' | NZD D* ;
 NNFLOAT : NNINT ('.' D*) ([eE] '-'? D+)? ;

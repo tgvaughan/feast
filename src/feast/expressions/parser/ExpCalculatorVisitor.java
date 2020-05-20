@@ -20,6 +20,8 @@
 package feast.expressions.parser;
 
 import beast.core.Function;
+import beast.math.statistic.DiscreteStatistics;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -154,6 +156,29 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                 res = new Double[arg.length];
                 for (int i=0; i<arg.length; i++)
                     res[i] = arg[i] < 0.0 ? 0.0 : 1.0;
+                break;
+
+            case ExpressionParser.MIN:
+                res = new Double[1];
+                res[0] = arg[0];
+                for (int i=1; i<arg.length; i++) {
+                    if (arg[i]<res[0])
+                        res[0] = arg[i];
+                }
+                break;
+
+            case ExpressionParser.MAX:
+                res = new Double[1];
+                res[0] = arg[0];
+                for (int i=1; i<arg.length; i++) {
+                    if (arg[i]>res[0])
+                        res[0] = arg[i];
+                }
+                break;
+
+            case ExpressionParser.LEN:
+                res = new Double[1];
+                res[0] = (double)arg.length;
                 break;
         }
         
