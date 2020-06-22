@@ -18,11 +18,14 @@ public class TreeLogFileState extends LogFileState {
     Tree tree;
     TaxonSet taxonSet;
 
+    TreeParser treeParser;
+
     @Override
     public void initAndValidate() {
         super.initAndValidate();
 
         tree = treeInput.get();
+        treeParser = new TreeParser();
 
         try {
             if (!inFile.readLine().trim().toLowerCase().equals("#nexus")) {
@@ -73,12 +76,11 @@ public class TreeLogFileState extends LogFileState {
         int idx = line.indexOf("=");
         String newickString = line.substring(idx+1);
 
-        Tree thisTree = new TreeParser();
-        thisTree.initByName("adjustTipHeights", false,
+        treeParser.initByName("adjustTipHeights", false,
                 "newick", newickString,
                 "taxonset", taxonSet);
 
-        tree.assignFromWithoutID(thisTree);
+        tree.assignFromWithoutID(treeParser);
 
         return currentSample;
     }
