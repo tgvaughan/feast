@@ -21,6 +21,7 @@ package feast.expressions.parser;
 
 import beast.core.Function;
 import beast.math.statistic.DiscreteStatistics;
+import org.apache.commons.math3.special.Gamma;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitNumber(ExpressionParser.NumberContext ctx) {
 
-        double num = Double.valueOf(ctx.val.getText());
+        double num = Double.parseDouble(ctx.val.getText());
         
         Double [] res = new Double[1];
         res[0] = num;
@@ -57,35 +58,92 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitVariable(ExpressionParser.VariableContext ctx) {
 
-        String paramName = ctx.VARNAME().getText();
+        String paramName = ctx.IDENT().getText();
         if (!functionsMap.containsKey(paramName))
             throw new IllegalArgumentException("Paramter/Function " + paramName
                     + " in expression was not found in list of provided"
                     + " parameters/functions.");
                 
         Function param = functionsMap.get(paramName);
-        
-        int paramIdx = -1;
-        if (ctx.i != null)
-            paramIdx = Integer.valueOf(ctx.i.getText());
-        
+
         Double [] res;
-        if (paramIdx<0) {
-            res = new Double[param.getDimension()];
-            for (int i=0; i<res.length; i++)
-                res[i] = param.getArrayValue(i);
-        } else {
-            res = new Double[1];
-            res[0] = param.getArrayValue(paramIdx);
+        res = new Double[param.getDimension()];
+        for (int i=0; i<res.length; i++)
+            res[i] = param.getArrayValue(i);
+
+        return res;
+    }
+
+    @Override
+    public Double[] visitEquality(ExpressionParser.EqualityContext ctx) {
+        Double [] left = visit(ctx.expression(0));
+        Double [] right = visit(ctx.expression(1));
+
+        Double [] res = new Double[Math.max(left.length, right.length)];
+        for (int i=0; i<res.length; i++) {
+            switch (ctx.op.getType()) {
+                case ExpressionParser.GT:
+                    res[i] = left[i%left.length] > right[i%right.length] ? 1.0 : 0.0;
+                    break;
+                case ExpressionParser.LT:
+                    res[i] = left[i%left.length] < right[i%right.length] ? 1.0 : 0.0;
+                    break;
+                case ExpressionParser.GE:
+                    res[i] = left[i%left.length] >= right[i%right.length] ? 1.0 : 0.0;
+                    break;
+                case ExpressionParser.LE:
+                    res[i] = left[i%left.length] <= right[i%right.length] ? 1.0 : 0.0;
+                    break;
+                case ExpressionParser.EQ:
+                    res[i] = left[i%left.length].equals(right[i%right.length]) ? 1.0 : 0.0;
+                    break;
+                case ExpressionParser.NE:
+                    res[i] = left[i%left.length].equals(right[i%right.length]) ? 0.0 : 1.0;
+                    break;
+            }
         }
-        
+
+        return res;
+    }
+
+    @Override
+    public Double[] visitBooleanOp(ExpressionParser.BooleanOpContext ctx) {
+        Double [] left = visit(ctx.expression(0));
+        Double [] right = visit(ctx.expression(1));
+
+        Double [] res = new Double[Math.max(left.length, right.length)];
+        for (int i=0; i<res.length; i++) {
+            switch (ctx.op.getType()) {
+                case ExpressionParser.AND:
+                    res[i] = ((left[i%left.length] > 0) && (right[i%right.length] > 0)) ? 1.0 : 0.0;
+                    break;
+                case ExpressionParser.OR:
+                    res[i] = ((left[i%left.length] > 0) || (right[i%right.length] > 0)) ? 1.0 : 0.0;
+                    break;
+            }
+        }
+
+        return res;
+    }
+
+    @Override
+    public Double[] visitIfThenElse(ExpressionParser.IfThenElseContext ctx) {
+        Double [] pred = visit(ctx.expression(0));
+        Double [] th = visit(ctx.expression(1));
+        Double [] el = visit(ctx.expression(2));
+
+        Double [] res = new Double[Math.max(Math.max(pred.length, th.length), el.length)];
+        for (int i=0; i<res.length; i++) {
+            res[i] = pred[i%pred.length] > 0.0 ? th[i%th.length] : el[i%el.length];
+        }
+
         return res;
     }
 
     @Override
     public Double[] visitMulDiv(ExpressionParser.MulDivContext ctx) {
-        Double [] left = visit(ctx.factor());
-        Double [] right = visit(ctx.molecule());
+        Double [] left = visit(ctx.expression(0));
+        Double [] right = visit(ctx.expression(1));
         
         Double [] res = new Double[Math.max(left.length, right.length)];
         for (int i=0; i<res.length; i++) {
@@ -100,8 +158,8 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
     @Override
     public Double[] visitAddSub(ExpressionParser.AddSubContext ctx) {
-        Double [] left = visit(ctx.expression());
-        Double [] right = visit(ctx.factor());
+        Double [] left = visit(ctx.expression(0));
+        Double [] right = visit(ctx.expression(1));
         
         Double [] res = new Double[Math.max(left.length, right.length)];
         for (int i=0; i<res.length; i++) {
@@ -188,7 +246,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitNegation(ExpressionParser.NegationContext ctx) {
  
-        Double [] res = visit(ctx.molecule());
+        Double [] res = visit(ctx.expression());
         for (int i=0; i<res.length; i++)
             res[i] = -res[i];
         
@@ -197,14 +255,26 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
     @Override
     public Double[] visitExponentiation(ExpressionParser.ExponentiationContext ctx) {
-        Double [] base = visit(ctx.atom());
-        Double [] power = visit(ctx.molecule());
+        Double [] base = visit(ctx.expression(0));
+        Double [] power = visit(ctx.expression(1));
         
         Double [] res = new Double[Math.max(base.length, power.length)];
         for (int i=0; i<res.length; i++) {
                 res[i] = Math.pow(base[i%base.length], power[i%power.length]);
         }
         
+        return res;
+    }
+
+    @Override
+    public Double[] visitFactorial(ExpressionParser.FactorialContext ctx) {
+        Double [] arg = visit(ctx.expression());
+
+        Double [] res = new Double[arg.length];
+        for (int i=0; i<res.length; i++) {
+            res[i] = Gamma.gamma(1+arg[i]);
+        }
+
         return res;
     }
 
@@ -217,5 +287,13 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         }
         
         return resList.toArray(new Double[resList.size()]);
+    }
+
+    @Override
+    public Double[] visitArraySubscript(ExpressionParser.ArraySubscriptContext ctx) {
+        Double [] res = new Double[1];
+        res[0] = visit(ctx.expression(0))[(int)Math.round(visit(ctx.expression(1))[0])];
+
+        return res;
     }
 }

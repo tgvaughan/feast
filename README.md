@@ -393,11 +393,15 @@ Example expressions (I and J are IDs of RealParameters with elements
     exp(I[0])                  | {2.718...}
     -log(exp(J))/(1.5+0.5*I[0])| {-2.5, -5.0}
     sqrt(J)                    | {2.236..., 3.162...}
+    J!                         | {1.0, 2.0, 6.0}
     2^I                        | {2.0, 4.0, 6.0}  
     sum(I)                     | {6.0}
     {1,2,3}^2                  | {1.0, 4.0, 9.0}
     {I,J}                      | {1.0, 2.0, 3.0, 5.0, 10.0}
     theta(I-2)                 | {0.0, 1.0, 1.0}
+    I < 3 && I >=1             | {1.0, 1.0, 0.0}
+    I < 3 ? 12 : 13            | {12.0, 12.0, 13.0}
+    {min(J), max(J), len(J)}   | {5.0, 10.0, 2.0}
 
 Note that since each ExpCalculator is a Function object itself, it can
 be used as the input for other ExpCalculators.

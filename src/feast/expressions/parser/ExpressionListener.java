@@ -8,6 +8,54 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface ExpressionListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by the {@code UnaryOp}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryOp(ExpressionParser.UnaryOpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code UnaryOp}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryOp(ExpressionParser.UnaryOpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(ExpressionParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(ExpressionParser.VariableContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Negation}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNegation(ExpressionParser.NegationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Negation}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNegation(ExpressionParser.NegationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulDiv(ExpressionParser.MulDivContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulDiv(ExpressionParser.MulDivContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code AddSub}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
@@ -20,135 +68,123 @@ public interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitAddSub(ExpressionParser.AddSubContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ELSEWHERE1}
+	 * Enter a parse tree produced by the {@code BooleanOp}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterELSEWHERE1(ExpressionParser.ELSEWHERE1Context ctx);
+	void enterBooleanOp(ExpressionParser.BooleanOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ELSEWHERE1}
+	 * Exit a parse tree produced by the {@code BooleanOp}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitELSEWHERE1(ExpressionParser.ELSEWHERE1Context ctx);
-	/**
-	 * Enter a parse tree produced by the {@code MulDiv}
-	 * labeled alternative in {@link ExpressionParser#factor}.
-	 * @param ctx the parse tree
-	 */
-	void enterMulDiv(ExpressionParser.MulDivContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code MulDiv}
-	 * labeled alternative in {@link ExpressionParser#factor}.
-	 * @param ctx the parse tree
-	 */
-	void exitMulDiv(ExpressionParser.MulDivContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ELSEWHERE2}
-	 * labeled alternative in {@link ExpressionParser#factor}.
-	 * @param ctx the parse tree
-	 */
-	void enterELSEWHERE2(ExpressionParser.ELSEWHERE2Context ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ELSEWHERE2}
-	 * labeled alternative in {@link ExpressionParser#factor}.
-	 * @param ctx the parse tree
-	 */
-	void exitELSEWHERE2(ExpressionParser.ELSEWHERE2Context ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Negation}
-	 * labeled alternative in {@link ExpressionParser#molecule}.
-	 * @param ctx the parse tree
-	 */
-	void enterNegation(ExpressionParser.NegationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Negation}
-	 * labeled alternative in {@link ExpressionParser#molecule}.
-	 * @param ctx the parse tree
-	 */
-	void exitNegation(ExpressionParser.NegationContext ctx);
+	void exitBooleanOp(ExpressionParser.BooleanOpContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Exponentiation}
-	 * labeled alternative in {@link ExpressionParser#molecule}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterExponentiation(ExpressionParser.ExponentiationContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code Exponentiation}
-	 * labeled alternative in {@link ExpressionParser#molecule}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitExponentiation(ExpressionParser.ExponentiationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ELSEWHERE3}
-	 * labeled alternative in {@link ExpressionParser#molecule}.
-	 * @param ctx the parse tree
-	 */
-	void enterELSEWHERE3(ExpressionParser.ELSEWHERE3Context ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ELSEWHERE3}
-	 * labeled alternative in {@link ExpressionParser#molecule}.
-	 * @param ctx the parse tree
-	 */
-	void exitELSEWHERE3(ExpressionParser.ELSEWHERE3Context ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Bracketed}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterBracketed(ExpressionParser.BracketedContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code Bracketed}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitBracketed(ExpressionParser.BracketedContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Array}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterArray(ExpressionParser.ArrayContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code Array}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitArray(ExpressionParser.ArrayContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code UnaryOp}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * Enter a parse tree produced by the {@code Factorial}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnaryOp(ExpressionParser.UnaryOpContext ctx);
+	void enterFactorial(ExpressionParser.FactorialContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code UnaryOp}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * Exit a parse tree produced by the {@code Factorial}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnaryOp(ExpressionParser.UnaryOpContext ctx);
+	void exitFactorial(ExpressionParser.FactorialContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Variable}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * Enter a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariable(ExpressionParser.VariableContext ctx);
+	void enterFunction(ExpressionParser.FunctionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Variable}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * Exit a parse tree produced by the {@code Function}
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariable(ExpressionParser.VariableContext ctx);
+	void exitFunction(ExpressionParser.FunctionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Number}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterNumber(ExpressionParser.NumberContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code Number}
-	 * labeled alternative in {@link ExpressionParser#atom}.
+	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitNumber(ExpressionParser.NumberContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ArraySubscript}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArraySubscript(ExpressionParser.ArraySubscriptContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ArraySubscript}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArraySubscript(ExpressionParser.ArraySubscriptContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Equality}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEquality(ExpressionParser.EqualityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Equality}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEquality(ExpressionParser.EqualityContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IfThenElse}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfThenElse(ExpressionParser.IfThenElseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IfThenElse}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfThenElse(ExpressionParser.IfThenElseContext ctx);
 }

@@ -30,3 +30,4 @@ public class ExpCalculatorDistributionTest {
         assertTrue(Math.abs(instance.calculateLogP()- (-1.0))<1e-15);
     }
 }
+

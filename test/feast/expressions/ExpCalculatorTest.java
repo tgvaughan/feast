@@ -87,5 +87,30 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(0)-0.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(1)-1.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(2)-1.0)<1e-15);
+
+        instance.initByName(
+                "value", "I>2",
+                "arg", iparam);
+        assertEquals(instance.getDimension(), 3);
+        assertTrue(Math.abs(instance.getArrayValue(0)-0.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(1)-0.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(2)-1.0)<1e-15);
+
+        instance.initByName(
+                "value", "I>=2 ? 42.0 : 53.0",
+                "arg", iparam);
+        assertEquals(instance.getDimension(), 3);
+        assertTrue(Math.abs(instance.getArrayValue(0)-53.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(1)-42.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(2)-42.0)<1e-15);
+
+        instance.initByName(
+                "value", "{min(I),max(I),len(I),{1,2}[1]}",
+                "arg", iparam);
+        assertEquals(instance.getDimension(), 4);
+        assertTrue(Math.abs(instance.getArrayValue(0)-1.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(1)-3.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(2)-3.0)<1e-15);
+        assertTrue(Math.abs(instance.getArrayValue(3)-2.0)<1e-15);
     }
 }
