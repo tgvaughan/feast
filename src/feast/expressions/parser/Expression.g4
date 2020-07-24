@@ -7,9 +7,9 @@ expression :
     |   '{' expression (',' expression)* '}'                    # Array
     |   expression '[' expression ']'                           # ArraySubscript
     |   op=(EXP|LOG|SQRT|SUM|THETA|ABS|MIN|MAX|LEN) '(' expression ')'      # UnaryOp
-    |   '-' expression                                          # Negation
     |   expression '!'                                          # Factorial
     |<assoc=right> expression '^' expression                    # Exponentiation
+    |   '-' expression                                          # Negation
     |   expression op=('*'|'/'|'%') expression                  # MulDiv
     |   expression op=('+'|'-') expression                      # AddSub
     |   expression op=('=='|'!='|'<'|'>'|'<='|'>=') expression  # Equality

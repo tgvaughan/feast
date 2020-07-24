@@ -81,13 +81,6 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFactorial(ExpressionParser.FactorialContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Function}
-	 * labeled alternative in {@link ExpressionParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunction(ExpressionParser.FunctionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Number}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree

@@ -128,18 +128,6 @@ public interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitFactorial(ExpressionParser.FactorialContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Function}
-	 * labeled alternative in {@link ExpressionParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunction(ExpressionParser.FunctionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Function}
-	 * labeled alternative in {@link ExpressionParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunction(ExpressionParser.FunctionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Number}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
