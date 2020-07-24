@@ -1,6 +1,8 @@
 package feast.fileio.logfileiterator;
 
+import beast.core.BEASTInterface;
 import beast.core.Input;
+import beast.core.StateNode;
 import beast.evolution.alignment.Taxon;
 import beast.evolution.alignment.TaxonSet;
 import beast.evolution.tree.Tree;
@@ -9,6 +11,7 @@ import beast.util.TreeParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class TreeLogFileState extends LogFileState {
 
@@ -115,4 +118,13 @@ public class TreeLogFileState extends LogFileState {
         return true;
     }
 
+    List<StateNode> stateNodes = new ArrayList<>();
+
+    @Override
+    public List<StateNode> getStateNodes() {
+        if (stateNodes.isEmpty())
+            stateNodes.add(tree);
+
+        return stateNodes;
+    }
 }

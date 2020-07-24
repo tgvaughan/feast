@@ -1,13 +1,13 @@
 package feast.fileio.logfileiterator;
 
+import beast.core.BEASTInterface;
 import beast.core.BEASTObject;
 import beast.core.Input;
+import beast.core.StateNode;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TraceLogFileState extends LogFileState {
 
@@ -72,5 +72,15 @@ public class TraceLogFileState extends LogFileState {
 
         currentSample = Integer.parseInt(values[0]);
         return currentSample;
+    }
+
+    List<StateNode> stateNodes = null;
+
+    @Override
+    public List<StateNode> getStateNodes() {
+        if (stateNodes == null)
+            stateNodes = logFileEntries.stream().map(e -> e.fieldParameter).collect(Collectors.toList());
+
+        return stateNodes;
     }
 }

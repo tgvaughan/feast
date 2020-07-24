@@ -1,11 +1,15 @@
 package feast.fileio.logfileiterator;
 
+import beast.core.BEASTInterface;
 import beast.core.BEASTObject;
 import beast.core.Input;
+import beast.core.StateNode;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.List;
+import java.util.Set;
 
 public abstract class LogFileState extends BEASTObject {
     public Input<String> logFileNameInput = new Input<>("logFileName", "Name of log file",
@@ -38,4 +42,7 @@ public abstract class LogFileState extends BEASTObject {
     }
 
     public abstract int updateToNextEntry();
+
+    public abstract List<StateNode> getStateNodes();
+
 }

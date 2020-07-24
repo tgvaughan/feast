@@ -1,12 +1,13 @@
 package feast.fileio.logfileiterator;
 
-import beast.core.Input;
-import beast.core.Logger;
+import beast.core.*;
 import beast.core.Runnable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LogFileIterator extends Runnable {
 
@@ -21,21 +22,51 @@ public class LogFileIterator extends Runnable {
     List<LogFileState> logFileStates;
     List<Logger> loggers;
 
+    Set<BEASTInterface> updatedObjects = new HashSet<>();
+
     @Override
     public void initAndValidate() {
         logFileStates = logFileStateInput.get();
         loggers = loggersInput.get();
-
     }
 
     @Override
     public void run() {
+
+        buildState();
 
         outputLogsStart();
 
         iterate();
 
         outputLogsStop();
+    }
+
+    /**
+     * Build state
+     */
+
+    State state = new State();
+    DummyPosterior dummyPosterior = new DummyPosterior();
+
+    public void buildState() {
+
+        for (LogFileState logFileState : logFileStates) {
+            for (StateNode stateNode : logFileState.getStateNodes())
+                state.setInputValue("stateNode", stateNode);
+        }
+
+        state.initAndValidate();
+        state.initialise();
+
+        for (Logger logger : loggersInput.get()) {
+            for (BEASTObject loggable : logger.loggersInput.get()) {
+                dummyPosterior.inputs.setValue(loggable, dummyPosterior);
+            }
+        }
+        dummyPosterior.initAndValidate();
+
+        state.setPosterior(dummyPosterior);
     }
 
     /**
@@ -93,13 +124,15 @@ public class LogFileIterator extends Runnable {
                 }
             }
 
+            // Update log file parameter outputs
+            state.robustlyCalcPosterior(dummyPosterior);
+
             // Generate output log files for this state
 
             for (Logger logger : loggers) {
                 logger.log(nextSample);
             }
-
         }
-
     }
+
 }
