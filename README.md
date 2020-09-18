@@ -2,7 +2,13 @@ feast:  Bite-sized additions to BEAST 2
 =======================================
 
 This is a small [BEAST 2](http://www.beast2.org) package which
-contains some additions to the core functionality.
+contains additions to the core functionality.  The common thread
+which connects these additions is that they all work to increase
+the flexibility of BEAST and to empower users to set up a broader
+range of analyses without needing to write additional Java code.
+
+That is, you won't find new models here, but you will find different
+ways to combine existing models and make certain tasks easier.
 
 [![Build Status](https://travis-ci.org/tgvaughan/feast.svg?branch=master)](https://travis-ci.org/tgvaughan/feast)
 
@@ -15,13 +21,17 @@ the following URL `http://tgvaughan.github.io/feast/package.xml` to
 the list of package repositories and selecting feast from the package
 list.
 
-More recent releases are also made available as archives containing
-only the necessary jar files and the associated javadocs. These are
+More recent releases are also available as archives containing
+the necessary jar files and the associated javadocs. These are
 for the use of BEAST 2 package developers who want to use some of the
 classes but don't want to add a full package dependency.  These
 archives have the form `*-jarsOnly.zip` and are also found at
 https://github.com/tgvaughan/feast/releases.
 
+*WARNING:* Due to a known limitation of the packaging
+ system, BEAST can only load one copy of feast at a time.  Including
+ feast as a library dependency can cause your package to become
+ incompatible with packages which include another version of feast.  
 
 Building from source
 --------------------
@@ -32,6 +42,34 @@ The package will be left in the `dist/` directory.
 
 Features
 ========
+
+Compound coalescent population functions
+----------------------------------------
+
+BEAST 2 includes several commonly-used coalescent population models such
+as a constant population function and an exponential growth function.
+To add other population functions required writing a new Java class.
+The `CompoundPopulationModel` class lifts this restriction.
+
+This class allows you to combine existing population functions (i.e.
+objects which implement the `PopulationFunction` interface) in a piecewise
+manner to construct arbitrarily complicated compound models.
+
+For example, here is a piecewise-constant population function created
+by joining together three `ConstantPopulation` models:
+```xml
+<populationModel spec="CompoundPopulationModel">
+    <popModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></popModel>
+    <popModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></popModel>
+    <popModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></popModel>
+    <changeTimes spec="RealParameter" value="1.0 3.0"/>
+</populationModel>
+```
+The `changeTimes` input specifies the times of the transitions between
+models, and thus must have one less element than the number of constituent models.
+
+The file `piecewiseCoalescent.xml` illustrates how this can be used in a
+simple coalescent analysis.
 
 Log File Post-processing
 ------------------------
