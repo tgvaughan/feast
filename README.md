@@ -7,7 +7,7 @@ which connects these additions is that they all work to increase
 the flexibility of BEAST and to empower users to set up a broader
 range of analyses without needing to write additional Java code.
 
-That is, you won't find new models here, but you will find different
+You won't find new models here, but you will find different
 ways to combine existing models and make certain tasks easier.
 
 [![Build Status](https://travis-ci.org/tgvaughan/feast.svg?branch=master)](https://travis-ci.org/tgvaughan/feast)
