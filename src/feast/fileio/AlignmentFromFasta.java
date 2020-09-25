@@ -37,6 +37,10 @@ public class AlignmentFromFasta extends Alignment {
     public Input<String> outFileNameInput = new Input<>("xmlFileName",
             "Name of file to write XML fragment to.");
 
+    public Input<String> endsWithInput = new Input<>(
+            "endsWith", "If provided, include only those sequences whose header " +
+            "strings end with the provided substring.");
+
     public AlignmentFromFasta() { }
 
     @Override
@@ -59,7 +63,8 @@ public class AlignmentFromFasta extends Alignment {
                 line = line.trim();
                 if (line.startsWith(">")) {
                     if (header != null) {
-                        sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
+                        if (endsWithInput.get() == null || header.endsWith(endsWithInput.get()))
+                            sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
                         seqBuilder = new StringBuilder();
                     }
                     header = line.substring(1).trim();
@@ -72,7 +77,8 @@ public class AlignmentFromFasta extends Alignment {
                     + fileNameInput.get() + "'.");
         }
 
-        sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
+        if (endsWithInput.get() == null || header.endsWith(endsWithInput.get()))
+            sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
 
         super.initAndValidate();
 
