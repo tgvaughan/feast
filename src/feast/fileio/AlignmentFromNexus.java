@@ -17,27 +17,21 @@
 
 package feast.fileio;
 
-import beast.core.Input;
-import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
 import beast.util.NexusParser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 
 /**
+ * Reads in an alignment from a NEXUS file.
  *
  * @author Tim Vaughan
  */
-public class AlignmentFromNexus extends Alignment {
+public class AlignmentFromNexus extends AlignmentFromFile {
     
-    public Input<String> fileNameInput = new Input<>("fileName", "Name of file "
-            + "containing sequence alignment in Nexus format.", Input.Validate.REQUIRED);
-    
-    public Input<String> outFileNameInput = new Input<>("xmlOutputFileName",
-            "Name of file to write XML fragment to.");
-
     public AlignmentFromNexus() { }
 
     @Override
@@ -54,7 +48,7 @@ public class AlignmentFromNexus extends Alignment {
                     + " file '" + fileNameInput.get() + "'");
         
         for (Sequence seq : parser.m_alignment.sequenceInput.get())
-            sequenceInput.setValue(seq, this);
+            addSequence(seq);
         
         super.initAndValidate();
         

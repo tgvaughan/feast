@@ -40,4 +40,17 @@ public class AlignmentFromNexusTest {
         assertEquals(20, alignment.getSiteCount());
         assertEquals(13, alignment.getPatternCount());
     }
+
+    @Test
+    public void testFiltered() throws Exception {
+
+        AlignmentFromNexus alignment = new AlignmentFromNexus();
+        alignment.initByName(
+                "fileName", "test/feast/fileio/test_alignment.nexus",
+                "endsWith", "e");
+
+        assertEquals(2, alignment.getTaxonCount());
+        assertEquals(20, alignment.getSiteCount());
+        assertEquals(7, alignment.getPatternCount());
+    }
 }

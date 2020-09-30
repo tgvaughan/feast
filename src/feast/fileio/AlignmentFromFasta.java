@@ -17,8 +17,6 @@
 
 package feast.fileio;
 
-import beast.core.Input;
-import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
 
 import java.io.*;
@@ -29,17 +27,7 @@ import java.io.*;
  *
  * @author Tim Vaughan
  */
-public class AlignmentFromFasta extends Alignment {
-
-    public Input<String> fileNameInput = new Input<>("fileName", "Name of file "
-            + "containing sequence alignment in fasta format.", Input.Validate.REQUIRED);
-
-    public Input<String> outFileNameInput = new Input<>("xmlFileName",
-            "Name of file to write XML fragment to.");
-
-    public Input<String> endsWithInput = new Input<>(
-            "endsWith", "If provided, include only those sequences whose header " +
-            "strings end with the provided substring.");
+public class AlignmentFromFasta extends AlignmentFromFile {
 
     public AlignmentFromFasta() { }
 
@@ -63,8 +51,7 @@ public class AlignmentFromFasta extends Alignment {
                 line = line.trim();
                 if (line.startsWith(">")) {
                     if (header != null) {
-                        if (endsWithInput.get() == null || header.endsWith(endsWithInput.get()))
-                            sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
+                        addSequence(new Sequence(header, seqBuilder.toString()));
                         seqBuilder = new StringBuilder();
                     }
                     header = line.substring(1).trim();
