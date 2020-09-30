@@ -31,7 +31,7 @@ https://github.com/tgvaughan/feast/releases.
 *WARNING:* Due to a known limitation of the packaging
  system, BEAST can only load one copy of feast at a time.  Including
  feast as a library dependency can cause your package to become
- incompatible with packages which include another version of feast.  
+ incompatible with packages which include another version of feast.
 
 Building from source
 --------------------
@@ -42,6 +42,76 @@ The package will be left in the `dist/` directory.
 
 Features
 ========
+
+The rest of this README is an asymptotically complete list of the features feast
+provides, in reverse chronological order of the date each was added.
+
+A quick note of apology: I know this is becoming difficult to read.  This
+organization vaguely made sense at the inception of feast, when there were very
+few unrelated features, but makes less sense now that it contains increasingly
+many that fall into distinct groups. This is a known problem, and I plan to
+"one day" reorganise things.
+
+Initialize RealParameters from CSV/TSV files
+--------------------------------------------
+
+When setting up complicated analyses, it can be useful to extract some
+(fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
+The `RealParameterFromXSV` and `RealParameterFromLabelledXSV` classes can be
+used to do this.
+
+`RealParameterFromXSV` simply initializes the parameter with values read
+(in row-major order) from a rectangular portion of the table in the specified
+file. For instance,
+```xml
+<migrationRates spec="feast.fileio.RealParameterFromXSV"
+                fileName="migration_rates.csv"
+                sep=","
+                startRow="1" rowCount="3"
+                startCol="1" colCount="3"/>
+```
+could be used to initialize a 3x3 matrix of migration rates in some analysis
+using elements in a CSV file.  The inputs `startRow` and `startCol` both
+default to "0", while leaving either `rowCount` and `colCount` undefined
+will cause values to be taken up until the end of the corresponding row
+or column.
+
+`RealParameterFromLabelledXSV` works simillarly, but assumes that the either
+or both of the first row or column contain labels, and allows these labels
+to be used to specify elements. For example,
+```xml
+<samplingProportions spec="feast.fileio.RealParameterFromLabelledXSV"
+    fileName="sampling.tsv"
+    colLabels="sampling"
+    rowLabels="early_cretaceous, late_cretaceous, jurassic"/>
+```
+could be used to set sampling rates for geological epochs from some
+external data file.  If `rowLabels` is omitted, the entire column
+will be read.  Similarly, if `colLabels` is omitted, the entire row
+is read.
+
+`RealParameter`
+
+Initialize RealParameters from Functions
+----------------------------------------
+
+The `RealParameterFromFunction` class provides a `RealParameter` which is
+**initialized** from a `Function`.  Thus you can do things like
+
+```xml
+<samplingRateChangeTimes spec="RealParameterFromFunction">
+    <function spec="ExpCalculator" value="{0,max(taxonTimes)+0.1}">
+        <arg id="taxonTimes" spec="TraitSetAsFunction" traitSet="@dateTrait"/>
+    </function>
+</samplingRateChangeTimes>
+```
+
+which initializes a BDSKY sampling rate change time array so that the change
+automatically falls just before the oldest sample.
+
+Beware that `RealParameterFromFunction` only retrieves the `Function` values
+during initialization. **Changes in the `Function` values after initialization
+will not be reflected in the parameter!**
 
 Compound coalescent population functions
 ----------------------------------------
