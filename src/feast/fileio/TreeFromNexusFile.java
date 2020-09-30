@@ -3,6 +3,7 @@ package feast.fileio;
 import beast.core.Description;
 import beast.core.Input;
 import beast.util.TreeParser;
+import feast.nexus.BasicNexusParser;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

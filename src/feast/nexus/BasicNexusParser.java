@@ -1,4 +1,4 @@
-package feast.fileio;
+package feast.nexus;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,20 +8,20 @@ public class BasicNexusParser {
 
     BufferedReader fileReader;
 
-    class NexusCommand {
-        String name, args;
+    public class NexusCommand {
+        public String name, args;
 
-        NexusCommand(String name, String args) {
+        public NexusCommand(String name, String args) {
             this.name = name;
             this.args = args;
         }
     }
 
-    class NexusBlock {
-        String blockType;
-        List<NexusCommand> commands;
+    public class NexusBlock {
+        public String blockType;
+        public List<NexusCommand> commands;
 
-        NexusBlock(String blockType, List<NexusCommand> commands) {
+        public NexusBlock(String blockType, List<NexusCommand> commands) {
             this.blockType = blockType.toLowerCase();
             this.commands = commands;
         }
