@@ -90,8 +90,6 @@ external data file.  If `rowLabels` is omitted, the entire column
 will be read.  Similarly, if `colLabels` is omitted, the entire row
 is read.
 
-`RealParameter`
-
 Initialize RealParameters from Functions
 ----------------------------------------
 
