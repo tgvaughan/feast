@@ -1,23 +1,36 @@
 package feast.fileio;
 
+import beast.core.Description;
 import beast.core.Input;
 import beast.core.parameter.RealParameter;
 
 import java.io.*;
 
+@Description("Initializes a RealParameter with values read from a CSV/TSV file " +
+        "in row-major order.")
 public class RealParameterFromXSV extends RealParameter {
 
     public Input<String> fileNameInput = new Input<>("fileName", "Name of CSV/TSV file to extract values from.",
             Input.Validate.REQUIRED);
 
-    public Input<Integer> rowInput = new Input<>("row", "Index of CSV/TSV file row to extract.");
-
     public Input<String> sepInput = new Input<>("sep",
             "Separator for CSV/TSV file.  Default is TAB.","\t");
 
-    public Input<Integer> startColInput = new Input<>("startCol",
-            "First column to include in the parameter.",
+    public Input<Integer> startRowInput = new Input<>("startRow",
+            "First row to include in the parameter. (Default 0.)",
             0);
+
+    public Input<Integer> rowCountInput = new Input<>("rowCount",
+            "Maximum number of rows to include. (Default all.)",
+            Integer.MAX_VALUE);
+
+    public Input<Integer> startColInput = new Input<>("startCol",
+            "First column to include in the parameter. (Default 0.)",
+            0);
+
+    public Input<Integer> colCountInput = new Input<>("colCount",
+            "Maximum number of columns to include. (Default all.)",
+            Integer.MAX_VALUE);
 
     public RealParameterFromXSV() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
@@ -26,31 +39,39 @@ public class RealParameterFromXSV extends RealParameter {
     @Override
     public void initAndValidate() {
 
-        int thisRow = 0;
-
         try (BufferedReader is = new BufferedReader(new FileReader(fileNameInput.get()))) {
-
-            String thisLine;
-            while ((thisLine = is.readLine()) != null) {
-                if (thisRow == rowInput.get()) {
-
-                    int col=0;
-                    for (String field : thisLine.split(sepInput.get())) {
-                        if (col >= startColInput.get())
-                            valuesInput.setValue(Double.valueOf(field), this);
-
-                        col ++;
-                    }
-
-                    break;
-                }
-                thisRow += 1;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            readRowMajor(is);
+        } catch(IOException ex) {
+            throw new IllegalArgumentException("Error reading from file " + fileNameInput.get());
         }
 
         super.initAndValidate();
+    }
+    
+    void readRowMajor(BufferedReader is) throws IOException {
+        int thisRow = 0;
+        String thisLine;
+
+        while ((thisLine = is.readLine()) != null) {
+            if (thisRow >= startRowInput.get()) {
+
+                if (thisRow - startRowInput.get() + 1 > rowCountInput.get())
+                    break;
+
+                int col=0;
+                for (String field : thisLine.split(sepInput.get())) {
+                    if (col >= startColInput.get()) {
+
+                        if (col - startColInput.get() + 1 > colCountInput.get())
+                            break;
+
+                            valuesInput.setValue(Double.valueOf(field), this);
+                    }
+
+                    col ++;
+                }
+            }
+            thisRow += 1;
+        }
     }
 }
