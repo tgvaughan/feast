@@ -5,6 +5,7 @@ import beast.core.Input;
 import beast.core.StateNode;
 import beast.evolution.alignment.Taxon;
 import beast.evolution.alignment.TaxonSet;
+import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.util.TreeParser;
 
@@ -21,14 +22,11 @@ public class TreeLogFileState extends LogFileState {
     Tree tree;
     TaxonSet taxonSet;
 
-    TreeParser treeParser;
-
     @Override
     public void initAndValidate() {
         super.initAndValidate();
 
         tree = treeInput.get();
-        treeParser = new TreeParser();
 
         try {
             if (!inFile.readLine().trim().toLowerCase().equals("#nexus")) {
@@ -56,8 +54,8 @@ public class TreeLogFileState extends LogFileState {
         // Convert translate command into TaxonSet
         List<Taxon> taxonList = new ArrayList<>();
         for (String pairStr : line.substring("translate ".length()).split(",")) {
-            String[] pair = pairStr.split("\\s+");
-            taxonList.add(new Taxon(pair[0]));
+            String[] pair = pairStr.trim().split("\\s+");
+            taxonList.add(new Taxon(pair[1]));
         }
 
         taxonSet = new TaxonSet(taxonList);
@@ -79,9 +77,17 @@ public class TreeLogFileState extends LogFileState {
         int idx = line.indexOf("=");
         String newickString = line.substring(idx+1);
 
+        TreeParser treeParser = new TreeParser();
         treeParser.initByName("adjustTipHeights", false,
+                "IsLabelledNewick", false,
                 "newick", newickString,
                 "taxonset", taxonSet);
+
+        // Apply taxon labels to nodes.
+        // Not sure why this doesn't happen in TreeParser.
+        if (taxonSet != null)
+            for (Node node : treeParser.getExternalNodes())
+                node.setID(taxonSet.getTaxonId(node.getNr()));
 
         tree.assignFromWithoutID(treeParser);
 
