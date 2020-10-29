@@ -13,12 +13,12 @@
         <distribution spec="ExpCalculatorDistribution" id="target"
                       value="exp(-R^2/2)">
 
-            <parameter id="R" spec='ExpCalculator'
+            <arg id="R" spec='ExpCalculator'
                        value="sqrt((x-20)^2+(y-50)^2)">
 
                 <arg idref="x"/>
                 <arg idref="y"/>
-            </parameter>
+            </arg>
         </distribution>
 
         <operator id='scalerx' spec='ScaleOperator' scaleFactor="0.5" weight="1">
