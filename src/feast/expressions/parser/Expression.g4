@@ -6,7 +6,8 @@ expression :
         '(' expression ')'                                      # Bracketed
     |   '{' expression (',' expression)* '}'                    # Array
     |   expression '[' expression ']'                           # ArraySubscript
-    |   op=(EXP|LOG|SQRT|SUM|THETA|ABS|MIN|MAX|LEN) '(' expression ')'      # UnaryOp
+    |   expression ':' expression                               # Sequence
+    |   op=(EXP|LOG|SQRT|SUM|THETA|ABS|MIN|MAX|LEN|REP) '(' expression ')'      # UnaryOp
     |   expression '!'                                          # Factorial
     |<assoc=right> expression '^' expression                    # Exponentiation
     |   '-' expression                                          # Negation
@@ -37,6 +38,7 @@ ABS : 'abs' ;
 MIN : 'min' ;
 MAX : 'max' ;
 LEN : 'len' ;
+REP : 'rep' ;
 
 AND : '&&' ;
 OR : '||' ;

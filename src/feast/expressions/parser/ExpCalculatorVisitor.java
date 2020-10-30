@@ -297,8 +297,28 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
     @Override
     public Double[] visitArraySubscript(ExpressionParser.ArraySubscriptContext ctx) {
-        Double [] res = new Double[1];
-        res[0] = visit(ctx.expression(0))[(int)Math.round(visit(ctx.expression(1))[0])];
+        Double [] array = visit(ctx.expression(0));
+        Double [] indices = visit(ctx.expression(1));
+        Double [] res = new Double[indices.length];
+
+        for (int i=0; i<indices.length; i++)
+            res[i] = array[(int)Math.round(indices[i]) % array.length];
+
+        return res;
+    }
+
+    @Override
+    public Double[] visitSequence(ExpressionParser.SequenceContext ctx) {
+
+        int start = (int)Math.round(visit(ctx.expression(0))[0]);
+        int stop = (int)Math.round(visit(ctx.expression(1))[0]);
+
+        Double[] res = new Double[Math.abs(stop - start) + 1];
+
+        double delta = stop > start ? 1.0 : -1.0;
+
+        for (int i=0; i<res.length; i++)
+            res[i] = start + i*delta;
 
         return res;
     }

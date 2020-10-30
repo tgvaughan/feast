@@ -53,6 +53,13 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBooleanOp(ExpressionParser.BooleanOpContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Sequence}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSequence(ExpressionParser.SequenceContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Exponentiation}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree

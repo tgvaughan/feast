@@ -113,4 +113,45 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(2)-3.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(3)-2.0)<1e-15);
     }
+
+    @Test
+    public void testIndexing() {
+
+        ExpCalculator instance = new ExpCalculator();
+        instance.initByName("value", "0[1:5]");
+
+        assertEquals(instance.getDimension(), 5);
+        assertEquals(0.0, instance.getArrayValue(0), 1e-15);
+        assertEquals(0.0, instance.getArrayValue(1), 1e-15);
+        assertEquals(0.0, instance.getArrayValue(2), 1e-15);
+        assertEquals(0.0, instance.getArrayValue(3), 1e-15);
+        assertEquals(0.0, instance.getArrayValue(4), 1e-15);
+
+        instance.initByName("value", "1:5");
+
+        assertEquals(instance.getDimension(), 5);
+        assertEquals(1.0, instance.getArrayValue(0), 1e-15);
+        assertEquals(2.0, instance.getArrayValue(1), 1e-15);
+        assertEquals(3.0, instance.getArrayValue(2), 1e-15);
+        assertEquals(4.0, instance.getArrayValue(3), 1e-15);
+        assertEquals(5.0, instance.getArrayValue(4), 1e-15);
+
+        instance.initByName("value", "5:1");
+
+        assertEquals(instance.getDimension(), 5);
+        assertEquals(5.0, instance.getArrayValue(0), 1e-15);
+        assertEquals(4.0, instance.getArrayValue(1), 1e-15);
+        assertEquals(3.0, instance.getArrayValue(2), 1e-15);
+        assertEquals(2.0, instance.getArrayValue(3), 1e-15);
+        assertEquals(1.0, instance.getArrayValue(4), 1e-15);
+
+        instance.initByName("value", "(11:15)[4:2]");
+
+        assertEquals(instance.getDimension(), 3);
+        assertEquals(15.0, instance.getArrayValue(0), 1e-15);
+        assertEquals(14.0, instance.getArrayValue(1), 1e-15);
+        assertEquals(13.0, instance.getArrayValue(2), 1e-15);
+
+        instance.log(0L, System.out);
+    }
 }

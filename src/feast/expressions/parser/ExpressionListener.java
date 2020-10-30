@@ -80,6 +80,18 @@ public interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitBooleanOp(ExpressionParser.BooleanOpContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Sequence}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSequence(ExpressionParser.SequenceContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Sequence}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSequence(ExpressionParser.SequenceContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Exponentiation}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree

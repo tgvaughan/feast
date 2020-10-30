@@ -19,14 +19,20 @@ public class TreeLogFileState extends LogFileState {
     public Input<Tree> treeInput = new Input<>("tree",
             "Tree to read log file state into.", Input.Validate.REQUIRED);
 
+    public Input<Boolean> readTaxonSetInput = new Input<>("readTaxonSet",
+            "Read taxon set from tree file and assign to each tree.",
+            true);
+
     Tree tree;
     TaxonSet taxonSet;
+    boolean readTaxonSet;
 
     @Override
     public void initAndValidate() {
         super.initAndValidate();
 
         tree = treeInput.get();
+        readTaxonSet = readTaxonSetInput.get();
 
         try {
             if (!inFile.readLine().trim().toLowerCase().equals("#nexus")) {
@@ -78,14 +84,21 @@ public class TreeLogFileState extends LogFileState {
         String newickString = line.substring(idx+1);
 
         TreeParser treeParser = new TreeParser();
-        treeParser.initByName("adjustTipHeights", false,
-                "IsLabelledNewick", false,
-                "newick", newickString,
-                "taxonset", taxonSet);
+        if (readTaxonSet) {
+            treeParser.initByName("adjustTipHeights", false,
+                    "IsLabelledNewick", false,
+                    "newick", newickString,
+                    "taxonset", taxonSet);
+        } else {
+            treeParser.initByName("adjustTipHeights", false,
+                    "IsLabelledNewick", false,
+                    "newick", newickString,
+                    "taxonset", null);
+        }
 
         // Apply taxon labels to nodes.
         // Not sure why this doesn't happen in TreeParser.
-        if (taxonSet != null)
+        if (readTaxonSet && taxonSet != null)
             for (Node node : treeParser.getExternalNodes())
                 node.setID(taxonSet.getTaxonId(node.getNr()));
 
