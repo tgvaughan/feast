@@ -19,6 +19,6 @@ public class TreeLogFileStateTest {
         assertTrue(result);
         assertEquals("2600", m.group(1));
         assertEquals("[&R]", m.group(2));
-        assertEquals("((A,B),C);", m.group(3));
+        assertEquals("((A,B),C); ", m.group(3));
     }
 }

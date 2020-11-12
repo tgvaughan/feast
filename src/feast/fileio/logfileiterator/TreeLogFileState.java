@@ -68,7 +68,7 @@ public class TreeLogFileState extends LogFileState {
     }
 
     final static Pattern logLinePattern = Pattern.compile(
-            "^tree\\s+STATE_(\\d+)\\s*=\\s*(\\[&[^]]*])?\\s*(.*;)\\s*$");
+            "^tree\\s+STATE_(\\d+)\\s*=\\s*(\\[&[^]]*])?\\s*(.*)$");
 
     @Override
     public int updateToNextEntry() {
