@@ -1,6 +1,5 @@
 package feast.fileio.logfileiterator;
 
-import beast.core.BEASTInterface;
 import beast.core.Input;
 import beast.core.StateNode;
 import beast.evolution.alignment.Taxon;
@@ -12,7 +11,8 @@ import beast.util.TreeParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TreeLogFileState extends LogFileState {
 
@@ -67,6 +67,9 @@ public class TreeLogFileState extends LogFileState {
         taxonSet = new TaxonSet(taxonList);
     }
 
+    final static Pattern logLinePattern = Pattern.compile(
+            "^tree\\s+STATE_(\\d+)\\s*=\\s*(\\[&[^]]*])?\\s*(.*;)\\s*$");
+
     @Override
     public int updateToNextEntry() {
 
@@ -77,11 +80,12 @@ public class TreeLogFileState extends LogFileState {
             return currentSample;
         }
 
-        line = line.substring("tree state_".length()).trim();
-        currentSample = Integer.parseInt(line.split(" ")[0]);
+        Matcher m = logLinePattern.matcher(line);
+        if (!m.find())
+            throw new IllegalStateException("Error parsing tree log file line:\n" + line);
 
-        int idx = line.indexOf("=");
-        String newickString = line.substring(idx+1);
+        currentSample = Integer.parseInt(m.group(1));
+        String newickString = m.group(3);
 
         TreeParser treeParser = new TreeParser();
         if (readTaxonSet) {
