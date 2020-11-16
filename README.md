@@ -16,29 +16,16 @@ ways to combine existing models and make certain tasks easier.
 Installation
 ------------
 
-You can install directly from within BEAUti by adding
-the following URL `http://tgvaughan.github.io/feast/package.xml` to
-the list of package repositories and selecting feast from the package
-list.
-
-More recent releases are also available as archives containing
-the necessary jar files and the associated javadocs. These are
-for the use of BEAST 2 package developers who want to use some of the
-classes but don't want to add a full package dependency.  These
-archives have the form `*-jarsOnly.zip` and are also found at
-https://github.com/tgvaughan/feast/releases.
-
-*WARNING:* Due to a known limitation of the packaging
- system, BEAST can only load one copy of feast at a time.  Including
- feast as a library dependency can cause your package to become
- incompatible with packages which include another version of feast.
+You can install directly from within BEAUti by opening the package
+manager via File->"Manage packages", selecting "feast" and clicking
+the "Install/Upgrade" button.
 
 Building from source
 --------------------
 
 The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
-The package will be left in the `dist/` directory.
+The package archive will be left in the `dist/` directory.
 
 Features
 ========
