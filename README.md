@@ -1,5 +1,5 @@
-feast:  Bite-sized additions to BEAST 2
-=======================================
+feast:  Tasty additions to BEAST 2
+==================================
 
 This is a small [BEAST 2](http://www.beast2.org) package which
 contains additions to the core functionality.  The common thread
