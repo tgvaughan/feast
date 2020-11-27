@@ -10,7 +10,7 @@ range of analyses without needing to write additional Java code.
 You won't find new models here, but you will find different
 ways to combine existing models and make certain tasks easier.
 
-![Build Status](https://github.com/tgvaughan/feast/workflows/Unit%2Fintegration%20tests/badge.svg)
+[![Build Status](https://github.com/tgvaughan/feast/workflows/Unit%2Fintegration%20tests/badge.svg)](https://github.com/tgvaughan/feast/actions?query=workflow%3A%22Unit%2Fintegration+tests%22)
 
 
 Installation
