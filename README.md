@@ -260,8 +260,10 @@ substitution model:
 </alignment>
 ```
 
-Currently, only strict clocks are supported (i.e. there is no branchRateModel
-input).
+The class supports the same inputs as `Alignment` and `beast.app.seqgen.SimulatedAlignment`,
+with the exception that the `data` input should be omitted - it will cause
+strange errors if you include it.  Also, only strict clocks are currently
+supported, so there is no `branchRateModel` input.
 
 Easy state simulation
 ---------------------
