@@ -238,6 +238,29 @@ the time is assumed to have already been converted to fractional years, so
 the only action taken by TimeParameter is to subtract this value from
 `mostRecentSampleTime`.
 
+Sequence alignment simulation
+-----------------------------
+
+While BEAST contains its own alignment simulator in `beast.app.seqgen.SimulatedAlignment`,
+this can be awkward to use as it requires pre-specifying the taxa to associate
+with the simulated alignment.
+
+The `feast.simulation.SimulatedAlignment` class is a simpler alignment simulator
+which lifts this requirement.  For example, the following will initialize
+an alignment by simulating sequences down the input tree using a Jukes-Cantor
+substitution model:
+
+```xml
+<alignment spec="feast.simulation.SimulatedAlignment"
+           outputFileName="simulated_alignment.nexus"
+           tree="@tree" sequenceLength="1000">
+    <siteModel spec="SiteModel">
+        <substModel spec="JukesCantor"/>
+    </siteModel>
+</alignment>
+```
+
+Currently, only strict clocks are supported (i.e. there is not branchModel input).
 
 Easy state simulation
 ---------------------
