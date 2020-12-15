@@ -260,7 +260,8 @@ substitution model:
 </alignment>
 ```
 
-Currently, only strict clocks are supported (i.e. there is not branchModel input).
+Currently, only strict clocks are supported (i.e. there is no branchRateModel
+input).
 
 Easy state simulation
 ---------------------
