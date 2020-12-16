@@ -83,6 +83,8 @@ public class SimulatedAlignment extends Alignment {
         siteModel = siteModelInput.get();
         seqLength = sequenceLengthInput.get();
 
+        siteModel.getSubstitutionModel().getStateCount();
+
         sequences.clear();
 
         grabDataType();
@@ -114,7 +116,7 @@ public class SimulatedAlignment extends Alignment {
         double[] categoryProbs = siteModel.getCategoryProportions(tree.getRoot());
 
         int nCategories = siteModel.getCategoryCount();
-        int nStates = dataType.getStateCount();
+        int nStates = siteModel.getSubstitutionModel().getStateCount();
         double[][] transitionProbs = new double[nCategories][nStates*nStates];
 
         int[][] alignment = new int[nTaxa][seqLength];
