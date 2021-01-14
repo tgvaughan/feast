@@ -37,6 +37,12 @@ public class AlignmentFromNexus extends AlignmentFromFile {
     @Override
     public void initAndValidate() {
 
+        // Guard against double-initialization
+        if (!sequenceInput.get().isEmpty()) {
+            super.initAndValidate();
+            return;
+        }
+
         NexusParser parser = new NexusParser();
         try {
             parser.parseFile(new File(fileNameInput.get()));

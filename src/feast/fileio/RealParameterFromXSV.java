@@ -39,10 +39,12 @@ public class RealParameterFromXSV extends RealParameter {
     @Override
     public void initAndValidate() {
 
-        try (BufferedReader is = new BufferedReader(new FileReader(fileNameInput.get()))) {
-            readRowMajor(is);
-        } catch(IOException ex) {
-            throw new IllegalArgumentException("Error reading from file " + fileNameInput.get());
+        if (valuesInput.get().isEmpty()) { // Guard against double-initialization
+            try (BufferedReader is = new BufferedReader(new FileReader(fileNameInput.get()))) {
+                readRowMajor(is);
+            } catch (IOException ex) {
+                throw new IllegalArgumentException("Error reading from file " + fileNameInput.get());
+            }
         }
 
         super.initAndValidate();

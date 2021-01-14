@@ -34,6 +34,12 @@ public class AlignmentFromFasta extends AlignmentFromFile {
     @Override
     public void initAndValidate() {
 
+        // Guard against double-initialization
+        if (!sequenceInput.get().isEmpty()) {
+            super.initAndValidate();
+            return;
+        }
+
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(fileNameInput.get()));
@@ -64,8 +70,7 @@ public class AlignmentFromFasta extends AlignmentFromFile {
                     + fileNameInput.get() + "'.");
         }
 
-        if (endsWithInput.get() == null || header.endsWith(endsWithInput.get()))
-            sequenceInput.setValue(new Sequence(header, seqBuilder.toString()), this);
+        addSequence(new Sequence(header, seqBuilder.toString()));
 
         super.initAndValidate();
 

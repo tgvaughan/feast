@@ -37,18 +37,20 @@ public class RealParameterFromLabelledXSV extends RealParameter {
     @Override
     public void initAndValidate() {
 
-        if (rowLabelsInput.get() != null)
-            rowLabels = Arrays.asList(rowLabelsInput.get().trim().split("\\s*,\\s*"));
+        if (valuesInput.get().isEmpty()) { // Guard against double-initialization
+            if (rowLabelsInput.get() != null)
+                rowLabels = Arrays.asList(rowLabelsInput.get().trim().split("\\s*,\\s*"));
 
-        if (colLabelsInput.get() != null)
-            colLabels = Arrays.asList(colLabelsInput.get().trim().split("\\s*,\\s*"));
+            if (colLabelsInput.get() != null)
+                colLabels = Arrays.asList(colLabelsInput.get().trim().split("\\s*,\\s*"));
 
-        sep = "\\s*" + sepInput.get() + "\\s*";
+            sep = "\\s*" + sepInput.get() + "\\s*";
 
-        try (BufferedReader is = new BufferedReader(new FileReader(fileNameInput.get()))) {
-            readRowMajor(is);
-        } catch(IOException ex) {
-            throw new IllegalArgumentException("Error reading from file " + fileNameInput.get());
+            try (BufferedReader is = new BufferedReader(new FileReader(fileNameInput.get()))) {
+                readRowMajor(is);
+            } catch (IOException ex) {
+                throw new IllegalArgumentException("Error reading from file " + fileNameInput.get());
+            }
         }
 
         super.initAndValidate();
