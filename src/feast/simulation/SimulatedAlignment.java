@@ -24,6 +24,8 @@ import beast.evolution.alignment.Sequence;
 import beast.evolution.alignment.TaxonSet;
 import beast.evolution.datatype.DataType;
 import beast.evolution.sitemodel.SiteModel;
+import beast.evolution.substitutionmodel.JukesCantor;
+import beast.evolution.substitutionmodel.SubstitutionModel;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.util.BEASTClassLoader;
@@ -83,8 +85,6 @@ public class SimulatedAlignment extends Alignment {
         siteModel = siteModelInput.get();
         seqLength = sequenceLengthInput.get();
 
-        siteModel.getSubstitutionModel().getStateCount();
-
         sequences.clear();
 
         grabDataType();
@@ -116,7 +116,10 @@ public class SimulatedAlignment extends Alignment {
         double[] categoryProbs = siteModel.getCategoryProportions(tree.getRoot());
 
         int nCategories = siteModel.getCategoryCount();
-        int nStates = siteModel.getSubstitutionModel().getStateCount();
+        SubstitutionModel substModel = siteModel.getSubstitutionModel();
+        int nStates = substModel instanceof JukesCantor
+                ? 4
+                : substModel.getStateCount();
         double[][] transitionProbs = new double[nCategories][nStates*nStates];
 
         int[][] alignment = new int[nTaxa][seqLength];
