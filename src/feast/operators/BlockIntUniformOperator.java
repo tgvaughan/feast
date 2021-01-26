@@ -4,11 +4,7 @@ import beast.core.Input;
 import beast.core.Operator;
 import beast.core.parameter.BooleanParameter;
 import beast.core.parameter.IntegerParameter;
-import beast.core.parameter.RealParameter;
 import beast.util.Randomizer;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class BlockIntUniformOperator extends Operator {
 
