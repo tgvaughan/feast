@@ -25,7 +25,7 @@ public class TimeParameter extends RealParameter {
             "Time of the most recent sample, in format specified by timeFormat",
             Input.Validate.REQUIRED);
 
-    TimeParameter() {
+    public TimeParameter() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
     }
 
