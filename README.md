@@ -354,7 +354,7 @@ general form:
             <log idref="paramA"/>
             <log idref="paramB"/>
             <log idref="distrib"/>
-        <logger>
+        </logger>
 
         <!-- Additional (screen?) loggers -->
     </run>
