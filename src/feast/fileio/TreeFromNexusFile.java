@@ -9,16 +9,19 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Tim Vaughan
  */
-@Description("Wrapper around TreeParser to enable reading newick " +
-        "strings from files.")
+@Description("Wrapper around TreeParser to enable reading trees from Nexus files.")
 public class TreeFromNexusFile extends TreeParser {
 
     public Input<String> fileNameInput = new Input<>("fileName", "Name of Nexus file "
             + "containing a tree block Nexus format.", Input.Validate.REQUIRED);
+
+    Map<String,String> translateMap;
 
     public TreeFromNexusFile() { }
 
@@ -38,11 +41,15 @@ public class TreeFromNexusFile extends TreeParser {
             BasicNexusParser.NexusBlock treesBlock = nexusParser.getNextBlockMatching("trees");
 
             BasicNexusParser.NexusCommand treeCommand = null;
+            BasicNexusParser.NexusCommand translateCommand = null;
             for (BasicNexusParser.NexusCommand cmd : treesBlock.commands) {
-                if (cmd.name.equals("tree")) {
-                    treeCommand = cmd;
-                    break;
-
+                switch(cmd.name) {
+                    case "tree":
+                        treeCommand = cmd;
+                        break;
+                    case "translate":
+                        translateCommand = cmd;
+                        break;
                 }
             }
 
@@ -54,10 +61,26 @@ public class TreeFromNexusFile extends TreeParser {
                 throw new RuntimeException("No trees found in nexus file.");
             }
 
+            if (translateCommand != null) {
+
+                translateMap = new HashMap<>();
+
+                for (String pairStr : translateCommand.args.split(",")) {
+                    String[] pair = pairStr.trim().split("\\s+");
+                    if (pair.length != 2)
+                        throw new RuntimeException("Error parsing translate command.");
+
+                    translateMap.put(pair[0], pair[1]);
+                }
+            }
+
         } catch (IOException e) {
             throw new RuntimeException("Error reading from input file.");
         }
 
         super.initAndValidate();
+
+        if (translateMap != null)
+            translateLeafIds(translateMap);
     }
 }
