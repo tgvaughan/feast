@@ -17,6 +17,9 @@ public class TreeFromNewickFile extends TreeParser {
     public Input<String> fileNameInput = new Input<>("fileName", "Name of file "
             + "containing tree in Newick format.", Input.Validate.REQUIRED);
 
+    public Input<Integer> treeIndexInput = new Input<>("treeIndex",
+            "Index of tree in tree file (default 0).", 0);
+
     public TreeFromNewickFile() { }
 
     @Override
@@ -38,7 +41,12 @@ public class TreeFromNewickFile extends TreeParser {
             throw new RuntimeException("Error reading from input file.");
         }
 
-        newickInput.setValue(newickBuilder.toString(), this);
+        String[] treeStrings = newickBuilder.toString().split(";");
+
+        if (treeIndexInput.get() >= treeStrings.length)
+            throw new IllegalArgumentException("Tree index exceeds number of trees in input file.");
+
+        newickInput.setValue(newickBuilder.toString().split(";")[treeIndexInput.get()], this);
 
         super.initAndValidate();
     }

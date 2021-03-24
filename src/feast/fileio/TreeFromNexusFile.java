@@ -21,6 +21,9 @@ public class TreeFromNexusFile extends TreeParser {
     public Input<String> fileNameInput = new Input<>("fileName", "Name of Nexus file "
             + "containing a tree block Nexus format.", Input.Validate.REQUIRED);
 
+    public Input<Integer> treeIndexInput = new Input<>("treeIndex",
+            "Index of tree in tree file (default 0).", 0);
+
     Map<String,String> translateMap;
 
     public TreeFromNexusFile() { }
@@ -42,10 +45,14 @@ public class TreeFromNexusFile extends TreeParser {
 
             BasicNexusParser.NexusCommand treeCommand = null;
             BasicNexusParser.NexusCommand translateCommand = null;
+
+            int thisTreeIdx = 0;
             for (BasicNexusParser.NexusCommand cmd : treesBlock.commands) {
                 switch(cmd.name) {
                     case "tree":
-                        treeCommand = cmd;
+                        if (thisTreeIdx == treeIndexInput.get())
+                            treeCommand = cmd;
+                        thisTreeIdx += 1;
                         break;
                     case "translate":
                         translateCommand = cmd;
@@ -58,7 +65,7 @@ public class TreeFromNexusFile extends TreeParser {
                 String newickString = treeCommand.args.substring(idx+1).trim();
                 newickInput.setValue(newickString, this);
             } else {
-                throw new RuntimeException("No trees found in nexus file.");
+                throw new RuntimeException("No trees (or no tree with chosen index) found in nexus file.");
             }
 
             if (translateCommand != null) {

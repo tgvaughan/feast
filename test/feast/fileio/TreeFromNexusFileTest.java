@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -40,8 +39,9 @@ public class TreeFromNexusFileTest {
     
         TreeFromNexusFile tree = new TreeFromNexusFile();
         tree.initByName(
-                "fileName", "test/feast/fileio/test_tree.nexus",
-                "IsLabelledNewick", true);
+                "fileName", "test/feast/fileio/test_trees.nexus",
+                "IsLabelledNewick", true,
+                "adjustTipHeights", false);
 
         assertEquals(12, tree.getLeafNodeCount());
         assertEquals(23, tree.getNodeCount());
@@ -49,5 +49,34 @@ public class TreeFromNexusFileTest {
         List<String> taxonNames = Arrays.asList(tree.getTaxaNames());
         assertTrue(taxonNames.contains("pig"));
         assertTrue(taxonNames.contains("cow"));
+    }
+
+    @Test
+    public void testTreeIndex() throws Exception {
+
+        TreeFromNexusFile tree = new TreeFromNexusFile();
+        tree.initByName(
+                "fileName", "test/feast/fileio/test_trees.nexus",
+                "IsLabelledNewick", true,
+                "treeIndex", 1,
+                "adjustTipHeights", false);
+
+        assertEquals(3, tree.getLeafNodeCount());
+        assertEquals(5, tree.getNodeCount());
+
+        List<String> taxonNames = Arrays.asList(tree.getTaxaNames());
+        assertTrue(taxonNames.contains("cow"));
+        assertFalse(taxonNames.contains("pig"));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testTreeIndexOOB() throws Exception {
+
+        TreeFromNexusFile tree = new TreeFromNexusFile();
+        tree.initByName(
+                "fileName", "test/feast/fileio/test_trees.nexus",
+                "IsLabelledNewick", true,
+                "treeIndex", 2,
+                "adjustTipHeights", false);
     }
 }

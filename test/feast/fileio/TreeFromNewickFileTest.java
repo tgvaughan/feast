@@ -35,10 +35,34 @@ public class TreeFromNewickFileTest {
     
         TreeFromNewickFile tree = new TreeFromNewickFile();
         tree.initByName(
-                "fileName", "test/feast/fileio/test_tree.newick",
-                "IsLabelledNewick", true);
+                "fileName", "test/feast/fileio/test_trees.newick",
+                "IsLabelledNewick", true,
+                "adjustTipHeights", false);
 
         assertEquals(12, tree.getLeafNodeCount());
         assertEquals(23, tree.getNodeCount());
+    }
+
+    @Test
+    public void testTreeIndex() {
+        TreeFromNewickFile tree = new TreeFromNewickFile();
+        tree.initByName(
+                "fileName", "test/feast/fileio/test_trees.newick",
+                "treeIndex", 1,
+                "IsLabelledNewick", true,
+                "adjustTipHeights", false);
+
+        assertEquals(3, tree.getLeafNodeCount());
+        assertEquals(5, tree.getNodeCount());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testTreeIndexOOB() {
+        TreeFromNewickFile tree = new TreeFromNewickFile();
+        tree.initByName(
+                "fileName", "test/feast/fileio/test_trees.newick",
+                "treeIndex", 2,
+                "IsLabelledNewick", true,
+                "adjustTipHeights", false);
     }
 }
