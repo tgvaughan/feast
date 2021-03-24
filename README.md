@@ -415,11 +415,12 @@ or
     IsLabelledNewick="true" adjustTipHeights="false" .../>
 ```
 
-Note that for Nexus files, only the first tree encountered in the first
-trees block is read.  Also, the translate block or command is completely
-ignored for now.
+The optional attribute `treeIndex` can be used to specify the index (starting
+from zero) of the tree to read from the file.
 
-They are both thin wrappers around `TreeParser`, so all of the various inputs
+For Nexus files, only the first trees block encountered is processed.
+
+Both classes are thin wrappers around `TreeParser`, so all of the various inputs
 supported by that class are also supported.
 
 TraitSetFromTaxonSet
@@ -500,7 +501,7 @@ as a Loggable or a Function.  Binary operators can be applied to
 Functions (including Parameters) of different lengths as in R, with
 the result having the maximum of the two lengths, and the index into
 the shortest parameter being the result index modulo the length of
-that parameter.
+that parameter. True and false are represented by 1.0 and 0.0 respectively.
 
 Example expressions (I and J are IDs of RealParameters with elements
 {1.0, 2.0, 3.0} and {5.0, 10.0}, respectively.)
@@ -524,6 +525,7 @@ Example expressions (I and J are IDs of RealParameters with elements
     I < 3 && I >=1             | {1.0, 1.0, 0.0}
     I < 3 ? 12 : 13            | {12.0, 12.0, 13.0}
     {min(J), max(J), len(J)}   | {5.0, 10.0, 2.0}
+    sort({5,1,3})              | {1.0, 3.0, 5.0}
 
 Note that since each ExpCalculator is a Function object itself, it can
 be used as the input for other ExpCalculators.
