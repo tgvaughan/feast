@@ -1,4 +1,4 @@
-// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.8
+// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.9.1
 package feast.expressions.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ExpressionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -19,7 +19,7 @@ public class ExpressionParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, ADD=11, SUB=12, MUL=13, DIV=14, MOD=15, POW=16, EXP=17, LOG=18, 
-		SQRT=19, SUM=20, THETA=21, ABS=22, MIN=23, MAX=24, LEN=25, REP=26, AND=27, 
+		SQRT=19, SUM=20, THETA=21, ABS=22, MIN=23, MAX=24, LEN=25, SORT=26, AND=27, 
 		OR=28, EQ=29, GT=30, LT=31, GE=32, LE=33, NE=34, ZERO=35, NZINT=36, NNFLOAT=37, 
 		IDENT=38, COMMENT_SINGLELINE=39, COMMENT_MULTILINE=40, WHITESPACE=41;
 	public static final int
@@ -35,7 +35,7 @@ public class ExpressionParser extends Parser {
 		return new String[] {
 			null, "'('", "')'", "'{'", "','", "'}'", "'['", "']'", "':'", "'!'", 
 			"'?'", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'", "'exp'", "'log'", "'sqrt'", 
-			"'sum'", "'theta'", "'abs'", "'min'", "'max'", "'len'", "'rep'", "'&&'", 
+			"'sum'", "'theta'", "'abs'", "'min'", "'max'", "'len'", "'sort'", "'&&'", 
 			"'||'", "'=='", "'>'", "'<'", "'>='", "'<='", "'!='", "'0'"
 		};
 	}
@@ -44,7 +44,7 @@ public class ExpressionParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, "ADD", 
 			"SUB", "MUL", "DIV", "MOD", "POW", "EXP", "LOG", "SQRT", "SUM", "THETA", 
-			"ABS", "MIN", "MAX", "LEN", "REP", "AND", "OR", "EQ", "GT", "LT", "GE", 
+			"ABS", "MIN", "MAX", "LEN", "SORT", "AND", "OR", "EQ", "GT", "LT", "GE", 
 			"LE", "NE", "ZERO", "NZINT", "NNFLOAT", "IDENT", "COMMENT_SINGLELINE", 
 			"COMMENT_MULTILINE", "WHITESPACE"
 		};
@@ -125,7 +125,7 @@ public class ExpressionParser extends Parser {
 		public TerminalNode MIN() { return getToken(ExpressionParser.MIN, 0); }
 		public TerminalNode MAX() { return getToken(ExpressionParser.MAX, 0); }
 		public TerminalNode LEN() { return getToken(ExpressionParser.LEN, 0); }
-		public TerminalNode REP() { return getToken(ExpressionParser.REP, 0); }
+		public TerminalNode SORT() { return getToken(ExpressionParser.SORT, 0); }
 		public UnaryOpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -524,7 +524,7 @@ public class ExpressionParser extends Parser {
 			case MIN:
 			case MAX:
 			case LEN:
-			case REP:
+			case SORT:
 				{
 				_localctx = new UnaryOpContext(_localctx);
 				_ctx = _localctx;
@@ -532,7 +532,7 @@ public class ExpressionParser extends Parser {
 				setState(18);
 				((UnaryOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA) | (1L << ABS) | (1L << MIN) | (1L << MAX) | (1L << LEN) | (1L << REP))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA) | (1L << ABS) | (1L << MIN) | (1L << MAX) | (1L << LEN) | (1L << SORT))) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {

@@ -104,6 +104,15 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(1)-42.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(2)-42.0)<1e-15);
 
+    }
+
+    @Test
+    public void testUnaryOps() {
+
+        ExpCalculator instance = new ExpCalculator();
+        RealParameter iparam = new RealParameter("1.0 2.0 3.0");
+        iparam.setID("I");
+
         instance.initByName(
                 "value", "{min(I),max(I),len(I),{1,2}[1]}",
                 "arg", iparam);
@@ -112,6 +121,16 @@ public class ExpCalculatorTest {
         assertTrue(Math.abs(instance.getArrayValue(1)-3.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(2)-3.0)<1e-15);
         assertTrue(Math.abs(instance.getArrayValue(3)-2.0)<1e-15);
+
+        instance.initByName(
+                "value", "sort({4,2.5,3,0})"
+        );
+
+        assertEquals(4, instance.getDimension());
+        assertEquals(0.0, instance.getArrayValue(0), 1e-15);
+        assertEquals(2.5, instance.getArrayValue(1), 1e-15);
+        assertEquals(3.0, instance.getArrayValue(2), 1e-15);
+        assertEquals(4.0, instance.getArrayValue(3), 1e-15);
     }
 
     @Test

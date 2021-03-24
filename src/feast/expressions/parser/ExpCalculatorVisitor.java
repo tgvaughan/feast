@@ -244,6 +244,12 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                 res = new Double[1];
                 res[0] = (double)arg.length;
                 break;
+
+            case ExpressionParser.SORT:
+                res = new Double[arg.length];
+                System.arraycopy(arg, 0, res, 0, arg.length);
+                Arrays.sort(res);
+                break;
         }
         
         return res;
