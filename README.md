@@ -216,7 +216,7 @@ is its own `ModelSelectionParameter`, shares exactly the same set of
 "parameter" and "selectionIndices" inputs, but has its own unique value of
 "thisIndex".
 
-The principal shortcoming of ModelSelectionParameter is that it is only
+The principal limitation of `ModelSelectionParameter` is that it is only
 compatible with distributions which take `Function`s rather than `RealParameter`
 s as input.
 
