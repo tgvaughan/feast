@@ -174,6 +174,52 @@ we use the "hky.kappa" field of the `original_analysis.log` trace log file to se
 to set the value of the `Tree` named "tree".  The value of "kappa" and the height and length statistics
 of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
 
+Model selection using ModelSelectionParameter
+----------------------------------------------------
+
+While model selection is extremely complicated in general, it can be almost
+trivial when the number of models you wish to consider is small and the models
+can be regarded as special cases of either each other
+(i.e. the are nested) or can easily expressed as special cases of a single
+general model.
+
+The `ModelSelectionParameter` is created with this kind of BSSVS-style model
+selection in mind. It is a `CalculationNode` implementing `Function` which takes
+one or more parameters (also `Function`s) as input, together with an
+`IntegerParameter` known as the selection index. The `ModelSelectionParameter`
+acts as though it is the parameter specified by the selection index.
+
+The simplest application of this is to allow BEAST to select between models
+1 and 2, where in model 1 a parameter (eg the extinction rate) is zero, while
+in model 2 the extinction rate has some unknown non-zero value.
+
+We can implement this by defining the death rate to be a `ModelSelectionParameter`:
+```xml
+<deathRate id="deathRate" spec="ModelSelectionParameter">
+    <parameter spec="RealParameter" value="0.0"/>
+    <parameter id="nonZeroDeathRate" spec="RealParameter" value="1.0"/>
+    <selectionIndices id="selectionIdx" spec="IntegerParameter" value="1" lower="0" upper="1"/>
+</deathRate>
+```
+We then use this "deathRate" parameter as input to the tree prior, place some
+sensible prior on "nonZeroDeathRate", and add an operator to modify the
+"selectionIdx" `IntegerParameter`.  The result is equivalent to placing a
+"spike and slab" prior on the death rate parameter, which is a mixture between
+a point mass at zero and whatever prior you place on "nonZeroDeathRate".
+
+In addition to this simple case, if "selectionIndices" is an `IntegerParameter`
+with more than one element, the additional `ModelSelectionParameter` input,
+"thisIndex", can be used to specify which element to use to select the parameter.
+This allows you to sample across models where, for example, subsets of different
+parameters are allowed to be exactly equal.  In this case, each model parameter
+is its own `ModelSelectionParameter`, shares exactly the same set of 
+"parameter" and "selectionIndices" inputs, but has its own unique value of
+"thisIndex".
+
+The principle shortcoming of ModelSelectionParameter is that it is only
+compatible with distributions which take `Function`s rather than `RealParameter`
+s as input.
+
 Scaling subsets of RealParameter elements together
 --------------------------------------------------
 

@@ -21,8 +21,8 @@ public class ModelSelectionParameter extends CalculationNode implements Function
             "Integer parameter containing indicies to which each output parameter is mapped.",
             Input.Validate.REQUIRED);
 
-    public Input<Integer> thisIndexInput = new Input<>("thisIndex", "Index of output.",
-            Input.Validate.REQUIRED);
+    public Input<Integer> thisIndexInput = new Input<>("thisIndex",
+            "Index of output.", 0);
 
     @Override
     public void initAndValidate() { }
