@@ -336,6 +336,18 @@ results.
 See `examples/SimulateCoalescentTrees.xml` for an example of using `GPSimulator`
 to simulate 100 coalescent trees.
 
+Numeric sequences as Functions
+------------------------------
+
+Instances of `feast.function.Sequence` are `Function`s which contain a sequence
+of numbers evenly separated between two bounds.  For instance, the following
+XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
+i.e. 0,0.1,0.2,...,9.9,10:
+
+```xml
+<function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
+```
+
 Function Slicing, Reversing and Concatenating
 ---------------------------------------------
 
