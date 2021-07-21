@@ -17,7 +17,13 @@
 
 package feast.fileio;
 
+import beast.evolution.alignment.Taxon;
+import beast.evolution.alignment.TaxonSet;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -53,4 +59,25 @@ public class AlignmentFromFastaTest {
         assertEquals(20, alignment.getSiteCount());
         assertEquals(7, alignment.getPatternCount());
     }
+
+    @Test
+    public void testFilteredTaxa() throws Exception {
+
+        List<Taxon> taxa = new ArrayList<>();
+        taxa.add(new Taxon("fish"));
+        taxa.add(new Taxon("frog"));
+
+        AlignmentFromFasta alignment = new AlignmentFromFasta();
+        alignment.initByName(
+                "fileName", "test/feast/fileio/test_alignment.fasta",
+                "includeOnly", new TaxonSet(taxa));
+
+        assertEquals(2, alignment.getTaxonCount());
+        assertEquals(20, alignment.getSiteCount());
+        assertEquals(7, alignment.getPatternCount());
+        assertTrue(alignment.getTaxaNames().contains("fish"));
+        assertTrue(alignment.getTaxaNames().contains("frog"));
+        assertFalse(alignment.getTaxaNames().contains("mouse"));
+    }
+
 }

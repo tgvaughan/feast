@@ -3,6 +3,7 @@ package feast.fileio;
 import beast.core.Input;
 import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
+import beast.evolution.alignment.TaxonSet;
 
 /**
  * Alignments initialized from files extend this class.
@@ -19,6 +20,10 @@ public class AlignmentFromFile extends Alignment {
             "endsWith", "If provided, include only those sequences whose header " +
             "strings end with the provided substring.");
 
+    public Input<TaxonSet> includeOnlyInput = new Input<>(
+            "includeOnly",
+            "Only include the taxa listed in this taxon set.");
+
     /**
      * Add sequence to the alignment, provided the predicates specified
      * in the inputs are satisfied.
@@ -26,7 +31,10 @@ public class AlignmentFromFile extends Alignment {
      * @param sequence sequence to add
      */
     protected void addSequence(Sequence sequence) {
-        if (endsWithInput.get() == null || sequence.getTaxon().endsWith(endsWithInput.get()))
+        if ((endsWithInput.get() == null
+                || sequence.getTaxon().endsWith(endsWithInput.get()))
+        && ((includeOnlyInput.get() == null
+                || includeOnlyInput.get().getTaxaNames().contains(sequence.getTaxon()))))
             sequenceInput.setValue(sequence, this);
     }
 }
