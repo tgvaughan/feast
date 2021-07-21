@@ -348,8 +348,8 @@ i.e. 0,0.1,0.2,...,9.9,10:
 <function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
 ```
 
-Function Slicing, Reversing and Concatenating
----------------------------------------------
+Function Slicing, Reversing, Concatenating, Scaling and Interleaving
+--------------------------------------------------------------------
 
 Instances of the `feast.function.Slice` class are `Function`s and `Loggable`s which
 represent or more elements of another `Function`.  This allows
@@ -382,6 +382,28 @@ rather than a single real parameter with multiple dimensions:
     <arg spec="RealParameter" value="2.0"/>
 </reproductiveNumber>
 ```
+
+Instances of `feast.function.Scale` allow one `Function` to be scaled
+by another:
+
+```xml
+<scaledBirthRate spec="feast.function.Scale">
+  <function spec="RealParameter" value="1.0 2.0 3.0"/>
+  <scaleBy spec="RealParameter" value="1.5"/>
+</scaledBirthRate>
+```
+
+Instances of `feast.function.Interleave` represent the result of interleaving
+the elements of several input `Function`s.  For example:
+
+```xml
+<twoDemeBirthRate spec="feast.function.interleave">
+  <arg spec="RealParameter" value="1 3 5 7"/>
+  <arg spec="RealParameter" value="2 4 6 8"/>
+</twoDemeBirthRate>
+```
+
+is as a `Function` with elements 1,2,3,4,5,6,7,8.
 
 DensityMapper
 -------------
