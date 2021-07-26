@@ -39,7 +39,7 @@ public class Slice extends LoggableFunction {
 
     @Override
     public double getArrayValue() {
-        return functionInput.get().getArrayValue(0);
+        return getArrayValue(0);
     }
 
     @Override
