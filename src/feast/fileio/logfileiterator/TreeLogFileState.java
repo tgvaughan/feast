@@ -5,6 +5,7 @@ import beast.core.StateNode;
 import beast.evolution.alignment.Taxon;
 import beast.evolution.alignment.TaxonSet;
 import beast.evolution.tree.Node;
+import beast.evolution.tree.RandomTree;
 import beast.evolution.tree.Tree;
 import beast.util.TreeParser;
 
@@ -35,7 +36,7 @@ public class TreeLogFileState extends LogFileState {
         readTaxonSet = readTaxonSetInput.get();
 
         try {
-            if (!inFile.readLine().trim().toLowerCase().equals("#nexus")) {
+            if (!inFile.readLine().trim().equalsIgnoreCase("#nexus")) {
                 throw new RuntimeException("Tree log file " + logFileName + " is not a valid NEXUS file.");
             }
         } catch (IOException e) {
@@ -46,7 +47,7 @@ public class TreeLogFileState extends LogFileState {
         String line;
         do {
             line = readNexusLine();
-        } while (!line.isEmpty() && !line.toLowerCase().equals("begin trees"));
+        } while (!line.isEmpty() && !line.equalsIgnoreCase("begin trees"));
 
         if (line.isEmpty())
             throw new RuntimeException("No trees block found in " + logFileName + ". Aborting.");
@@ -65,6 +66,10 @@ public class TreeLogFileState extends LogFileState {
         }
 
         taxonSet = new TaxonSet(taxonList);
+
+        Tree initialTree = new Tree();
+        initialTree.initByName("taxonset", taxonSet);
+        tree.assignFromWithoutID(initialTree);
     }
 
     final static Pattern logLinePattern = Pattern.compile(
