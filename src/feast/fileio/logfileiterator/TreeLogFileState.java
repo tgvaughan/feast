@@ -100,9 +100,15 @@ public class TreeLogFileState extends LogFileState {
                     "taxonset", taxonSet);
         } else {
             treeParser.initByName("adjustTipHeights", false,
-                    "IsLabelledNewick", false,
+                    "IsLabelledNewick", true,
                     "newick", newickString,
                     "taxonset", null);
+
+            while (treeParser.getNodeCount() > tree.getNodeCount())
+                tree.addNode(new Node());
+
+            while (treeParser.getNodeCount() < tree.getNodeCount())
+                tree.removeNode(tree.getNodeCount()-1);
         }
 
         // Apply taxon labels to nodes.
