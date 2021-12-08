@@ -56,7 +56,7 @@ NNFLOAT : ('0' | NZINT) ('.' D*) ([eE] '-'? D+)? ;
 fragment D : [0-9] ;
 fragment NZD : [1-9] ;
 
-IDENT : [a-zA-Z_][a-zA-Z_0-9]* ;
+IDENT : [a-zA-Z_][a-zA-Z0-9_.]* ;
 
 COMMENT_SINGLELINE: '//' .*? '\n' -> skip ;
 COMMENT_MULTILINE: '/*' .*? '*/' -> skip ;
