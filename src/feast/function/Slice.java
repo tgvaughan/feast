@@ -19,13 +19,17 @@ public class Slice extends LoggableFunction {
     public Input<Integer> countInput = new Input<>("count",
             "Number of elements to extract.", 1);
 
-    protected int indexStart, indexEnd, count;
+    public Input<Integer> byInput = new Input<>("by",
+            "Interval between elements (default 1).", 1);
+
+    protected int indexStart, indexEnd, count, by;
 
     @Override
     public void initAndValidate() {
         indexStart = startIndexInput.get();
         count = countInput.get();
-        indexEnd = indexStart + count - 1;
+        by = byInput.get();
+        indexEnd = indexStart + by*(count - 1);
 
         if (indexEnd >= functionInput.get().getDimension())
             throw new IllegalArgumentException("Index and count arguments to" +
@@ -45,7 +49,7 @@ public class Slice extends LoggableFunction {
     @Override
     public double getArrayValue(int iDim) {
         if (iDim < count)
-            return functionInput.get().getArrayValue(indexStart + iDim);
+            return functionInput.get().getArrayValue(indexStart + iDim*by);
         else
             return 0;
     }

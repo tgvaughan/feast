@@ -365,7 +365,17 @@ of a `RealParameter`:
 </distrib>
 ```
 
-Similarly, instances of the `feast.function.Reverse` class are
+The optional `by` input can be used to increase the step size between elements.  For
+example, here's how one could use `Slice` to apply a prior to elements 1,3,5 of the
+same `RealParamter`:
+
+```xml
+<distrib spec="Prior">
+    <x spec="feast.function.Slice" arg="@samplingProportion" index="1" count="3" by="2"/>
+</distrib>
+```
+
+Instances of the `feast.function.Reverse` class are
 `Funtion`s and `Loggable`s which represent the elements of another
 `Function` but in reverse order.
 
