@@ -123,7 +123,15 @@ by joining together three `ConstantPopulation` models:
 The `changeTimes` input specifies the times of the transitions between
 models, and thus must have one less element than the number of constituent models.
 
-The file `piecewiseCoalescent.xml` illustrates how this can be used in a
+Setting the boolean `makeContinuous` input to "true" (by default it is "false")
+will cause all component populations besides the most recent (i.e. first) to be
+scaled so that the resulting compound population function is continuous.
+While this is useless for compound population functions composed solely of
+constant components (as it will result in a single constant population function),
+this is useful for creating piecewise-exponential functions or mixtures between
+exponential and constant components.
+
+The file `piecewiseCoalescent.xml` illustrates how this class can be used in a
 simple coalescent analysis.
 
 Log File Post-processing
