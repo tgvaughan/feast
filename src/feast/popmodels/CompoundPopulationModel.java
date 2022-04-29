@@ -8,6 +8,7 @@ import beast.evolution.tree.coalescent.ConstantPopulation;
 import beast.evolution.tree.coalescent.ExponentialGrowth;
 import beast.evolution.tree.coalescent.PopulationFunction;
 
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,20 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
             "Times of transitions between individual model segments.",
             Input.Validate.REQUIRED);
 
+    public Input<Boolean> makeContinuousInput = new Input<>("makeContinuous",
+            "Scale population functions to ensure resulting compound " +
+                    "function is continuous. (Default false)", false);
+
     List<PopulationFunction> popFuncs;
     Function changeTimes;
+
+    boolean makeContinuous;
 
     @Override
     public void initAndValidate() {
         popFuncs = popFunctionsInput.get();
         changeTimes = changeTimesInput.get();
+        makeContinuous = makeContinuousInput.get();
 
         if (popFuncs.size() != changeTimes.getDimension()+1)
             throw new IllegalArgumentException("The dimension of changeTimes must be one less than the number of " +
@@ -44,14 +52,25 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
 
     @Override
     public double getPopSize(double t) {
-
         int idx = getIndex(t);
 
-        double tshifted = idx > 0
-                ? t - changeTimes.getArrayValue(idx-1)
-                : t;
+        double tprev;
+        double scaleFactor = 1.0;
 
-        return popFuncs.get(idx).getPopSize(tshifted);
+        if (makeContinuous) {
+            tprev = 0.0;
+            for (int i = 0; i < idx; i++) {
+                double Nend = popFuncs.get(i).getPopSize(changeTimes.getArrayValue(i) - tprev) * scaleFactor;
+                scaleFactor = Nend / popFuncs.get(i + 1).getPopSize(0);
+                tprev = changeTimes.getArrayValue(i);
+            }
+        } else {
+            tprev = idx > 0
+                    ? changeTimes.getArrayValue(idx-1)
+                    : 0.0;
+        }
+
+        return popFuncs.get(idx).getPopSize(t - tprev)*scaleFactor;
     }
 
     @Override
@@ -60,13 +79,20 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
 
         double x = 0.0;
         double tprev = 0.0;
+        double scaleFactor = 1.0;
 
         for (int i=0; i<idx; i++) {
-            x += popFuncs.get(i).getIntensity(changeTimes.getArrayValue(i) - tprev);
+            x += popFuncs.get(i).getIntensity(changeTimes.getArrayValue(i) - tprev)/scaleFactor;
+
+            if (makeContinuous) {
+                double Nend = popFuncs.get(i).getPopSize(changeTimes.getArrayValue(i) - tprev) * scaleFactor;
+                scaleFactor = Nend / popFuncs.get(i + 1).getPopSize(0);
+            }
+
             tprev = changeTimes.getArrayValue(i);
         }
 
-        return x + popFuncs.get(idx).getIntensity(t - tprev);
+        return x + popFuncs.get(idx).getIntensity(t - tprev)/scaleFactor;
     }
 
     @Override
@@ -113,37 +139,30 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
         CompoundPopulationModel cpm = new CompoundPopulationModel();
         ConstantPopulation pf1 = new ConstantPopulation();
         pf1.initByName("popSize", new RealParameter("1.0"));
-        ConstantPopulation pf2 = new ConstantPopulation();
-        pf2.initByName("popSize", new RealParameter("5.0"));
-        ExponentialGrowth pf3 = new ExponentialGrowth();
-        pf3.initByName("popSize", new RealParameter("5.0"),
-                "growthRate", new RealParameter("0.2"));
-//        ConstantPopulation pf3 = new ConstantPopulation();
-//        pf3.initByName("popSize", new RealParameter("2.0"));
-        ConstantPopulation pf4 = new ConstantPopulation();
-        pf4.initByName("popSize", new RealParameter("12.0"));
-        ConstantPopulation pf5 = new ConstantPopulation();
-        pf4.initByName("popSize", new RealParameter("7.5"));
+        ExponentialGrowth pf2 = new ExponentialGrowth();
+        pf2.initByName("popSize", new RealParameter("1.0"),
+                "growthRate", new RealParameter("1.0"));
+        ConstantPopulation pf3 = new ConstantPopulation();
+        pf3.initByName("popSize", new RealParameter("2.0"));
 
         cpm.initByName(
                 "populationModel", pf1,
                 "populationModel", pf2,
                 "populationModel", pf3,
-                "populationModel", pf4,
-                "populationModel", pf5,
-                "changeTimes", new RealParameter("3.0 5.0 12.0 14.0")
-        );
+                "changeTimes", new RealParameter("3.0 5.0"),
+                "makeContinuous", false);
 
         try (PrintStream out = new PrintStream("out.txt")) {
 //        try (PrintStream out = System.out) {
             out.println("t\tn\tx");
-            for (int i = 0; i < 100; i++) {
-                double t = i * 20.0 / 100;
+            for (int i = 0; i <= 100; i++) {
+                double t = i * 10.0 / 100;
 
                 out.println(t + "\t" + cpm.getPopSize(t) + "\t" + cpm.getIntensity(t));
             }
-        } catch (Exception ex) {
-
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+
     }
 }
