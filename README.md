@@ -98,6 +98,25 @@ Beware that `RealParameterFromFunction` only retrieves the `Function` values
 during initialization. **Changes in the `Function` values after initialization
 will not be reflected in the parameter!**
 
+Time-shifted coalescent population functions
+--------------------------------------------
+
+The `ShiftedPopulationModel` class allows you to create a new
+`PopulationFunction` which is a time-shifted view of an existing population
+function.
+
+For example, here is a time-shifted exponential growth population mode:
+```xml
+<populationModel spec="ShiftedPopulationModel" offset="0.5">
+    <populationModel spec="ExponentialGrowth" popSize="1.0" growthRate="1.0"/>
+</populationModel>
+```
+At time 0, the population size of this shifted model is the same as
+the population size of the exponential growth model at time 0.5.
+
+The `offset` input expects a `Function` value, so `RealParameter`s etc. can
+also be used here.
+
 Compound coalescent population functions
 ----------------------------------------
 
@@ -114,9 +133,9 @@ For example, here is a piecewise-constant population function created
 by joining together three `ConstantPopulation` models:
 ```xml
 <populationModel spec="CompoundPopulationModel">
-    <popModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></popModel>
-    <popModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></popModel>
-    <popModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></popModel>
+    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></populationModel>
+    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></populationModel>
+    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></populationModel>
     <changeTimes spec="RealParameter" value="1.0 3.0"/>
 </populationModel>
 ```
