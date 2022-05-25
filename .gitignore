@@ -12,6 +12,9 @@
 # Mac cruft
 .DS_Store
 .Rhistory
-/build-lib/
-/build/
-/dist/
+
+# Build output
+/build-lib
+/build
+/dist
+/javadoc
