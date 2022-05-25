@@ -69,7 +69,6 @@ public class ExpCalculatorParametricDistribution extends ParametricDistribution 
         functionsMap.put("x", param);
 
         // Build AST from expression string
-//        ANTLRInputStream input = new ANTLRInputStream(expressionInput.get());
         CharStream input = CharStreams.fromString(expressionInput.get());
         ExpressionLexer lexer = new ExpressionLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

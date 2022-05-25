@@ -11,3 +11,7 @@
 
 # Mac cruft
 .DS_Store
+.Rhistory
+/build-lib/
+/build/
+/dist/

@@ -23,15 +23,29 @@ import beast.core.Function;
 import beast.math.statistic.DiscreteStatistics;
 import org.apache.commons.math3.special.Gamma;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Tim Vaughan
  */
 public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
+
+    private Map<ExpressionParser.ExpressionContext, Double[]> cache = new HashMap<>();
+
+    private Double[] getResultArray(ExpressionParser.ExpressionContext ctx, int length) {
+        if (cache.containsKey(ctx)) {
+            Double[] res = cache.get(ctx);
+            if (res.length != length) {
+                res = new Double[length];
+                cache.put(ctx, res);
+            }
+            return res;
+        } else {
+            Double[] res = new Double[length];
+            cache.put(ctx, res);
+            return res;
+        }
+    }
 
     Map<String, Function> functionsMap;
     
@@ -47,11 +61,14 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitNumber(ExpressionParser.NumberContext ctx) {
 
+        if (cache.containsKey(ctx))
+            return cache.get(ctx); // Numbers never change
+
         double num = Double.parseDouble(ctx.val.getText());
-        
-        Double [] res = new Double[1];
+        Double[] res = new Double[1];
         res[0] = num;
-        
+        cache.put(ctx, res);
+
         return res;
     }
 
@@ -63,12 +80,12 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
             throw new IllegalArgumentException("Paramter/Function " + paramName
                     + " in expression was not found in list of provided"
                     + " parameters/functions.");
-                
+
         Function param = functionsMap.get(paramName);
 
-        Double [] res;
-        res = new Double[param.getDimension()];
-        for (int i=0; i<res.length; i++)
+        Double[] res = getResultArray(ctx, param.getDimension());
+
+        for (int i = 0; i < res.length; i++)
             res[i] = param.getArrayValue(i);
 
         return res;
@@ -79,7 +96,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         Double [] left = visit(ctx.expression(0));
         Double [] right = visit(ctx.expression(1));
 
-        Double [] res = new Double[Math.max(left.length, right.length)];
+        Double [] res = getResultArray(ctx, Math.max(left.length, right.length));
         for (int i=0; i<res.length; i++) {
             switch (ctx.op.getType()) {
                 case ExpressionParser.GT:
@@ -111,7 +128,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         Double [] left = visit(ctx.expression(0));
         Double [] right = visit(ctx.expression(1));
 
-        Double [] res = new Double[Math.max(left.length, right.length)];
+        Double [] res = getResultArray(ctx, Math.max(left.length, right.length));
         for (int i=0; i<res.length; i++) {
             switch (ctx.op.getType()) {
                 case ExpressionParser.AND:
@@ -132,7 +149,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         Double [] th = visit(ctx.expression(1));
         Double [] el = visit(ctx.expression(2));
 
-        Double [] res = new Double[Math.max(Math.max(pred.length, th.length), el.length)];
+        Double [] res = getResultArray(ctx, Math.max(Math.max(pred.length, th.length), el.length));
         for (int i=0; i<res.length; i++) {
             res[i] = pred[i%pred.length] > 0.0 ? th[i%th.length] : el[i%el.length];
         }
@@ -144,8 +161,8 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     public Double[] visitMulDiv(ExpressionParser.MulDivContext ctx) {
         Double [] left = visit(ctx.expression(0));
         Double [] right = visit(ctx.expression(1));
-        
-        Double [] res = new Double[Math.max(left.length, right.length)];
+
+        Double [] res = getResultArray(ctx, Math.max(left.length, right.length));
         for (int i=0; i<res.length; i++) {
             if (ctx.op.getType() == ExpressionParser.MUL)
                 res[i] = left[i%left.length]*right[i%right.length];
@@ -160,8 +177,8 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     public Double[] visitAddSub(ExpressionParser.AddSubContext ctx) {
         Double [] left = visit(ctx.expression(0));
         Double [] right = visit(ctx.expression(1));
-        
-        Double [] res = new Double[Math.max(left.length, right.length)];
+
+        Double [] res = getResultArray(ctx, Math.max(left.length, right.length));
         for (int i=0; i<res.length; i++) {
             if (ctx.op.getType() == ExpressionParser.ADD)
                 res[i] = left[i%left.length]+right[i%right.length];
@@ -180,50 +197,49 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     @Override
     public Double[] visitUnaryOp(ExpressionParser.UnaryOpContext ctx) {
         
-
         Double [] arg = visit(ctx.expression());
         Double [] res = null;
         
         switch(ctx.op.getType()) {
             case ExpressionParser.EXP:
-                res = new Double[arg.length];
+                res = getResultArray(ctx, arg.length);
                 for (int i=0; i<arg.length; i++)
                     res[i] = Math.exp(arg[i]);
                 break;
                 
             case ExpressionParser.LOG:
-                res = new Double[arg.length];
+                res = getResultArray(ctx, arg.length);
                 for (int i=0; i<arg.length; i++)
                     res[i] = Math.log(arg[i]);
                 break;
                 
             case ExpressionParser.SQRT:
-                res = new Double[arg.length];
+                res = getResultArray(ctx, arg.length);
                 for (int i=0; i<arg.length; i++)
                     res[i] = Math.sqrt(arg[i]);
                 break;
                 
             case ExpressionParser.SUM:
-                res = new Double[1];
+                res = getResultArray(ctx, 1);
                 res[0] = 0.0;
                 for (Double el : arg)
                     res[0] += el;
                 break;
                 
             case ExpressionParser.THETA:
-                res = new Double[arg.length];
+                res = getResultArray(ctx, arg.length);
                 for (int i=0; i<arg.length; i++)
                     res[i] = arg[i] < 0.0 ? 0.0 : 1.0;
                 break;
 
             case ExpressionParser.ABS:
-                res = new Double[arg.length];
+                res = getResultArray(ctx, arg.length);
                 for (int i=0; i<arg.length; i++)
                     res[i] = Math.abs(arg[i]);
                 break;
 
             case ExpressionParser.MIN:
-                res = new Double[1];
+                res = getResultArray(ctx, 1);
                 res[0] = arg[0];
                 for (int i=1; i<arg.length; i++) {
                     if (arg[i]<res[0])
@@ -232,7 +248,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                 break;
 
             case ExpressionParser.MAX:
-                res = new Double[1];
+                res = getResultArray(ctx, 1);
                 res[0] = arg[0];
                 for (int i=1; i<arg.length; i++) {
                     if (arg[i]>res[0])
@@ -241,12 +257,12 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                 break;
 
             case ExpressionParser.LEN:
-                res = new Double[1];
+                res = getResultArray(ctx, 1);
                 res[0] = (double)arg.length;
                 break;
 
             case ExpressionParser.SORT:
-                res = new Double[arg.length];
+                res = getResultArray(ctx, arg.length);
                 System.arraycopy(arg, 0, res, 0, arg.length);
                 Arrays.sort(res);
                 break;
@@ -257,10 +273,11 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
     @Override
     public Double[] visitNegation(ExpressionParser.NegationContext ctx) {
- 
-        Double [] res = visit(ctx.expression());
+
+        Double[] orig = visit(ctx.expression());
+        Double[] res = getResultArray(ctx, orig.length);
         for (int i=0; i<res.length; i++)
-            res[i] = -res[i];
+            res[i] = -orig[i];
         
         return res;
     }
@@ -270,7 +287,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         Double [] base = visit(ctx.expression(0));
         Double [] power = visit(ctx.expression(1));
         
-        Double [] res = new Double[Math.max(base.length, power.length)];
+        Double [] res = getResultArray(ctx, Math.max(base.length, power.length));
         for (int i=0; i<res.length; i++) {
                 res[i] = Math.pow(base[i%base.length], power[i%power.length]);
         }
@@ -282,7 +299,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     public Double[] visitFactorial(ExpressionParser.FactorialContext ctx) {
         Double [] arg = visit(ctx.expression());
 
-        Double [] res = new Double[arg.length];
+        Double [] res = getResultArray(ctx, arg.length);
         for (int i=0; i<res.length; i++) {
             res[i] = Gamma.gamma(1+arg[i]);
         }
@@ -305,7 +322,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     public Double[] visitArraySubscript(ExpressionParser.ArraySubscriptContext ctx) {
         Double [] array = visit(ctx.expression(0));
         Double [] indices = visit(ctx.expression(1));
-        Double [] res = new Double[indices.length];
+        Double [] res = getResultArray(ctx, indices.length);
 
         for (int i=0; i<indices.length; i++)
             res[i] = array[(int)Math.round(indices[i]) % array.length];
@@ -319,7 +336,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         int start = (int)Math.round(visit(ctx.expression(0))[0]);
         int stop = (int)Math.round(visit(ctx.expression(1))[0]);
 
-        Double[] res = new Double[Math.abs(stop - start) + 1];
+        Double[] res = getResultArray(ctx, Math.abs(stop-start)+1);
 
         double delta = stop > start ? 1.0 : -1.0;
 

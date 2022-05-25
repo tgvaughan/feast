@@ -86,6 +86,8 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     
     Double [] res;
 
+    boolean dirty;
+
     public ExpCalculator() {
     }
     
@@ -108,13 +110,15 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
         
         // Create new visitor for calculating expression values:
         visitor = new ExpCalculatorVisitor(functionsMap);
-        
-        update();
+
+        dirty = true;
     }
 
     private void update() {
-        if (visitor != null)
+        if (visitor != null && dirty) {
             res = visitor.visit(parseTree);
+            dirty = false;
+        }
     }
     
     @Override
@@ -123,6 +127,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
         if (name == null)
             name = "expression";
 
+        update();
         if (res.length==1)
             out.print(name + "\t");
         else
@@ -142,6 +147,7 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
 
     @Override
     public int getDimension() {
+        update();
         return res.length;
     }
 
@@ -155,5 +161,17 @@ public class ExpCalculator extends CalculationNode implements Loggable, Function
     public double getArrayValue(int i) {
         update();
         return res[i];
+    }
+
+    @Override
+    protected boolean requiresRecalculation() {
+        dirty = true;
+        return true;
+    }
+
+    @Override
+    protected void restore() {
+        dirty = true;
+        super.restore();
     }
 }
