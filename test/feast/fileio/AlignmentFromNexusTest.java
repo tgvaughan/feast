@@ -53,4 +53,15 @@ public class AlignmentFromNexusTest {
         assertEquals(20, alignment.getSiteCount());
         assertEquals(7, alignment.getPatternCount());
     }
+
+    @Test
+    public void testAlignmentFromNexusURL() {
+        AlignmentFromNexus alignment = new AlignmentFromNexus();
+        alignment.initByName(
+                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/test/feast/fileio/test_alignment.nexus");
+
+        assertEquals(4, alignment.getTaxonCount());
+        assertEquals(20, alignment.getSiteCount());
+        assertEquals(13, alignment.getPatternCount());
+    }
 }

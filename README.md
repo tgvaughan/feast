@@ -580,6 +580,18 @@ rather than stored in the BEAST 2 XML:
 <alignment spec='feast.fileio.AlignmentFromFasta' fileName="example.fasta"/>
 ```
 
+Sequence files can also be referenced using a URL:
+
+```xml
+<!-- Nexus: -->
+<alignment spec="feast.fileio.AlignmentFromNexus"
+           url="https://example.com/alignment.nexus"/>
+
+<!-- Fasta: -->
+<alignment spec="feast.fileio.AlignmentFromFasta"
+           url="https://example.com/alignment.fasta"/>
+```
+
 The Fasta import uses the sequence labels from the file as taxon labels.
 
 Obviously these classes runs contrary to BEAST's philosophy of keeping
@@ -587,7 +599,6 @@ everything necessary to run an analysis in the XML file.  However, it
 is sometimes convenient to be able to do this.  As a bonus, the
 `xmlFileName` attribute can be used to write the appropriate XML
 fragment to disk.
-
 
 NexusWriter
 -----------

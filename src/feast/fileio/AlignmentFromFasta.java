@@ -40,13 +40,7 @@ public class AlignmentFromFasta extends AlignmentFromFile {
             return;
         }
 
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(fileNameInput.get()));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("FASTA file '"
-                    + fileNameInput.get() + "' not found.");
-        }
+        BufferedReader reader = getReader();
 
         StringBuilder seqBuilder = new StringBuilder();
         String line;

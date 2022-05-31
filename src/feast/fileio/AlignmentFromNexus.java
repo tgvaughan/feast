@@ -45,7 +45,7 @@ public class AlignmentFromNexus extends AlignmentFromFile {
 
         NexusParser parser = new NexusParser();
         try {
-            parser.parseFile(new File(fileNameInput.get()));
+            parser.parseFile(fileNameInput.get(), getReader());
         } catch (IOException e) {
             throw new RuntimeException("Error reading NEXUS file '" + fileNameInput.get() + "'.");
         }

@@ -5,19 +5,26 @@ import beast.evolution.alignment.Alignment;
 import beast.evolution.alignment.Sequence;
 import beast.evolution.alignment.TaxonSet;
 
+import java.io.*;
+import java.net.URL;
+
 /**
  * Alignments initialized from files extend this class.
  */
 public class AlignmentFromFile extends Alignment {
 
-    public Input<String> fileNameInput = new Input<>("fileName", "Name of file "
-            + "containing sequence alignment in fasta format.", Input.Validate.REQUIRED);
+    public Input<String> fileNameInput = new Input<>("fileName",
+            "Name of file containing sequence alignment.");
+
+    public Input<String> urlInput = new Input<>("url",
+            "URL from which to download sequence alignment.",
+            Input.Validate.XOR, fileNameInput);
 
     public Input<String> outFileNameInput = new Input<>("xmlFileName",
             "Name of file to write XML fragment to.");
 
-    public Input<String> endsWithInput = new Input<>(
-            "endsWith", "If provided, include only those sequences whose header " +
+    public Input<String> endsWithInput = new Input<>("endsWith",
+            "If provided, include only those sequences whose header " +
             "strings end with the provided substring.");
 
     public Input<TaxonSet> includeOnlyInput = new Input<>(
@@ -36,5 +43,33 @@ public class AlignmentFromFile extends Alignment {
         && ((includeOnlyInput.get() == null
                 || includeOnlyInput.get().getTaxaNames().contains(sequence.getTaxon()))))
             sequenceInput.setValue(sequence, this);
+    }
+
+    /**
+     * Retrieves a buffered reader for an alignment file or URL.
+     * Used by the concrete child classes to access the data contained at the
+     * given location.
+     *
+     * @return buffered reader
+     */
+    protected BufferedReader getReader() {
+        if (fileNameInput.get() != null) {
+            try {
+                return new BufferedReader(new FileReader(fileNameInput.get()));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("Error reading from file '"
+                        + fileNameInput.get() + "': "
+                        + e.getMessage());
+            }
+        }
+        else {
+            try {
+                return new BufferedReader(new InputStreamReader(new URL(urlInput.get()).openStream()));
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading from URL '"
+                + urlInput.get() + "': "
+                + e.getMessage());
+            }
+        }
     }
 }

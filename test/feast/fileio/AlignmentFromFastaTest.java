@@ -80,4 +80,14 @@ public class AlignmentFromFastaTest {
         assertFalse(alignment.getTaxaNames().contains("mouse"));
     }
 
+    @Test
+    public void testAlignmentFromFastaURL() {
+        AlignmentFromFasta alignment = new AlignmentFromFasta();
+        alignment.initByName(
+                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/test/feast/fileio/test_alignment.fasta");
+
+        assertEquals(4, alignment.getTaxonCount());
+        assertEquals(20, alignment.getSiteCount());
+        assertEquals(13, alignment.getPatternCount());
+    }
 }
