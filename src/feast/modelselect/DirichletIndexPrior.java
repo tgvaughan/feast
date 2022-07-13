@@ -21,12 +21,15 @@ public class DirichletIndexPrior extends Distribution {
     RealParameter scalingParameter;
     int[] counts;
 
+    int N;
+
     @Override
     public void initAndValidate() {
         selectionIndices = selectionIndiciesInput.get();
         scalingParameter = scalingParameterInput.get();
 
-        counts = new int[selectionIndices.getDimension()];
+        N = selectionIndices.getDimension();
+        counts = new int[N];
     }
 
     @Override
@@ -34,17 +37,22 @@ public class DirichletIndexPrior extends Distribution {
         logP = 0.0;
 
         Arrays.fill(counts, 0);
+        int nUnique = 0;
 
         double alpha = scalingParameterInput.get().getValue();
 
-        for (int i=0; i<selectionIndices.getDimension(); i++) {
+        for (int i=1; i<=N; i++) {
 
-            if (counts[selectionIndices.getValue(i)]>0)
-                logP += Math.log((i+1)/(alpha + i));
-            else
-                logP += Math.log(alpha/(alpha+i));
+            int k = selectionIndices.getValue(i-1);
 
-            counts[selectionIndices.getValue(i)] += 1;
+            if (counts[k]>0)
+                logP += Math.log(counts[k]/(alpha+i-1));
+            else {
+                logP += Math.log(alpha / (alpha+i-1) / (double)(N - nUnique));
+                nUnique += 1;
+            }
+
+            counts[k] += 1;
         }
 
         return logP;
