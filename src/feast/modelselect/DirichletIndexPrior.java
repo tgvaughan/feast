@@ -8,6 +8,11 @@ import beast.core.parameter.RealParameter;
 
 import java.util.*;
 
+/**
+ * A distribution which is useful as a prior for an array of index
+ * variables which are used in conjunction with the ModelSelectionParameter
+ * to apply Dirichlet process priors to vectors of continuous values.
+ */
 public class DirichletIndexPrior extends Distribution {
 
     public Input<IntegerParameter> selectionIndiciesInput = new Input<>("selectionIndices",
