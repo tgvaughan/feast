@@ -1,7 +1,6 @@
 package feast.modelselect;
 
 import beast.core.*;
-import beast.core.parameter.IntegerParameter;
 
 import java.io.PrintStream;
 import java.util.HashSet;
@@ -9,10 +8,10 @@ import java.util.Set;
 
 public class UniqueParameterCount extends CalculationNode implements Function, Loggable {
 
-    public Input<IntegerParameter> parameterIndicesInput = new Input<>("selectionIndices",
+    public Input<Function> parameterIndicesInput = new Input<>("selectionIndices",
             "Integer parameter controlling parameter indices.", Input.Validate.REQUIRED);
 
-    Set<Integer> indexSet = new HashSet<>();
+    Set<Double> valueSet = new HashSet<>();
 
     @Override
     public void initAndValidate() {
@@ -29,12 +28,12 @@ public class UniqueParameterCount extends CalculationNode implements Function, L
         if (dim > 0)
             return 0;
 
-        indexSet.clear();
+        valueSet.clear();
         for (int i=0; i<parameterIndicesInput.get().getDimension(); i++) {
-            indexSet.add(parameterIndicesInput.get().getValue(i));
+            valueSet.add(parameterIndicesInput.get().getArrayValue(i));
         }
 
-        return indexSet.size();
+        return valueSet.size();
     }
 
     @Override
