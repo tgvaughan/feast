@@ -201,8 +201,35 @@ we use the "hky.kappa" field of the `original_analysis.log` trace log file to se
 to set the value of the `Tree` named "tree".  The value of "kappa" and the height and length statistics
 of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
 
+Model selection using DirichletProcessOperator and DirichletProcessPrior
+------------------------------------------------------------------------
+
+The `DirichletProcessPrior` and `DirichletProcessOperator` allow the application
+of Dirichlet Process Priors (DPPs) to the elements of `Function`s.
+
+For example, suppose you have a model with parameter `X` to which you wish
+to apply such a prior.  To do this, include the following prior for `X`
+in the target density:
+
+```xml
+<distribution spec="DirichletProcessPrior" parameter="@X">
+    <scaleParameter id="dppScale" spec="RealParameter" value="1.0"/>
+    <baseDistrib id="dppBase" spec="LogNormalDistributionModel" M="0.8" S="0.5"/>
+</distribution>
+```
+
+You also need to include the following operator:
+
+```xml
+<operator spec="DirichletProcessOperator" parameter="@X"
+          scaleParameter="@dppScale" baseDistrib="@dppBase" weight="1.0"/>
+```
+
+Other operators on `X` can be included, but only if they do not alter the
+number of elements of `X` which are identical.
+
 Model selection using ModelSelectionParameter
-----------------------------------------------------
+---------------------------------------------
 
 While model selection is extremely complicated in general, it can be almost
 trivial when the number of models you wish to consider is small and the models
@@ -243,7 +270,7 @@ is its own `ModelSelectionParameter`, shares exactly the same set of
 "parameter" and "selectionIndices" inputs, but has its own unique value of
 "thisIndex".
 
-The principal limitation of `ModelSelectionParameter` is that it is only
+Beware that `ModelSelectionParameter` is that is only
 compatible with distributions which take `Function`s rather than `RealParameter`
 s as input.
 
