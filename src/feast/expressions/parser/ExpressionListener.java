@@ -1,4 +1,4 @@
-// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.9.1
+// Generated from Expression.g4 by ANTLR 4.7.2
 package feast.expressions.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

@@ -675,6 +675,8 @@ Example expressions (I and J are IDs of RealParameters with elements
     J!                         | {1.0, 2.0, 6.0}
     2^I                        | {2.0, 4.0, 6.0}  
     sum(I)                     | {6.0}
+    cumsum(I)                  | {1.0, 3.0, 6.0}
+    diff(I)                    | {1.0, 1.0}
     {1,2,3}^2                  | {1.0, 4.0, 9.0}
     theta(I-2)                 | {0.0, 1.0, 1.0}
     I < 3 && I >=1             | {1.0, 1.0, 0.0}

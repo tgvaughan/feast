@@ -1,4 +1,4 @@
-// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.9.1
+// Generated from Expression.g4 by ANTLR 4.7.2
 package feast.expressions.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ExpressionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -19,9 +19,10 @@ public class ExpressionParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, ADD=11, SUB=12, MUL=13, DIV=14, MOD=15, POW=16, EXP=17, LOG=18, 
-		SQRT=19, SUM=20, THETA=21, ABS=22, MIN=23, MAX=24, LEN=25, SORT=26, AND=27, 
-		OR=28, EQ=29, GT=30, LT=31, GE=32, LE=33, NE=34, ZERO=35, NZINT=36, NNFLOAT=37, 
-		IDENT=38, COMMENT_SINGLELINE=39, COMMENT_MULTILINE=40, WHITESPACE=41;
+		SQRT=19, SUM=20, THETA=21, ABS=22, MIN=23, MAX=24, LEN=25, SORT=26, DIFF=27, 
+		CUMSUM=28, AND=29, OR=30, EQ=31, GT=32, LT=33, GE=34, LE=35, NE=36, ZERO=37, 
+		NZINT=38, NNFLOAT=39, IDENT=40, COMMENT_SINGLELINE=41, COMMENT_MULTILINE=42, 
+		WHITESPACE=43;
 	public static final int
 		RULE_expression = 0;
 	private static String[] makeRuleNames() {
@@ -35,8 +36,9 @@ public class ExpressionParser extends Parser {
 		return new String[] {
 			null, "'('", "')'", "'{'", "','", "'}'", "'['", "']'", "':'", "'!'", 
 			"'?'", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'", "'exp'", "'log'", "'sqrt'", 
-			"'sum'", "'theta'", "'abs'", "'min'", "'max'", "'len'", "'sort'", "'&&'", 
-			"'||'", "'=='", "'>'", "'<'", "'>='", "'<='", "'!='", "'0'"
+			"'sum'", "'theta'", "'abs'", "'min'", "'max'", "'len'", "'sort'", "'diff'", 
+			"'cumsum'", "'&&'", "'||'", "'=='", "'>'", "'<'", "'>='", "'<='", "'!='", 
+			"'0'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -44,8 +46,8 @@ public class ExpressionParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, "ADD", 
 			"SUB", "MUL", "DIV", "MOD", "POW", "EXP", "LOG", "SQRT", "SUM", "THETA", 
-			"ABS", "MIN", "MAX", "LEN", "SORT", "AND", "OR", "EQ", "GT", "LT", "GE", 
-			"LE", "NE", "ZERO", "NZINT", "NNFLOAT", "IDENT", "COMMENT_SINGLELINE", 
+			"ABS", "MIN", "MAX", "LEN", "SORT", "DIFF", "CUMSUM", "AND", "OR", "EQ", 
+			"GT", "LT", "GE", "LE", "NE", "ZERO", "NZINT", "NNFLOAT", "IDENT", "COMMENT_SINGLELINE", 
 			"COMMENT_MULTILINE", "WHITESPACE"
 		};
 	}
@@ -126,6 +128,8 @@ public class ExpressionParser extends Parser {
 		public TerminalNode MAX() { return getToken(ExpressionParser.MAX, 0); }
 		public TerminalNode LEN() { return getToken(ExpressionParser.LEN, 0); }
 		public TerminalNode SORT() { return getToken(ExpressionParser.SORT, 0); }
+		public TerminalNode DIFF() { return getToken(ExpressionParser.DIFF, 0); }
+		public TerminalNode CUMSUM() { return getToken(ExpressionParser.CUMSUM, 0); }
 		public UnaryOpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -525,6 +529,8 @@ public class ExpressionParser extends Parser {
 			case MAX:
 			case LEN:
 			case SORT:
+			case DIFF:
+			case CUMSUM:
 				{
 				_localctx = new UnaryOpContext(_localctx);
 				_ctx = _localctx;
@@ -532,7 +538,7 @@ public class ExpressionParser extends Parser {
 				setState(18);
 				((UnaryOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA) | (1L << ABS) | (1L << MIN) | (1L << MAX) | (1L << LEN) | (1L << SORT))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA) | (1L << ABS) | (1L << MIN) | (1L << MAX) | (1L << LEN) | (1L << SORT) | (1L << DIFF) | (1L << CUMSUM))) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
@@ -803,18 +809,18 @@ public class ExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3+D\4\2\t\2\3\2\3\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-D\4\2\t\2\3\2\3\2"+
 		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2\16\n\2\f\2\16\2\21\13\2\3\2\3\2\3\2\3"+
 		"\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2\36\n\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2"+
 		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3"+
 		"\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2?\n\2\f\2\16\2B\13\2\3\2\2\3\2\3\2\2\b\3"+
-		"\2\23\34\3\2%\'\3\2\17\21\3\2\r\16\3\2\37$\3\2\35\36\2Q\2\35\3\2\2\2\4"+
-		"\5\b\2\1\2\5\6\7\3\2\2\6\7\5\2\2\2\7\b\7\4\2\2\b\36\3\2\2\2\t\n\7\5\2"+
-		"\2\n\17\5\2\2\2\13\f\7\6\2\2\f\16\5\2\2\2\r\13\3\2\2\2\16\21\3\2\2\2\17"+
-		"\r\3\2\2\2\17\20\3\2\2\2\20\22\3\2\2\2\21\17\3\2\2\2\22\23\7\7\2\2\23"+
-		"\36\3\2\2\2\24\25\t\2\2\2\25\26\7\3\2\2\26\27\5\2\2\2\27\30\7\4\2\2\30"+
-		"\36\3\2\2\2\31\32\7\16\2\2\32\36\5\2\2\n\33\36\7(\2\2\34\36\t\3\2\2\35"+
-		"\4\3\2\2\2\35\t\3\2\2\2\35\24\3\2\2\2\35\31\3\2\2\2\35\33\3\2\2\2\35\34"+
+		"\2\23\36\3\2\')\3\2\17\21\3\2\r\16\3\2!&\3\2\37 \2Q\2\35\3\2\2\2\4\5\b"+
+		"\2\1\2\5\6\7\3\2\2\6\7\5\2\2\2\7\b\7\4\2\2\b\36\3\2\2\2\t\n\7\5\2\2\n"+
+		"\17\5\2\2\2\13\f\7\6\2\2\f\16\5\2\2\2\r\13\3\2\2\2\16\21\3\2\2\2\17\r"+
+		"\3\2\2\2\17\20\3\2\2\2\20\22\3\2\2\2\21\17\3\2\2\2\22\23\7\7\2\2\23\36"+
+		"\3\2\2\2\24\25\t\2\2\2\25\26\7\3\2\2\26\27\5\2\2\2\27\30\7\4\2\2\30\36"+
+		"\3\2\2\2\31\32\7\16\2\2\32\36\5\2\2\n\33\36\7*\2\2\34\36\t\3\2\2\35\4"+
+		"\3\2\2\2\35\t\3\2\2\2\35\24\3\2\2\2\35\31\3\2\2\2\35\33\3\2\2\2\35\34"+
 		"\3\2\2\2\36@\3\2\2\2\37 \f\16\2\2 !\7\n\2\2!?\5\2\2\17\"#\f\13\2\2#$\7"+
 		"\22\2\2$?\5\2\2\13%&\f\t\2\2&\'\t\4\2\2\'?\5\2\2\n()\f\b\2\2)*\t\5\2\2"+
 		"*?\5\2\2\t+,\f\7\2\2,-\t\6\2\2-?\5\2\2\b./\f\6\2\2/\60\t\7\2\2\60?\5\2"+

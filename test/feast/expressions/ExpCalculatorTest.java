@@ -131,6 +131,23 @@ public class ExpCalculatorTest {
         assertEquals(2.5, instance.getArrayValue(1), 1e-15);
         assertEquals(3.0, instance.getArrayValue(2), 1e-15);
         assertEquals(4.0, instance.getArrayValue(3), 1e-15);
+
+        instance.initByName( "value", "cumsum({1,3,4,4})");
+        // Expected output: 1, 4, 8, 12
+
+        assertEquals(4, instance.getDimension());
+        assertEquals(1, instance.getArrayValue(0), 1e-15);
+        assertEquals(4, instance.getArrayValue(1), 1e-15);
+        assertEquals(8, instance.getArrayValue(2), 1e-15);
+        assertEquals(12, instance.getArrayValue(3), 1e-15);
+
+        instance.initByName( "value", "diff({1,3,4,4})");
+        // Expected output: 1, 4, 8, 12
+
+        assertEquals(3, instance.getDimension());
+        assertEquals(2, instance.getArrayValue(0), 1e-15);
+        assertEquals(1, instance.getArrayValue(1), 1e-15);
+        assertEquals(0, instance.getArrayValue(2), 1e-15);
     }
 
     @Test

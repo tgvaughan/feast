@@ -266,6 +266,20 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                 System.arraycopy(arg, 0, res, 0, arg.length);
                 Arrays.sort(res);
                 break;
+
+            case ExpressionParser.CUMSUM:
+                res = getResultArray(ctx, arg.length);
+                res[0] = arg[0];
+                for (int i=1; i<res.length; i++)
+                    res[i] = res[i-1] + arg[i];
+                break;
+
+            case ExpressionParser.DIFF:
+                res = getResultArray(ctx, arg.length-1);
+                for (int i=0; i<res.length; i++)
+                    res[i] = arg[i+1] - arg[i];
+                break;
+
         }
         
         return res;
