@@ -1,4 +1,4 @@
-package feast.modelselect;
+package feast.function;
 
 import beast.core.*;
 
@@ -6,10 +6,12 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UniqueParameterCount extends CalculationNode implements Function, Loggable {
+@Description("Function representing the number of unique elements of another function.")
+public class UniqueElementCount extends LoggableFunction {
 
-    public Input<Function> parameterIndicesInput = new Input<>("selectionIndices",
-            "Integer parameter controlling parameter indices.", Input.Validate.REQUIRED);
+    public Input<Function> argInput = new Input<>("arg",
+            "Number of unique elements of this parameter will be logged.",
+            Input.Validate.REQUIRED);
 
     Set<Double> valueSet = new HashSet<>();
 
@@ -29,8 +31,8 @@ public class UniqueParameterCount extends CalculationNode implements Function, L
             return 0;
 
         valueSet.clear();
-        for (int i=0; i<parameterIndicesInput.get().getDimension(); i++) {
-            valueSet.add(parameterIndicesInput.get().getArrayValue(i));
+        for (int i = 0; i< argInput.get().getDimension(); i++) {
+            valueSet.add(argInput.get().getArrayValue(i));
         }
 
         return valueSet.size();

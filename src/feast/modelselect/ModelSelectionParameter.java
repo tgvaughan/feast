@@ -1,9 +1,6 @@
 package feast.modelselect;
 
-import beast.core.CalculationNode;
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.Loggable;
+import beast.core.*;
 import beast.core.parameter.IntegerParameter;
 import beast.core.parameter.RealParameter;
 
@@ -11,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+@Description("Class of Functions useful for BSSVS-style model selection/averaging.")
 public class ModelSelectionParameter extends CalculationNode implements Function, Loggable {
 
     public Input<List<Function>> parametersInput = new Input<>("parameter",

@@ -469,6 +469,18 @@ the elements of several input `Function`s.  For example:
 
 is as a `Function` with elements 1,2,3,4,5,6,7,8.
 
+Finally, instances of `feast.function.UniqueElementCount` are `Function`s which
+contain a single integer representing the number of unique values contained
+in the elements of an input `Function`.  For example,
+
+```xml
+<uniqueValues spec="feast.function.UniqueElementCount">
+    <arg spec="RealParameter" value="1.5 10 1.5 1.4"/>
+</uniqueValues>
+```
+
+is a `Function` with a value of 3.
+
 DensityMapper
 -------------
 
