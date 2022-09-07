@@ -292,12 +292,32 @@ indicating which elements to scale.  The differences are that `BlockScaleOperato
      
 An example usage of this operator is as follows:
 ```xml
-<operator spec="BlockScaleOperator" parameter="@paramToScale" weight="1.0">
+<operator spec="BlockScaleOperator" parameter="@paramToScale"
+          scaleFactor="0.8" weight="1.0">
     <indicator spec="BooleanParameter" value="true true false false" estimate="false"/>
 </operator>
 ```
 Here "@paramToScale" references a `RealParameter` with 4 elements, and the
 operator jointly scales the first two.
+
+An alternative approach is available in the `SmartScaleOperator`, which
+does not use indicator variables but instead considers elements with
+identical values to represent the same random variable.  Thus, the following
+achieves the same result as above, with the added requirement that values
+to be scaled together must be initialised to the same value:
+
+```xml
+<state>
+    <stateNode spec="RealParameter" id="paramToScale" value="1 1 2 2"/>
+</state>
+
+<operator spec="SmartScaleOperator" parameter="@paramToScale"
+          scaleFactor="0.8" weight="1.0"/>
+```
+
+The `SmartRealRandomWalkOperator` acts analogously, but implements a random
+walk equivalent to BEAST's `RealRandomWalkOperator` applied only to unique
+elements.
 
 Initializing RealParameters using formatted times
 -------------------------------------------------
