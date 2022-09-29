@@ -10,8 +10,12 @@ public abstract class LoggableFunction extends CalculationNode implements Loggab
 
     @Override
     public void init(PrintStream out) {
-        for (int i=0; i<getDimension(); i++)
-            out.print(getID() + "[" + i + "]\t");
+        if (getDimension()==1) {
+            out.print(getID() + "\t");
+        } else {
+            for (int i = 0; i < getDimension(); i++)
+                out.print(getID() + "[" + i + "]\t");
+        }
     }
 
     @Override
