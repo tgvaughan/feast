@@ -13,9 +13,8 @@
     <property name="targetVersion" value="1.8"/>
 
     <!-- Directories necessary for all BEAST 2 packages -->
-    <property name="doc" location="doc"/>
     <property name="examples" location="examples"/>
-    <property name="templates" location="templates"/>
+    <property name="templates" location="fxtemplates"/>
 
     <!-- BEAST branch and version to build against
          (only different for version tags because of
@@ -333,7 +332,6 @@
         <mkdir dir="${lib}"/>
         <mkdir dir="${examples}"/>
         <mkdir dir="${templates}"/>
-        <mkdir dir="${doc}"/>
 
         <echo/>
         <echo>Done.</echo>
