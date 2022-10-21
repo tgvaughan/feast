@@ -1,0 +1,8 @@
+<packages>
+  <package name="feast" version="9.0.0"
+           url="https://github.com/tgvaughan/feast/releases/download/v9.0.0/feast.v9.0.0.zip"
+           projectURL="https://github.com/tgvaughan/remaster"
+           description="Phylogenetic simulator" >
+    <depends on="beast2" atleast="2.7.0" atmost="2.7.9"/>
+  </package>
+</packages>
