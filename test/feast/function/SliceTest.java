@@ -1,7 +1,7 @@
 package feast.function;
 
-import beast.core.Function;
-import beast.core.parameter.RealParameter;
+import beast.base.core.Function;
+import beast.base.inference.parameter.RealParameter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

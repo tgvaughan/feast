@@ -1,8 +1,8 @@
 package feast.function;
 
-import beast.core.Description;
-import beast.core.Function;
-import beast.core.Input;
+import beast.base.core.Description;
+import beast.base.core.Function;
+import beast.base.core.Input;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,7 +17,8 @@
 
 package feast.nexus;
 
-import beast.evolution.alignment.TaxonSet;
+import beast.base.evolution.alignment.TaxonSet;
+
 import java.util.ArrayList;
 import java.util.List;
 

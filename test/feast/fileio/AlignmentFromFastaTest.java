@@ -17,8 +17,8 @@
 
 package feast.fileio;
 
-import beast.evolution.alignment.Taxon;
-import beast.evolution.alignment.TaxonSet;
+import beast.base.evolution.alignment.Taxon;
+import beast.base.evolution.alignment.TaxonSet;
 import org.junit.Test;
 
 import java.util.ArrayList;

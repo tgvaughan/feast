@@ -1,9 +1,9 @@
 package feast.function;
 
-import beast.core.Description;
-import beast.core.Input;
-import beast.evolution.alignment.TaxonSet;
-import beast.evolution.tree.TraitSet;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.evolution.alignment.TaxonSet;
+import beast.base.evolution.tree.TraitSet;
 
 @Description("All trait sets have at least some (potentially useless) representation " +
         "as a vector of doubles.  This class just allows you to explicitly treat them " +

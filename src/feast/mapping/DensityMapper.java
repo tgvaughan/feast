@@ -1,17 +1,24 @@
 package feast.mapping;
 
-import beast.core.*;
-import beast.core.parameter.BooleanParameter;
-import beast.core.parameter.IntegerParameter;
-import beast.core.parameter.RealParameter;
+import beast.base.core.BEASTObject;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.inference.*;
+import beast.base.inference.Runnable;
+import beast.base.inference.parameter.BooleanParameter;
+import beast.base.inference.parameter.IntegerParameter;
+import beast.base.inference.parameter.RealParameter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Tim Vaughan
  */
 @Description("Utility for mapping probability density surfaces.")
-public class DensityMapper extends beast.core.Runnable {
+public class DensityMapper extends Runnable {
 
     public Input<List<RealParameter>> realParamsInput = new Input<>(
             "realParam",
@@ -117,7 +124,7 @@ public class DensityMapper extends beast.core.Runnable {
         nestedLoop(0);
 
         // Finalize loggers
-        loggersInput.get().forEach(beast.core.Logger::close);
+        loggersInput.get().forEach(Logger::close);
     }
 
     /**

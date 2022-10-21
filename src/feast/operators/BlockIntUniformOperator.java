@@ -1,10 +1,10 @@
 package feast.operators;
 
-import beast.core.Input;
-import beast.core.Operator;
-import beast.core.parameter.BooleanParameter;
-import beast.core.parameter.IntegerParameter;
-import beast.util.Randomizer;
+import beast.base.core.Input;
+import beast.base.inference.Operator;
+import beast.base.inference.parameter.BooleanParameter;
+import beast.base.inference.parameter.IntegerParameter;
+import beast.base.util.Randomizer;
 
 public class BlockIntUniformOperator extends Operator {
 

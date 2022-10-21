@@ -1,12 +1,13 @@
 package feast.popmodels;
 
-import beast.core.Description;
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.parameter.RealParameter;
-import beast.evolution.tree.coalescent.ConstantPopulation;
-import beast.evolution.tree.coalescent.ExponentialGrowth;
-import beast.evolution.tree.coalescent.PopulationFunction;
+
+import beast.base.core.Description;
+import beast.base.core.Function;
+import beast.base.core.Input;
+import beast.base.evolution.tree.coalescent.ConstantPopulation;
+import beast.base.evolution.tree.coalescent.ExponentialGrowth;
+import beast.base.evolution.tree.coalescent.PopulationFunction;
+import beast.base.inference.parameter.RealParameter;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;

@@ -1,6 +1,8 @@
 package feast.function;
 
-import beast.core.*;
+import beast.base.core.Description;
+import beast.base.core.Function;
+import beast.base.core.Input;
 
 import java.io.PrintStream;
 import java.util.HashSet;

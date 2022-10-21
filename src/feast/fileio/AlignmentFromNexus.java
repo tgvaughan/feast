@@ -17,8 +17,8 @@
 
 package feast.fileio;
 
-import beast.evolution.alignment.Sequence;
-import beast.util.NexusParser;
+import beast.base.evolution.alignment.Sequence;
+import beast.base.parser.NexusParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;

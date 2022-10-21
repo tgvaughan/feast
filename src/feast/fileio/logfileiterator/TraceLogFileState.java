@@ -1,9 +1,7 @@
 package feast.fileio.logfileiterator;
 
-import beast.core.BEASTInterface;
-import beast.core.BEASTObject;
-import beast.core.Input;
-import beast.core.StateNode;
+import beast.base.core.Input;
+import beast.base.inference.StateNode;
 
 import java.io.*;
 import java.util.*;

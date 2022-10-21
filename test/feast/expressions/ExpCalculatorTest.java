@@ -19,8 +19,9 @@
 
 package feast.expressions;
 
-import beast.core.parameter.RealParameter;
 import static org.junit.Assert.*;
+
+import beast.base.inference.parameter.RealParameter;
 import org.junit.Test;
 
 /**

@@ -17,10 +17,10 @@
 
 package feast.expressions;
 
-import beast.core.Description;
-import beast.core.Function;
-import beast.core.Input;
-import beast.math.distributions.ParametricDistribution;
+import beast.base.core.Description;
+import beast.base.core.Function;
+import beast.base.core.Input;
+import beast.base.inference.distribution.ParametricDistribution;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;

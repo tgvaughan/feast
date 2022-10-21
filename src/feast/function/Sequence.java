@@ -1,6 +1,6 @@
 package feast.function;
 
-import beast.core.Input;
+import beast.base.core.Input;
 
 public class Sequence extends LoggableFunction {
 

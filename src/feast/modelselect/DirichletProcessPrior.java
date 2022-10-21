@@ -1,10 +1,10 @@
 package feast.modelselect;
 
-import beast.core.Distribution;
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.State;
-import beast.math.distributions.ParametricDistribution;
+import beast.base.core.Function;
+import beast.base.core.Input;
+import beast.base.inference.Distribution;
+import beast.base.inference.State;
+import beast.base.inference.distribution.ParametricDistribution;
 
 import java.util.HashMap;
 import java.util.List;

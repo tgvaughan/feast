@@ -1,13 +1,12 @@
 package feast.fileio.logfileiterator;
 
-import beast.core.Input;
-import beast.core.StateNode;
-import beast.evolution.alignment.Taxon;
-import beast.evolution.alignment.TaxonSet;
-import beast.evolution.tree.Node;
-import beast.evolution.tree.RandomTree;
-import beast.evolution.tree.Tree;
-import beast.util.TreeParser;
+import beast.base.core.Input;
+import beast.base.evolution.alignment.Taxon;
+import beast.base.evolution.alignment.TaxonSet;
+import beast.base.evolution.tree.Node;
+import beast.base.evolution.tree.Tree;
+import beast.base.evolution.tree.TreeParser;
+import beast.base.inference.StateNode;
 
 import java.io.IOException;
 import java.util.ArrayList;

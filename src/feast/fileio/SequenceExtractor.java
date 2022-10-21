@@ -17,22 +17,22 @@
 
 package feast.fileio;
 
-import beast.core.BEASTObject;
-import beast.core.Input;
-import beast.core.Runnable;
-import beast.evolution.alignment.Alignment;
-import beast.evolution.alignment.FilteredAlignment;
-import beast.util.XMLParser;
+import beast.base.core.BEASTObject;
+import beast.base.core.Input;
+import beast.base.evolution.alignment.Alignment;
+import beast.base.evolution.alignment.FilteredAlignment;
+import beast.base.parser.XMLParser;
 import feast.nexus.NexusWriter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import beast.base.inference.Runnable;
 
 /**
  * Simple tool for extracting a sequence alignment from a BEAST 2 input file

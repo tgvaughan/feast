@@ -19,13 +19,10 @@
 
 package feast.expressions;
 
-import beast.core.BEASTObject;
-import beast.core.CalculationNode;
-import beast.core.Description;
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.Input.Validate;
-import beast.core.Loggable;
+import beast.base.core.BEASTObject;
+import beast.base.core.Description;
+import beast.base.core.Function;
+import beast.base.core.Input;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;
@@ -35,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import feast.function.LoggableFunction;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -71,10 +69,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
         + " parameters can be specified using [] notation.  Parameters with"
         + " differing dimension are combined as in R, with the shortest "
         + " parameter being repeated as many times as necessary.")
-public class ExpCalculator extends CalculationNode implements Loggable, Function {
+public class ExpCalculator extends LoggableFunction {
     
     public Input<String> expressionInput = new Input<>("value",
-            "Expression needed for calculations.", Validate.REQUIRED);
+            "Expression needed for calculations.", Input.Validate.REQUIRED);
     
     public Input<List<Function>> functionsInput = new Input<>(
             "arg", "Parameters/functions needed for the calculation",

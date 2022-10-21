@@ -19,9 +19,10 @@
 
 package feast.nexus;
 
-import beast.evolution.alignment.Alignment;
-import beast.evolution.alignment.TaxonSet;
-import beast.evolution.tree.Tree;
+import beast.base.evolution.alignment.Alignment;
+import beast.base.evolution.alignment.TaxonSet;
+import beast.base.evolution.tree.Tree;
+
 import java.io.PrintStream;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class NexusWriter {
      * @param pstream Print stream where output is sent
      */
     public static void write(Alignment alignment, List<Tree> trees,
-            PrintStream pstream) {
+                             PrintStream pstream) {
         
         TaxonSet taxonSet = null;
         if (alignment != null) {

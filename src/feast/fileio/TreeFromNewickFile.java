@@ -1,9 +1,8 @@
 package feast.fileio;
 
-import beast.core.Description;
-import beast.core.Input;
-import beast.evolution.tree.Tree;
-import beast.util.TreeParser;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.evolution.tree.TreeParser;
 
 import java.io.*;
 

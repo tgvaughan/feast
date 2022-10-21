@@ -6,8 +6,8 @@
 
 package feast.expressions;
 
-import beast.core.parameter.RealParameter;
-import beast.math.distributions.Prior;
+import beast.base.inference.distribution.Prior;
+import beast.base.inference.parameter.RealParameter;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

@@ -1,11 +1,10 @@
 package feast.fileio;
 
-import beast.core.Description;
-import beast.core.Input;
-import beast.evolution.tree.TraitSet;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.evolution.tree.TraitSet;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;

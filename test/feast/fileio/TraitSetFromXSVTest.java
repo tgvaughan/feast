@@ -1,6 +1,6 @@
 package feast.fileio;
 
-import beast.evolution.alignment.TaxonSet;
+import beast.base.evolution.alignment.TaxonSet;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

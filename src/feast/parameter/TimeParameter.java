@@ -1,9 +1,9 @@
 package feast.parameter;
 
-import beast.core.Description;
-import beast.core.Input;
-import beast.core.parameter.RealParameter;
-import beast.core.util.Log;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.core.Log;
+import beast.base.inference.parameter.RealParameter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

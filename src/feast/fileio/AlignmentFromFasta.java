@@ -17,7 +17,7 @@
 
 package feast.fileio;
 
-import beast.evolution.alignment.Sequence;
+import beast.base.evolution.alignment.Sequence;
 
 import java.io.*;
 
@@ -69,18 +69,17 @@ public class AlignmentFromFasta extends AlignmentFromFile {
         super.initAndValidate();
 
         if (outFileNameInput.get() != null) {
-            PrintStream pstream = null;
-            try {
-                pstream = new PrintStream(outFileNameInput.get());
+            try (PrintStream pstream = new PrintStream(outFileNameInput.get())){
+                pstream.println("<alignment spec='beast.evolution.alignment.Alignment'>");
+                for (Sequence seq : sequenceInput.get())
+                    pstream.format("\t<sequence taxon='%s' value='%s'/>\n",
+                            seq.taxonInput.get(), seq.dataInput.get());
+                pstream.println("</alignment>");
             } catch (FileNotFoundException e) {
                 throw new RuntimeException("Error writing to output file '"
                         + outFileNameInput.get() + "'.");
             }
-            pstream.println("<alignment spec='beast.evolution.alignment.Alignment'>");
-            for (Sequence seq : sequenceInput.get())
-                pstream.format("\t<sequence taxon='%s' value='%s'/>\n",
-                        seq.taxonInput.get(), seq.dataInput.get());
-            pstream.println("</alignment>");
+
         }
     }
 }

@@ -1,7 +1,12 @@
 package feast.fileio.logfileiterator;
 
-import beast.core.*;
-import beast.core.Runnable;
+import beast.base.core.BEASTInterface;
+import beast.base.core.BEASTObject;
+import beast.base.core.Input;
+import beast.base.inference.Logger;
+import beast.base.inference.Runnable;
+import beast.base.inference.State;
+import beast.base.inference.StateNode;
 
 import java.io.IOException;
 import java.util.ArrayList;

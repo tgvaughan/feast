@@ -1,9 +1,9 @@
 package feast.fileio;
 
-import beast.core.Input;
-import beast.evolution.alignment.Alignment;
-import beast.evolution.alignment.Sequence;
-import beast.evolution.alignment.TaxonSet;
+import beast.base.core.Input;
+import beast.base.evolution.alignment.Alignment;
+import beast.base.evolution.alignment.Sequence;
+import beast.base.evolution.alignment.TaxonSet;
 
 import java.io.*;
 import java.net.URL;

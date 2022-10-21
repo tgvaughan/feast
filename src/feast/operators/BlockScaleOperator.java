@@ -1,10 +1,10 @@
 package feast.operators;
 
-import beast.core.Input;
-import beast.core.Operator;
-import beast.core.parameter.BooleanParameter;
-import beast.core.parameter.RealParameter;
-import beast.util.Randomizer;
+import beast.base.core.Input;
+import beast.base.inference.Operator;
+import beast.base.inference.parameter.BooleanParameter;
+import beast.base.inference.parameter.RealParameter;
+import beast.base.util.Randomizer;
 
 import java.util.HashSet;
 import java.util.Set;

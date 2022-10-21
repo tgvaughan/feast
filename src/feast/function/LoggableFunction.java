@@ -1,8 +1,8 @@
 package feast.function;
 
-import beast.core.CalculationNode;
-import beast.core.Function;
-import beast.core.Loggable;
+import beast.base.core.Function;
+import beast.base.core.Loggable;
+import beast.base.inference.CalculationNode;
 
 import java.io.PrintStream;
 

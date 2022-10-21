@@ -1,14 +1,12 @@
 package feast.fileio;
 
-import beast.core.Description;
-import beast.core.Input;
-import beast.core.parameter.RealParameter;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.inference.parameter.RealParameter;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Description("Initializes a RealParameter with values read from a CSV/TSV file " +
         "in row-major order.")

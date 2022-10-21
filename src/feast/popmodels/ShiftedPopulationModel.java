@@ -1,8 +1,8 @@
 package feast.popmodels;
 
-import beast.core.Function;
-import beast.core.Input;
-import beast.evolution.tree.coalescent.PopulationFunction;
+import beast.base.core.Function;
+import beast.base.core.Input;
+import beast.base.evolution.tree.coalescent.PopulationFunction;
 
 import java.util.List;
 

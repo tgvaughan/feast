@@ -1,10 +1,10 @@
 package feast.operators;
 
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.Operator;
-import beast.core.StateNode;
-import beast.core.parameter.RealParameter;
+import beast.base.core.Function;
+import beast.base.core.Input;
+import beast.base.inference.Operator;
+import beast.base.inference.StateNode;
+import beast.base.inference.parameter.RealParameter;
 
 import java.util.*;
 

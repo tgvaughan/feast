@@ -1,8 +1,8 @@
 package feast.function;
 
-import beast.core.Description;
-import beast.core.Input;
-import beast.evolution.tree.Tree;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.evolution.tree.Tree;
 
 @Description("Function representing ages of sample nodes of tree.")
 public class SampleAges extends LoggableFunction {

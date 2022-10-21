@@ -1,7 +1,7 @@
 package feast.popmodels;
 
-import beast.core.parameter.RealParameter;
-import beast.evolution.tree.coalescent.ExponentialGrowth;
+import beast.base.evolution.tree.coalescent.ExponentialGrowth;
+import beast.base.inference.parameter.RealParameter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

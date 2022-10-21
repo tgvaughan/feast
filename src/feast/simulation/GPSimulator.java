@@ -1,9 +1,9 @@
 package feast.simulation;
 
-import beast.core.BEASTObject;
-import beast.core.Input;
-import beast.core.Logger;
-import beast.core.Runnable;
+import beast.base.core.BEASTObject;
+import beast.base.core.Input;
+import beast.base.inference.Logger;
+import beast.base.inference.Runnable;
 
 import java.util.ArrayList;
 import java.util.List;

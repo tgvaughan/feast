@@ -17,7 +17,8 @@
 
 package feast.nexus;
 
-import beast.evolution.alignment.Alignment;
+import beast.base.evolution.alignment.Alignment;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;

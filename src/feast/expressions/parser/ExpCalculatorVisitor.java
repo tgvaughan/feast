@@ -19,8 +19,7 @@
 
 package feast.expressions.parser;
 
-import beast.core.Function;
-import beast.math.statistic.DiscreteStatistics;
+import beast.base.core.Function;
 import org.apache.commons.math3.special.Gamma;
 
 import java.util.*;
