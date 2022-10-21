@@ -1,8 +1,8 @@
 <beast version="2.0"
-       namespace="beast.core.parameter
-                 :beast.evolution.alignment
-                 :beast.evolution.tree
-                 :beast.evolution.tree.coalescent">
+       namespace="beast.base.inference.parameter
+                 :beast.base.evolution.alignment
+                 :beast.base.evolution.tree
+                 :beast.base.evolution.tree.coalescent">
 
     <run spec="feast.simulation.GPSimulator" nSims="100">
         <simulationObject spec="RandomTree" id="tree">

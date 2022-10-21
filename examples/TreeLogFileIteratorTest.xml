@@ -1,8 +1,7 @@
 <!-- IMPORTANT: Requires coalescent.xml to be run first. -->
 
-<beast version='2.0' namespace='beast.core
-                                :beast.core.parameter
-                                :beast.evolution.operators
+<beast version='2.0' namespace='beast.base.inference.parameter
+                                :beast.base.evolution.operator
                                 :feast
                                 :feast.expressions
                                 :feast.fileio.logfileiterator'>
@@ -15,12 +14,12 @@
     </logFileState>
 
     <logFileState spec="TreeLogFileState" logFileName="coalescent.trees">
-      <tree spec="beast.evolution.tree.Tree" id="tree"/>
+      <tree spec="beast.base.evolution.tree.Tree" id="tree"/>
     </logFileState>
 
     <logger logEvery="10000" fileName="$(filebase).log">
       <log idref="kappa"/>
-      <log id="treestat" spec="beast.evolution.tree.TreeStatLogger" tree="@tree"/>
+      <log id="treestat" spec="beast.base.evolution.tree.TreeStatLogger" tree="@tree"/>
     </logger>
 
     <logger logEvery="100000">

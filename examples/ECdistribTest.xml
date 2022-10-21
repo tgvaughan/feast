@@ -1,7 +1,8 @@
 <beast version='2.0'
-       namespace='beast.core
-                 :beast.core.parameter
-                 :beast.evolution.operators
+       namespace='beast.base.inference
+                 :beast.base.inference.parameter
+                 :beast.base.inference.operator
+                 :beast.base.evolution.operator
                  :feast:feast.expressions'>
 
     <run spec="MCMC" id="mcmc" chainLength="2000000">

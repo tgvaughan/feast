@@ -1,8 +1,7 @@
 <!-- IMPORTANT: Requires ECdistribArrayTest.xml to be run first. -->
 
-<beast version='2.0' namespace='beast.core
-                                :beast.core.parameter
-                                :beast.evolution.operators
+<beast version='2.0' namespace='beast.base.inference.parameter
+                                :beast.base.inference.operators
                                 :feast
                                 :feast.expressions
                                 :feast.fileio.logfileiterator'>
