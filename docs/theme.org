@@ -1,0 +1,11 @@
+# Turn off default internal styles
+#+OPTIONS: html-style:nil html5-fancy:t
+#+OPTIONS: tex:verbatim H:6 toc:6 num:t
+
+# Exporting to HTML5
+#+HTML_DOCTYPE: html5
+#+HTML_HEAD: <meta http-equiv="X-UA-Compatible" content="IE=edge">
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="theme.css"/>
+
