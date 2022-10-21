@@ -6,7 +6,7 @@
     <property name="lib" location="lib"/>
 
     <!-- Location to check for local copy of beast2 repository -->
-    <property name="beastDir" location="../beast2"/>
+    <property name="local-beast-source-root" location="../beast2"/>
 
     <!-- BEAST 2 currently uses Java 1.8 -->
     <property name="sourceVersion" value="1.8"/>
@@ -25,7 +25,8 @@
 
     <!-- Names of temporary build/test directories -->
     <property name="build" location="build"/>
-    <property name="build-lib" location="build-lib"/>
+    <property name="build-beast" location="build-beast"/>
+    <property name="beast-source-root" location="beast-source"/>
     <property name="build-test" location="build-test"/>
     <property name="test-reports" location="test-reports"/>
     <property name="dist" location="dist"/>
@@ -50,77 +51,69 @@
         <property name="fullName" value="${projName}.v${projVersion}"/>
 
         <mkdir dir="${build}"/>
-        <mkdir dir="${build-lib}"/>
+        <mkdir dir="${build-beast}"/>
+        <mkdir dir="${beast-source-root}"/>
         <mkdir dir="${dist}"/>
-
-        <copy todir="${build-lib}" failonerror="false">
-            <fileset dir="${lib}" includes="*.jar"/>
-        </copy>
     </target>
 
     <!-- Get beast -->
 
     <target name="find-beast" depends="init">
-        <available file="${beastDir}" property="localBeastAvailable"/>
+        <available file="${local-beast-source-root}" property="localBeastAvailable"/>
     </target>
 
-    <target name="build-remote-beast" depends="find-beast" unless="localBeastAvailable">
-        <echo>No local copy of the beast2 source found at ${beastDir}.</echo>
+    <target name="get-remote-beast" depends="find-beast" unless="localBeastAvailable">
+        <echo>No local copy of the beast2 source found at ${local-beast-source-root}.</echo>
         <echo>Compiling against version ${beast-version} from GitHub.</echo>
 
-        <property name="build-beast" location="build-beast"/>
-        <mkdir dir="${build-beast}"/>
+        <mkdir dir="beast-archive"/>
 
-        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip" dest="${build-beast}/beast.zip"/>
-        <unzip src="${build-beast}/beast.zip" dest="${build-beast}"/>
-        <mkdir dir="${build-beast}/beast2-${beast-version}/build"/>
-        <javac target="${targetVersion}" source="${sourceVersion}"
-            srcdir="${build-beast}/beast2-${beast-version}/src"
-            destdir="${build-beast}/beast2-${beast-version}/build" includeantruntime="false">
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
-            </classpath>
-        </javac>
-        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />
-        <copy todir="${build-lib}">
-            <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
-            <fileset dir="${build-beast}/beast2-${beast-version}/lib/junit" includes="*.jar"/>
+        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip"
+             dest="beast-archive/beast.zip"/>
+        <unzip src="beast-archive/beast.zip" dest="beast-archive"/>
+
+        <copy todir="${beast-source-root}">
+              <fileset dir="beast-archive/beast2-${beast-version}" includes="**/*.*"/>
         </copy>
 
-        <delete dir="${build-beast}" />
+        <delete dir="beast-archive"/>
     </target>
 
-    <target name="build-local-beast" depends="find-beast" if="localBeastAvailable">
-        <echo>Compiling against beast2 source found at ${beastDir}.</echo>
+    <target name="get-local-beast" depends="find-beast" if="localBeastAvailable">
+        <echo>Compiling against beast2 source found at ${local-beast-source-root}.</echo>
+        <!-- <property name="beast-source-root" value="${local-beast-source-root}"/> -->
+        <copy todir="${beast-source-root}">
+          <fileset dir="${local-beast-source-root}" includes="**/*.*"/>
+        </copy>
+    </target>
 
-        <property name="build-beast" location="build-beast"/>
-        <mkdir dir="${build-beast}"/>
-
-        <javac target="${targetVersion}" source="${sourceVersion}"
-            srcdir="${beastDir}/src"
-            destdir="${build-beast}" includeantruntime="false">
+    <target name="build-beast" depends="get-local-beast,get-remote-beast">
+        <javac 
+            srcdir="${beast-source-root}/src"
+            destdir="${build-beast}"
+            source="${sourceVersion}"
+            target="${targetVersion}"
+            includeantruntime="false"
+            fork="yes">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <fileset dir="${beastDir}/lib" includes="*.jar"/>
+                <fileset dir="${beast-source-root}/lib" includes="**/*.jar"/>
             </classpath>
         </javac>
-        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}" />
-        <copy todir="${build-lib}">
-            <fileset dir="${beastDir}/lib" includes="*.jar"/>
-        </copy>
 
-        <delete dir="${build-beast}" />
     </target>
-
-    <target name="build-beast" depends="build-local-beast,build-remote-beast"/>
 
     <!-- Compile -->
     <target name="compile" depends="build-beast">
-        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${src}" destdir="${build}" includeantruntime="false">
+      <javac srcdir="${src}" destdir="${build}"
+             source="${sourceVersion}"
+             target="${targetVersion}"
+             includeantruntime="false"
+             fork="yes">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <fileset dir="${build-lib}" includes="*.jar"/>
+                <fileset dir="${beast-source-root}/lib" includes="**/*.jar"/>
+                <pathelement path="${build-beast}"/>
             </classpath>
         </javac>
     </target>
@@ -141,15 +134,18 @@
 
     <!-- Compile unit tests -->
     <target name="compile-test" depends="init-test,compile,copy-resources">
-        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${test}" destdir="${build-test}" includeantruntime="false">
+      <javac srcdir="${test}" destdir="${build-test}" includeantruntime="false"
+             source="${sourceVersion}"
+             target="${targetVersion}"
+             fork="yes">
             <classpath>
                 <pathelement path="${classpath}"/>
                 <pathelement path="${build}" />
-                <fileset dir="${build-lib}" includes="*.jar"/>
+                <fileset dir="${beast-source-root}/lib" includes="**/*.jar"/>
+                <pathelement path="${build-beast}"/>
             </classpath>
         </javac>
     </target>
-
 
     <!-- Run unit tests -->
     <target name="test" depends="compile-test">
@@ -158,7 +154,8 @@
                 <pathelement path="${classpath}"/>
                 <pathelement path="${build}" />
                 <pathelement path="${build-test}" />
-                <fileset dir="${build-lib}" includes="*.jar"/>
+                <fileset dir="${beast-source-root}/lib" includes="**/*.jar"/>
+                <pathelement path="${build-beast}"/>
             </classpath>
             <batchtest fork="yes" todir="${test-reports}">
                 <fileset dir="${test}">
@@ -178,7 +175,6 @@
         <javadoc sourcepath="${src}" destdir="${jddir}">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <fileset dir="${build-lib}" includes="*.jar"/>
             </classpath>
         </javadoc>
     </target>
@@ -264,7 +260,8 @@
     <!-- Revert to pristine state. -->
     <target name="clean">
         <delete dir="${build}" />
-        <delete dir="${build-lib}" />
+        <delete dir="${build-beast}" />
+        <delete dir="${beast-source-root}" />
         <delete dir="${dist}" />
         <delete dir="${build-test}" />
         <delete dir="${test-reports}" />
