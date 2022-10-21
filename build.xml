@@ -85,6 +85,7 @@
         <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />
         <copy todir="${build-lib}">
             <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
+            <fileset dir="${build-beast}/beast2-${beast-version}/lib/junit" includes="*.jar"/>
         </copy>
 
         <delete dir="${build-beast}" />
