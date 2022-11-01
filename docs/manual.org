@@ -32,16 +32,11 @@ The package archive will be left in the ~dist/~ directory.
 
 * Features
 
-The rest of this README is an asymptotically complete list of the features feast
+The rest of this document is an asymptotically complete list of the features feast
 provides, in reverse chronological order of the date each was added.
 
-A quick note of apology: I know this is becoming difficult to read.  This
-organization vaguely made sense at the inception of feast, when there were very
-few unrelated features, but makes less sense now that it contains increasingly
-many that fall into distinct groups. This is a known problem, and I plan to
-"one day" reorganise things.
-
-** Initialize RealParameters from CSV/TSV files
+** Initializing RealParameters
+*** Initialize RealParameters from CSV/TSV files
 
 When setting up complicated analyses, it can be useful to extract some
 (fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
@@ -77,8 +72,7 @@ could be used to set sampling rates for geological epochs from some
 external data file.  If ~rowLabels~ is omitted, the entire column
 will be read.  Similarly, if ~colLabels~ is omitted, the entire row
 is read.
-
-** Initialize RealParameters from Functions
+*** Initialize RealParameters from Functions
 
 The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
 **initialized** from a ~Function~.  Thus you can do things like
@@ -97,8 +91,46 @@ automatically falls just before the oldest sample.
 Beware that ~RealParameterFromFunction~ only retrieves the ~Function~ values
 during initialization. **Changes in the ~Function~ values after initialization
 will not be reflected in the parameter!**
+*** Initializing RealParameters using formatted times
 
-** Time-shifted coalescent population functions
+Particularly in birth-death models, it is often desirable to specify
+several points in time as ages relative to the "present".  This is done
+when setting up change times for birth-death parameters, and requires
+one to do a fairly large number of error-prone calculations involving
+converting date strings like "05/03/1980" and "27/02/1980" to fractional
+years before some later date such as "01/01/1990".  Once converted, these
+values become extremely important yet difficult to interpret entries in
+the final BEAST XML file.
+
+The ~TimeParameter~ class is intended to combat this.  It can be used
+anywhere that a ~RealParameter~ is expected.  For example, to create
+a ~RealParameter~ with the ages corresponding to the times above, use
+
+#+begin_src xml
+<parameter spec="TimeParameter"
+           time="05/03/1980 27/02/1980"
+           mostRecentSampleTime="01/01/1990"
+           timeFormat="dd/MM/yyyy"/>
+#+end_src
+
+This is completely equivalent to
+
+#+begin_src xml
+<parameter spec="RealParameter"
+           value="9.825137 9.844262"/>
+#+end_src
+
+but much more readable.
+
+Note that the time format specification string is the same as used by the
+~dateFormat~ input to ~TraitSet~, and applies both to the values of ~time~
+and the value of ~mostRecentSampleTime~.  If this format specifier is not provided,
+the time is assumed to have already been converted to fractional years, so
+the only action taken by TimeParameter is to subtract this value from
+~mostRecentSampleTime~.
+
+** Coalescent population functions
+*** Time-shifted coalescent population functions
 
 The ~ShiftedPopulationModel~ class allows you to create a new
 ~PopulationFunction~ which is a time-shifted view of an existing population
@@ -115,8 +147,7 @@ the population size of the exponential growth model at time 0.5.
 
 The ~offset~ input expects a ~Function~ value, so ~RealParameter~s etc. can
 also be used here.
-
-** Compound coalescent population functions
+*** Compound coalescent population functions
 
 BEAST 2 includes several commonly-used coalescent population models such
 as a constant population function and an exponential growth function.
@@ -198,7 +229,8 @@ we use the "hky.kappa" field of the ~original_analysis.log~ trace log file to se
 to set the value of the ~Tree~ named "tree".  The value of "kappa" and the height and length statistics
 of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
 
-** Model selection using DirichletProcessOperator and DirichletProcessPrior
+** Model selection
+*** DirichletProcessOperator and DirichletProcessPrior
 
 The ~DirichletProcessPrior~ and ~DirichletProcessOperator~ allow the application
 of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
@@ -223,8 +255,7 @@ You also need to include the following operator:
 
 Other operators on ~X~ can be included, but only if they do not alter the
 number of elements of ~X~ which are identical.
-
-** Model selection using ModelSelectionParameter
+*** ModelSelectionParameter
 
 While model selection is extremely complicated in general, it can be almost
 trivial when the number of models you wish to consider is small and the models
@@ -269,7 +300,8 @@ Beware that ~ModelSelectionParameter~ is that is only
 compatible with distributions which take ~Function~s rather than ~RealParameter~
 s as input.
 
-** Scaling subsets of RealParameter elements together
+** Operators
+*** Scaling subsets of RealParameter elements together
 
 It's occasionally necessary to tie multiple elements of a RealParameter
 together, for instance to represent a vector of rates where a subset of
@@ -313,45 +345,31 @@ The ~SmartRealRandomWalkOperator~ acts analogously, but implements a random
 walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
 elements.
 
-** Initializing RealParameters using formatted times
+** Model validation 
+*** Easy state simulation
 
-Particularly in birth-death models, it is often desirable to specify
-several points in time as ages relative to the "present".  This is done
-when setting up change times for birth-death parameters, and requires
-one to do a fairly large number of error-prone calculations involving
-converting date strings like "05/03/1980" and "27/02/1980" to fractional
-years before some later date such as "01/01/1990".  Once converted, these
-values become extremely important yet difficult to interpret entries in
-the final BEAST XML file.
+One BEAST 2 idiom which is pervasive in my code at least is the existance
+of StateNodes that initialize their own state stochastically.  ~RandomTree~
+is an example of this in the core: this class is a ~Tree~ that initializes
+itself by drawing from a coalescent distribution with a given population
+function.
 
-The ~TimeParameter~ class is intended to combat this.  It can be used
-anywhere that a ~RealParameter~ is expected.  For example, to create
-a ~RealParameter~ with the ages corresponding to the times above, use
+While such classes usually exist to choose a starting state for the
+MCMC chain, it is often necessary - particularly in the validation phase
+of model development - to simulate a large number of instances of this
+simulated state.  This is usually because the simulation is often done from some
+known distribution, which can then be compared against the output of MCMC.
 
-#+begin_src xml
-<parameter spec="TimeParameter"
-           time="05/03/1980 27/02/1980"
-           mostRecentSampleTime="01/01/1990"
-           timeFormat="dd/MM/yyyy"/>
-#+end_src
+The class ~feast.simulation.GPSimulator~ (from "general purpose simulator")
+class simply makes it possible to configure this kind of simulation using
+a BEAST XML file.  It is simply a ~beast.core.Runnable~ that takes a ~BEASTObject~
+as input, a number of iterations and some loggers. For each iteration, it then simply calls the
+~BEASTObject~'s ~initAndValidate~ method and tells the loggers to write their
+results.
 
-This is completely equivalent to
-
-#+begin_src xml
-<parameter spec="RealParameter"
-           value="9.825137 9.844262"/>
-#+end_src
-
-but much more readable.
-
-Note that the time format specification string is the same as used by the
-~dateFormat~ input to ~TraitSet~, and applies both to the values of ~time~
-and the value of ~mostRecentSampleTime~.  If this format specifier is not provided,
-the time is assumed to have already been converted to fractional years, so
-the only action taken by TimeParameter is to subtract this value from
-~mostRecentSampleTime~.
-
-** Sequence alignment simulation
+See ~examples/SimulateCoalescentTrees.xml~ for an example of using ~GPSimulator~
+to simulate 100 coalescent trees.
+*** Sequence alignment simulation
 
 While BEAST contains its own alignment simulator in ~beast.app.seqgen.SimulatedAlignment~,
 this can be awkward to use as it requires pre-specifying the taxa to associate
@@ -376,121 +394,7 @@ The class supports the same inputs as ~Alignment~ and ~beast.app.seqgen.Simulate
 with the exception that the ~data~ input should be omitted - it will cause
 strange errors if you include it.  Also, only strict clocks are currently
 supported, so there is no ~branchRateModel~ input.
-
-** Easy state simulation
-
-One BEAST 2 idiom which is pervasive in my code at least is the existance
-of StateNodes that initialize their own state stochastically.  ~RandomTree~
-is an example of this in the core: this class is a ~Tree~ that initializes
-itself by drawing from a coalescent distribution with a given population
-function.
-
-While such classes usually exist to choose a starting state for the
-MCMC chain, it is often necessary - particularly in the validation phase
-of model development - to simulate a large number of instances of this
-simulated state.  This is usually because the simulation is often done from some
-known distribution, which can then be compared against the output of MCMC.
-
-The class ~feast.simulation.GPSimulator~ (from "general purpose simulator")
-class simply makes it possible to configure this kind of simulation using
-a BEAST XML file.  It is simply a ~beast.core.Runnable~ that takes a ~BEASTObject~
-as input, a number of iterations and some loggers. For each iteration, it then simply calls the
-~BEASTObject~'s ~initAndValidate~ method and tells the loggers to write their
-results.
-
-See ~examples/SimulateCoalescentTrees.xml~ for an example of using ~GPSimulator~
-to simulate 100 coalescent trees.
-
-** Numeric sequences as Functions
-
-Instances of ~feast.function.Sequence~ are ~Function~s which contain a sequence
-of numbers evenly separated between two bounds.  For instance, the following
-XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
-i.e. 0,0.1,0.2,...,9.9,10:
-
-#+begin_src xml
-<function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
-#+end_src
-
-** Function Slicing, Reversing, Concatenating, Scaling and Interleaving
-
-Instances of the ~feast.function.Slice~ class are ~Function~s and ~Loggable~s which
-represent or more elements of another ~Function~.  This allows
-element-specific priors to be set, and individual elements to be logged.
-
-Here's a simple example of using ~Slice~ to place a prior on a subset of elements
-of a ~RealParameter~:
-
-#+begin_src xml
-<distrib spec="Prior">
-    <x spec="feast.function.Slice" arg="@samplingProportion" index="2" count="1"/>
-    <distr spec="LogNormalDistributionModel" M="0" S="1"/>
-</distrib>
-#+end_src
-
-The optional ~by~ input can be used to increase the step size between elements.  For
-example, here's how one could use ~Slice~ to apply a prior to elements 1,3,5 of the
-same ~RealParamter~:
-
-#+begin_src xml
-<distrib spec="Prior">
-    <x spec="feast.function.Slice" arg="@samplingProportion" index="1" count="3" by="2"/>
-</distrib>
-#+end_src
-
-Instances of the ~feast.function.Reverse~ class are
-~Funtion~s and ~Loggable~s which represent the elements of another
-~Function~ but in reverse order.
-
-Instances of the ~feast.function.Concatenate~ class are ~Function~s
-and ~Loggable~s whose elements are composed of the elements of their
-input ~Function~s joined together.  For example, here is a ~Function~
-representing a piecewise constant reproductive number to be used as
-input to the BDSKY tree prior, but composed of distinct input parameters
-rather than a single real parameter with multiple dimensions:
-
-#+begin_src xml
-<reproductiveNumber spec="feast.function.Concatenate">
-    <arg spec="RealParameter" value="1.0"/>
-    <arg spec="RealParameter" value="2.0"/>
-</reproductiveNumber>
-#+end_src
-
-Instances of ~feast.function.Scale~ allow one ~Function~ to be scaled
-by another:
-
-#+begin_src xml
-<scaledBirthRate spec="feast.function.Scale">
-  <function spec="RealParameter" value="1.0 2.0 3.0"/>
-  <scaleBy spec="RealParameter" value="1.5"/>
-</scaledBirthRate>
-#+end_src
-
-Instances of ~feast.function.Interleave~ represent the result of interleaving
-the elements of several input ~Function~s.  For example:
-
-#+begin_src xml
-<twoDemeBirthRate spec="feast.function.interleave">
-  <arg spec="RealParameter" value="1 3 5 7"/>
-  <arg spec="RealParameter" value="2 4 6 8"/>
-</twoDemeBirthRate>
-#+end_src
-
-is as a ~Function~ with elements 1,2,3,4,5,6,7,8.
-
-Finally, instances of ~feast.function.UniqueElementCount~ are ~Function~s which
-contain a single integer representing the number of unique values contained
-in the elements of an input ~Function~.  For example,
-
-#+begin_src xml
-<uniqueValues spec="feast.function.UniqueElementCount">
-    <arg spec="RealParameter" value="1.5 10 1.5 1.4"/>
-</uniqueValues>
-#+end_src
-
-is a ~Function~ with a value of 3.
-
-** DensityMapper
+*** DensityMapper
 
 This class provides an easy way to produce plots of the variation in a
 particular ~Distribution~ (i.e. probability density) as a function of one or
@@ -563,7 +467,102 @@ An example usage of ~DensityMapper~ which produces the variation in a
 coalescent tree density as a function of the population size is provided as
 ~DensityMapper.xml~ which can be found in the examples directory.
 
-** TreeFromNewickFile & TreeFromNexusFile
+** Function (array) creation and manipulation
+*** Numeric sequences as Functions
+
+Instances of ~feast.function.Sequence~ are ~Function~s which contain a sequence
+of numbers evenly separated between two bounds.  For instance, the following
+XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
+i.e. 0,0.1,0.2,...,9.9,10:
+
+#+begin_src xml
+<function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
+#+end_src
+*** Function Slicing
+
+Instances of the ~feast.function.Slice~ class are ~Function~s and ~Loggable~s which
+represent or more elements of another ~Function~.  This allows
+element-specific priors to be set, and individual elements to be logged.
+
+Here's a simple example of using ~Slice~ to place a prior on a subset of elements
+of a ~RealParameter~:
+
+#+begin_src xml
+<distrib spec="Prior">
+    <x spec="feast.function.Slice" arg="@samplingProportion" index="2" count="1"/>
+    <distr spec="LogNormalDistributionModel" M="0" S="1"/>
+</distrib>
+#+end_src
+
+The optional ~by~ input can be used to increase the step size between elements.  For
+example, here's how one could use ~Slice~ to apply a prior to elements 1,3,5 of the
+same ~RealParamter~:
+
+#+begin_src xml
+<distrib spec="Prior">
+    <x spec="feast.function.Slice" arg="@samplingProportion" index="1" count="3" by="2"/>
+</distrib>
+#+end_src
+*** Function reversing
+
+Instances of the ~feast.function.Reverse~ class are
+~Funtion~s and ~Loggable~s which represent the elements of another
+~Function~ but in reverse order.
+*** Function concatenation
+
+Instances of the ~feast.function.Concatenate~ class are ~Function~s
+and ~Loggable~s whose elements are composed of the elements of their
+input ~Function~s joined together.  For example, here is a ~Function~
+representing a piecewise constant reproductive number to be used as
+input to the BDSKY tree prior, but composed of distinct input parameters
+rather than a single real parameter with multiple dimensions:
+
+#+begin_src xml
+<reproductiveNumber spec="feast.function.Concatenate">
+    <arg spec="RealParameter" value="1.0"/>
+    <arg spec="RealParameter" value="2.0"/>
+</reproductiveNumber>
+#+end_src
+*** Function scaling
+
+Instances of ~feast.function.Scale~ allow one ~Function~ to be scaled
+by another:
+
+#+begin_src xml
+<scaledBirthRate spec="feast.function.Scale">
+  <function spec="RealParameter" value="1.0 2.0 3.0"/>
+  <scaleBy spec="RealParameter" value="1.5"/>
+</scaledBirthRate>
+#+end_src
+*** Function interleaving
+
+Instances of ~feast.function.Interleave~ represent the result of interleaving
+the elements of several input ~Function~s.  For example:
+
+#+begin_src xml
+<twoDemeBirthRate spec="feast.function.interleave">
+  <arg spec="RealParameter" value="1 3 5 7"/>
+  <arg spec="RealParameter" value="2 4 6 8"/>
+</twoDemeBirthRate>
+#+end_src
+
+is as a ~Function~ with elements 1,2,3,4,5,6,7,8.
+
+Finally, instances of ~feast.function.UniqueElementCount~ are ~Function~s which
+contain a single integer representing the number of unique values contained
+in the elements of an input ~Function~.  For example,
+
+#+begin_src xml
+<uniqueValues spec="feast.function.UniqueElementCount">
+    <arg spec="RealParameter" value="1.5 10 1.5 1.4"/>
+</uniqueValues>
+#+end_src
+
+is a ~Function~ with a value of 3.
+
+
+** Tree and Alignment Input/Output
+*** TreeFromNewickFile & TreeFromNexusFile
 
 These classes allow trees to be loaded at runtime from Newick files rather
 than stored in the BEAST 2 XML:
@@ -585,8 +584,7 @@ For Nexus files, only the first trees block encountered is processed.
 
 Both classes are thin wrappers around ~TreeParser~, so all of the various inputs
 supported by that class are also supported.
-
-** TraitSetFromTaxonSet
+*** TraitSetFromTaxonSet
 
 This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
 is similar in spirit to the "auto configuration" option provided by BEAUti to
@@ -610,8 +608,7 @@ For instance:
 
 Instead of ~everythingAfterLast="true"~, one can also use ~everythingBeforeFirst="true"~ or
 ~takeGroup="N"~ where N is the index of the group (delimited by the chosen delimiter).
-
-** AlignmentFromNexus/Fasta
+*** AlignmentFromNexus/Fasta
 
 This class allows alignments to be loaded at runtime from Nexus or Fasta files
 rather than stored in the BEAST 2 XML:
@@ -644,19 +641,7 @@ is sometimes convenient to be able to do this.  As a bonus, the
 ~xmlFileName~ attribute can be used to write the appropriate XML
 fragment to disk.
 
-** NexusWriter
-
-This class complements ~NexusParser~, allowing both trees and alignments to be
-written to [[http://dx.doi.org/10.1093%2Fsysbio%2F46.4.590][Nexus files]]. It contains a single static method
-#+begin_src java
-public static void write(Alignment alignment, List<Tree> trees, PrintStream ps)
-#+end_src
-that writes the Nexus-formatted data to the given ~PrintStream~.
-
-This could be easily used as the basis for a utility which extracts alignments
-from BEAST 2 input files.
-
-** Expression Calculator
+** Mathematical Expressions 
 
 The following classes, which are found in ~feast.expressions~, provide
 support for parsing of simple arithmetic expressions.
