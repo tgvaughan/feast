@@ -174,6 +174,10 @@
         <javadoc sourcepath="${src}" destdir="${jddir}">
             <classpath>
                 <pathelement path="${classpath}"/>
+                <pathelement path="${build}" />
+                <pathelement path="${build-test}" />
+                <fileset dir="${beast-source-root}/lib" includes="**/*.jar"/>
+                <pathelement path="${build-beast}"/>
             </classpath>
         </javadoc>
     </target>
