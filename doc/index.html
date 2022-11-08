@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2022-11-08 Tue 10:32 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Feast</title>
+<meta name="author" content="Tim Vaughan" />
+<meta name="generator" content="Org Mode" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="theme.css"/>
+</head>
+<body>
+<div id="content" class="content">
+<header>
+<h1 class="title">Feast</h1>
+<p class="subtitle" role="doc-subtitle">Tasty additions to BEAST 2</p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf1dee64">1. Overview</a>
+<ul>
+<li><a href="#org93c3365">1.1. Installation</a></li>
+<li><a href="#orgaa83359">1.2. Building from source</a></li>
+</ul>
+</li>
+<li><a href="#orgd5a937b">2. Features</a>
+<ul>
+<li><a href="#orga0a586d">2.1. Initializing RealParameters</a>
+<ul>
+<li><a href="#org595d3db">2.1.1. Initialize RealParameters from CSV/TSV files</a></li>
+<li><a href="#org2633af7">2.1.2. Initialize RealParameters from Functions</a></li>
+<li><a href="#orgd774b9e">2.1.3. Initializing RealParameters using formatted times</a></li>
+</ul>
+</li>
+<li><a href="#orge6b16ff">2.2. Coalescent population functions</a>
+<ul>
+<li><a href="#org5da523f">2.2.1. Time-shifted coalescent population functions</a></li>
+<li><a href="#orgf2cc15e">2.2.2. Compound coalescent population functions</a></li>
+</ul>
+</li>
+<li><a href="#orgf8502d8">2.3. Log File Post-processing</a></li>
+<li><a href="#orgb63e1aa">2.4. Model selection</a>
+<ul>
+<li><a href="#org76786f5">2.4.1. DirichletProcessOperator and DirichletProcessPrior</a></li>
+<li><a href="#org1449112">2.4.2. ModelSelectionParameter</a></li>
+</ul>
+</li>
+<li><a href="#org3b2b45b">2.5. Operators</a>
+<ul>
+<li><a href="#orgf867bbf">2.5.1. Scaling subsets of RealParameter elements together</a></li>
+<li><a href="#org8ef05a2">2.5.2. Sampling from a discrete set of states</a></li>
+</ul>
+</li>
+<li><a href="#orgad3ac6b">2.6. Model validation</a>
+<ul>
+<li><a href="#org93169b1">2.6.1. Easy state simulation</a></li>
+<li><a href="#org6abf31f">2.6.2. Sequence alignment simulation</a></li>
+<li><a href="#org7b47534">2.6.3. DensityMapper</a></li>
+</ul>
+</li>
+<li><a href="#org289172c">2.7. Function (array) creation and manipulation</a>
+<ul>
+<li><a href="#org8b93856">2.7.1. Numeric sequences as Functions</a></li>
+<li><a href="#orgc7ff325">2.7.2. Function Slicing</a></li>
+<li><a href="#org33d447f">2.7.3. Function reversing</a></li>
+<li><a href="#orgd759805">2.7.4. Function concatenation</a></li>
+<li><a href="#orgd3f96ca">2.7.5. Function scaling</a></li>
+<li><a href="#orgd63440d">2.7.6. Function interleaving</a></li>
+</ul>
+</li>
+<li><a href="#org7f91c4a">2.8. Tree and Alignment Input/Output</a>
+<ul>
+<li><a href="#orgc5b693c">2.8.1. TreeFromNewickFile &amp; TreeFromNexusFile</a></li>
+<li><a href="#org2b05c7a">2.8.2. TraitSetFromTaxonSet</a></li>
+<li><a href="#orgad4ea20">2.8.3. AlignmentFromNexus/Fasta</a></li>
+</ul>
+</li>
+<li><a href="#orgfdb45b0">2.9. Mathematical Expressions</a>
+<ul>
+<li><a href="#org33474fa">2.9.1. ExpCalculator</a></li>
+<li><a href="#org90e82db">2.9.2. ExpCalculatorDistribution</a></li>
+<li><a href="#org36a72de">2.9.3. ExpCalculatorParametricDistribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf4b9797">3. License</a></li>
+</ul>
+</div>
+</nav>
+<p>
+GitHub Repository: <a href="https://github.com/tgvaughan/feast">https://github.com/tgvaughan/feast</a>
+</p>
+
+<div id="outline-container-orgf1dee64" class="outline-2">
+<h2 id="orgf1dee64"><span class="section-number-2">1.</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This is a small BEAST 2 (<a href="http://www.beast2.org">http://www.beast2.org</a>) package which
+contains additions to the core functionality.  The common thread
+which connects these additions is that they all work to increase
+the flexibility of BEAST and to empower users to set up a broader
+range of analyses without needing to write additional Java code.
+</p>
+
+<p>
+You won't find new models here, but you will find different
+ways to combine existing models and make certain tasks easier.
+</p>
+</div>
+
+<div id="outline-container-org93c3365" class="outline-3">
+<h3 id="org93c3365"><span class="section-number-3">1.1.</span> Installation</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+You can install directly from within BEAUti by opening the package
+manager via File-&gt;"Manage packages", selecting "feast" and clicking
+the "Install/Upgrade" button.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaa83359" class="outline-3">
+<h3 id="orgaa83359"><span class="section-number-3">1.2.</span> Building from source</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+The default target in the provided Apache ANT (<a href="http://ant.apache.org">http://ant.apache.org</a>)
+build script can be used to build the BEAST 2 package from scratch.
+The package archive will be left in the <code>dist/</code> directory.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5a937b" class="outline-2">
+<h2 id="orgd5a937b"><span class="section-number-2">2.</span> Features</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The rest of this document is an asymptotically complete list of the features feast
+provides, in reverse chronological order of the date each was added.
+</p>
+</div>
+
+<div id="outline-container-orga0a586d" class="outline-3">
+<h3 id="orga0a586d"><span class="section-number-3">2.1.</span> Initializing RealParameters</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org595d3db" class="outline-4">
+<h4 id="org595d3db"><span class="section-number-4">2.1.1.</span> Initialize RealParameters from CSV/TSV files</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+When setting up complicated analyses, it can be useful to extract some
+(fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
+The <code>RealParameterFromXSV</code> and <code>RealParameterFromLabelledXSV</code> classes can be
+used to do this.
+</p>
+
+<p>
+<code>RealParameterFromXSV</code> simply initializes the parameter with values read
+(in row-major order) from a rectangular portion of the table in the specified
+file. For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">migrationRates</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.fileio.RealParameterFromXSV"</span>
+                <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"migration_rates.csv"</span>
+                <span style="color: #BA36A5;">sep</span>=<span style="color: #008000;">","</span>
+                <span style="color: #BA36A5;">startRow</span>=<span style="color: #008000;">"1"</span> <span style="color: #BA36A5;">rowCount</span>=<span style="color: #008000;">"3"</span>
+                <span style="color: #BA36A5;">startCol</span>=<span style="color: #008000;">"1"</span> <span style="color: #BA36A5;">colCount</span>=<span style="color: #008000;">"3"</span>/&gt;
+</pre>
+</div>
+<p>
+could be used to initialize a 3x3 matrix of migration rates in some analysis
+using elements in a CSV file.  The inputs <code>startRow</code> and <code>startCol</code> both
+default to "0", while leaving either <code>rowCount</code> and <code>colCount</code> undefined
+will cause values to be taken up until the end of the corresponding row
+or column.
+</p>
+
+<p>
+<code>RealParameterFromLabelledXSV</code> works simillarly, but assumes that the either
+or both of the first row or column contain labels, and allows these labels
+to be used to specify elements. For example,
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">samplingProportions</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.fileio.RealParameterFromLabelledXSV"</span>
+    <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"sampling.tsv"</span>
+    <span style="color: #BA36A5;">colLabels</span>=<span style="color: #008000;">"sampling"</span>
+    <span style="color: #BA36A5;">rowLabels</span>=<span style="color: #008000;">"early_cretaceous, late_cretaceous, jurassic"</span>/&gt;
+</pre>
+</div>
+<p>
+could be used to set sampling rates for geological epochs from some
+external data file.  If <code>rowLabels</code> is omitted, the entire column
+will be read.  Similarly, if <code>colLabels</code> is omitted, the entire row
+is read.
+</p>
+</div>
+</div>
+<div id="outline-container-org2633af7" class="outline-4">
+<h4 id="org2633af7"><span class="section-number-4">2.1.2.</span> Initialize RealParameters from Functions</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+The <code>RealParameterFromFunction</code> class provides a <code>RealParameter</code> which is
+<b><b>initialized</b></b> from a <code>Function</code>.  Thus you can do things like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">samplingRateChangeTimes</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameterFromFunction"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">function</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ExpCalculator"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"{0,max(taxonTimes)+0.1}"</span>&gt;
+        &lt;<span style="color: #AE1B9A;">arg</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"taxonTimes"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TraitSetAsFunction"</span> <span style="color: #BA36A5;">traitSet</span>=<span style="color: #008000;">"@dateTrait"</span>/&gt;
+    &lt;/<span style="color: #AE1B9A;">function</span>&gt;
+&lt;/<span style="color: #AE1B9A;">samplingRateChangeTimes</span>&gt;
+</pre>
+</div>
+
+<p>
+which initializes a BDSKY sampling rate change time array so that the change
+automatically falls just before the oldest sample.
+</p>
+
+<p>
+Beware that <code>RealParameterFromFunction</code> only retrieves the <code>Function</code> values
+during initialization. <b><b>Changes in the <code>Function</code> values after initialization
+will not be reflected in the parameter!</b></b>
+</p>
+</div>
+</div>
+<div id="outline-container-orgd774b9e" class="outline-4">
+<h4 id="orgd774b9e"><span class="section-number-4">2.1.3.</span> Initializing RealParameters using formatted times</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+Particularly in birth-death models, it is often desirable to specify
+several points in time as ages relative to the "present".  This is done
+when setting up change times for birth-death parameters, and requires
+one to do a fairly large number of error-prone calculations involving
+converting date strings like "05/03/1980" and "27/02/1980" to fractional
+years before some later date such as "01/01/1990".  Once converted, these
+values become extremely important yet difficult to interpret entries in
+the final BEAST XML file.
+</p>
+
+<p>
+The <code>TimeParameter</code> class is intended to combat this.  It can be used
+anywhere that a <code>RealParameter</code> is expected.  For example, to create
+a <code>RealParameter</code> with the ages corresponding to the times above, use
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">parameter</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TimeParameter"</span>
+           <span style="color: #BA36A5;">time</span>=<span style="color: #008000;">"05/03/1980 27/02/1980"</span>
+           <span style="color: #BA36A5;">mostRecentSampleTime</span>=<span style="color: #008000;">"01/01/1990"</span>
+           <span style="color: #BA36A5;">timeFormat</span>=<span style="color: #008000;">"dd/MM/yyyy"</span>/&gt;
+</pre>
+</div>
+
+<p>
+This is completely equivalent to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">parameter</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span>
+           <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"9.825137 9.844262"</span>/&gt;
+</pre>
+</div>
+
+<p>
+but much more readable.
+</p>
+
+<p>
+Note that the time format specification string is the same as used by the
+<code>dateFormat</code> input to <code>TraitSet</code>, and applies both to the values of <code>time</code>
+and the value of <code>mostRecentSampleTime</code>.  If this format specifier is not provided,
+the time is assumed to have already been converted to fractional years, so
+the only action taken by TimeParameter is to subtract this value from
+<code>mostRecentSampleTime</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge6b16ff" class="outline-3">
+<h3 id="orge6b16ff"><span class="section-number-3">2.2.</span> Coalescent population functions</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org5da523f" class="outline-4">
+<h4 id="org5da523f"><span class="section-number-4">2.2.1.</span> Time-shifted coalescent population functions</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+The <code>ShiftedPopulationModel</code> class allows you to create a new
+<code>PopulationFunction</code> which is a time-shifted view of an existing population
+function.
+</p>
+
+<p>
+For example, here is a time-shifted exponential growth population mode:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">populationModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ShiftedPopulationModel"</span> <span style="color: #BA36A5;">offset</span>=<span style="color: #008000;">"0.5"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">populationModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ExponentialGrowth"</span> <span style="color: #BA36A5;">popSize</span>=<span style="color: #008000;">"1.0"</span> <span style="color: #BA36A5;">growthRate</span>=<span style="color: #008000;">"1.0"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">populationModel</span>&gt;
+</pre>
+</div>
+<p>
+At time 0, the population size of this shifted model is the same as
+the population size of the exponential growth model at time 0.5.
+</p>
+
+<p>
+The <code>offset</code> input expects a <code>Function</code> value, so ~RealParameter~s etc. can
+also be used here.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf2cc15e" class="outline-4">
+<h4 id="orgf2cc15e"><span class="section-number-4">2.2.2.</span> Compound coalescent population functions</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+BEAST 2 includes several commonly-used coalescent population models such
+as a constant population function and an exponential growth function.
+To add other population functions required writing a new Java class.
+The <code>CompoundPopulationModel</code> class lifts this restriction.
+</p>
+
+<p>
+This class allows you to combine existing population functions (i.e.
+objects which implement the <code>PopulationFunction</code> interface) in a piecewise
+manner to construct arbitrarily complicated compound models.
+</p>
+
+<p>
+For example, here is a piecewise-constant population function created
+by joining together three <code>ConstantPopulation</code> models:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">populationModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"CompoundPopulationModel"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">populationModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ConstantPopulation"</span>&gt; &lt;<span style="color: #AE1B9A;">popSize</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"5.0"</span>/&gt;&lt;/<span style="color: #AE1B9A;">populationModel</span>&gt;
+    &lt;<span style="color: #AE1B9A;">populationModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ConstantPopulation"</span>&gt; &lt;<span style="color: #AE1B9A;">popSize</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"10.0"</span>/&gt;&lt;/<span style="color: #AE1B9A;">populationModel</span>&gt;
+    &lt;<span style="color: #AE1B9A;">populationModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ConstantPopulation"</span>&gt; &lt;<span style="color: #AE1B9A;">popSize</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"2.0"</span>/&gt;&lt;/<span style="color: #AE1B9A;">populationModel</span>&gt;
+    &lt;<span style="color: #AE1B9A;">changeTimes</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.0 3.0"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">populationModel</span>&gt;
+</pre>
+</div>
+<p>
+The <code>changeTimes</code> input specifies the times of the transitions between
+models, and thus must have one less element than the number of constituent models.
+</p>
+
+<p>
+Setting the boolean <code>makeContinuous</code> input to "true" (by default it is "false")
+will cause all component populations besides the most recent (i.e. first) to be
+scaled so that the resulting compound population function is continuous.
+While this is useless for compound population functions composed solely of
+constant components (as it will result in a single constant population function),
+this is useful for creating piecewise-exponential functions or mixtures between
+exponential and constant components.
+</p>
+
+<p>
+The file <code>piecewiseCoalescent.xml</code> illustrates how this class can be used in a
+simple coalescent analysis.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf8502d8" class="outline-3">
+<h3 id="orgf8502d8"><span class="section-number-3">2.3.</span> Log File Post-processing</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Occasionally it's useful to be able to resurrect BEAST states from trace
+and tree log files in order to perform further processing.  This is useful,
+for instance, if you realise that it would have been useful to compute
+additional tree statistics.  Or perhaps you'd like to stochastically map
+ancestral traits onto trees belonging to the posterior of a multi-type
+birth-death analysis.  The <code>feast.fileio.LogFileIterator</code> class and its
+friends allow you to do these things and more.
+</p>
+
+<p>
+The <code>LogFileIterator</code> class is a <code>Runnable</code> class, meaning that you use it
+in place of BEAST's usual <code>MCMC</code> class at the top level.  A trivial example
+is as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">beast</span> <span style="color: #BA36A5;">version</span>=<span style="color: #008000;">'2.0'</span> <span style="color: #BA36A5;">namespace</span>=<span style="color: #008000;">'feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'</span>&gt;
+
+  &lt;<span style="color: #AE1B9A;">run</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"LogFileIterator"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">logFileState</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TraceLogFileState"</span> <span style="color: #BA36A5;">logFileName</span>=<span style="color: #008000;">"original_analysis.log"</span>&gt;
+      &lt;<span style="color: #AE1B9A;">logFileEntry</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"LogFileRealParameter"</span> <span style="color: #BA36A5;">fieldName</span>=<span style="color: #008000;">"hky.kappa"</span>&gt;
+        &lt;<span style="color: #AE1B9A;">fieldParameter</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"kappa"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"0.0"</span>/&gt;
+      &lt;/<span style="color: #AE1B9A;">logFileEntry</span>&gt;
+    &lt;/<span style="color: #AE1B9A;">logFileState</span>&gt;
+
+    &lt;<span style="color: #AE1B9A;">logFileState</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TreeLogFileState"</span> <span style="color: #BA36A5;">logFileName</span>=<span style="color: #008000;">"original_analysis.trees"</span>&gt;
+      &lt;<span style="color: #AE1B9A;">tree</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"beast.evolution.tree.Tree"</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"tree"</span>/&gt;
+    &lt;/<span style="color: #AE1B9A;">logFileState</span>&gt;
+
+    &lt;<span style="color: #AE1B9A;">logger</span> <span style="color: #BA36A5;">logEvery</span>=<span style="color: #008000;">"10000"</span> <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"processed.log"</span>&gt;
+      &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">idref</span>=<span style="color: #008000;">"recoveredParameter"</span>/&gt;
+      &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"treestat"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"beast.evolution.tree.TreeStatLogger"</span> <span style="color: #BA36A5;">tree</span>=<span style="color: #008000;">"@tree"</span>/&gt;
+    &lt;/<span style="color: #AE1B9A;">logger</span>&gt;
+
+    &lt;<span style="color: #AE1B9A;">logger</span> <span style="color: #BA36A5;">logEvery</span>=<span style="color: #008000;">"100000"</span>&gt;
+      &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">idref</span>=<span style="color: #008000;">"kappa"</span>/&gt;
+      &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">idref</span>=<span style="color: #008000;">"treestat"</span>/&gt;
+    &lt;/<span style="color: #AE1B9A;">logger</span>&gt;
+  &lt;/<span style="color: #AE1B9A;">run</span>&gt;
+&lt;/<span style="color: #AE1B9A;">beast</span>&gt;
+</pre>
+</div>
+
+<p>
+In this example (which is also provided in the examples directory as <code>TreeLogFileIteratorTest.xml</code>)
+we use the "hky.kappa" field of the <code>original_analysis.log</code> trace log file to set the value of a
+<code>RealParameter</code> named "kappa".  Simultaneously, we use the trees in the tree log file <code>original_analysis.trees</code>
+to set the value of the <code>Tree</code> named "tree".  The value of "kappa" and the height and length statistics
+of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb63e1aa" class="outline-3">
+<h3 id="orgb63e1aa"><span class="section-number-3">2.4.</span> Model selection</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-org76786f5" class="outline-4">
+<h4 id="org76786f5"><span class="section-number-4">2.4.1.</span> DirichletProcessOperator and DirichletProcessPrior</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+The <code>DirichletProcessPrior</code> and <code>DirichletProcessOperator</code> allow the application
+of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
+</p>
+
+<p>
+For example, suppose you have a model with parameter <code>X</code> to which you wish
+to apply such a prior.  To do this, include the following prior for <code>X</code>
+in the target density:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">distribution</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"DirichletProcessPrior"</span> <span style="color: #BA36A5;">parameter</span>=<span style="color: #008000;">"@X"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">scaleParameter</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"dppScale"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.0"</span>/&gt;
+    &lt;<span style="color: #AE1B9A;">baseDistrib</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"dppBase"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"LogNormalDistributionModel"</span> <span style="color: #BA36A5;">M</span>=<span style="color: #008000;">"0.8"</span> <span style="color: #BA36A5;">S</span>=<span style="color: #008000;">"0.5"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">distribution</span>&gt;
+</pre>
+</div>
+
+<p>
+You also need to include the following operator:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">operator</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"DirichletProcessOperator"</span> <span style="color: #BA36A5;">parameter</span>=<span style="color: #008000;">"@X"</span>
+          <span style="color: #BA36A5;">scaleParameter</span>=<span style="color: #008000;">"@dppScale"</span> <span style="color: #BA36A5;">baseDistrib</span>=<span style="color: #008000;">"@dppBase"</span> <span style="color: #BA36A5;">weight</span>=<span style="color: #008000;">"1.0"</span>/&gt;
+</pre>
+</div>
+
+<p>
+Other operators on <code>X</code> can be included, but only if they do not alter the
+number of elements of <code>X</code> which are identical.
+</p>
+</div>
+</div>
+<div id="outline-container-org1449112" class="outline-4">
+<h4 id="org1449112"><span class="section-number-4">2.4.2.</span> ModelSelectionParameter</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+While model selection is extremely complicated in general, it can be almost
+trivial when the number of models you wish to consider is small and the models
+can be regarded as special cases of either each other
+(i.e. the are nested) or can easily expressed as special cases of a single
+general model.
+</p>
+
+<p>
+The <code>ModelSelectionParameter</code> is created with this kind of BSSVS-style model
+selection in mind. It is a <code>CalculationNode</code> implementing <code>Function</code> which takes
+one or more parameters (also <code>Function~s) as input, together with an
+~IntegerParameter</code> known as the selection index. The <code>ModelSelectionParameter</code>
+acts as though it is the parameter specified by the selection index.
+</p>
+
+<p>
+The simplest application of this is to allow BEAST to select between models
+1 and 2, where in model 1 a parameter (eg the extinction rate) is zero, while
+in model 2 the extinction rate has some unknown non-zero value.
+</p>
+
+<p>
+We can implement this by defining the death rate to be a <code>ModelSelectionParameter</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">deathRate</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"deathRate"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"ModelSelectionParameter"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">parameter</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"0.0"</span>/&gt;
+    &lt;<span style="color: #AE1B9A;">parameter</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"nonZeroDeathRate"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.0"</span>/&gt;
+    &lt;<span style="color: #AE1B9A;">selectionIndices</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"selectionIdx"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"IntegerParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1"</span> <span style="color: #BA36A5;">lower</span>=<span style="color: #008000;">"0"</span> <span style="color: #BA36A5;">upper</span>=<span style="color: #008000;">"1"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">deathRate</span>&gt;
+</pre>
+</div>
+<p>
+We then use this "deathRate" parameter as input to the tree prior, place some
+sensible prior on "nonZeroDeathRate", and add an operator to modify the
+"selectionIdx" <code>IntegerParameter</code>.  The result is equivalent to placing a
+"spike and slab" prior on the death rate parameter, which is a mixture between
+a point mass at zero and whatever prior you place on "nonZeroDeathRate".
+</p>
+
+<p>
+In addition to this simple case, if "selectionIndices" is an <code>IntegerParameter</code>
+with more than one element, the additional <code>ModelSelectionParameter</code> input,
+"thisIndex", can be used to specify which element to use to select the parameter.
+This allows you to sample across models where, for example, subsets of different
+parameters are allowed to be exactly equal.  In this case, each model parameter
+is its own <code>ModelSelectionParameter</code>, shares exactly the same set of 
+"parameter" and "selectionIndices" inputs, but has its own unique value of
+"thisIndex".
+</p>
+
+<p>
+Beware that <code>ModelSelectionParameter</code> is that is only
+compatible with distributions which take <code>Function~s rather than ~RealParameter</code>
+s as input.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b2b45b" class="outline-3">
+<h3 id="org3b2b45b"><span class="section-number-3">2.5.</span> Operators</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-orgf867bbf" class="outline-4">
+<h4 id="orgf867bbf"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+It's occasionally necessary to tie multiple elements of a RealParameter
+together, for instance to represent a vector of rates where a subset of
+these rates are conditioned to be identical.  The <code>BlockScaleOperator</code>
+operator makes this possible.  It behaves essentially identically to the
+standard BEAST 2 <code>ScaleOperator</code>, with inputs "parameter" and "indicator"
+specifying respectively the <code>RealParameter</code> to scale and the <code>BooleanParameter</code>
+indicating which elements to scale.  The differences are that <code>BlockScaleOperator</code>
+</p>
+
+<ol class="org-ol">
+<li><span class="underline">always</span> scales the selected elements together (i.e. using the same
+scale factor), and</li>
+<li>it correctly takes into account the number of degrees of freedom
+(i.e. unique element values) among the selected elements.</li>
+</ol>
+
+<p>
+An example usage of this operator is as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">operator</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"BlockScaleOperator"</span> <span style="color: #BA36A5;">parameter</span>=<span style="color: #008000;">"@paramToScale"</span>
+          <span style="color: #BA36A5;">scaleFactor</span>=<span style="color: #008000;">"0.8"</span> <span style="color: #BA36A5;">weight</span>=<span style="color: #008000;">"1.0"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">indicator</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"BooleanParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"true true false false"</span> <span style="color: #BA36A5;">estimate</span>=<span style="color: #008000;">"false"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">operator</span>&gt;
+</pre>
+</div>
+<p>
+Here "@paramToScale" references a <code>RealParameter</code> with 4 elements, and the
+operator jointly scales the first two.
+</p>
+
+<p>
+An alternative approach is available in the <code>SmartScaleOperator</code>, which
+does not use indicator variables but instead considers elements with
+identical values to represent the same random variable.  Thus, the following
+achieves the same result as above, with the added requirement that values
+to be scaled together must be initialised to the same value:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">state</span>&gt;
+    &lt;<span style="color: #AE1B9A;">stateNode</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"paramToScale"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1 1 2 2"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">state</span>&gt;
+
+&lt;<span style="color: #AE1B9A;">operator</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"SmartScaleOperator"</span> <span style="color: #BA36A5;">parameter</span>=<span style="color: #008000;">"@paramToScale"</span>
+          <span style="color: #BA36A5;">scaleFactor</span>=<span style="color: #008000;">"0.8"</span> <span style="color: #BA36A5;">weight</span>=<span style="color: #008000;">"1.0"</span>/&gt;
+</pre>
+</div>
+
+<p>
+The <code>SmartRealRandomWalkOperator</code> acts analogously, but implements a random
+walk equivalent to BEAST's <code>RealRandomWalkOperator</code> applied only to unique
+elements.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8ef05a2" class="outline-4">
+<h4 id="org8ef05a2"><span class="section-number-4">2.5.2.</span> Sampling from a discrete set of states</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<p>
+Occasionally we wish to characterise the posterior for a parameter or tree
+which is constrained to a small set of discrete traits.  This can be
+accomplished using the <code>DiscreteUniformJumpOperator</code>.
+</p>
+
+<p>
+For instance, suppose we have a small set of trees we want the MCMC to
+sample from.  We can accomplish this as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">operator</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"DiscreteUniformJumpOperator"</span> <span style="color: #BA36A5;">x</span>=<span style="color: #008000;">"@tree"</span> <span style="color: #BA36A5;">weight</span>=<span style="color: #008000;">"1"</span>&gt;
+  &lt;<span style="color: #AE1B9A;">possibility</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TreeParser"</span> <span style="color: #BA36A5;">adjustTipHeight</span>=<span style="color: #008000;">"false"</span> <span style="color: #BA36A5;">taxa</span>=<span style="color: #008000;">"@alignment"</span> <span style="color: #BA36A5;">estimate</span>=<span style="color: #008000;">"false"</span>
+               <span style="color: #BA36A5;">newick</span>=<span style="color: #008000;">"((((1:0.232 ..."</span>/&gt;
+  &lt;<span style="color: #AE1B9A;">possibility</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TreeParser"</span> <span style="color: #BA36A5;">adjustTipHeight</span>=<span style="color: #008000;">"false"</span> <span style="color: #BA36A5;">taxa</span>=<span style="color: #008000;">"@alignment"</span> <span style="color: #BA36A5;">estimate</span>=<span style="color: #008000;">"false"</span>
+               <span style="color: #BA36A5;">newick</span>=<span style="color: #008000;">"(((5:1.2321 ..."</span>/&gt;
+  &lt;<span style="color: #AE1B9A;">possibility</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TreeParser"</span> <span style="color: #BA36A5;">adjustTipHeight</span>=<span style="color: #008000;">"false"</span> <span style="color: #BA36A5;">taxa</span>=<span style="color: #008000;">"@alignment"</span> <span style="color: #BA36A5;">estimate</span>=<span style="color: #008000;">"false"</span>
+               <span style="color: #BA36A5;">newick</span>=<span style="color: #008000;">"((((3:4.222 ..."</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">operator</span>&gt;
+</pre>
+</div>
+<p>
+where the "&#x2026;" are the remainder of the newick strings.
+</p>
+
+<p>
+Take care when using this operator that the state nodes specified by
+the <code>&lt;possibility/&gt;</code> elements are actually possible values of <code>x</code>.
+I.e. parameters must have the same dimension and satisfy the bounds of
+<code>x</code>, and trees must correspond to the same set of taxa as <code>x</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgad3ac6b" class="outline-3">
+<h3 id="orgad3ac6b"><span class="section-number-3">2.6.</span> Model validation</h3>
+<div class="outline-text-3" id="text-2-6">
+</div>
+<div id="outline-container-org93169b1" class="outline-4">
+<h4 id="org93169b1"><span class="section-number-4">2.6.1.</span> Easy state simulation</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+One BEAST 2 idiom which is pervasive in my code at least is the existance
+of StateNodes that initialize their own state stochastically.  <code>RandomTree</code>
+is an example of this in the core: this class is a <code>Tree</code> that initializes
+itself by drawing from a coalescent distribution with a given population
+function.
+</p>
+
+<p>
+While such classes usually exist to choose a starting state for the
+MCMC chain, it is often necessary - particularly in the validation phase
+of model development - to simulate a large number of instances of this
+simulated state.  This is usually because the simulation is often done from some
+known distribution, which can then be compared against the output of MCMC.
+</p>
+
+<p>
+The class <code>feast.simulation.GPSimulator</code> (from "general purpose simulator")
+class simply makes it possible to configure this kind of simulation using
+a BEAST XML file.  It is simply a <code>beast.core.Runnable</code> that takes a <code>BEASTObject</code>
+as input, a number of iterations and some loggers. For each iteration, it then simply calls the
+<code>BEASTObject</code>'s <code>initAndValidate</code> method and tells the loggers to write their
+results.
+</p>
+
+<p>
+See <code>examples/SimulateCoalescentTrees.xml</code> for an example of using <code>GPSimulator</code>
+to simulate 100 coalescent trees.
+</p>
+</div>
+</div>
+<div id="outline-container-org6abf31f" class="outline-4">
+<h4 id="org6abf31f"><span class="section-number-4">2.6.2.</span> Sequence alignment simulation</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<p>
+While BEAST contains its own alignment simulator in <code>beast.app.seqgen.SimulatedAlignment</code>,
+this can be awkward to use as it requires pre-specifying the taxa to associate
+with the simulated alignment.
+</p>
+
+<p>
+The <code>feast.simulation.SimulatedAlignment</code> class is a simpler alignment simulator
+which lifts this requirement.  For example, the following will initialize
+an alignment by simulating sequences down the input tree using a Jukes-Cantor
+substitution model:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">alignment</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.simulation.SimulatedAlignment"</span>
+           <span style="color: #BA36A5;">outputFileName</span>=<span style="color: #008000;">"simulated_alignment.nexus"</span>
+           <span style="color: #BA36A5;">tree</span>=<span style="color: #008000;">"@tree"</span> <span style="color: #BA36A5;">sequenceLength</span>=<span style="color: #008000;">"1000"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">siteModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"SiteModel"</span>&gt;
+        &lt;<span style="color: #AE1B9A;">substModel</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"JukesCantor"</span>/&gt;
+    &lt;/<span style="color: #AE1B9A;">siteModel</span>&gt;
+&lt;/<span style="color: #AE1B9A;">alignment</span>&gt;
+</pre>
+</div>
+
+<p>
+The class supports the same inputs as <code>Alignment</code> and <code>beast.app.seqgen.SimulatedAlignment</code>,
+with the exception that the <code>data</code> input should be omitted - it will cause
+strange errors if you include it.  Also, only strict clocks are currently
+supported, so there is no <code>branchRateModel</code> input.
+</p>
+</div>
+</div>
+<div id="outline-container-org7b47534" class="outline-4">
+<h4 id="org7b47534"><span class="section-number-4">2.6.3.</span> DensityMapper</h4>
+<div class="outline-text-4" id="text-2-6-3">
+<p>
+This class provides an easy way to produce plots of the variation in a
+particular <code>Distribution</code> (i.e. probability density) as a function of one or
+more parameters.  The class extends the BEAST <code>Runnable</code> abstract class and
+thus takes the place of the <code>MCMC</code> class in a regular BEAST XML.  To use
+<code>DensityMapper</code> you'll therefore need to create an XML with the following
+general form:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">beast</span> <span style="color: #BA36A5;">version</span>=<span style="color: #008000;">"2.0"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">run</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"DensityMapper"</span>&gt;
+        &lt;<span style="color: #AE1B9A;">distribution</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"distrib"</span> ... /&gt;
+
+        &lt;<span style="color: #AE1B9A;">realParam</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"paramA"</span>
+            <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"V_A"</span> <span style="color: #BA36A5;">lower</span>=<span style="color: #008000;">"LOWER_A"</span> <span style="color: #BA36A5;">upper</span>=<span style="color: #008000;">"UPPER_A"</span>/&gt;
+        &lt;<span style="color: #AE1B9A;">steps</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"IntegerParameter"</span>
+            <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"STEPS_A"</span>/&gt;
+
+        &lt;<span style="color: #AE1B9A;">realParam</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"paramB"</span>
+            <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"V_B1 V_B2"</span> <span style="color: #BA36A5;">lower</span>=<span style="color: #008000;">"LOWER_B"</span> <span style="color: #BA36A5;">upper</span>=<span style="color: #008000;">"UPPER_B"</span>/&gt;
+        &lt;<span style="color: #AE1B9A;">steps</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"IntegerParameter"</span>
+            <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"STEPS_B1 STEPS_B2"</span>/&gt;
+
+        &lt;<span style="color: #AE1B9A;">logger</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"Logger"</span> <span style="color: #BA36A5;">logEvery</span>=<span style="color: #008000;">"1"</span>&gt;
+            &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">idref</span>=<span style="color: #008000;">"paramA"</span>/&gt;
+            &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">idref</span>=<span style="color: #008000;">"paramB"</span>/&gt;
+            &lt;<span style="color: #AE1B9A;">log</span> <span style="color: #BA36A5;">idref</span>=<span style="color: #008000;">"distrib"</span>/&gt;
+        &lt;/<span style="color: #AE1B9A;">logger</span>&gt;
+
+        <span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">Additional (screen?) loggers</span><span style="color: #8D8D84;"> --&gt;</span>
+    &lt;/<span style="color: #AE1B9A;">run</span>&gt;
+&lt;/<span style="color: #AE1B9A;">beast</span>&gt;
+</pre>
+</div>
+
+<p>
+The <code>&lt;realParam&gt;</code> elements specify which parameters are varied, the upper and
+lower bounds of these parameters specify the range over which the parameter is
+varied, and the corresponding <code>&lt;steps&gt;</code> elements specify the number of steps to
+use for each parameter. When the number of steps is 1 the parameter is not
+varied and instead the contents of the <code>value</code> attribute is used.
+</p>
+
+<p>
+When parameters are vectors, the associated <code>&lt;steps&gt;</code> parameter may have
+dimension 1 in which case all elements of the vector parameter are varied
+together (e.g. [0,0], [0.1,0.1], &#x2026;, [1, 1]).  Alternatively, the steps
+parameter may have dimension equal to that of the real parameter in which case
+each element of the parameter is varied independently with the corresponding
+number of steps (e.g. [0,0], [0, 0.1], &#x2026;, [0, 1], [0.1, 0.0], &#x2026;, [1, 1]).
+To keep one component of a vector parameter fixed, set the corresponding steps
+element to 1.
+</p>
+
+<p>
+If, in addition to the <code>&lt;realParam&gt;</code> and <code>&lt;steps&gt;</code> elements a
+<code>&lt;logScale&gt;</code> BooleanParameter element is provided, DensityMapper will
+evaluate the densities at a logarithmic distribution of parameter
+values between the same bounds.  I.e., the following snippet will
+cause <code>paramA</code> to be set to values logarithmically distributed between
+LOWER<sub>A</sub> and UPPER<sub>A</sub>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">realParam</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"paramA"</span>
+    <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"V_A"</span> <span style="color: #BA36A5;">lower</span>=<span style="color: #008000;">"LOWER_A"</span> <span style="color: #BA36A5;">upper</span>=<span style="color: #008000;">"UPPER_A"</span>/&gt;
+&lt;<span style="color: #AE1B9A;">steps</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"IntegerParameter"</span>
+    <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"STEPS_A"</span>/&gt;
+&lt;<span style="color: #AE1B9A;">logScale</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"BooleanParameter"</span>
+    <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"true"</span>/&gt;
+</pre>
+</div>
+
+<p>
+Take care that if the log-scale element is provided for one parameter that it is
+also provided for all other parameters.
+</p>
+
+<p>
+An example usage of <code>DensityMapper</code> which produces the variation in a
+coalescent tree density as a function of the population size is provided as
+<code>DensityMapper.xml</code> which can be found in the examples directory.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org289172c" class="outline-3">
+<h3 id="org289172c"><span class="section-number-3">2.7.</span> Function (array) creation and manipulation</h3>
+<div class="outline-text-3" id="text-2-7">
+</div>
+<div id="outline-container-org8b93856" class="outline-4">
+<h4 id="org8b93856"><span class="section-number-4">2.7.1.</span> Numeric sequences as Functions</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+Instances of <code>feast.function.Sequence</code> are ~Function~s which contain a sequence
+of numbers evenly separated between two bounds.  For instance, the following
+XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
+i.e. 0,0.1,0.2,&#x2026;,9.9,10:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">function</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.Sequence"</span> <span style="color: #BA36A5;">start</span>=<span style="color: #008000;">"0"</span> <span style="color: #BA36A5;">stop</span>=<span style="color: #008000;">"10"</span> <span style="color: #BA36A5;">length</span>=<span style="color: #008000;">"101"</span>/&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc7ff325" class="outline-4">
+<h4 id="orgc7ff325"><span class="section-number-4">2.7.2.</span> Function Slicing</h4>
+<div class="outline-text-4" id="text-2-7-2">
+<p>
+Instances of the <code>feast.function.Slice</code> class are <code>Function~s and ~Loggable~s which
+represent or more elements of another ~Function</code>.  This allows
+element-specific priors to be set, and individual elements to be logged.
+</p>
+
+<p>
+Here's a simple example of using <code>Slice</code> to place a prior on a subset of elements
+of a <code>RealParameter</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">distrib</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"Prior"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">x</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.Slice"</span> <span style="color: #BA36A5;">arg</span>=<span style="color: #008000;">"@samplingProportion"</span> <span style="color: #BA36A5;">index</span>=<span style="color: #008000;">"2"</span> <span style="color: #BA36A5;">count</span>=<span style="color: #008000;">"1"</span>/&gt;
+    &lt;<span style="color: #AE1B9A;">distr</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"LogNormalDistributionModel"</span> <span style="color: #BA36A5;">M</span>=<span style="color: #008000;">"0"</span> <span style="color: #BA36A5;">S</span>=<span style="color: #008000;">"1"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">distrib</span>&gt;
+</pre>
+</div>
+
+<p>
+The optional <code>by</code> input can be used to increase the step size between elements.  For
+example, here's how one could use <code>Slice</code> to apply a prior to elements 1,3,5 of the
+same <code>RealParamter</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">distrib</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"Prior"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">x</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.Slice"</span> <span style="color: #BA36A5;">arg</span>=<span style="color: #008000;">"@samplingProportion"</span> <span style="color: #BA36A5;">index</span>=<span style="color: #008000;">"1"</span> <span style="color: #BA36A5;">count</span>=<span style="color: #008000;">"3"</span> <span style="color: #BA36A5;">by</span>=<span style="color: #008000;">"2"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">distrib</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org33d447f" class="outline-4">
+<h4 id="org33d447f"><span class="section-number-4">2.7.3.</span> Function reversing</h4>
+<div class="outline-text-4" id="text-2-7-3">
+<p>
+Instances of the <code>feast.function.Reverse</code> class are
+<code>Funtion~s and ~Loggable~s which represent the elements of another
+~Function</code> but in reverse order.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd759805" class="outline-4">
+<h4 id="orgd759805"><span class="section-number-4">2.7.4.</span> Function concatenation</h4>
+<div class="outline-text-4" id="text-2-7-4">
+<p>
+Instances of the <code>feast.function.Concatenate</code> class are ~Function~s
+and <code>Loggable~s whose elements are composed of the elements of their
+input ~Function~s joined together.  For example, here is a ~Function</code>
+representing a piecewise constant reproductive number to be used as
+input to the BDSKY tree prior, but composed of distinct input parameters
+rather than a single real parameter with multiple dimensions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">reproductiveNumber</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.Concatenate"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">arg</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.0"</span>/&gt;
+    &lt;<span style="color: #AE1B9A;">arg</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"2.0"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">reproductiveNumber</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd3f96ca" class="outline-4">
+<h4 id="orgd3f96ca"><span class="section-number-4">2.7.5.</span> Function scaling</h4>
+<div class="outline-text-4" id="text-2-7-5">
+<p>
+Instances of <code>feast.function.Scale</code> allow one <code>Function</code> to be scaled
+by another:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">scaledBirthRate</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.Scale"</span>&gt;
+  &lt;<span style="color: #AE1B9A;">function</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.0 2.0 3.0"</span>/&gt;
+  &lt;<span style="color: #AE1B9A;">scaleBy</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.5"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">scaledBirthRate</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd63440d" class="outline-4">
+<h4 id="orgd63440d"><span class="section-number-4">2.7.6.</span> Function interleaving</h4>
+<div class="outline-text-4" id="text-2-7-6">
+<p>
+Instances of <code>feast.function.Interleave</code> represent the result of interleaving
+the elements of several input ~Function~s.  For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">twoDemeBirthRate</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.interleave"</span>&gt;
+  &lt;<span style="color: #AE1B9A;">arg</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1 3 5 7"</span>/&gt;
+  &lt;<span style="color: #AE1B9A;">arg</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"2 4 6 8"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">twoDemeBirthRate</span>&gt;
+</pre>
+</div>
+
+<p>
+is as a <code>Function</code> with elements 1,2,3,4,5,6,7,8.
+</p>
+
+<p>
+Finally, instances of <code>feast.function.UniqueElementCount</code> are ~Function~s which
+contain a single integer representing the number of unique values contained
+in the elements of an input <code>Function</code>.  For example,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">uniqueValues</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.function.UniqueElementCount"</span>&gt;
+    &lt;<span style="color: #AE1B9A;">arg</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"RealParameter"</span> <span style="color: #BA36A5;">value</span>=<span style="color: #008000;">"1.5 10 1.5 1.4"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">uniqueValues</span>&gt;
+</pre>
+</div>
+
+<p>
+is a <code>Function</code> with a value of 3.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7f91c4a" class="outline-3">
+<h3 id="org7f91c4a"><span class="section-number-3">2.8.</span> Tree and Alignment Input/Output</h3>
+<div class="outline-text-3" id="text-2-8">
+</div>
+<div id="outline-container-orgc5b693c" class="outline-4">
+<h4 id="orgc5b693c"><span class="section-number-4">2.8.1.</span> TreeFromNewickFile &amp; TreeFromNexusFile</h4>
+<div class="outline-text-4" id="text-2-8-1">
+<p>
+These classes allow trees to be loaded at runtime from Newick files rather
+than stored in the BEAST 2 XML:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">tree</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">'feast.fileio.TreeFromNewickFile'</span> <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"example.tree"</span>
+    <span style="color: #BA36A5;">IsLabelledNewick</span>=<span style="color: #008000;">"true"</span> <span style="color: #BA36A5;">adjustTipHeights</span>=<span style="color: #008000;">"false"</span> .../&gt;
+</pre>
+</div>
+<p>
+or 
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">tree</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">'feast.fileio.TreeFromNexusFile'</span> <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"example.nexus"</span>
+    <span style="color: #BA36A5;">IsLabelledNewick</span>=<span style="color: #008000;">"true"</span> <span style="color: #BA36A5;">adjustTipHeights</span>=<span style="color: #008000;">"false"</span> .../&gt;
+</pre>
+</div>
+
+<p>
+The optional attribute <code>treeIndex</code> can be used to specify the index (starting
+from zero) of the tree to read from the file.
+</p>
+
+<p>
+For Nexus files, only the first trees block encountered is processed.
+</p>
+
+<p>
+Both classes are thin wrappers around <code>TreeParser</code>, so all of the various inputs
+supported by that class are also supported.
+</p>
+</div>
+</div>
+<div id="outline-container-org2b05c7a" class="outline-4">
+<h4 id="org2b05c7a"><span class="section-number-4">2.8.2.</span> TraitSetFromTaxonSet</h4>
+<div class="outline-text-4" id="text-2-8-2">
+<p>
+This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
+is similar in spirit to the "auto configuration" option provided by BEAUti to
+set up tree tip dates from information encoded in the sequence names.
+</p>
+
+<p>
+Use this as you would usually use a <code>TraitSet</code>, but instead of including the
+trait assignments directly in the body, specify inputs indicating how to extract
+the trait values from the taxon names.
+</p>
+
+<p>
+For instance:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #AE1B9A;">trait</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.fileio.TraitSetFromTaxonSet"</span>
+       <span style="color: #BA36A5;">delimiter</span>=<span style="color: #008000;">"|"</span>
+       <span style="color: #BA36A5;">everythingAfterLast</span>=<span style="color: #008000;">"true"</span>
+       <span style="color: #BA36A5;">traitname</span>=<span style="color: #008000;">"date"</span>
+       <span style="color: #BA36A5;">dateFormat</span>=<span style="color: #008000;">"yyyy-M-dd"</span>&gt;
+       &lt;<span style="color: #AE1B9A;">taxa</span> <span style="color: #BA36A5;">id</span>=<span style="color: #008000;">"taxonSet"</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"TaxonSet"</span> <span style="color: #BA36A5;">alignment</span>=<span style="color: #008000;">"@alignment"</span>/&gt;
+&lt;/<span style="color: #AE1B9A;">trait</span>&gt;
+</pre>
+</div>
+
+<p>
+Instead of <code>everythingAfterLast="true"</code>, one can also use <code>everythingBeforeFirst="true"</code> or
+<code>takeGroup="N"</code> where N is the index of the group (delimited by the chosen delimiter).
+</p>
+</div>
+</div>
+<div id="outline-container-orgad4ea20" class="outline-4">
+<h4 id="orgad4ea20"><span class="section-number-4">2.8.3.</span> AlignmentFromNexus/Fasta</h4>
+<div class="outline-text-4" id="text-2-8-3">
+<p>
+This class allows alignments to be loaded at runtime from Nexus or Fasta files
+rather than stored in the BEAST 2 XML:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">Nexus:</span><span style="color: #8D8D84;"> --&gt;</span>
+&lt;<span style="color: #AE1B9A;">alignment</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">'feast.fileio.AlignmentFromNexus'</span> <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"example.nexus"</span>/&gt;
+
+<span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">Fasta:</span><span style="color: #8D8D84;"> --&gt;</span>
+&lt;<span style="color: #AE1B9A;">alignment</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">'feast.fileio.AlignmentFromFasta'</span> <span style="color: #BA36A5;">fileName</span>=<span style="color: #008000;">"example.fasta"</span>/&gt;
+</pre>
+</div>
+
+<p>
+Sequence files can also be referenced using a URL:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">Nexus:</span><span style="color: #8D8D84;"> --&gt;</span>
+&lt;<span style="color: #AE1B9A;">alignment</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.fileio.AlignmentFromNexus"</span>
+           <span style="color: #BA36A5;">url</span>=<span style="color: #008000;">"https://example.com/alignment.nexus"</span>/&gt;
+
+<span style="color: #8D8D84;">&lt;!-- </span><span style="color: #8D8D84; font-style: italic;">Fasta:</span><span style="color: #8D8D84;"> --&gt;</span>
+&lt;<span style="color: #AE1B9A;">alignment</span> <span style="color: #BA36A5;">spec</span>=<span style="color: #008000;">"feast.fileio.AlignmentFromFasta"</span>
+           <span style="color: #BA36A5;">url</span>=<span style="color: #008000;">"https://example.com/alignment.fasta"</span>/&gt;
+</pre>
+</div>
+
+<p>
+The Fasta import uses the sequence labels from the file as taxon labels.
+</p>
+
+<p>
+Obviously these classes runs contrary to BEAST's philosophy of keeping
+everything necessary to run an analysis in the XML file.  However, it
+is sometimes convenient to be able to do this.  As a bonus, the
+<code>xmlFileName</code> attribute can be used to write the appropriate XML
+fragment to disk.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfdb45b0" class="outline-3">
+<h3 id="orgfdb45b0"><span class="section-number-3">2.9.</span> Mathematical Expressions</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+The following classes, which are found in <code>feast.expressions</code>, provide
+support for parsing of simple arithmetic expressions.
+</p>
+</div>
+
+
+<div id="outline-container-org33474fa" class="outline-4">
+<h4 id="org33474fa"><span class="section-number-4">2.9.1.</span> ExpCalculator</h4>
+<div class="outline-text-4" id="text-2-9-1">
+<p>
+Takes an arithmetic expression and returns the result by acting
+as a Loggable or a Function.  Binary operators can be applied to
+Functions (including Parameters) of different lengths as in R, with
+the result having the maximum of the two lengths, and the index into
+the shortest parameter being the result index modulo the length of
+that parameter. True and false are represented by 1.0 and 0.0 respectively.
+</p>
+
+<p>
+Example expressions follow. (I and J are IDs of RealParameters with elements
+{1.0, 2.0, 3.0} and {5.0, 10.0}, respectively.)
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Expression</th>
+<th scope="col" class="org-left">Loggable/Function value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">2.5*I</td>
+<td class="org-left">{2.5, 5.0, 7.5}</td>
+</tr>
+
+<tr>
+<td class="org-left">I+J</td>
+<td class="org-left">{6.0, 12.0, 8.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">exp(I[0])</td>
+<td class="org-left">{2.718&#x2026;}</td>
+</tr>
+
+<tr>
+<td class="org-left">{I,J}</td>
+<td class="org-left">{1.0, 2.0, 3.0, 5.0, 10.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">1:3</td>
+<td class="org-left">{1.0, 2.0, 3.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">J[1:0]</td>
+<td class="org-left">{10.0, 5.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">1[1:3]</td>
+<td class="org-left">{1.0, 1.0, 1.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">-log(exp(J))/(1.5+0.5*I[0])</td>
+<td class="org-left">{-2.5, -5.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">sqrt(J)</td>
+<td class="org-left">{2.236&#x2026;, 3.162&#x2026;}</td>
+</tr>
+
+<tr>
+<td class="org-left">J!</td>
+<td class="org-left">{1.0, 2.0, 6.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">2<sup>I</sup></td>
+<td class="org-left">{2.0, 4.0, 6.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">sum(I)</td>
+<td class="org-left">{6.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">cumsum(I)</td>
+<td class="org-left">{1.0, 3.0, 6.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">diff(I)</td>
+<td class="org-left">{1.0, 1.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">{1,2,3}<sup>2</sup></td>
+<td class="org-left">{1.0, 4.0, 9.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">theta(I-2)</td>
+<td class="org-left">{0.0, 1.0, 1.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">I &lt; 3 &amp;&amp; I &gt;=1</td>
+<td class="org-left">{1.0, 1.0, 0.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">I &lt; 3 ? 12 : 13</td>
+<td class="org-left">{12.0, 12.0, 13.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">{min(J), max(J), len(J)}</td>
+<td class="org-left">{5.0, 10.0, 2.0}</td>
+</tr>
+
+<tr>
+<td class="org-left">sort({5,1,3})</td>
+<td class="org-left">{1.0, 3.0, 5.0}</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Note that since each ExpCalculator is a Function object itself, it can
+be used as the input for other ExpCalculators.
+</p>
+
+<p>
+Inspired by RPNcalculator by Joseph Heled (BEAST 1, BEAST 2 port by
+Denise Kuehnert).  (This uses a parser generated by <a href="http://www.antlr.org">ANTLR</a>, which is
+cheating.)
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org90e82db" class="outline-4">
+<h4 id="org90e82db"><span class="section-number-4">2.9.2.</span> ExpCalculatorDistribution</h4>
+<div class="outline-text-4" id="text-2-9-2">
+<p>
+This is basically identical to ExpCalculator, but extends the abstract
+Distribution class, allowing the definition of arbitrary distributions
+over R<sup>n</sup> at runtime.  Distributions can be specified in terms of their
+log or directly as probabilities (/probability densities).
+</p>
+
+<p>
+The file <code>ECdistribTest.xml</code> in the examples/ folder is a simple
+example where a multi-variate normal distribution is constructed.
+This example also illustrates the nested expression concept mentioned
+above.  The file <code>ECdistribArraytest.xml</code> in the same folder samples
+the same posterior, but uses array notation to express the target
+density.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org36a72de" class="outline-4">
+<h4 id="org36a72de"><span class="section-number-4">2.9.3.</span> ExpCalculatorParametricDistribution</h4>
+<div class="outline-text-4" id="text-2-9-3">
+<p>
+This provides a cut-down version of the ExpCalculatorDistribution
+functionality that is compatible with beast.math.distributions.Prior.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf4b9797" class="outline-2">
+<h2 id="orgf4b9797"><span class="section-number-2">3.</span> License</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This software is free (as in freedom).  With the exception of the
+libraries on which it depends, it is made available under the terms of
+the GNU General Public Licence version 3, which is contained in this
+directory in the file named COPYING.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Tim Vaughan</p>
+<p class="date">Created: 2022-11-08 Tue 10:32</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

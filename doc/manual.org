@@ -345,6 +345,30 @@ The ~SmartRealRandomWalkOperator~ acts analogously, but implements a random
 walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
 elements.
 
+*** Sampling from a discrete set of states
+Occasionally we wish to characterise the posterior for a parameter or tree
+which is constrained to a small set of discrete traits.  This can be
+accomplished using the ~DiscreteUniformJumpOperator~.
+
+For instance, suppose we have a small set of trees we want the MCMC to
+sample from.  We can accomplish this as follows:
+#+begin_src xml
+<operator spec="DiscreteUniformJumpOperator" x="@tree" weight="1">
+  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
+               newick="((((1:0.232 ..."/>
+  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
+               newick="(((5:1.2321 ..."/>
+  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
+               newick="((((3:4.222 ..."/>
+</operator>
+#+end_src
+where the "..." are the remainder of the newick strings.
+
+Take care when using this operator that the state nodes specified by
+the ~<possibility/>~ elements are actually possible values of ~x~.
+I.e. parameters must have the same dimension and satisfy the bounds of
+~x~, and trees must correspond to the same set of taxa as ~x~.
+
 ** Model validation 
 *** Easy state simulation
 

@@ -13,6 +13,7 @@
     <provider classname="feast.operators.SmartScaleOperator"/>
     <provider classname="feast.operators.BlockScaleOperator"/>
     <provider classname="feast.operators.SmartRealRandomWalkOperator"/>
+    <provider classname="feast.operators.DiscreteUniformJumpOperator"/>
     <provider classname="feast.fileio.TreeFromNewickFile"/>
     <provider classname="feast.fileio.TraitSetFromXSV"/>
     <provider classname="feast.fileio.RealParameterFromLabelledXSV"/>
