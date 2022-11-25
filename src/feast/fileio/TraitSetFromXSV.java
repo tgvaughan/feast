@@ -36,7 +36,6 @@ public class TraitSetFromXSV extends TraitSet {
     @Override
     public void initAndValidate() {
 
-        Map<String, String> taxonValues = new HashMap<>();
         StringBuilder traitSB = new StringBuilder();
 
         String sep = sepInput.get();
@@ -49,10 +48,14 @@ public class TraitSetFromXSV extends TraitSet {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (traitSB.length()>0)
-                    traitSB.append(",");
                 String[] elements = line.split(sep);
-                traitSB.append(elements[keyIdx]).append("=").append(elements[valIdx]);
+                String taxonName = elements[keyIdx].trim();
+                if (taxaInput.get().getTaxaNames().contains(taxonName)) {
+                    if (traitSB.length()>0)
+                        traitSB.append(",");
+                    String traitValue = elements[valIdx].trim();
+                    traitSB.append(taxonName).append("=").append(traitValue);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException("Error reading from file '"
