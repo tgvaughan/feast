@@ -584,6 +584,7 @@ For Nexus files, only the first trees block encountered is processed.
 
 Both classes are thin wrappers around ~TreeParser~, so all of the various inputs
 supported by that class are also supported.
+
 *** TraitSetFromTaxonSet
 
 This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
@@ -608,6 +609,46 @@ For instance:
 
 Instead of ~everythingAfterLast="true"~, one can also use ~everythingBeforeFirst="true"~ or
 ~takeGroup="N"~ where N is the index of the group (delimited by the chosen delimiter).
+
+*** TraitSetFromXSV
+
+This class allows ~TraitSet~s to be initialised from external CSV/TSV files.
+
+Use this as you would use ~TraitSet~, but instead of including the
+trait assignments in the body, use the inputs to direct the class
+to load the trait assignments from a file.
+
+For example:
+
+#+begin_src xml
+  <trait spec="feast.fileio.TraitSetFromXSV"
+         fileName="example.csv" sep=",">
+    <taxa spec="TaxonSet" alignment="@alignment"/>
+  </trait>
+#+end_src
+
+loads trait values for a taxon set from the CSV file ~example.csv~, which
+would have the following format
+
+#+begin_src csv
+  first_taxon, 12.3
+  second_taxon, 7.8
+  third_taxon, 15.4
+  ...
+#+end_src
+
+The order of the lines in the input file is not important, and any taxon
+names in the file which don't match the taxa provided by the ~taxa~ input
+are ignored.
+
+By default, taxon names are read from the first column (index 0) of
+the input file and values are read from the second (index 1). This
+behaviour can be customized through the ~taxonNameCol~ and ~traitValueCol~
+inputs, which accept the indicies of the columns to use.  All other
+columns in the input file besides the two specified here are ignored,
+so you can read multiple trait sets from a single file simply by
+specifying different ~traitValueCol~ values.
+
 *** AlignmentFromNexus/Fasta
 
 This class allows alignments to be loaded at runtime from Nexus or Fasta files
