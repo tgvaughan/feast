@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-11-25 Fri 11:41 -->
+<!-- 2022-11-25 Fri 15:32 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -20,75 +20,75 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgba3bcc6">1. Overview</a>
+<li><a href="#org49cedad">1. Overview</a>
 <ul>
-<li><a href="#org830c7ac">1.1. Installation</a></li>
-<li><a href="#org79d277e">1.2. Building from source</a></li>
+<li><a href="#org54d735b">1.1. Installation</a></li>
+<li><a href="#org13088bb">1.2. Building from source</a></li>
 </ul>
 </li>
-<li><a href="#org1f4a1e2">2. Features</a>
+<li><a href="#orgc9ac6bc">2. Features</a>
 <ul>
-<li><a href="#org53fdd5c">2.1. Initializing RealParameters</a>
+<li><a href="#org948b200">2.1. Initializing RealParameters</a>
 <ul>
-<li><a href="#org3b19659">2.1.1. Initialize RealParameters from CSV/TSV files</a></li>
-<li><a href="#org164b28c">2.1.2. Initialize RealParameters from Functions</a></li>
-<li><a href="#org863067e">2.1.3. Initializing RealParameters using formatted times</a></li>
+<li><a href="#org7e00b2c">2.1.1. Initialize RealParameters from CSV/TSV files</a></li>
+<li><a href="#org8ef92a0">2.1.2. Initialize RealParameters from Functions</a></li>
+<li><a href="#org1cd5443">2.1.3. Initializing RealParameters using formatted times</a></li>
 </ul>
 </li>
-<li><a href="#orgcc459f4">2.2. Coalescent population functions</a>
+<li><a href="#org7e80daf">2.2. Coalescent population functions</a>
 <ul>
-<li><a href="#orga973075">2.2.1. Time-shifted coalescent population functions</a></li>
-<li><a href="#org7122454">2.2.2. Compound coalescent population functions</a></li>
+<li><a href="#org4312ff8">2.2.1. Time-shifted coalescent population functions</a></li>
+<li><a href="#org0f2d14c">2.2.2. Compound coalescent population functions</a></li>
 </ul>
 </li>
-<li><a href="#orgaad4e43">2.3. Log File Post-processing</a></li>
-<li><a href="#orgbecef0b">2.4. Model selection</a>
+<li><a href="#orgb0ab3cc">2.3. Log File Post-processing</a></li>
+<li><a href="#orgf77af94">2.4. Model selection</a>
 <ul>
-<li><a href="#org7264005">2.4.1. DirichletProcessOperator and DirichletProcessPrior</a></li>
-<li><a href="#org18d1bf1">2.4.2. ModelSelectionParameter</a></li>
+<li><a href="#org98b6507">2.4.1. DirichletProcessOperator and DirichletProcessPrior</a></li>
+<li><a href="#org6c4022c">2.4.2. ModelSelectionParameter</a></li>
 </ul>
 </li>
-<li><a href="#orgd5fdef6">2.5. Operators</a>
+<li><a href="#org6492552">2.5. Operators</a>
 <ul>
-<li><a href="#org08b0f18">2.5.1. Scaling subsets of RealParameter elements together</a></li>
-<li><a href="#org061b30d">2.5.2. Sampling from a discrete set of states</a></li>
+<li><a href="#org47feb88">2.5.1. Scaling subsets of RealParameter elements together</a></li>
+<li><a href="#org86c4f1c">2.5.2. Sampling from a discrete set of states</a></li>
 </ul>
 </li>
-<li><a href="#orgf2cefc4">2.6. Model validation</a>
+<li><a href="#org8ecf7ce">2.6. Model validation</a>
 <ul>
-<li><a href="#orgfd54eeb">2.6.1. Easy state simulation</a></li>
-<li><a href="#org4766df3">2.6.2. Sequence alignment simulation</a></li>
-<li><a href="#org297b3ed">2.6.3. DensityMapper</a></li>
+<li><a href="#org0afcc3b">2.6.1. Easy state simulation</a></li>
+<li><a href="#orgda5251f">2.6.2. Sequence alignment simulation</a></li>
+<li><a href="#orgab8679f">2.6.3. DensityMapper</a></li>
 </ul>
 </li>
-<li><a href="#org464bf50">2.7. Function (array) creation and manipulation</a>
+<li><a href="#org628082d">2.7. Function (array) creation and manipulation</a>
 <ul>
-<li><a href="#org8ec4f02">2.7.1. Numeric sequences as Functions</a></li>
-<li><a href="#orgefa504b">2.7.2. Function Slicing</a></li>
-<li><a href="#org30673f2">2.7.3. Function reversing</a></li>
-<li><a href="#org3dfdc52">2.7.4. Function concatenation</a></li>
-<li><a href="#org9682a20">2.7.5. Function scaling</a></li>
-<li><a href="#orgd9d579a">2.7.6. Function interleaving</a></li>
+<li><a href="#orge0e2272">2.7.1. Numeric sequences as Functions</a></li>
+<li><a href="#org7014fca">2.7.2. Function Slicing</a></li>
+<li><a href="#orgbb03692">2.7.3. Function reversing</a></li>
+<li><a href="#org6d1b11f">2.7.4. Function concatenation</a></li>
+<li><a href="#org0c12f34">2.7.5. Function scaling</a></li>
+<li><a href="#org3a8521d">2.7.6. Function interleaving</a></li>
 </ul>
 </li>
-<li><a href="#orgae36546">2.8. Tree and Alignment Input/Output</a>
+<li><a href="#orga60f3bd">2.8. Tree and Alignment Input/Output</a>
 <ul>
-<li><a href="#org482fb29">2.8.1. TreeFromNewickFile &amp; TreeFromNexusFile</a></li>
-<li><a href="#org288d4c9">2.8.2. TraitSetFromTaxonSet</a></li>
-<li><a href="#orge4f1231">2.8.3. TraitSetFromXSV</a></li>
-<li><a href="#org2200979">2.8.4. AlignmentFromNexus/Fasta</a></li>
+<li><a href="#org0ecb35f">2.8.1. TreeFromNewickFile &amp; TreeFromNexusFile</a></li>
+<li><a href="#orga8088e7">2.8.2. TraitSetFromTaxonSet</a></li>
+<li><a href="#org001d630">2.8.3. TraitSetFromXSV</a></li>
+<li><a href="#org71994fa">2.8.4. AlignmentFromNexus/Fasta</a></li>
 </ul>
 </li>
-<li><a href="#org3755d51">2.9. Mathematical Expressions</a>
+<li><a href="#org6f3d555">2.9. Mathematical Expressions</a>
 <ul>
-<li><a href="#orge498ebc">2.9.1. ExpCalculator</a></li>
-<li><a href="#orgea67777">2.9.2. ExpCalculatorDistribution</a></li>
-<li><a href="#org54179cd">2.9.3. ExpCalculatorParametricDistribution</a></li>
+<li><a href="#orgb6532b8">2.9.1. ExpCalculator</a></li>
+<li><a href="#org43787d9">2.9.2. ExpCalculatorDistribution</a></li>
+<li><a href="#org688e818">2.9.3. ExpCalculatorParametricDistribution</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgbf8c769">3. License</a></li>
+<li><a href="#org3edd064">3. License</a></li>
 </ul>
 </div>
 </nav>
@@ -96,8 +96,8 @@
 GitHub Repository: <a href="https://github.com/tgvaughan/feast">https://github.com/tgvaughan/feast</a>
 </p>
 
-<div id="outline-container-orgba3bcc6" class="outline-2">
-<h2 id="orgba3bcc6"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-org49cedad" class="outline-2">
+<h2 id="org49cedad"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is a small BEAST 2 (<a href="http://www.beast2.org">http://www.beast2.org</a>) package which
@@ -113,8 +113,8 @@ ways to combine existing models and make certain tasks easier.
 </p>
 </div>
 
-<div id="outline-container-org830c7ac" class="outline-3">
-<h3 id="org830c7ac"><span class="section-number-3">1.1.</span> Installation</h3>
+<div id="outline-container-org54d735b" class="outline-3">
+<h3 id="org54d735b"><span class="section-number-3">1.1.</span> Installation</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 You can install directly from within BEAUti by opening the package
@@ -124,8 +124,8 @@ the "Install/Upgrade" button.
 </div>
 </div>
 
-<div id="outline-container-org79d277e" class="outline-3">
-<h3 id="org79d277e"><span class="section-number-3">1.2.</span> Building from source</h3>
+<div id="outline-container-org13088bb" class="outline-3">
+<h3 id="org13088bb"><span class="section-number-3">1.2.</span> Building from source</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The default target in the provided Apache ANT (<a href="http://ant.apache.org">http://ant.apache.org</a>)
@@ -136,8 +136,8 @@ The package archive will be left in the <code>dist/</code> directory.
 </div>
 </div>
 
-<div id="outline-container-org1f4a1e2" class="outline-2">
-<h2 id="org1f4a1e2"><span class="section-number-2">2.</span> Features</h2>
+<div id="outline-container-orgc9ac6bc" class="outline-2">
+<h2 id="orgc9ac6bc"><span class="section-number-2">2.</span> Features</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The rest of this document is an asymptotically complete list of the features feast
@@ -145,12 +145,12 @@ provides, in reverse chronological order of the date each was added.
 </p>
 </div>
 
-<div id="outline-container-org53fdd5c" class="outline-3">
-<h3 id="org53fdd5c"><span class="section-number-3">2.1.</span> Initializing RealParameters</h3>
+<div id="outline-container-org948b200" class="outline-3">
+<h3 id="org948b200"><span class="section-number-3">2.1.</span> Initializing RealParameters</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-org3b19659" class="outline-4">
-<h4 id="org3b19659"><span class="section-number-4">2.1.1.</span> Initialize RealParameters from CSV/TSV files</h4>
+<div id="outline-container-org7e00b2c" class="outline-4">
+<h4 id="org7e00b2c"><span class="section-number-4">2.1.1.</span> Initialize RealParameters from CSV/TSV files</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 When setting up complicated analyses, it can be useful to extract some
@@ -165,11 +165,11 @@ used to do this.
 file. For instance,
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">migrationRates</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.fileio.RealParameterFromXSV"</span>
-                <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"migration_rates.csv"</span>
-                <span style="color: #ff69b4;">sep</span>=<span style="color: #61CE3C;">","</span>
-                <span style="color: #ff69b4;">startRow</span>=<span style="color: #61CE3C;">"1"</span> <span style="color: #ff69b4;">rowCount</span>=<span style="color: #61CE3C;">"3"</span>
-                <span style="color: #ff69b4;">startCol</span>=<span style="color: #61CE3C;">"1"</span> <span style="color: #ff69b4;">colCount</span>=<span style="color: #61CE3C;">"3"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">migrationRates</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.RealParameterFromXSV"</span>
+                <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"migration_rates.csv"</span>
+                <span class="org-nxml-attribute-local-name">sep</span>=<span class="org-string">","</span>
+                <span class="org-nxml-attribute-local-name">startRow</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">rowCount</span>=<span class="org-string">"3"</span>
+                <span class="org-nxml-attribute-local-name">startCol</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">colCount</span>=<span class="org-string">"3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -186,10 +186,10 @@ or both of the first row or column contain labels, and allows these labels
 to be used to specify elements. For example,
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">samplingProportions</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.fileio.RealParameterFromLabelledXSV"</span>
-    <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"sampling.tsv"</span>
-    <span style="color: #ff69b4;">colLabels</span>=<span style="color: #61CE3C;">"sampling"</span>
-    <span style="color: #ff69b4;">rowLabels</span>=<span style="color: #61CE3C;">"early_cretaceous, late_cretaceous, jurassic"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingProportions</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.RealParameterFromLabelledXSV"</span>
+    <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"sampling.tsv"</span>
+    <span class="org-nxml-attribute-local-name">colLabels</span>=<span class="org-string">"sampling"</span>
+    <span class="org-nxml-attribute-local-name">rowLabels</span>=<span class="org-string">"early_cretaceous, late_cretaceous, jurassic"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -200,8 +200,8 @@ is read.
 </p>
 </div>
 </div>
-<div id="outline-container-org164b28c" class="outline-4">
-<h4 id="org164b28c"><span class="section-number-4">2.1.2.</span> Initialize RealParameters from Functions</h4>
+<div id="outline-container-org8ef92a0" class="outline-4">
+<h4 id="org8ef92a0"><span class="section-number-4">2.1.2.</span> Initialize RealParameters from Functions</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 The <code>RealParameterFromFunction</code> class provides a <code>RealParameter</code> which is
@@ -209,11 +209,11 @@ The <code>RealParameterFromFunction</code> class provides a <code>RealParameter<
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">samplingRateChangeTimes</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameterFromFunction"</span>&gt;
-    &lt;<span style="color: #ff1493;">function</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ExpCalculator"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"{0,max(taxonTimes)+0.1}"</span>&gt;
-        &lt;<span style="color: #ff1493;">arg</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"taxonTimes"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TraitSetAsFunction"</span> <span style="color: #ff69b4;">traitSet</span>=<span style="color: #61CE3C;">"@dateTrait"</span>/&gt;
-    &lt;/<span style="color: #ff1493;">function</span>&gt;
-&lt;/<span style="color: #ff1493;">samplingRateChangeTimes</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameterFromFunction"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">function</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpCalculator"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"{0,max(taxonTimes)+0.1}"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"taxonTimes"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TraitSetAsFunction"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">function</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -229,8 +229,8 @@ will not be reflected in the parameter!</b></b>
 </p>
 </div>
 </div>
-<div id="outline-container-org863067e" class="outline-4">
-<h4 id="org863067e"><span class="section-number-4">2.1.3.</span> Initializing RealParameters using formatted times</h4>
+<div id="outline-container-org1cd5443" class="outline-4">
+<h4 id="org1cd5443"><span class="section-number-4">2.1.3.</span> Initializing RealParameters using formatted times</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 Particularly in birth-death models, it is often desirable to specify
@@ -250,10 +250,10 @@ a <code>RealParameter</code> with the ages corresponding to the times above, use
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">parameter</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TimeParameter"</span>
-           <span style="color: #ff69b4;">time</span>=<span style="color: #61CE3C;">"05/03/1980 27/02/1980"</span>
-           <span style="color: #ff69b4;">mostRecentSampleTime</span>=<span style="color: #61CE3C;">"01/01/1990"</span>
-           <span style="color: #ff69b4;">timeFormat</span>=<span style="color: #61CE3C;">"dd/MM/yyyy"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TimeParameter"</span>
+           <span class="org-nxml-attribute-local-name">time</span>=<span class="org-string">"05/03/1980 27/02/1980"</span>
+           <span class="org-nxml-attribute-local-name">mostRecentSampleTime</span>=<span class="org-string">"01/01/1990"</span>
+           <span class="org-nxml-attribute-local-name">timeFormat</span>=<span class="org-string">"dd/MM/yyyy"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -262,8 +262,8 @@ This is completely equivalent to
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">parameter</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span>
-           <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"9.825137 9.844262"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span>
+           <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"9.825137 9.844262"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -283,12 +283,12 @@ the only action taken by TimeParameter is to subtract this value from
 </div>
 </div>
 
-<div id="outline-container-orgcc459f4" class="outline-3">
-<h3 id="orgcc459f4"><span class="section-number-3">2.2.</span> Coalescent population functions</h3>
+<div id="outline-container-org7e80daf" class="outline-3">
+<h3 id="org7e80daf"><span class="section-number-3">2.2.</span> Coalescent population functions</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-orga973075" class="outline-4">
-<h4 id="orga973075"><span class="section-number-4">2.2.1.</span> Time-shifted coalescent population functions</h4>
+<div id="outline-container-org4312ff8" class="outline-4">
+<h4 id="org4312ff8"><span class="section-number-4">2.2.1.</span> Time-shifted coalescent population functions</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 The <code>ShiftedPopulationModel</code> class allows you to create a new
@@ -300,9 +300,9 @@ function.
 For example, here is a time-shifted exponential growth population mode:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">populationModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ShiftedPopulationModel"</span> <span style="color: #ff69b4;">offset</span>=<span style="color: #61CE3C;">"0.5"</span>&gt;
-    &lt;<span style="color: #ff1493;">populationModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ExponentialGrowth"</span> <span style="color: #ff69b4;">popSize</span>=<span style="color: #61CE3C;">"1.0"</span> <span style="color: #ff69b4;">growthRate</span>=<span style="color: #61CE3C;">"1.0"</span>/&gt;
-&lt;/<span style="color: #ff1493;">populationModel</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ShiftedPopulationModel"</span> <span class="org-nxml-attribute-local-name">offset</span>=<span class="org-string">"0.5"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExponentialGrowth"</span> <span class="org-nxml-attribute-local-name">popSize</span>=<span class="org-string">"1.0"</span> <span class="org-nxml-attribute-local-name">growthRate</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -316,8 +316,8 @@ also be used here.
 </p>
 </div>
 </div>
-<div id="outline-container-org7122454" class="outline-4">
-<h4 id="org7122454"><span class="section-number-4">2.2.2.</span> Compound coalescent population functions</h4>
+<div id="outline-container-org0f2d14c" class="outline-4">
+<h4 id="org0f2d14c"><span class="section-number-4">2.2.2.</span> Compound coalescent population functions</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 BEAST 2 includes several commonly-used coalescent population models such
@@ -337,12 +337,12 @@ For example, here is a piecewise-constant population function created
 by joining together three <code>ConstantPopulation</code> models:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">populationModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"CompoundPopulationModel"</span>&gt;
-    &lt;<span style="color: #ff1493;">populationModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ConstantPopulation"</span>&gt; &lt;<span style="color: #ff1493;">popSize</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"5.0"</span>/&gt;&lt;/<span style="color: #ff1493;">populationModel</span>&gt;
-    &lt;<span style="color: #ff1493;">populationModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ConstantPopulation"</span>&gt; &lt;<span style="color: #ff1493;">popSize</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"10.0"</span>/&gt;&lt;/<span style="color: #ff1493;">populationModel</span>&gt;
-    &lt;<span style="color: #ff1493;">populationModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ConstantPopulation"</span>&gt; &lt;<span style="color: #ff1493;">popSize</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"2.0"</span>/&gt;&lt;/<span style="color: #ff1493;">populationModel</span>&gt;
-    &lt;<span style="color: #ff1493;">changeTimes</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.0 3.0"</span>/&gt;
-&lt;/<span style="color: #ff1493;">populationModel</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"CompoundPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span><span class="org-nxml-tag-delimiter">&gt;</span> <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">popSize</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"5.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span><span class="org-nxml-tag-delimiter">&gt;</span> <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">popSize</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"10.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span><span class="org-nxml-tag-delimiter">&gt;</span> <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">popSize</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">changeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0 3.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -368,8 +368,8 @@ simple coalescent analysis.
 </div>
 </div>
 
-<div id="outline-container-orgaad4e43" class="outline-3">
-<h3 id="orgaad4e43"><span class="section-number-3">2.3.</span> Log File Post-processing</h3>
+<div id="outline-container-orgb0ab3cc" class="outline-3">
+<h3 id="orgb0ab3cc"><span class="section-number-3">2.3.</span> Log File Post-processing</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Occasionally it's useful to be able to resurrect BEAST states from trace
@@ -388,30 +388,30 @@ is as follows:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">beast</span> <span style="color: #ff69b4;">version</span>=<span style="color: #61CE3C;">'2.0'</span> <span style="color: #ff69b4;">namespace</span>=<span style="color: #61CE3C;">'feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">beast</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">'2.0'</span> <span class="org-nxml-attribute-local-name">namespace</span>=<span class="org-string">'feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-  &lt;<span style="color: #ff1493;">run</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"LogFileIterator"</span>&gt;
-    &lt;<span style="color: #ff1493;">logFileState</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TraceLogFileState"</span> <span style="color: #ff69b4;">logFileName</span>=<span style="color: #61CE3C;">"original_analysis.log"</span>&gt;
-      &lt;<span style="color: #ff1493;">logFileEntry</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"LogFileRealParameter"</span> <span style="color: #ff69b4;">fieldName</span>=<span style="color: #61CE3C;">"hky.kappa"</span>&gt;
-        &lt;<span style="color: #ff1493;">fieldParameter</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"kappa"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"0.0"</span>/&gt;
-      &lt;/<span style="color: #ff1493;">logFileEntry</span>&gt;
-    &lt;/<span style="color: #ff1493;">logFileState</span>&gt;
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">run</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogFileIterator"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logFileState</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TraceLogFileState"</span> <span class="org-nxml-attribute-local-name">logFileName</span>=<span class="org-string">"original_analysis.log"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logFileEntry</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogFileRealParameter"</span> <span class="org-nxml-attribute-local-name">fieldName</span>=<span class="org-string">"hky.kappa"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">fieldParameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"kappa"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logFileEntry</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logFileState</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-    &lt;<span style="color: #ff1493;">logFileState</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TreeLogFileState"</span> <span style="color: #ff69b4;">logFileName</span>=<span style="color: #61CE3C;">"original_analysis.trees"</span>&gt;
-      &lt;<span style="color: #ff1493;">tree</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"beast.evolution.tree.Tree"</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"tree"</span>/&gt;
-    &lt;/<span style="color: #ff1493;">logFileState</span>&gt;
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logFileState</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TreeLogFileState"</span> <span class="org-nxml-attribute-local-name">logFileName</span>=<span class="org-string">"original_analysis.trees"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">tree</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.evolution.tree.Tree"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"tree"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logFileState</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-    &lt;<span style="color: #ff1493;">logger</span> <span style="color: #ff69b4;">logEvery</span>=<span style="color: #61CE3C;">"10000"</span> <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"processed.log"</span>&gt;
-      &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">idref</span>=<span style="color: #61CE3C;">"recoveredParameter"</span>/&gt;
-      &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"treestat"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"beast.evolution.tree.TreeStatLogger"</span> <span style="color: #ff69b4;">tree</span>=<span style="color: #61CE3C;">"@tree"</span>/&gt;
-    &lt;/<span style="color: #ff1493;">logger</span>&gt;
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logger</span> <span class="org-nxml-attribute-local-name">logEvery</span>=<span class="org-string">"10000"</span> <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"processed.log"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"recoveredParameter"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"treestat"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.evolution.tree.TreeStatLogger"</span> <span class="org-nxml-attribute-local-name">tree</span>=<span class="org-string">"@tree"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logger</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-    &lt;<span style="color: #ff1493;">logger</span> <span style="color: #ff69b4;">logEvery</span>=<span style="color: #61CE3C;">"100000"</span>&gt;
-      &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">idref</span>=<span style="color: #61CE3C;">"kappa"</span>/&gt;
-      &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">idref</span>=<span style="color: #61CE3C;">"treestat"</span>/&gt;
-    &lt;/<span style="color: #ff1493;">logger</span>&gt;
-  &lt;/<span style="color: #ff1493;">run</span>&gt;
-&lt;/<span style="color: #ff1493;">beast</span>&gt;
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logger</span> <span class="org-nxml-attribute-local-name">logEvery</span>=<span class="org-string">"100000"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"kappa"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"treestat"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logger</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">run</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">beast</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -425,12 +425,12 @@ of "tree" are then written to the file "processed.log" and the screen in the usu
 </div>
 </div>
 
-<div id="outline-container-orgbecef0b" class="outline-3">
-<h3 id="orgbecef0b"><span class="section-number-3">2.4.</span> Model selection</h3>
+<div id="outline-container-orgf77af94" class="outline-3">
+<h3 id="orgf77af94"><span class="section-number-3">2.4.</span> Model selection</h3>
 <div class="outline-text-3" id="text-2-4">
 </div>
-<div id="outline-container-org7264005" class="outline-4">
-<h4 id="org7264005"><span class="section-number-4">2.4.1.</span> DirichletProcessOperator and DirichletProcessPrior</h4>
+<div id="outline-container-org98b6507" class="outline-4">
+<h4 id="org98b6507"><span class="section-number-4">2.4.1.</span> DirichletProcessOperator and DirichletProcessPrior</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 The <code>DirichletProcessPrior</code> and <code>DirichletProcessOperator</code> allow the application
@@ -444,10 +444,10 @@ in the target density:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">distribution</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"DirichletProcessPrior"</span> <span style="color: #ff69b4;">parameter</span>=<span style="color: #61CE3C;">"@X"</span>&gt;
-    &lt;<span style="color: #ff1493;">scaleParameter</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"dppScale"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.0"</span>/&gt;
-    &lt;<span style="color: #ff1493;">baseDistrib</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"dppBase"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"LogNormalDistributionModel"</span> <span style="color: #ff69b4;">M</span>=<span style="color: #61CE3C;">"0.8"</span> <span style="color: #ff69b4;">S</span>=<span style="color: #61CE3C;">"0.5"</span>/&gt;
-&lt;/<span style="color: #ff1493;">distribution</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distribution</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"DirichletProcessPrior"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@X"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaleParameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"dppScale"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">baseDistrib</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"dppBase"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogNormalDistributionModel"</span> <span class="org-nxml-attribute-local-name">M</span>=<span class="org-string">"0.8"</span> <span class="org-nxml-attribute-local-name">S</span>=<span class="org-string">"0.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">distribution</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -456,8 +456,8 @@ You also need to include the following operator:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">operator</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"DirichletProcessOperator"</span> <span style="color: #ff69b4;">parameter</span>=<span style="color: #61CE3C;">"@X"</span>
-          <span style="color: #ff69b4;">scaleParameter</span>=<span style="color: #61CE3C;">"@dppScale"</span> <span style="color: #ff69b4;">baseDistrib</span>=<span style="color: #61CE3C;">"@dppBase"</span> <span style="color: #ff69b4;">weight</span>=<span style="color: #61CE3C;">"1.0"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">operator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"DirichletProcessOperator"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@X"</span>
+          <span class="org-nxml-attribute-local-name">scaleParameter</span>=<span class="org-string">"@dppScale"</span> <span class="org-nxml-attribute-local-name">baseDistrib</span>=<span class="org-string">"@dppBase"</span> <span class="org-nxml-attribute-local-name">weight</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -467,8 +467,8 @@ number of elements of <code>X</code> which are identical.
 </p>
 </div>
 </div>
-<div id="outline-container-org18d1bf1" class="outline-4">
-<h4 id="org18d1bf1"><span class="section-number-4">2.4.2.</span> ModelSelectionParameter</h4>
+<div id="outline-container-org6c4022c" class="outline-4">
+<h4 id="org6c4022c"><span class="section-number-4">2.4.2.</span> ModelSelectionParameter</h4>
 <div class="outline-text-4" id="text-2-4-2">
 <p>
 While model selection is extremely complicated in general, it can be almost
@@ -496,11 +496,11 @@ in model 2 the extinction rate has some unknown non-zero value.
 We can implement this by defining the death rate to be a <code>ModelSelectionParameter</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">deathRate</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"deathRate"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"ModelSelectionParameter"</span>&gt;
-    &lt;<span style="color: #ff1493;">parameter</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"0.0"</span>/&gt;
-    &lt;<span style="color: #ff1493;">parameter</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"nonZeroDeathRate"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.0"</span>/&gt;
-    &lt;<span style="color: #ff1493;">selectionIndices</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"selectionIdx"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"IntegerParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1"</span> <span style="color: #ff69b4;">lower</span>=<span style="color: #61CE3C;">"0"</span> <span style="color: #ff69b4;">upper</span>=<span style="color: #61CE3C;">"1"</span>/&gt;
-&lt;/<span style="color: #ff1493;">deathRate</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">deathRate</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"deathRate"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ModelSelectionParameter"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"nonZeroDeathRate"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">selectionIndices</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"selectionIdx"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">deathRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -531,12 +531,12 @@ s as input.
 </div>
 </div>
 
-<div id="outline-container-orgd5fdef6" class="outline-3">
-<h3 id="orgd5fdef6"><span class="section-number-3">2.5.</span> Operators</h3>
+<div id="outline-container-org6492552" class="outline-3">
+<h3 id="org6492552"><span class="section-number-3">2.5.</span> Operators</h3>
 <div class="outline-text-3" id="text-2-5">
 </div>
-<div id="outline-container-org08b0f18" class="outline-4">
-<h4 id="org08b0f18"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
+<div id="outline-container-org47feb88" class="outline-4">
+<h4 id="org47feb88"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
 <div class="outline-text-4" id="text-2-5-1">
 <p>
 It's occasionally necessary to tie multiple elements of a RealParameter
@@ -559,10 +559,10 @@ scale factor), and</li>
 An example usage of this operator is as follows:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">operator</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"BlockScaleOperator"</span> <span style="color: #ff69b4;">parameter</span>=<span style="color: #61CE3C;">"@paramToScale"</span>
-          <span style="color: #ff69b4;">scaleFactor</span>=<span style="color: #61CE3C;">"0.8"</span> <span style="color: #ff69b4;">weight</span>=<span style="color: #61CE3C;">"1.0"</span>&gt;
-    &lt;<span style="color: #ff1493;">indicator</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"BooleanParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"true true false false"</span> <span style="color: #ff69b4;">estimate</span>=<span style="color: #61CE3C;">"false"</span>/&gt;
-&lt;/<span style="color: #ff1493;">operator</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">operator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BlockScaleOperator"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@paramToScale"</span>
+          <span class="org-nxml-attribute-local-name">scaleFactor</span>=<span class="org-string">"0.8"</span> <span class="org-nxml-attribute-local-name">weight</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">indicator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BooleanParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"true true false false"</span> <span class="org-nxml-attribute-local-name">estimate</span>=<span class="org-string">"false"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">operator</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -579,12 +579,12 @@ to be scaled together must be initialised to the same value:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">state</span>&gt;
-    &lt;<span style="color: #ff1493;">stateNode</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"paramToScale"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1 1 2 2"</span>/&gt;
-&lt;/<span style="color: #ff1493;">state</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">state</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">stateNode</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramToScale"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1 1 2 2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">state</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-&lt;<span style="color: #ff1493;">operator</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"SmartScaleOperator"</span> <span style="color: #ff69b4;">parameter</span>=<span style="color: #61CE3C;">"@paramToScale"</span>
-          <span style="color: #ff69b4;">scaleFactor</span>=<span style="color: #61CE3C;">"0.8"</span> <span style="color: #ff69b4;">weight</span>=<span style="color: #61CE3C;">"1.0"</span>/&gt;
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">operator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"SmartScaleOperator"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@paramToScale"</span>
+          <span class="org-nxml-attribute-local-name">scaleFactor</span>=<span class="org-string">"0.8"</span> <span class="org-nxml-attribute-local-name">weight</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -596,8 +596,8 @@ elements.
 </div>
 </div>
 
-<div id="outline-container-org061b30d" class="outline-4">
-<h4 id="org061b30d"><span class="section-number-4">2.5.2.</span> Sampling from a discrete set of states</h4>
+<div id="outline-container-org86c4f1c" class="outline-4">
+<h4 id="org86c4f1c"><span class="section-number-4">2.5.2.</span> Sampling from a discrete set of states</h4>
 <div class="outline-text-4" id="text-2-5-2">
 <p>
 Occasionally we wish to characterise the posterior for a parameter or tree
@@ -610,14 +610,14 @@ For instance, suppose we have a small set of trees we want the MCMC to
 sample from.  We can accomplish this as follows:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">operator</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"DiscreteUniformJumpOperator"</span> <span style="color: #ff69b4;">x</span>=<span style="color: #61CE3C;">"@tree"</span> <span style="color: #ff69b4;">weight</span>=<span style="color: #61CE3C;">"1"</span>&gt;
-  &lt;<span style="color: #ff1493;">possibility</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TreeParser"</span> <span style="color: #ff69b4;">adjustTipHeight</span>=<span style="color: #61CE3C;">"false"</span> <span style="color: #ff69b4;">taxa</span>=<span style="color: #61CE3C;">"@alignment"</span> <span style="color: #ff69b4;">estimate</span>=<span style="color: #61CE3C;">"false"</span>
-               <span style="color: #ff69b4;">newick</span>=<span style="color: #61CE3C;">"((((1:0.232 ..."</span>/&gt;
-  &lt;<span style="color: #ff1493;">possibility</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TreeParser"</span> <span style="color: #ff69b4;">adjustTipHeight</span>=<span style="color: #61CE3C;">"false"</span> <span style="color: #ff69b4;">taxa</span>=<span style="color: #61CE3C;">"@alignment"</span> <span style="color: #ff69b4;">estimate</span>=<span style="color: #61CE3C;">"false"</span>
-               <span style="color: #ff69b4;">newick</span>=<span style="color: #61CE3C;">"(((5:1.2321 ..."</span>/&gt;
-  &lt;<span style="color: #ff1493;">possibility</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TreeParser"</span> <span style="color: #ff69b4;">adjustTipHeight</span>=<span style="color: #61CE3C;">"false"</span> <span style="color: #ff69b4;">taxa</span>=<span style="color: #61CE3C;">"@alignment"</span> <span style="color: #ff69b4;">estimate</span>=<span style="color: #61CE3C;">"false"</span>
-               <span style="color: #ff69b4;">newick</span>=<span style="color: #61CE3C;">"((((3:4.222 ..."</span>/&gt;
-&lt;/<span style="color: #ff1493;">operator</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">operator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"DiscreteUniformJumpOperator"</span> <span class="org-nxml-attribute-local-name">x</span>=<span class="org-string">"@tree"</span> <span class="org-nxml-attribute-local-name">weight</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">possibility</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TreeParser"</span> <span class="org-nxml-attribute-local-name">adjustTipHeight</span>=<span class="org-string">"false"</span> <span class="org-nxml-attribute-local-name">taxa</span>=<span class="org-string">"@alignment"</span> <span class="org-nxml-attribute-local-name">estimate</span>=<span class="org-string">"false"</span>
+               <span class="org-nxml-attribute-local-name">newick</span>=<span class="org-string">"((((1:0.232 ..."</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">possibility</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TreeParser"</span> <span class="org-nxml-attribute-local-name">adjustTipHeight</span>=<span class="org-string">"false"</span> <span class="org-nxml-attribute-local-name">taxa</span>=<span class="org-string">"@alignment"</span> <span class="org-nxml-attribute-local-name">estimate</span>=<span class="org-string">"false"</span>
+               <span class="org-nxml-attribute-local-name">newick</span>=<span class="org-string">"(((5:1.2321 ..."</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">possibility</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TreeParser"</span> <span class="org-nxml-attribute-local-name">adjustTipHeight</span>=<span class="org-string">"false"</span> <span class="org-nxml-attribute-local-name">taxa</span>=<span class="org-string">"@alignment"</span> <span class="org-nxml-attribute-local-name">estimate</span>=<span class="org-string">"false"</span>
+               <span class="org-nxml-attribute-local-name">newick</span>=<span class="org-string">"((((3:4.222 ..."</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">operator</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
@@ -634,12 +634,12 @@ I.e. parameters must have the same dimension and satisfy the bounds of
 </div>
 </div>
 
-<div id="outline-container-orgf2cefc4" class="outline-3">
-<h3 id="orgf2cefc4"><span class="section-number-3">2.6.</span> Model validation</h3>
+<div id="outline-container-org8ecf7ce" class="outline-3">
+<h3 id="org8ecf7ce"><span class="section-number-3">2.6.</span> Model validation</h3>
 <div class="outline-text-3" id="text-2-6">
 </div>
-<div id="outline-container-orgfd54eeb" class="outline-4">
-<h4 id="orgfd54eeb"><span class="section-number-4">2.6.1.</span> Easy state simulation</h4>
+<div id="outline-container-org0afcc3b" class="outline-4">
+<h4 id="org0afcc3b"><span class="section-number-4">2.6.1.</span> Easy state simulation</h4>
 <div class="outline-text-4" id="text-2-6-1">
 <p>
 One BEAST 2 idiom which is pervasive in my code at least is the existance
@@ -672,8 +672,8 @@ to simulate 100 coalescent trees.
 </p>
 </div>
 </div>
-<div id="outline-container-org4766df3" class="outline-4">
-<h4 id="org4766df3"><span class="section-number-4">2.6.2.</span> Sequence alignment simulation</h4>
+<div id="outline-container-orgda5251f" class="outline-4">
+<h4 id="orgda5251f"><span class="section-number-4">2.6.2.</span> Sequence alignment simulation</h4>
 <div class="outline-text-4" id="text-2-6-2">
 <p>
 While BEAST contains its own alignment simulator in <code>beast.app.seqgen.SimulatedAlignment</code>,
@@ -689,13 +689,13 @@ substitution model:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">alignment</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.simulation.SimulatedAlignment"</span>
-           <span style="color: #ff69b4;">outputFileName</span>=<span style="color: #61CE3C;">"simulated_alignment.nexus"</span>
-           <span style="color: #ff69b4;">tree</span>=<span style="color: #61CE3C;">"@tree"</span> <span style="color: #ff69b4;">sequenceLength</span>=<span style="color: #61CE3C;">"1000"</span>&gt;
-    &lt;<span style="color: #ff1493;">siteModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"SiteModel"</span>&gt;
-        &lt;<span style="color: #ff1493;">substModel</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"JukesCantor"</span>/&gt;
-    &lt;/<span style="color: #ff1493;">siteModel</span>&gt;
-&lt;/<span style="color: #ff1493;">alignment</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.simulation.SimulatedAlignment"</span>
+           <span class="org-nxml-attribute-local-name">outputFileName</span>=<span class="org-string">"simulated_alignment.nexus"</span>
+           <span class="org-nxml-attribute-local-name">tree</span>=<span class="org-string">"@tree"</span> <span class="org-nxml-attribute-local-name">sequenceLength</span>=<span class="org-string">"1000"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">siteModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"SiteModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">substModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"JukesCantor"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">siteModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -707,8 +707,8 @@ supported, so there is no <code>branchRateModel</code> input.
 </p>
 </div>
 </div>
-<div id="outline-container-org297b3ed" class="outline-4">
-<h4 id="org297b3ed"><span class="section-number-4">2.6.3.</span> DensityMapper</h4>
+<div id="outline-container-orgab8679f" class="outline-4">
+<h4 id="orgab8679f"><span class="section-number-4">2.6.3.</span> DensityMapper</h4>
 <div class="outline-text-4" id="text-2-6-3">
 <p>
 This class provides an easy way to produce plots of the variation in a
@@ -720,29 +720,29 @@ general form:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">beast</span> <span style="color: #ff69b4;">version</span>=<span style="color: #61CE3C;">"2.0"</span>&gt;
-    &lt;<span style="color: #ff1493;">run</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"DensityMapper"</span>&gt;
-        &lt;<span style="color: #ff1493;">distribution</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"distrib"</span> ... /&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">beast</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">run</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"DensityMapper"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distribution</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"distrib"</span> ... <span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-        &lt;<span style="color: #ff1493;">realParam</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"paramA"</span>
-            <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"V_A"</span> <span style="color: #ff69b4;">lower</span>=<span style="color: #61CE3C;">"LOWER_A"</span> <span style="color: #ff69b4;">upper</span>=<span style="color: #61CE3C;">"UPPER_A"</span>/&gt;
-        &lt;<span style="color: #ff1493;">steps</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"IntegerParameter"</span>
-            <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"STEPS_A"</span>/&gt;
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramA"</span>
+            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_A"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"LOWER_A"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"UPPER_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span>
+            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-        &lt;<span style="color: #ff1493;">realParam</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"paramB"</span>
-            <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"V_B1 V_B2"</span> <span style="color: #ff69b4;">lower</span>=<span style="color: #61CE3C;">"LOWER_B"</span> <span style="color: #ff69b4;">upper</span>=<span style="color: #61CE3C;">"UPPER_B"</span>/&gt;
-        &lt;<span style="color: #ff1493;">steps</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"IntegerParameter"</span>
-            <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"STEPS_B1 STEPS_B2"</span>/&gt;
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramB"</span>
+            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_B1 V_B2"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"LOWER_B"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"UPPER_B"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span>
+            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_B1 STEPS_B2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-        &lt;<span style="color: #ff1493;">logger</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"Logger"</span> <span style="color: #ff69b4;">logEvery</span>=<span style="color: #61CE3C;">"1"</span>&gt;
-            &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">idref</span>=<span style="color: #61CE3C;">"paramA"</span>/&gt;
-            &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">idref</span>=<span style="color: #61CE3C;">"paramB"</span>/&gt;
-            &lt;<span style="color: #ff1493;">log</span> <span style="color: #ff69b4;">idref</span>=<span style="color: #61CE3C;">"distrib"</span>/&gt;
-        &lt;/<span style="color: #ff1493;">logger</span>&gt;
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logger</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Logger"</span> <span class="org-nxml-attribute-local-name">logEvery</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+            <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"paramA"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+            <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"paramB"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+            <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"distrib"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logger</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-        <span style="color: #8B8989; font-style: italic;">&lt;!-- </span><span style="color: #8B8989; font-style: italic;">Additional (screen?) loggers</span><span style="color: #8B8989; font-style: italic;"> --&gt;</span>
-    &lt;/<span style="color: #ff1493;">run</span>&gt;
-&lt;/<span style="color: #ff1493;">beast</span>&gt;
+        <span class="org-comment-delimiter">&lt;!-- </span><span class="org-comment">Additional (screen?) loggers</span><span class="org-comment-delimiter"> --&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">run</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">beast</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -775,12 +775,12 @@ LOWER<sub>A</sub> and UPPER<sub>A</sub>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">realParam</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"paramA"</span>
-    <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"V_A"</span> <span style="color: #ff69b4;">lower</span>=<span style="color: #61CE3C;">"LOWER_A"</span> <span style="color: #ff69b4;">upper</span>=<span style="color: #61CE3C;">"UPPER_A"</span>/&gt;
-&lt;<span style="color: #ff1493;">steps</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"IntegerParameter"</span>
-    <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"STEPS_A"</span>/&gt;
-&lt;<span style="color: #ff1493;">logScale</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"BooleanParameter"</span>
-    <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"true"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramA"</span>
+    <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_A"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"LOWER_A"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"UPPER_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span>
+    <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logScale</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BooleanParameter"</span>
+    <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"true"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -798,12 +798,12 @@ coalescent tree density as a function of the population size is provided as
 </div>
 </div>
 
-<div id="outline-container-org464bf50" class="outline-3">
-<h3 id="org464bf50"><span class="section-number-3">2.7.</span> Function (array) creation and manipulation</h3>
+<div id="outline-container-org628082d" class="outline-3">
+<h3 id="org628082d"><span class="section-number-3">2.7.</span> Function (array) creation and manipulation</h3>
 <div class="outline-text-3" id="text-2-7">
 </div>
-<div id="outline-container-org8ec4f02" class="outline-4">
-<h4 id="org8ec4f02"><span class="section-number-4">2.7.1.</span> Numeric sequences as Functions</h4>
+<div id="outline-container-orge0e2272" class="outline-4">
+<h4 id="orge0e2272"><span class="section-number-4">2.7.1.</span> Numeric sequences as Functions</h4>
 <div class="outline-text-4" id="text-2-7-1">
 <p>
 Instances of <code>feast.function.Sequence</code> are ~Function~s which contain a sequence
@@ -813,13 +813,13 @@ i.e. 0,0.1,0.2,&#x2026;,9.9,10:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">function</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.Sequence"</span> <span style="color: #ff69b4;">start</span>=<span style="color: #61CE3C;">"0"</span> <span style="color: #ff69b4;">stop</span>=<span style="color: #61CE3C;">"10"</span> <span style="color: #ff69b4;">length</span>=<span style="color: #61CE3C;">"101"</span>/&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">function</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Sequence"</span> <span class="org-nxml-attribute-local-name">start</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">stop</span>=<span class="org-string">"10"</span> <span class="org-nxml-attribute-local-name">length</span>=<span class="org-string">"101"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgefa504b" class="outline-4">
-<h4 id="orgefa504b"><span class="section-number-4">2.7.2.</span> Function Slicing</h4>
+<div id="outline-container-org7014fca" class="outline-4">
+<h4 id="org7014fca"><span class="section-number-4">2.7.2.</span> Function Slicing</h4>
 <div class="outline-text-4" id="text-2-7-2">
 <p>
 Instances of the <code>feast.function.Slice</code> class are <code>Function~s and ~Loggable~s which
@@ -833,10 +833,10 @@ of a <code>RealParameter</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">distrib</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"Prior"</span>&gt;
-    &lt;<span style="color: #ff1493;">x</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.Slice"</span> <span style="color: #ff69b4;">arg</span>=<span style="color: #61CE3C;">"@samplingProportion"</span> <span style="color: #ff69b4;">index</span>=<span style="color: #61CE3C;">"2"</span> <span style="color: #ff69b4;">count</span>=<span style="color: #61CE3C;">"1"</span>/&gt;
-    &lt;<span style="color: #ff1493;">distr</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"LogNormalDistributionModel"</span> <span style="color: #ff69b4;">M</span>=<span style="color: #61CE3C;">"0"</span> <span style="color: #ff69b4;">S</span>=<span style="color: #61CE3C;">"1"</span>/&gt;
-&lt;/<span style="color: #ff1493;">distrib</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distrib</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Prior"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">x</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Slice"</span> <span class="org-nxml-attribute-local-name">arg</span>=<span class="org-string">"@samplingProportion"</span> <span class="org-nxml-attribute-local-name">index</span>=<span class="org-string">"2"</span> <span class="org-nxml-attribute-local-name">count</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogNormalDistributionModel"</span> <span class="org-nxml-attribute-local-name">M</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">S</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">distrib</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -847,15 +847,15 @@ same <code>RealParamter</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">distrib</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"Prior"</span>&gt;
-    &lt;<span style="color: #ff1493;">x</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.Slice"</span> <span style="color: #ff69b4;">arg</span>=<span style="color: #61CE3C;">"@samplingProportion"</span> <span style="color: #ff69b4;">index</span>=<span style="color: #61CE3C;">"1"</span> <span style="color: #ff69b4;">count</span>=<span style="color: #61CE3C;">"3"</span> <span style="color: #ff69b4;">by</span>=<span style="color: #61CE3C;">"2"</span>/&gt;
-&lt;/<span style="color: #ff1493;">distrib</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distrib</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Prior"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">x</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Slice"</span> <span class="org-nxml-attribute-local-name">arg</span>=<span class="org-string">"@samplingProportion"</span> <span class="org-nxml-attribute-local-name">index</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">count</span>=<span class="org-string">"3"</span> <span class="org-nxml-attribute-local-name">by</span>=<span class="org-string">"2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">distrib</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org30673f2" class="outline-4">
-<h4 id="org30673f2"><span class="section-number-4">2.7.3.</span> Function reversing</h4>
+<div id="outline-container-orgbb03692" class="outline-4">
+<h4 id="orgbb03692"><span class="section-number-4">2.7.3.</span> Function reversing</h4>
 <div class="outline-text-4" id="text-2-7-3">
 <p>
 Instances of the <code>feast.function.Reverse</code> class are
@@ -864,8 +864,8 @@ Instances of the <code>feast.function.Reverse</code> class are
 </p>
 </div>
 </div>
-<div id="outline-container-org3dfdc52" class="outline-4">
-<h4 id="org3dfdc52"><span class="section-number-4">2.7.4.</span> Function concatenation</h4>
+<div id="outline-container-org6d1b11f" class="outline-4">
+<h4 id="org6d1b11f"><span class="section-number-4">2.7.4.</span> Function concatenation</h4>
 <div class="outline-text-4" id="text-2-7-4">
 <p>
 Instances of the <code>feast.function.Concatenate</code> class are ~Function~s
@@ -877,16 +877,16 @@ rather than a single real parameter with multiple dimensions:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">reproductiveNumber</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.Concatenate"</span>&gt;
-    &lt;<span style="color: #ff1493;">arg</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.0"</span>/&gt;
-    &lt;<span style="color: #ff1493;">arg</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"2.0"</span>/&gt;
-&lt;/<span style="color: #ff1493;">reproductiveNumber</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">reproductiveNumber</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Concatenate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">reproductiveNumber</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9682a20" class="outline-4">
-<h4 id="org9682a20"><span class="section-number-4">2.7.5.</span> Function scaling</h4>
+<div id="outline-container-org0c12f34" class="outline-4">
+<h4 id="org0c12f34"><span class="section-number-4">2.7.5.</span> Function scaling</h4>
 <div class="outline-text-4" id="text-2-7-5">
 <p>
 Instances of <code>feast.function.Scale</code> allow one <code>Function</code> to be scaled
@@ -894,16 +894,16 @@ by another:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">scaledBirthRate</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.Scale"</span>&gt;
-  &lt;<span style="color: #ff1493;">function</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.0 2.0 3.0"</span>/&gt;
-  &lt;<span style="color: #ff1493;">scaleBy</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.5"</span>/&gt;
-&lt;/<span style="color: #ff1493;">scaledBirthRate</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaledBirthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Scale"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">function</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0 2.0 3.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaleBy</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">scaledBirthRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd9d579a" class="outline-4">
-<h4 id="orgd9d579a"><span class="section-number-4">2.7.6.</span> Function interleaving</h4>
+<div id="outline-container-org3a8521d" class="outline-4">
+<h4 id="org3a8521d"><span class="section-number-4">2.7.6.</span> Function interleaving</h4>
 <div class="outline-text-4" id="text-2-7-6">
 <p>
 Instances of <code>feast.function.Interleave</code> represent the result of interleaving
@@ -911,10 +911,10 @@ the elements of several input ~Function~s.  For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">twoDemeBirthRate</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.interleave"</span>&gt;
-  &lt;<span style="color: #ff1493;">arg</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1 3 5 7"</span>/&gt;
-  &lt;<span style="color: #ff1493;">arg</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"2 4 6 8"</span>/&gt;
-&lt;/<span style="color: #ff1493;">twoDemeBirthRate</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">twoDemeBirthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.interleave"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1 3 5 7"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2 4 6 8"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">twoDemeBirthRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -929,9 +929,9 @@ in the elements of an input <code>Function</code>.  For example,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">uniqueValues</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.function.UniqueElementCount"</span>&gt;
-    &lt;<span style="color: #ff1493;">arg</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"RealParameter"</span> <span style="color: #ff69b4;">value</span>=<span style="color: #61CE3C;">"1.5 10 1.5 1.4"</span>/&gt;
-&lt;/<span style="color: #ff1493;">uniqueValues</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">uniqueValues</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.UniqueElementCount"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.5 10 1.5 1.4"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">uniqueValues</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -943,12 +943,12 @@ is a <code>Function</code> with a value of 3.
 </div>
 
 
-<div id="outline-container-orgae36546" class="outline-3">
-<h3 id="orgae36546"><span class="section-number-3">2.8.</span> Tree and Alignment Input/Output</h3>
+<div id="outline-container-orga60f3bd" class="outline-3">
+<h3 id="orga60f3bd"><span class="section-number-3">2.8.</span> Tree and Alignment Input/Output</h3>
 <div class="outline-text-3" id="text-2-8">
 </div>
-<div id="outline-container-org482fb29" class="outline-4">
-<h4 id="org482fb29"><span class="section-number-4">2.8.1.</span> TreeFromNewickFile &amp; TreeFromNexusFile</h4>
+<div id="outline-container-org0ecb35f" class="outline-4">
+<h4 id="org0ecb35f"><span class="section-number-4">2.8.1.</span> TreeFromNewickFile &amp; TreeFromNexusFile</h4>
 <div class="outline-text-4" id="text-2-8-1">
 <p>
 These classes allow trees to be loaded at runtime from Newick files rather
@@ -956,16 +956,16 @@ than stored in the BEAST 2 XML:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">tree</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">'feast.fileio.TreeFromNewickFile'</span> <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"example.tree"</span>
-    <span style="color: #ff69b4;">IsLabelledNewick</span>=<span style="color: #61CE3C;">"true"</span> <span style="color: #ff69b4;">adjustTipHeights</span>=<span style="color: #61CE3C;">"false"</span> .../&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">tree</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">'feast.fileio.TreeFromNewickFile'</span> <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"example.tree"</span>
+    <span class="org-nxml-attribute-local-name">IsLabelledNewick</span>=<span class="org-string">"true"</span> <span class="org-nxml-attribute-local-name">adjustTipHeights</span>=<span class="org-string">"false"</span> ...<span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
 or 
 </p>
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">tree</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">'feast.fileio.TreeFromNexusFile'</span> <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"example.nexus"</span>
-    <span style="color: #ff69b4;">IsLabelledNewick</span>=<span style="color: #61CE3C;">"true"</span> <span style="color: #ff69b4;">adjustTipHeights</span>=<span style="color: #61CE3C;">"false"</span> .../&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">tree</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">'feast.fileio.TreeFromNexusFile'</span> <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"example.nexus"</span>
+    <span class="org-nxml-attribute-local-name">IsLabelledNewick</span>=<span class="org-string">"true"</span> <span class="org-nxml-attribute-local-name">adjustTipHeights</span>=<span class="org-string">"false"</span> ...<span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -985,8 +985,8 @@ supported by that class are also supported.
 </div>
 </div>
 
-<div id="outline-container-org288d4c9" class="outline-4">
-<h4 id="org288d4c9"><span class="section-number-4">2.8.2.</span> TraitSetFromTaxonSet</h4>
+<div id="outline-container-orga8088e7" class="outline-4">
+<h4 id="orga8088e7"><span class="section-number-4">2.8.2.</span> TraitSetFromTaxonSet</h4>
 <div class="outline-text-4" id="text-2-8-2">
 <p>
 This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
@@ -1005,13 +1005,13 @@ For instance:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">trait</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.fileio.TraitSetFromTaxonSet"</span>
-       <span style="color: #ff69b4;">delimiter</span>=<span style="color: #61CE3C;">"|"</span>
-       <span style="color: #ff69b4;">everythingAfterLast</span>=<span style="color: #61CE3C;">"true"</span>
-       <span style="color: #ff69b4;">traitname</span>=<span style="color: #61CE3C;">"date"</span>
-       <span style="color: #ff69b4;">dateFormat</span>=<span style="color: #61CE3C;">"yyyy-M-dd"</span>&gt;
-       &lt;<span style="color: #ff1493;">taxa</span> <span style="color: #ff69b4;">id</span>=<span style="color: #61CE3C;">"taxonSet"</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TaxonSet"</span> <span style="color: #ff69b4;">alignment</span>=<span style="color: #61CE3C;">"@alignment"</span>/&gt;
-&lt;/<span style="color: #ff1493;">trait</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">trait</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.TraitSetFromTaxonSet"</span>
+       <span class="org-nxml-attribute-local-name">delimiter</span>=<span class="org-string">"|"</span>
+       <span class="org-nxml-attribute-local-name">everythingAfterLast</span>=<span class="org-string">"true"</span>
+       <span class="org-nxml-attribute-local-name">traitname</span>=<span class="org-string">"date"</span>
+       <span class="org-nxml-attribute-local-name">dateFormat</span>=<span class="org-string">"yyyy-M-dd"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+       <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">taxa</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"taxonSet"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TaxonSet"</span> <span class="org-nxml-attribute-local-name">alignment</span>=<span class="org-string">"@alignment"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">trait</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -1022,8 +1022,8 @@ Instead of <code>everythingAfterLast="true"</code>, one can also use <code>every
 </div>
 </div>
 
-<div id="outline-container-orge4f1231" class="outline-4">
-<h4 id="orge4f1231"><span class="section-number-4">2.8.3.</span> TraitSetFromXSV</h4>
+<div id="outline-container-org001d630" class="outline-4">
+<h4 id="org001d630"><span class="section-number-4">2.8.3.</span> TraitSetFromXSV</h4>
 <div class="outline-text-4" id="text-2-8-3">
 <p>
 This class allows ~TraitSet~s to be initialised from external CSV/TSV files.
@@ -1040,10 +1040,10 @@ For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml">&lt;<span style="color: #ff1493;">trait</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.fileio.TraitSetFromXSV"</span>
-       <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"example.csv"</span> <span style="color: #ff69b4;">sep</span>=<span style="color: #61CE3C;">","</span>&gt;
-  &lt;<span style="color: #ff1493;">taxa</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"TaxonSet"</span> <span style="color: #ff69b4;">alignment</span>=<span style="color: #61CE3C;">"@alignment"</span>/&gt;
-&lt;/<span style="color: #ff1493;">trait</span>&gt;
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">trait</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.TraitSetFromXSV"</span>
+       <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"example.csv"</span> <span class="org-nxml-attribute-local-name">sep</span>=<span class="org-string">","</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">taxa</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TaxonSet"</span> <span class="org-nxml-attribute-local-name">alignment</span>=<span class="org-string">"@alignment"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">trait</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -1053,9 +1053,9 @@ would have the following format
 </p>
 
 <div class="org-src-container">
-<pre class="src src-csv">first_taxon<span style="color: #00ffff;">,</span> 12.3
-second_taxon<span style="color: #00ffff;">,</span> 7.8
-third_taxon<span style="color: #00ffff;">,</span> 15.4
+<pre class="src src-csv">first_taxon<span class="org-csv-separator">,</span> 12.3
+second_taxon<span class="org-csv-separator">,</span> 7.8
+third_taxon<span class="org-csv-separator">,</span> 15.4
 ...
 </pre>
 </div>
@@ -1075,11 +1075,17 @@ columns in the input file besides the two specified here are ignored,
 so you can read multiple trait sets from a single file simply by
 specifying different <code>traitValueCol</code> values.
 </p>
+
+<p>
+Finally, you can set the optional input <code>skipFirstRow</code> to "true" to cause
+<code>TraitSetFromXSV</code> to ignore the first line of the input file.  This can
+be useful for CSV/TSV files which include a header line.
+</p>
 </div>
 </div>
 
-<div id="outline-container-org2200979" class="outline-4">
-<h4 id="org2200979"><span class="section-number-4">2.8.4.</span> AlignmentFromNexus/Fasta</h4>
+<div id="outline-container-org71994fa" class="outline-4">
+<h4 id="org71994fa"><span class="section-number-4">2.8.4.</span> AlignmentFromNexus/Fasta</h4>
 <div class="outline-text-4" id="text-2-8-4">
 <p>
 This class allows alignments to be loaded at runtime from Nexus or Fasta files
@@ -1087,11 +1093,11 @@ rather than stored in the BEAST 2 XML:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span style="color: #8B8989; font-style: italic;">&lt;!-- </span><span style="color: #8B8989; font-style: italic;">Nexus:</span><span style="color: #8B8989; font-style: italic;"> --&gt;</span>
-&lt;<span style="color: #ff1493;">alignment</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">'feast.fileio.AlignmentFromNexus'</span> <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"example.nexus"</span>/&gt;
+<pre class="src src-xml"><span class="org-comment-delimiter">&lt;!-- </span><span class="org-comment">Nexus:</span><span class="org-comment-delimiter"> --&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">'feast.fileio.AlignmentFromNexus'</span> <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"example.nexus"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-<span style="color: #8B8989; font-style: italic;">&lt;!-- </span><span style="color: #8B8989; font-style: italic;">Fasta:</span><span style="color: #8B8989; font-style: italic;"> --&gt;</span>
-&lt;<span style="color: #ff1493;">alignment</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">'feast.fileio.AlignmentFromFasta'</span> <span style="color: #ff69b4;">fileName</span>=<span style="color: #61CE3C;">"example.fasta"</span>/&gt;
+<span class="org-comment-delimiter">&lt;!-- </span><span class="org-comment">Fasta:</span><span class="org-comment-delimiter"> --&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">'feast.fileio.AlignmentFromFasta'</span> <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"example.fasta"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -1100,13 +1106,13 @@ Sequence files can also be referenced using a URL:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span style="color: #8B8989; font-style: italic;">&lt;!-- </span><span style="color: #8B8989; font-style: italic;">Nexus:</span><span style="color: #8B8989; font-style: italic;"> --&gt;</span>
-&lt;<span style="color: #ff1493;">alignment</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.fileio.AlignmentFromNexus"</span>
-           <span style="color: #ff69b4;">url</span>=<span style="color: #61CE3C;">"https://example.com/alignment.nexus"</span>/&gt;
+<pre class="src src-xml"><span class="org-comment-delimiter">&lt;!-- </span><span class="org-comment">Nexus:</span><span class="org-comment-delimiter"> --&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.AlignmentFromNexus"</span>
+           <span class="org-nxml-attribute-local-name">url</span>=<span class="org-string">"https://example.com/alignment.nexus"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-<span style="color: #8B8989; font-style: italic;">&lt;!-- </span><span style="color: #8B8989; font-style: italic;">Fasta:</span><span style="color: #8B8989; font-style: italic;"> --&gt;</span>
-&lt;<span style="color: #ff1493;">alignment</span> <span style="color: #ff69b4;">spec</span>=<span style="color: #61CE3C;">"feast.fileio.AlignmentFromFasta"</span>
-           <span style="color: #ff69b4;">url</span>=<span style="color: #61CE3C;">"https://example.com/alignment.fasta"</span>/&gt;
+<span class="org-comment-delimiter">&lt;!-- </span><span class="org-comment">Fasta:</span><span class="org-comment-delimiter"> --&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.AlignmentFromFasta"</span>
+           <span class="org-nxml-attribute-local-name">url</span>=<span class="org-string">"https://example.com/alignment.fasta"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -1125,8 +1131,8 @@ fragment to disk.
 </div>
 </div>
 
-<div id="outline-container-org3755d51" class="outline-3">
-<h3 id="org3755d51"><span class="section-number-3">2.9.</span> Mathematical Expressions</h3>
+<div id="outline-container-org6f3d555" class="outline-3">
+<h3 id="org6f3d555"><span class="section-number-3">2.9.</span> Mathematical Expressions</h3>
 <div class="outline-text-3" id="text-2-9">
 <p>
 The following classes, which are found in <code>feast.expressions</code>, provide
@@ -1135,8 +1141,8 @@ support for parsing of simple arithmetic expressions.
 </div>
 
 
-<div id="outline-container-orge498ebc" class="outline-4">
-<h4 id="orge498ebc"><span class="section-number-4">2.9.1.</span> ExpCalculator</h4>
+<div id="outline-container-orgb6532b8" class="outline-4">
+<h4 id="orgb6532b8"><span class="section-number-4">2.9.1.</span> ExpCalculator</h4>
 <div class="outline-text-4" id="text-2-9-1">
 <p>
 Takes an arithmetic expression and returns the result by acting
@@ -1284,8 +1290,8 @@ cheating.)
 </div>
 
 
-<div id="outline-container-orgea67777" class="outline-4">
-<h4 id="orgea67777"><span class="section-number-4">2.9.2.</span> ExpCalculatorDistribution</h4>
+<div id="outline-container-org43787d9" class="outline-4">
+<h4 id="org43787d9"><span class="section-number-4">2.9.2.</span> ExpCalculatorDistribution</h4>
 <div class="outline-text-4" id="text-2-9-2">
 <p>
 This is basically identical to ExpCalculator, but extends the abstract
@@ -1306,8 +1312,8 @@ density.
 </div>
 
 
-<div id="outline-container-org54179cd" class="outline-4">
-<h4 id="org54179cd"><span class="section-number-4">2.9.3.</span> ExpCalculatorParametricDistribution</h4>
+<div id="outline-container-org688e818" class="outline-4">
+<h4 id="org688e818"><span class="section-number-4">2.9.3.</span> ExpCalculatorParametricDistribution</h4>
 <div class="outline-text-4" id="text-2-9-3">
 <p>
 This provides a cut-down version of the ExpCalculatorDistribution
@@ -1319,8 +1325,8 @@ functionality that is compatible with beast.math.distributions.Prior.
 </div>
 
 
-<div id="outline-container-orgbf8c769" class="outline-2">
-<h2 id="orgbf8c769"><span class="section-number-2">3.</span> License</h2>
+<div id="outline-container-org3edd064" class="outline-2">
+<h2 id="org3edd064"><span class="section-number-2">3.</span> License</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 This software is free (as in freedom).  With the exception of the
@@ -1333,8 +1339,7 @@ directory in the file named COPYING.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2022-11-25 Fri 11:41</p>
-<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2022-11-25 Fri 15:32</p>
 </div>
 </body>
 </html>
