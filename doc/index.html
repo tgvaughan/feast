@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-11-25 Fri 15:32 -->
+<!-- 2022-12-07 Wed 19:03 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -20,75 +20,76 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org49cedad">1. Overview</a>
+<li><a href="#orgbbc2779">1. Overview</a>
 <ul>
-<li><a href="#org54d735b">1.1. Installation</a></li>
-<li><a href="#org13088bb">1.2. Building from source</a></li>
+<li><a href="#org80f305e">1.1. Installation</a></li>
+<li><a href="#orgb80a403">1.2. Building from source</a></li>
 </ul>
 </li>
-<li><a href="#orgc9ac6bc">2. Features</a>
+<li><a href="#org891b1da">2. Features</a>
 <ul>
-<li><a href="#org948b200">2.1. Initializing RealParameters</a>
+<li><a href="#orgc844848">2.1. Initializing RealParameters</a>
 <ul>
-<li><a href="#org7e00b2c">2.1.1. Initialize RealParameters from CSV/TSV files</a></li>
-<li><a href="#org8ef92a0">2.1.2. Initialize RealParameters from Functions</a></li>
-<li><a href="#org1cd5443">2.1.3. Initializing RealParameters using formatted times</a></li>
+<li><a href="#org96c82c6">2.1.1. Initialize RealParameters from CSV/TSV files</a></li>
+<li><a href="#org0b76360">2.1.2. Initialize RealParameters from Functions</a></li>
+<li><a href="#orgca41704">2.1.3. Initializing RealParameters using formatted times</a></li>
 </ul>
 </li>
-<li><a href="#org7e80daf">2.2. Coalescent population functions</a>
+<li><a href="#orgd46a95a">2.2. Coalescent population functions</a>
 <ul>
-<li><a href="#org4312ff8">2.2.1. Time-shifted coalescent population functions</a></li>
-<li><a href="#org0f2d14c">2.2.2. Compound coalescent population functions</a></li>
+<li><a href="#orgc4db318">2.2.1. Time-shifted coalescent population functions</a></li>
+<li><a href="#org07770a7">2.2.2. Compound coalescent population functions</a></li>
 </ul>
 </li>
-<li><a href="#orgb0ab3cc">2.3. Log File Post-processing</a></li>
-<li><a href="#orgf77af94">2.4. Model selection</a>
+<li><a href="#orgea2dcf8">2.3. Log File Post-processing</a></li>
+<li><a href="#orgf38c4cb">2.4. Model selection</a>
 <ul>
-<li><a href="#org98b6507">2.4.1. DirichletProcessOperator and DirichletProcessPrior</a></li>
-<li><a href="#org6c4022c">2.4.2. ModelSelectionParameter</a></li>
+<li><a href="#orgf1128c3">2.4.1. DirichletProcessOperator and DirichletProcessPrior</a></li>
+<li><a href="#org7984361">2.4.2. ModelSelectionParameter</a></li>
 </ul>
 </li>
-<li><a href="#org6492552">2.5. Operators</a>
+<li><a href="#org0a3b3d3">2.5. Operators</a>
 <ul>
-<li><a href="#org47feb88">2.5.1. Scaling subsets of RealParameter elements together</a></li>
-<li><a href="#org86c4f1c">2.5.2. Sampling from a discrete set of states</a></li>
+<li><a href="#org1347bde">2.5.1. Scaling subsets of RealParameter elements together</a></li>
+<li><a href="#org4e7094c">2.5.2. Sampling from a discrete set of states</a></li>
 </ul>
 </li>
-<li><a href="#org8ecf7ce">2.6. Model validation</a>
+<li><a href="#org50b1e83">2.6. Model validation</a>
 <ul>
-<li><a href="#org0afcc3b">2.6.1. Easy state simulation</a></li>
-<li><a href="#orgda5251f">2.6.2. Sequence alignment simulation</a></li>
-<li><a href="#orgab8679f">2.6.3. DensityMapper</a></li>
+<li><a href="#orgacaa2d0">2.6.1. Easy state simulation</a></li>
+<li><a href="#org58c871a">2.6.2. Sequence alignment simulation</a></li>
+<li><a href="#org5c7c839">2.6.3. DensityMapper</a></li>
 </ul>
 </li>
-<li><a href="#org628082d">2.7. Function (array) creation and manipulation</a>
+<li><a href="#orgcf190e4">2.7. Function (array) creation and manipulation</a>
 <ul>
-<li><a href="#orge0e2272">2.7.1. Numeric sequences as Functions</a></li>
-<li><a href="#org7014fca">2.7.2. Function Slicing</a></li>
-<li><a href="#orgbb03692">2.7.3. Function reversing</a></li>
-<li><a href="#org6d1b11f">2.7.4. Function concatenation</a></li>
-<li><a href="#org0c12f34">2.7.5. Function scaling</a></li>
-<li><a href="#org3a8521d">2.7.6. Function interleaving</a></li>
+<li><a href="#orgc15b71a">2.7.1. Numeric sequences as Functions</a></li>
+<li><a href="#orgff0da18">2.7.2. Function Slicing</a></li>
+<li><a href="#org642fec9">2.7.3. Function reversing</a></li>
+<li><a href="#org8924e52">2.7.4. Function concatenation</a></li>
+<li><a href="#org6973f28">2.7.5. Function scaling</a></li>
+<li><a href="#org870b036">2.7.6. Function interleaving</a></li>
 </ul>
 </li>
-<li><a href="#orga60f3bd">2.8. Tree and Alignment Input/Output</a>
+<li><a href="#orga2944a5">2.8. Tree and Alignment Input/Output</a>
 <ul>
-<li><a href="#org0ecb35f">2.8.1. TreeFromNewickFile &amp; TreeFromNexusFile</a></li>
-<li><a href="#orga8088e7">2.8.2. TraitSetFromTaxonSet</a></li>
-<li><a href="#org001d630">2.8.3. TraitSetFromXSV</a></li>
-<li><a href="#org71994fa">2.8.4. AlignmentFromNexus/Fasta</a></li>
+<li><a href="#orgb49bf7b">2.8.1. TreeFromNewickFile &amp; TreeFromNexusFile</a></li>
+<li><a href="#orga1b15b7">2.8.2. TraitSetFromTaxonSet</a></li>
+<li><a href="#org7599e99">2.8.3. TraitSetFromXSV</a></li>
+<li><a href="#orgd216fd1">2.8.4. TaxonSetFromTree</a></li>
+<li><a href="#orga37bc30">2.8.5. AlignmentFromNexus/Fasta</a></li>
 </ul>
 </li>
-<li><a href="#org6f3d555">2.9. Mathematical Expressions</a>
+<li><a href="#orga04cd7b">2.9. Mathematical Expressions</a>
 <ul>
-<li><a href="#orgb6532b8">2.9.1. ExpCalculator</a></li>
-<li><a href="#org43787d9">2.9.2. ExpCalculatorDistribution</a></li>
-<li><a href="#org688e818">2.9.3. ExpCalculatorParametricDistribution</a></li>
+<li><a href="#orga6fd210">2.9.1. ExpCalculator</a></li>
+<li><a href="#org15ff88b">2.9.2. ExpCalculatorDistribution</a></li>
+<li><a href="#org0821f87">2.9.3. ExpCalculatorParametricDistribution</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org3edd064">3. License</a></li>
+<li><a href="#orga4f4493">3. License</a></li>
 </ul>
 </div>
 </nav>
@@ -96,8 +97,8 @@
 GitHub Repository: <a href="https://github.com/tgvaughan/feast">https://github.com/tgvaughan/feast</a>
 </p>
 
-<div id="outline-container-org49cedad" class="outline-2">
-<h2 id="org49cedad"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-orgbbc2779" class="outline-2">
+<h2 id="orgbbc2779"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is a small BEAST 2 (<a href="http://www.beast2.org">http://www.beast2.org</a>) package which
@@ -113,8 +114,8 @@ ways to combine existing models and make certain tasks easier.
 </p>
 </div>
 
-<div id="outline-container-org54d735b" class="outline-3">
-<h3 id="org54d735b"><span class="section-number-3">1.1.</span> Installation</h3>
+<div id="outline-container-org80f305e" class="outline-3">
+<h3 id="org80f305e"><span class="section-number-3">1.1.</span> Installation</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 You can install directly from within BEAUti by opening the package
@@ -124,8 +125,8 @@ the "Install/Upgrade" button.
 </div>
 </div>
 
-<div id="outline-container-org13088bb" class="outline-3">
-<h3 id="org13088bb"><span class="section-number-3">1.2.</span> Building from source</h3>
+<div id="outline-container-orgb80a403" class="outline-3">
+<h3 id="orgb80a403"><span class="section-number-3">1.2.</span> Building from source</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The default target in the provided Apache ANT (<a href="http://ant.apache.org">http://ant.apache.org</a>)
@@ -136,8 +137,8 @@ The package archive will be left in the <code>dist/</code> directory.
 </div>
 </div>
 
-<div id="outline-container-orgc9ac6bc" class="outline-2">
-<h2 id="orgc9ac6bc"><span class="section-number-2">2.</span> Features</h2>
+<div id="outline-container-org891b1da" class="outline-2">
+<h2 id="org891b1da"><span class="section-number-2">2.</span> Features</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The rest of this document is an asymptotically complete list of the features feast
@@ -145,12 +146,12 @@ provides, in reverse chronological order of the date each was added.
 </p>
 </div>
 
-<div id="outline-container-org948b200" class="outline-3">
-<h3 id="org948b200"><span class="section-number-3">2.1.</span> Initializing RealParameters</h3>
+<div id="outline-container-orgc844848" class="outline-3">
+<h3 id="orgc844848"><span class="section-number-3">2.1.</span> Initializing RealParameters</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-org7e00b2c" class="outline-4">
-<h4 id="org7e00b2c"><span class="section-number-4">2.1.1.</span> Initialize RealParameters from CSV/TSV files</h4>
+<div id="outline-container-org96c82c6" class="outline-4">
+<h4 id="org96c82c6"><span class="section-number-4">2.1.1.</span> Initialize RealParameters from CSV/TSV files</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 When setting up complicated analyses, it can be useful to extract some
@@ -200,8 +201,8 @@ is read.
 </p>
 </div>
 </div>
-<div id="outline-container-org8ef92a0" class="outline-4">
-<h4 id="org8ef92a0"><span class="section-number-4">2.1.2.</span> Initialize RealParameters from Functions</h4>
+<div id="outline-container-org0b76360" class="outline-4">
+<h4 id="org0b76360"><span class="section-number-4">2.1.2.</span> Initialize RealParameters from Functions</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 The <code>RealParameterFromFunction</code> class provides a <code>RealParameter</code> which is
@@ -229,8 +230,8 @@ will not be reflected in the parameter!</b></b>
 </p>
 </div>
 </div>
-<div id="outline-container-org1cd5443" class="outline-4">
-<h4 id="org1cd5443"><span class="section-number-4">2.1.3.</span> Initializing RealParameters using formatted times</h4>
+<div id="outline-container-orgca41704" class="outline-4">
+<h4 id="orgca41704"><span class="section-number-4">2.1.3.</span> Initializing RealParameters using formatted times</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 Particularly in birth-death models, it is often desirable to specify
@@ -283,12 +284,12 @@ the only action taken by TimeParameter is to subtract this value from
 </div>
 </div>
 
-<div id="outline-container-org7e80daf" class="outline-3">
-<h3 id="org7e80daf"><span class="section-number-3">2.2.</span> Coalescent population functions</h3>
+<div id="outline-container-orgd46a95a" class="outline-3">
+<h3 id="orgd46a95a"><span class="section-number-3">2.2.</span> Coalescent population functions</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org4312ff8" class="outline-4">
-<h4 id="org4312ff8"><span class="section-number-4">2.2.1.</span> Time-shifted coalescent population functions</h4>
+<div id="outline-container-orgc4db318" class="outline-4">
+<h4 id="orgc4db318"><span class="section-number-4">2.2.1.</span> Time-shifted coalescent population functions</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 The <code>ShiftedPopulationModel</code> class allows you to create a new
@@ -316,8 +317,8 @@ also be used here.
 </p>
 </div>
 </div>
-<div id="outline-container-org0f2d14c" class="outline-4">
-<h4 id="org0f2d14c"><span class="section-number-4">2.2.2.</span> Compound coalescent population functions</h4>
+<div id="outline-container-org07770a7" class="outline-4">
+<h4 id="org07770a7"><span class="section-number-4">2.2.2.</span> Compound coalescent population functions</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 BEAST 2 includes several commonly-used coalescent population models such
@@ -368,8 +369,8 @@ simple coalescent analysis.
 </div>
 </div>
 
-<div id="outline-container-orgb0ab3cc" class="outline-3">
-<h3 id="orgb0ab3cc"><span class="section-number-3">2.3.</span> Log File Post-processing</h3>
+<div id="outline-container-orgea2dcf8" class="outline-3">
+<h3 id="orgea2dcf8"><span class="section-number-3">2.3.</span> Log File Post-processing</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Occasionally it's useful to be able to resurrect BEAST states from trace
@@ -425,12 +426,12 @@ of "tree" are then written to the file "processed.log" and the screen in the usu
 </div>
 </div>
 
-<div id="outline-container-orgf77af94" class="outline-3">
-<h3 id="orgf77af94"><span class="section-number-3">2.4.</span> Model selection</h3>
+<div id="outline-container-orgf38c4cb" class="outline-3">
+<h3 id="orgf38c4cb"><span class="section-number-3">2.4.</span> Model selection</h3>
 <div class="outline-text-3" id="text-2-4">
 </div>
-<div id="outline-container-org98b6507" class="outline-4">
-<h4 id="org98b6507"><span class="section-number-4">2.4.1.</span> DirichletProcessOperator and DirichletProcessPrior</h4>
+<div id="outline-container-orgf1128c3" class="outline-4">
+<h4 id="orgf1128c3"><span class="section-number-4">2.4.1.</span> DirichletProcessOperator and DirichletProcessPrior</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 The <code>DirichletProcessPrior</code> and <code>DirichletProcessOperator</code> allow the application
@@ -467,8 +468,8 @@ number of elements of <code>X</code> which are identical.
 </p>
 </div>
 </div>
-<div id="outline-container-org6c4022c" class="outline-4">
-<h4 id="org6c4022c"><span class="section-number-4">2.4.2.</span> ModelSelectionParameter</h4>
+<div id="outline-container-org7984361" class="outline-4">
+<h4 id="org7984361"><span class="section-number-4">2.4.2.</span> ModelSelectionParameter</h4>
 <div class="outline-text-4" id="text-2-4-2">
 <p>
 While model selection is extremely complicated in general, it can be almost
@@ -531,12 +532,12 @@ s as input.
 </div>
 </div>
 
-<div id="outline-container-org6492552" class="outline-3">
-<h3 id="org6492552"><span class="section-number-3">2.5.</span> Operators</h3>
+<div id="outline-container-org0a3b3d3" class="outline-3">
+<h3 id="org0a3b3d3"><span class="section-number-3">2.5.</span> Operators</h3>
 <div class="outline-text-3" id="text-2-5">
 </div>
-<div id="outline-container-org47feb88" class="outline-4">
-<h4 id="org47feb88"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
+<div id="outline-container-org1347bde" class="outline-4">
+<h4 id="org1347bde"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
 <div class="outline-text-4" id="text-2-5-1">
 <p>
 It's occasionally necessary to tie multiple elements of a RealParameter
@@ -596,8 +597,8 @@ elements.
 </div>
 </div>
 
-<div id="outline-container-org86c4f1c" class="outline-4">
-<h4 id="org86c4f1c"><span class="section-number-4">2.5.2.</span> Sampling from a discrete set of states</h4>
+<div id="outline-container-org4e7094c" class="outline-4">
+<h4 id="org4e7094c"><span class="section-number-4">2.5.2.</span> Sampling from a discrete set of states</h4>
 <div class="outline-text-4" id="text-2-5-2">
 <p>
 Occasionally we wish to characterise the posterior for a parameter or tree
@@ -634,12 +635,12 @@ I.e. parameters must have the same dimension and satisfy the bounds of
 </div>
 </div>
 
-<div id="outline-container-org8ecf7ce" class="outline-3">
-<h3 id="org8ecf7ce"><span class="section-number-3">2.6.</span> Model validation</h3>
+<div id="outline-container-org50b1e83" class="outline-3">
+<h3 id="org50b1e83"><span class="section-number-3">2.6.</span> Model validation</h3>
 <div class="outline-text-3" id="text-2-6">
 </div>
-<div id="outline-container-org0afcc3b" class="outline-4">
-<h4 id="org0afcc3b"><span class="section-number-4">2.6.1.</span> Easy state simulation</h4>
+<div id="outline-container-orgacaa2d0" class="outline-4">
+<h4 id="orgacaa2d0"><span class="section-number-4">2.6.1.</span> Easy state simulation</h4>
 <div class="outline-text-4" id="text-2-6-1">
 <p>
 One BEAST 2 idiom which is pervasive in my code at least is the existance
@@ -672,8 +673,8 @@ to simulate 100 coalescent trees.
 </p>
 </div>
 </div>
-<div id="outline-container-orgda5251f" class="outline-4">
-<h4 id="orgda5251f"><span class="section-number-4">2.6.2.</span> Sequence alignment simulation</h4>
+<div id="outline-container-org58c871a" class="outline-4">
+<h4 id="org58c871a"><span class="section-number-4">2.6.2.</span> Sequence alignment simulation</h4>
 <div class="outline-text-4" id="text-2-6-2">
 <p>
 While BEAST contains its own alignment simulator in <code>beast.app.seqgen.SimulatedAlignment</code>,
@@ -707,8 +708,8 @@ supported, so there is no <code>branchRateModel</code> input.
 </p>
 </div>
 </div>
-<div id="outline-container-orgab8679f" class="outline-4">
-<h4 id="orgab8679f"><span class="section-number-4">2.6.3.</span> DensityMapper</h4>
+<div id="outline-container-org5c7c839" class="outline-4">
+<h4 id="org5c7c839"><span class="section-number-4">2.6.3.</span> DensityMapper</h4>
 <div class="outline-text-4" id="text-2-6-3">
 <p>
 This class provides an easy way to produce plots of the variation in a
@@ -798,12 +799,12 @@ coalescent tree density as a function of the population size is provided as
 </div>
 </div>
 
-<div id="outline-container-org628082d" class="outline-3">
-<h3 id="org628082d"><span class="section-number-3">2.7.</span> Function (array) creation and manipulation</h3>
+<div id="outline-container-orgcf190e4" class="outline-3">
+<h3 id="orgcf190e4"><span class="section-number-3">2.7.</span> Function (array) creation and manipulation</h3>
 <div class="outline-text-3" id="text-2-7">
 </div>
-<div id="outline-container-orge0e2272" class="outline-4">
-<h4 id="orge0e2272"><span class="section-number-4">2.7.1.</span> Numeric sequences as Functions</h4>
+<div id="outline-container-orgc15b71a" class="outline-4">
+<h4 id="orgc15b71a"><span class="section-number-4">2.7.1.</span> Numeric sequences as Functions</h4>
 <div class="outline-text-4" id="text-2-7-1">
 <p>
 Instances of <code>feast.function.Sequence</code> are ~Function~s which contain a sequence
@@ -818,8 +819,8 @@ i.e. 0,0.1,0.2,&#x2026;,9.9,10:
 </div>
 </div>
 </div>
-<div id="outline-container-org7014fca" class="outline-4">
-<h4 id="org7014fca"><span class="section-number-4">2.7.2.</span> Function Slicing</h4>
+<div id="outline-container-orgff0da18" class="outline-4">
+<h4 id="orgff0da18"><span class="section-number-4">2.7.2.</span> Function Slicing</h4>
 <div class="outline-text-4" id="text-2-7-2">
 <p>
 Instances of the <code>feast.function.Slice</code> class are <code>Function~s and ~Loggable~s which
@@ -854,8 +855,8 @@ same <code>RealParamter</code>:
 </div>
 </div>
 </div>
-<div id="outline-container-orgbb03692" class="outline-4">
-<h4 id="orgbb03692"><span class="section-number-4">2.7.3.</span> Function reversing</h4>
+<div id="outline-container-org642fec9" class="outline-4">
+<h4 id="org642fec9"><span class="section-number-4">2.7.3.</span> Function reversing</h4>
 <div class="outline-text-4" id="text-2-7-3">
 <p>
 Instances of the <code>feast.function.Reverse</code> class are
@@ -864,8 +865,8 @@ Instances of the <code>feast.function.Reverse</code> class are
 </p>
 </div>
 </div>
-<div id="outline-container-org6d1b11f" class="outline-4">
-<h4 id="org6d1b11f"><span class="section-number-4">2.7.4.</span> Function concatenation</h4>
+<div id="outline-container-org8924e52" class="outline-4">
+<h4 id="org8924e52"><span class="section-number-4">2.7.4.</span> Function concatenation</h4>
 <div class="outline-text-4" id="text-2-7-4">
 <p>
 Instances of the <code>feast.function.Concatenate</code> class are ~Function~s
@@ -885,8 +886,8 @@ rather than a single real parameter with multiple dimensions:
 </div>
 </div>
 </div>
-<div id="outline-container-org0c12f34" class="outline-4">
-<h4 id="org0c12f34"><span class="section-number-4">2.7.5.</span> Function scaling</h4>
+<div id="outline-container-org6973f28" class="outline-4">
+<h4 id="org6973f28"><span class="section-number-4">2.7.5.</span> Function scaling</h4>
 <div class="outline-text-4" id="text-2-7-5">
 <p>
 Instances of <code>feast.function.Scale</code> allow one <code>Function</code> to be scaled
@@ -902,8 +903,8 @@ by another:
 </div>
 </div>
 </div>
-<div id="outline-container-org3a8521d" class="outline-4">
-<h4 id="org3a8521d"><span class="section-number-4">2.7.6.</span> Function interleaving</h4>
+<div id="outline-container-org870b036" class="outline-4">
+<h4 id="org870b036"><span class="section-number-4">2.7.6.</span> Function interleaving</h4>
 <div class="outline-text-4" id="text-2-7-6">
 <p>
 Instances of <code>feast.function.Interleave</code> represent the result of interleaving
@@ -943,12 +944,12 @@ is a <code>Function</code> with a value of 3.
 </div>
 
 
-<div id="outline-container-orga60f3bd" class="outline-3">
-<h3 id="orga60f3bd"><span class="section-number-3">2.8.</span> Tree and Alignment Input/Output</h3>
+<div id="outline-container-orga2944a5" class="outline-3">
+<h3 id="orga2944a5"><span class="section-number-3">2.8.</span> Tree and Alignment Input/Output</h3>
 <div class="outline-text-3" id="text-2-8">
 </div>
-<div id="outline-container-org0ecb35f" class="outline-4">
-<h4 id="org0ecb35f"><span class="section-number-4">2.8.1.</span> TreeFromNewickFile &amp; TreeFromNexusFile</h4>
+<div id="outline-container-orgb49bf7b" class="outline-4">
+<h4 id="orgb49bf7b"><span class="section-number-4">2.8.1.</span> TreeFromNewickFile &amp; TreeFromNexusFile</h4>
 <div class="outline-text-4" id="text-2-8-1">
 <p>
 These classes allow trees to be loaded at runtime from Newick files rather
@@ -985,13 +986,16 @@ supported by that class are also supported.
 </div>
 </div>
 
-<div id="outline-container-orga8088e7" class="outline-4">
-<h4 id="orga8088e7"><span class="section-number-4">2.8.2.</span> TraitSetFromTaxonSet</h4>
+<div id="outline-container-orga1b15b7" class="outline-4">
+<h4 id="orga1b15b7"><span class="section-number-4">2.8.2.</span> TraitSetFromTaxonSet</h4>
 <div class="outline-text-4" id="text-2-8-2">
 <p>
-This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
-is similar in spirit to the "auto configuration" option provided by BEAUti to
-set up tree tip dates from information encoded in the sequence names.
+This class allows ~TraitSet~s to be configured directly from
+~TaxonSet~s.  This is similar in spirit to the "auto configuration"
+option provided by BEAUti to set up tree tip dates from information
+encoded in the sequence names.  While it's not directly i/o related,
+it solves a common problem that occurs when trees are loaded from an
+external file.
 </p>
 
 <p>
@@ -1022,8 +1026,8 @@ Instead of <code>everythingAfterLast="true"</code>, one can also use <code>every
 </div>
 </div>
 
-<div id="outline-container-org001d630" class="outline-4">
-<h4 id="org001d630"><span class="section-number-4">2.8.3.</span> TraitSetFromXSV</h4>
+<div id="outline-container-org7599e99" class="outline-4">
+<h4 id="org7599e99"><span class="section-number-4">2.8.3.</span> TraitSetFromXSV</h4>
 <div class="outline-text-4" id="text-2-8-3">
 <p>
 This class allows ~TraitSet~s to be initialised from external CSV/TSV files.
@@ -1084,9 +1088,34 @@ be useful for CSV/TSV files which include a header line.
 </div>
 </div>
 
-<div id="outline-container-org71994fa" class="outline-4">
-<h4 id="org71994fa"><span class="section-number-4">2.8.4.</span> AlignmentFromNexus/Fasta</h4>
+<div id="outline-container-orgd216fd1" class="outline-4">
+<h4 id="orgd216fd1"><span class="section-number-4">2.8.4.</span> TaxonSetFromTree</h4>
 <div class="outline-text-4" id="text-2-8-4">
+<p>
+This class allows <code>TaxonSet~s to be initialized from trees.  Like
+~TraitSetFromTree</code>, this class doesn't perform any file i/o, but makes
+it easier to work with trees loaded from external files.
+</p>
+
+<p>
+An example use is:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">taxonset</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TaxonSetFromTree"</span> <span class="org-nxml-attribute-local-name">tree</span>=<span class="org-string">"@tree"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+
+<p>
+which could be included as an input to a <code>TraitSetFromXSV</code> as
+described in the previous section.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga37bc30" class="outline-4">
+<h4 id="orga37bc30"><span class="section-number-4">2.8.5.</span> AlignmentFromNexus/Fasta</h4>
+<div class="outline-text-4" id="text-2-8-5">
 <p>
 This class allows alignments to be loaded at runtime from Nexus or Fasta files
 rather than stored in the BEAST 2 XML:
@@ -1131,8 +1160,8 @@ fragment to disk.
 </div>
 </div>
 
-<div id="outline-container-org6f3d555" class="outline-3">
-<h3 id="org6f3d555"><span class="section-number-3">2.9.</span> Mathematical Expressions</h3>
+<div id="outline-container-orga04cd7b" class="outline-3">
+<h3 id="orga04cd7b"><span class="section-number-3">2.9.</span> Mathematical Expressions</h3>
 <div class="outline-text-3" id="text-2-9">
 <p>
 The following classes, which are found in <code>feast.expressions</code>, provide
@@ -1141,8 +1170,8 @@ support for parsing of simple arithmetic expressions.
 </div>
 
 
-<div id="outline-container-orgb6532b8" class="outline-4">
-<h4 id="orgb6532b8"><span class="section-number-4">2.9.1.</span> ExpCalculator</h4>
+<div id="outline-container-orga6fd210" class="outline-4">
+<h4 id="orga6fd210"><span class="section-number-4">2.9.1.</span> ExpCalculator</h4>
 <div class="outline-text-4" id="text-2-9-1">
 <p>
 Takes an arithmetic expression and returns the result by acting
@@ -1290,8 +1319,8 @@ cheating.)
 </div>
 
 
-<div id="outline-container-org43787d9" class="outline-4">
-<h4 id="org43787d9"><span class="section-number-4">2.9.2.</span> ExpCalculatorDistribution</h4>
+<div id="outline-container-org15ff88b" class="outline-4">
+<h4 id="org15ff88b"><span class="section-number-4">2.9.2.</span> ExpCalculatorDistribution</h4>
 <div class="outline-text-4" id="text-2-9-2">
 <p>
 This is basically identical to ExpCalculator, but extends the abstract
@@ -1312,8 +1341,8 @@ density.
 </div>
 
 
-<div id="outline-container-org688e818" class="outline-4">
-<h4 id="org688e818"><span class="section-number-4">2.9.3.</span> ExpCalculatorParametricDistribution</h4>
+<div id="outline-container-org0821f87" class="outline-4">
+<h4 id="org0821f87"><span class="section-number-4">2.9.3.</span> ExpCalculatorParametricDistribution</h4>
 <div class="outline-text-4" id="text-2-9-3">
 <p>
 This provides a cut-down version of the ExpCalculatorDistribution
@@ -1325,8 +1354,8 @@ functionality that is compatible with beast.math.distributions.Prior.
 </div>
 
 
-<div id="outline-container-org3edd064" class="outline-2">
-<h2 id="org3edd064"><span class="section-number-2">3.</span> License</h2>
+<div id="outline-container-orga4f4493" class="outline-2">
+<h2 id="orga4f4493"><span class="section-number-2">3.</span> License</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 This software is free (as in freedom).  With the exception of the
@@ -1339,7 +1368,7 @@ directory in the file named COPYING.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2022-11-25 Fri 15:32</p>
+<p class="date">Created: 2022-12-07 Wed 19:03</p>
 </div>
 </body>
 </html>

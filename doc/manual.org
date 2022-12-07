@@ -611,9 +611,12 @@ supported by that class are also supported.
 
 *** TraitSetFromTaxonSet
 
-This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
-is similar in spirit to the "auto configuration" option provided by BEAUti to
-set up tree tip dates from information encoded in the sequence names.
+This class allows ~TraitSet~s to be configured directly from
+~TaxonSet~s.  This is similar in spirit to the "auto configuration"
+option provided by BEAUti to set up tree tip dates from information
+encoded in the sequence names.  While it's not directly i/o related,
+it solves a common problem that occurs when trees are loaded from an
+external file.
 
 Use this as you would usually use a ~TraitSet~, but instead of including the
 trait assignments directly in the body, specify inputs indicating how to extract
@@ -676,6 +679,21 @@ specifying different ~traitValueCol~ values.
 Finally, you can set the optional input ~skipFirstRow~ to "true" to cause
 ~TraitSetFromXSV~ to ignore the first line of the input file.  This can
 be useful for CSV/TSV files which include a header line.
+
+*** TaxonSetFromTree
+
+This class allows ~TaxonSet~s to be initialized from trees.  Like
+~TraitSetFromTree~, this class doesn't perform any file i/o, but makes
+it easier to work with trees loaded from external files.
+
+An example use is:
+
+#+begin_src xml
+<taxonset spec="TaxonSetFromTree" tree="@tree"/>
+#+end_src
+
+which could be included as an input to a ~TraitSetFromXSV~ as
+described in the previous section.
 
 *** AlignmentFromNexus/Fasta
 
