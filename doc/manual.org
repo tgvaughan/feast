@@ -587,9 +587,12 @@ supported by that class are also supported.
 
 *** TraitSetFromTaxonSet
 
-This class allows ~TraitSet~s to be configured directly from ~TaxonSet~s.  This
-is similar in spirit to the "auto configuration" option provided by BEAUti to
-set up tree tip dates from information encoded in the sequence names.
+This class allows ~TraitSet~s to be configured directly from
+~TaxonSet~s.  This is similar in spirit to the "auto configuration"
+option provided by BEAUti to set up tree tip dates from information
+encoded in the sequence names.  While it's not directly i/o related,
+it solves a common problem that occurs when trees are loaded from an
+external file.
 
 Use this as you would usually use a ~TraitSet~, but instead of including the
 trait assignments directly in the body, specify inputs indicating how to extract
@@ -648,6 +651,21 @@ inputs, which accept the indicies of the columns to use.  All other
 columns in the input file besides the two specified here are ignored,
 so you can read multiple trait sets from a single file simply by
 specifying different ~traitValueCol~ values.
+
+*** TaxonSetFromTree
+
+This class allows ~TaxonSet~s to be initialized from trees.  Like
+~TraitSetFromTree~, this class doesn't perform any file i/o, but makes
+it easier to work with trees loaded from external files.
+
+An example use is:
+
+#+begin_src xml
+<taxonset spec="TaxonSetFromTree" tree="@tree"/>
+#+end_src
+
+which could be included as an input to a ~TraitSetFromXSV~ as
+described in the previous section.
 
 *** AlignmentFromNexus/Fasta
 
@@ -761,3 +779,8 @@ This software is free (as in freedom).  With the exception of the
 libraries on which it depends, it is made available under the terms of
 the GNU General Public Licence version 3, which is contained in this
 directory in the file named COPYING.
+
+# Local Variables:
+# org-html-validation-link: nil
+# org-html-htmlize-output-type: css
+# End:
