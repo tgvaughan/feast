@@ -11,6 +11,7 @@ import beast.evolution.tree.coalescent.PopulationFunction;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Description("Population model constructed by piecewise assembly of other population functions.")
@@ -31,12 +32,21 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
     Function changeTimes;
 
     boolean makeContinuous;
+    double[] scaleFactorCache, intensityCache;
+    boolean scaleFactorCacheDirty, intensityCacheDirty;
 
     @Override
     public void initAndValidate() {
         popFuncs = popFunctionsInput.get();
         changeTimes = changeTimesInput.get();
         makeContinuous = makeContinuousInput.get();
+
+        scaleFactorCache = new double[popFuncs.size()];
+        Arrays.fill(scaleFactorCache, 1.0);
+        scaleFactorCacheDirty = true;
+
+        intensityCache = new double[popFuncs.size()];
+        intensityCacheDirty = true;
 
         if (popFuncs.size() != changeTimes.getDimension()+1)
             throw new IllegalArgumentException("The dimension of changeTimes must be one less than the number of " +
@@ -50,49 +60,64 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
         return null;
     }
 
-    @Override
-    public double getPopSize(double t) {
-        int idx = getIndex(t);
+    public void updateScaleFactors() {
+        if (!makeContinuous || !scaleFactorCacheDirty)
+            return;
 
-        double tprev;
-        double scaleFactor = 1.0;
+        double tprev = 0.0;
+        scaleFactorCache[0] = 1.0;
 
-        if (makeContinuous) {
-            tprev = 0.0;
-            for (int i = 0; i < idx; i++) {
-                double Nend = popFuncs.get(i).getPopSize(changeTimes.getArrayValue(i) - tprev) * scaleFactor;
-                scaleFactor = Nend / popFuncs.get(i + 1).getPopSize(0);
-                tprev = changeTimes.getArrayValue(i);
-            }
-        } else {
-            tprev = idx > 0
-                    ? changeTimes.getArrayValue(idx-1)
-                    : 0.0;
+        for (int i = 0; i < changeTimes.getDimension(); i++) {
+            double Nend = popFuncs.get(i).getPopSize(changeTimes.getArrayValue(i) - tprev) * scaleFactorCache[i];
+            scaleFactorCache[i+1] = Nend / popFuncs.get(i + 1).getPopSize(0);
+            tprev = changeTimes.getArrayValue(i);
         }
 
-        return popFuncs.get(idx).getPopSize(t - tprev)*scaleFactor;
+        scaleFactorCacheDirty = false;
+    }
+
+    public void updateIntensityCaches() {
+        if (!intensityCacheDirty)
+            return;
+
+        intensityCache[0] = 0.0;
+        double tprev = 0.0;
+
+        for (int i=0; i < changeTimes.getDimension(); i++) {
+            intensityCache[i+1] = intensityCache[i] +
+                    popFuncs.get(i).getIntensity(changeTimes.getArrayValue(i) - tprev)/ scaleFactorCache[i];
+            tprev = changeTimes.getArrayValue(i);
+        }
+
+        intensityCacheDirty = false;
+    }
+
+    @Override
+    public double getPopSize(double t) {
+        updateScaleFactors();
+
+        int idx = getIndex(t);
+
+        double tprev = idx > 0
+                ? changeTimes.getArrayValue(idx-1)
+                : 0.0;
+
+        return popFuncs.get(idx).getPopSize(t - tprev)* scaleFactorCache[idx];
     }
 
     @Override
     public double getIntensity(double t) {
+        updateScaleFactors();
+        updateIntensityCaches();
+
         int idx = getIndex(t);
 
-        double x = 0.0;
-        double tprev = 0.0;
-        double scaleFactor = 1.0;
+        double tprev = idx > 0
+                ? changeTimes.getArrayValue(idx-1)
+                : 0.0;
 
-        for (int i=0; i<idx; i++) {
-            x += popFuncs.get(i).getIntensity(changeTimes.getArrayValue(i) - tprev)/scaleFactor;
+        return intensityCache[idx] + popFuncs.get(idx).getIntensity(t - tprev)/ scaleFactorCache[idx];
 
-            if (makeContinuous) {
-                double Nend = popFuncs.get(i).getPopSize(changeTimes.getArrayValue(i) - tprev) * scaleFactor;
-                scaleFactor = Nend / popFuncs.get(i + 1).getPopSize(0);
-            }
-
-            tprev = changeTimes.getArrayValue(i);
-        }
-
-        return x + popFuncs.get(idx).getIntensity(t - tprev)/scaleFactor;
     }
 
     @Override
@@ -127,6 +152,21 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
         }
 
         return imin;
+    }
+
+    @Override
+    protected boolean requiresRecalculation() {
+        scaleFactorCacheDirty = true;
+        intensityCacheDirty = true;
+        return true;
+    }
+
+    @Override
+    protected void restore() {
+        scaleFactorCacheDirty = true;
+        intensityCacheDirty = true;
+
+        super.restore();
     }
 
     /**
