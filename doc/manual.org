@@ -128,6 +128,23 @@ and the value of ~mostRecentSampleTime~.  If this format specifier is not provid
 the time is assumed to have already been converted to fractional years, so
 the only action taken by TimeParameter is to subtract this value from
 ~mostRecentSampleTime~.
+*** Randomly sampling initial RealParameter values
+
+Sometimes several attempts are needed to find a acceptable starting state for
+MCMC. An initializer for tree, capable of generating a new starting tree at each
+attempt is implemented in BEAST. ~InitRandomRealParameter~ allows you to sample new
+initial parameter values at each attempt. The distribution, from which to sample, can
+be the parameter prior or any other proper distribution.
+
+For example, here we sample a birth rate value from a uniform distribution
+at each initialization attempt:
+#+begin_src xml
+<init id="birthRateInitializer" spec="feast.parameter.InitRandomRealParameter"
+    initial="@birthRate">
+    <Uniform id="Uniform.birthRate" name="distr" lower="0" upper="1.5"/>
+</init>
+#+end_src
+
 
 ** Coalescent population functions
 *** Time-shifted coalescent population functions
