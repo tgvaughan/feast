@@ -33,8 +33,8 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
     Function changeTimes;
 
     boolean makeContinuous;
-    double[] scaleFactorCache, intensityCache;
-    boolean scaleFactorCacheDirty, intensityCacheDirty;
+    double[] scaleFactorCache, intensityCache, changeTimesCache;
+    boolean cachesDirty;
 
     @Override
     public void initAndValidate() {
@@ -43,11 +43,12 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
         makeContinuous = makeContinuousInput.get();
 
         scaleFactorCache = new double[popFuncs.size()];
-        Arrays.fill(scaleFactorCache, 1.0);
-        scaleFactorCacheDirty = true;
-
         intensityCache = new double[popFuncs.size()];
-        intensityCacheDirty = true;
+        changeTimesCache = new double[changeTimes.getDimension()];
+
+        Arrays.fill(scaleFactorCache, 1.0);
+
+        cachesDirty = true;
 
         if (popFuncs.size() != changeTimes.getDimension()+1)
             throw new IllegalArgumentException("The dimension of changeTimes must be one less than the number of " +
@@ -61,111 +62,107 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
         return null;
     }
 
-    public void updateScaleFactors() {
-        if (!makeContinuous || !scaleFactorCacheDirty)
+    public void updateCaches() {
+        if (!cachesDirty)
             return;
 
-        double tprev = 0.0;
-        scaleFactorCache[0] = 1.0;
+        // Copy change times to array
 
-        for (int i = 0; i < changeTimes.getDimension(); i++) {
-            double Nend = popFuncs.get(i).getPopSize(changeTimes.getArrayValue(i) - tprev) * scaleFactorCache[i];
-            scaleFactorCache[i+1] = Nend / popFuncs.get(i + 1).getPopSize(0);
-            tprev = changeTimes.getArrayValue(i);
+        for (int i=0; i<changeTimes.getDimension(); i++)
+            changeTimesCache[i] = changeTimes.getArrayValue(i);
+
+        // Update scale factor cache
+
+        if (makeContinuous) {
+            double tprev = 0.0;
+            scaleFactorCache[0] = 1.0;
+
+            for (int i = 0; i < changeTimesCache.length; i++) {
+                double Nend = popFuncs.get(i).getPopSize(changeTimesCache[i] - tprev) * scaleFactorCache[i];
+                scaleFactorCache[i + 1] = Nend / popFuncs.get(i + 1).getPopSize(0);
+                tprev = changeTimes.getArrayValue(i);
+            }
         }
 
-        scaleFactorCacheDirty = false;
-    }
-
-    public void updateIntensityCaches() {
-        if (!intensityCacheDirty)
-            return;
+        // Update intensity cache
 
         intensityCache[0] = 0.0;
         double tprev = 0.0;
 
-        for (int i=0; i < changeTimes.getDimension(); i++) {
-            intensityCache[i+1] = intensityCache[i] +
-                    popFuncs.get(i).getIntensity(changeTimes.getArrayValue(i) - tprev)/ scaleFactorCache[i];
-            tprev = changeTimes.getArrayValue(i);
+        for (int i=0; i < changeTimesCache.length; i++) {
+            intensityCache[i+1] = intensityCache[i]
+                    + popFuncs.get(i).getIntensity(changeTimesCache[i] - tprev)
+                    / scaleFactorCache[i];
+            tprev = changeTimesCache[i];
         }
 
-        intensityCacheDirty = false;
     }
 
     @Override
     public double getPopSize(double t) {
-        updateScaleFactors();
+        updateCaches();
 
-        int idx = getIndex(t);
+        int idx = Arrays.binarySearch(changeTimesCache, t);
+
+        if (idx < 0)
+            idx = -idx - 1;
 
         double tprev = idx > 0
-                ? changeTimes.getArrayValue(idx-1)
+                ? changeTimesCache[idx-1]
                 : 0.0;
 
-        return popFuncs.get(idx).getPopSize(t - tprev)* scaleFactorCache[idx];
+        return popFuncs.get(idx).getPopSize(t - tprev) * scaleFactorCache[idx];
     }
 
     @Override
     public double getIntensity(double t) {
-        updateScaleFactors();
-        updateIntensityCaches();
+        updateCaches();
 
-        int idx = getIndex(t);
+        int idx = Arrays.binarySearch(changeTimesCache, t);
+
+        if (idx < 0)
+            idx = -idx - 1;
 
         double tprev = idx > 0
-                ? changeTimes.getArrayValue(idx-1)
+                ? changeTimesCache[idx-1]
                 : 0.0;
 
-        return intensityCache[idx] + popFuncs.get(idx).getIntensity(t - tprev)/ scaleFactorCache[idx];
+        return intensityCache[idx] + popFuncs.get(idx).getIntensity(t - tprev)
+                /scaleFactorCache[idx];
 
     }
 
     @Override
     public double getInverseIntensity(double x) {
-        throw new UnsupportedOperationException("Method unimplemented for CompoundPopulationModel.");
-    }
+        updateCaches();
 
-    /**
-     * Find index of interval such that t \in [t_lower, t_upper), where
-     * t_lower and t_upper are the times which bracket the interval.
-     *
-     * We don't use Array.binarySearch() so that we can avoid copying
-     * the changeTimes Function into an array.
-     *
-     * @param t time
-     * @return index of interval containing time.
-     */
-    private int getIndex(double t) {
+        int idx = Arrays.binarySearch(intensityCache, x);
 
-        int imin = 0, imax = popFuncs.size()-1;
+        if (idx < 0)
+            idx = -idx - 2;
 
-        while (imax != imin) {
+        double xprev = idx >= 0
+                ? intensityCache[idx]
+                : 0.0;
 
-            int imed = (imin + imax)/2;
+        double tprev = idx-1 >= 0
+                ? changeTimesCache[idx-1]
+                : 0.0;
 
-            if (imed > 0 && changeTimes.getArrayValue(imed-1) > t)
-                imax = imed-1;
-            else if (imed < changeTimes.getDimension() && changeTimes.getArrayValue(imed) <= t)
-                imin = imed+1;
-            else
-                return imed;
-        }
+        int popIdx = Math.max(idx, 0);
 
-        return imin;
+        return tprev + popFuncs.get(popIdx).getInverseIntensity((x-xprev)*scaleFactorCache[popIdx]);
     }
 
     @Override
     protected boolean requiresRecalculation() {
-        scaleFactorCacheDirty = true;
-        intensityCacheDirty = true;
+        cachesDirty = true;
         return true;
     }
 
     @Override
     protected void restore() {
-        scaleFactorCacheDirty = true;
-        intensityCacheDirty = true;
+        cachesDirty = true;
 
         super.restore();
     }
@@ -191,18 +188,25 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
                 "populationModel", pf2,
                 "populationModel", pf3,
                 "changeTimes", new RealParameter("3.0 5.0"),
-                "makeContinuous", false);
+                "makeContinuous", true);
 
-        try (PrintStream out = new PrintStream("out.txt")) {
+        double t0 = -1.0;
+        double t1 = 10.0;
+        int steps = 110;
+
 //        try (PrintStream out = System.out) {
-            out.println("t\tn\tx");
-            for (int i = 0; i <= 100; i++) {
-                double t = i * 10.0 / 100;
+        try (PrintStream out = new PrintStream("out.txt")) {
+            out.println("t\tn\tx\tinvx");
+            for (int i = 0; i <= steps; i++) {
+                double t = t0 + i * (t1-t0) / steps;
 
-                out.println(t + "\t" + cpm.getPopSize(t) + "\t" + cpm.getIntensity(t));
+                out.println(t
+                        + "\t" + cpm.getPopSize(t)
+                        + "\t" + cpm.getIntensity(t)
+                        + "\t" + cpm.getInverseIntensity(cpm.getIntensity(t)));
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }

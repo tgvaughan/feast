@@ -20,7 +20,7 @@ public class ShiftedPopulationModelTest {
         assertEquals(egm.getPopSize(0.5), spm.getPopSize(0), 1e-10);
         assertEquals(egm.getPopSize(0), spm.getPopSize(-0.5), 1e-10);
 
-        assertEquals(egm.getIntensity(0.5), spm.getIntensity(0), 1e-10);
-        assertEquals(egm.getIntensity(0), spm.getIntensity(-0.5), 1e-10);
+        assertEquals(egm.getIntensity(2.5) - egm.getIntensity(0.5), spm.getIntensity(2), 1e-10);
+        assertEquals(1, spm.getInverseIntensity(spm.getIntensity(1)), 1e-10);
     }
 }

@@ -12,7 +12,6 @@ ways to combine existing models and make certain tasks easier.
 
 [![Build Status](https://github.com/tgvaughan/feast/workflows/Unit%2Fintegration%20tests/badge.svg)](https://github.com/tgvaughan/feast/actions?query=workflow%3A%22Unit%2Fintegration+tests%22)
 
-
 Installation
 ------------
 
@@ -27,13 +26,11 @@ The default target in the provided [Apache ANT](http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package archive will be left in the `dist/` directory.
 
-
 Documentation
 -------------
 
 A guide to the various components in feast (with examples) can be
 found at https://tgvaughan.github.io/feast.
-
 
 License
 -------

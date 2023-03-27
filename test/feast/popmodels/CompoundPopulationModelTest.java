@@ -35,6 +35,11 @@ public class CompoundPopulationModelTest {
         assertEquals(1.0, cpm.getIntensity(1), 1e-10);
         assertEquals(3.0 + Math.exp(1.0)-1.0, cpm.getIntensity(4), 1e-10);
         assertEquals(3.0 + Math.exp(2.0)-1.0 + 0.5*0.5, cpm.getIntensity(5.5), 1e-10);
+
+        assertEquals(6.0, cpm.getInverseIntensity(cpm.getIntensity(6)), 1e-10);
+        assertEquals(4.0, cpm.getInverseIntensity(cpm.getIntensity(4)), 1e-10);
+        assertEquals(0.0, cpm.getInverseIntensity(cpm.getIntensity(0)), 1e-10);
+        assertEquals(-1.0, cpm.getInverseIntensity(cpm.getIntensity(-1)), 1e-10);
     }
 
     @Test
@@ -64,5 +69,10 @@ public class CompoundPopulationModelTest {
         assertEquals(3.0 + Math.exp(1.0)-1.0, cpm.getIntensity(4), 1e-10);
         assertEquals(3.0 + Math.exp(2.0)-1.0 + (1.0/Math.exp(-2*1.0))*0.5,
                 cpm.getIntensity(5.5), 1e-10);
+
+        assertEquals(6.0, cpm.getInverseIntensity(cpm.getIntensity(6)), 1e-10);
+        assertEquals(4.0, cpm.getInverseIntensity(cpm.getIntensity(4)), 1e-10);
+        assertEquals(0.0, cpm.getInverseIntensity(cpm.getIntensity(0)), 1e-10);
+        assertEquals(-1.0, cpm.getInverseIntensity(cpm.getIntensity(-1)), 1e-10);
     }
 }
