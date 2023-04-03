@@ -209,7 +209,7 @@ public class SimulatedAlignment extends Alignment {
         } else {
 
             List<String> dataTypeDescList = new ArrayList<>();
-            List<String> classNames = PackageManager.find(DataType.class, "beast.evolution.datatype");
+            List<String> classNames = PackageManager.find(DataType.class, "beast.base.evolution.datatype");
             for (String className : classNames) {
                 try {
                     DataType thisDataType = (DataType) BEASTClassLoader.forName(className).newInstance();
@@ -224,7 +224,7 @@ public class SimulatedAlignment extends Alignment {
                 }
             }
             if (dataType == null) {
-                throw new IllegalArgumentException("Data type + '"
+                throw new IllegalArgumentException("Data type '"
                         + dataTypeInput.get()
                         + "' cannot be found.  Choose one of "
                         + Arrays.toString(dataTypeDescList.toArray(new String[0])));

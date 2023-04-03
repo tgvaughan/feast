@@ -45,8 +45,8 @@
 
         <!-- Read package name and version from xml file -->
         <xmlproperty file="version.xml" prefix="fromVersionFile" />
-        <property name="projName" value="${fromVersionFile.addon(name)}" />
-        <property name="projVersion" value="${fromVersionFile.addon(version)}" />
+        <property name="projName" value="${fromVersionFile.package(name)}" />
+        <property name="projVersion" value="${fromVersionFile.package(version)}" />
         <property name="fullName" value="${projName}.v${projVersion}"/>
 
         <mkdir dir="${build}"/>
@@ -301,11 +301,11 @@
 
         <echo>Assembling files and directory structure...</echo>
 
-        <echo file="version.xml">&lt;addon name="${projName}" version="${projVersion}"&gt;
+        <echo file="version.xml">&lt;package name="${projName}" version="${projVersion}"&gt;
             &lt;depends on="beast2" atleast="${beastVersionReq}"/&gt;
 
             &lt;!-- Add other dependencies as necessary. --&gt;
-            &lt;/addon&gt;
+            &lt;/package&gt;
         </echo>
 
         <echo file="README.md" message="README for my package.${line.separator}"/>
