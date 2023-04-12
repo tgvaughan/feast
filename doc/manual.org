@@ -8,6 +8,9 @@
 GitHub Repository: https://github.com/tgvaughan/feast
 
 * Overview
+:PROPERTIES:
+:CUSTOM_ID: id-1-Overview
+:END:
 
 This is a small BEAST 2 (http://www.beast2.org) package which
 contains additions to the core functionality.  The common thread
@@ -19,24 +22,39 @@ You won't find new models here, but you will find different
 ways to combine existing models and make certain tasks easier.
 
 ** Installation
+:PROPERTIES:
+:CUSTOM_ID: id-2-Installation
+:END:
 
 You can install directly from within BEAUti by opening the package
 manager via File->"Manage packages", selecting "feast" and clicking
 the "Install/Upgrade" button.
 
 ** Building from source
+:PROPERTIES:
+:CUSTOM_ID: id-2-Building-from-source
+:END:
 
 The default target in the provided Apache ANT (http://ant.apache.org)
 build script can be used to build the BEAST 2 package from scratch.
 The package archive will be left in the ~dist/~ directory.
 
 * Features
+:PROPERTIES:
+:CUSTOM_ID: id-1-Features
+:END:
 
 The rest of this document is an asymptotically complete list of the features feast
 provides, in reverse chronological order of the date each was added.
 
 ** Initializing RealParameters
+:PROPERTIES:
+:CUSTOM_ID: id-2-Initializing-RealParameters
+:END:
 *** Initialize RealParameters from CSV/TSV files
+:PROPERTIES:
+:CUSTOM_ID: id-3-Initialize-RealParameters-from-CSV/TSV-files
+:END:
 
 When setting up complicated analyses, it can be useful to extract some
 (fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
@@ -73,6 +91,9 @@ external data file.  If ~rowLabels~ is omitted, the entire column
 will be read.  Similarly, if ~colLabels~ is omitted, the entire row
 is read.
 *** Initialize RealParameters from Functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Initialize-RealParameters-from-Functions
+:END:
 
 The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
 **initialized** from a ~Function~.  Thus you can do things like
@@ -92,6 +113,9 @@ Beware that ~RealParameterFromFunction~ only retrieves the ~Function~ values
 during initialization. **Changes in the ~Function~ values after initialization
 will not be reflected in the parameter!**
 *** Initializing RealParameters using formatted times
+:PROPERTIES:
+:CUSTOM_ID: id-3-Initializing-RealParameters-using-formatted-times
+:END:
 
 Particularly in birth-death models, it is often desirable to specify
 several points in time as ages relative to the "present".  This is done
@@ -129,6 +153,9 @@ the time is assumed to have already been converted to fractional years, so
 the only action taken by TimeParameter is to subtract this value from
 ~mostRecentSampleTime~.
 *** Randomly sampling initial RealParameter values
+:PROPERTIES:
+:CUSTOM_ID: id-3-Randomly-sampling-initial-RealParameter-values
+:END:
 
 Sometimes several attempts are needed to find a acceptable starting state for
 MCMC. An initializer for tree, capable of generating a new starting tree at each
@@ -147,7 +174,13 @@ at each initialization attempt:
 
 
 ** Coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-2-Coalescent-population-functions
+:END:
 *** Time-shifted coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Time-shifted-coalescent-population-functions
+:END:
 
 The ~ShiftedPopulationModel~ class allows you to create a new
 ~PopulationFunction~ which is a time-shifted view of an existing population
@@ -165,6 +198,9 @@ the population size of the exponential growth model at time 0.5.
 The ~offset~ input expects a ~Function~ value, so ~RealParameter~s etc. can
 also be used here.
 *** Compound coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Compound-coalescent-population-functions
+:END:
 
 BEAST 2 includes several commonly-used coalescent population models such
 as a constant population function and an exponential growth function.
@@ -200,6 +236,9 @@ The file ~piecewiseCoalescent.xml~ illustrates how this class can be used in a
 simple coalescent analysis.
 
 ** Log File Post-processing
+:PROPERTIES:
+:CUSTOM_ID: id-2-Log-File-Post-processing
+:END:
 
 Occasionally it's useful to be able to resurrect BEAST states from trace
 and tree log files in order to perform further processing.  This is useful,
@@ -247,7 +286,13 @@ to set the value of the ~Tree~ named "tree".  The value of "kappa" and the heigh
 of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
 
 ** Model selection
+:PROPERTIES:
+:CUSTOM_ID: id-2-Model-selection
+:END:
 *** DirichletProcessOperator and DirichletProcessPrior
+:PROPERTIES:
+:CUSTOM_ID: id-3-DirichletProcessOperator-and-DirichletProcessPrior
+:END:
 
 The ~DirichletProcessPrior~ and ~DirichletProcessOperator~ allow the application
 of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
@@ -273,6 +318,9 @@ You also need to include the following operator:
 Other operators on ~X~ can be included, but only if they do not alter the
 number of elements of ~X~ which are identical.
 *** ModelSelectionParameter
+:PROPERTIES:
+:CUSTOM_ID: id-3-ModelSelectionParameter
+:END:
 
 While model selection is extremely complicated in general, it can be almost
 trivial when the number of models you wish to consider is small and the models
@@ -318,7 +366,13 @@ compatible with distributions which take ~Function~s rather than ~RealParameter~
 s as input.
 
 ** Operators
+:PROPERTIES:
+:CUSTOM_ID: id-2-Operators
+:END:
 *** Scaling subsets of RealParameter elements together
+:PROPERTIES:
+:CUSTOM_ID: id-3-Scaling-subsets-of-RealParameter-elements-together
+:END:
 
 It's occasionally necessary to tie multiple elements of a RealParameter
 together, for instance to represent a vector of rates where a subset of
@@ -363,6 +417,9 @@ walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
 elements.
 
 *** Sampling from a discrete set of states
+:PROPERTIES:
+:CUSTOM_ID: id-3-Sampling-from-a-discrete-set-of-states
+:END:
 Occasionally we wish to characterise the posterior for a parameter or tree
 which is constrained to a small set of discrete traits.  This can be
 accomplished using the ~DiscreteUniformJumpOperator~.
@@ -387,7 +444,13 @@ I.e. parameters must have the same dimension and satisfy the bounds of
 ~x~, and trees must correspond to the same set of taxa as ~x~.
 
 ** Model validation 
+:PROPERTIES:
+:CUSTOM_ID: id-2-Model-validation
+:END:
 *** Easy state simulation
+:PROPERTIES:
+:CUSTOM_ID: id-3-Easy-state-simulation
+:END:
 
 One BEAST 2 idiom which is pervasive in my code at least is the existance
 of StateNodes that initialize their own state stochastically.  ~RandomTree~
@@ -411,6 +474,9 @@ results.
 See ~examples/SimulateCoalescentTrees.xml~ for an example of using ~GPSimulator~
 to simulate 100 coalescent trees.
 *** Sequence alignment simulation
+:PROPERTIES:
+:CUSTOM_ID: id-3-Sequence-alignment-simulation
+:END:
 
 While BEAST contains its own alignment simulator in ~beast.app.seqgen.SimulatedAlignment~,
 this can be awkward to use as it requires pre-specifying the taxa to associate
@@ -436,6 +502,9 @@ with the exception that the ~data~ input should be omitted - it will cause
 strange errors if you include it.  Also, only strict clocks are currently
 supported, so there is no ~branchRateModel~ input.
 *** DensityMapper
+:PROPERTIES:
+:CUSTOM_ID: id-3-DensityMapper
+:END:
 
 This class provides an easy way to produce plots of the variation in a
 particular ~Distribution~ (i.e. probability density) as a function of one or
@@ -509,7 +578,13 @@ coalescent tree density as a function of the population size is provided as
 ~DensityMapper.xml~ which can be found in the examples directory.
 
 ** Function (array) creation and manipulation
+:PROPERTIES:
+:CUSTOM_ID: id-2-Function-(array)-creation-and-manipulation
+:END:
 *** Numeric sequences as Functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Numeric-sequences-as-Functions
+:END:
 
 Instances of ~feast.function.Sequence~ are ~Function~s which contain a sequence
 of numbers evenly separated between two bounds.  For instance, the following
@@ -520,6 +595,9 @@ i.e. 0,0.1,0.2,...,9.9,10:
 <function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
 #+end_src
 *** Function Slicing
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-Slicing
+:END:
 
 Instances of the ~feast.function.Slice~ class are ~Function~s and ~Loggable~s which
 represent or more elements of another ~Function~.  This allows
@@ -545,11 +623,17 @@ same ~RealParamter~:
 </distrib>
 #+end_src
 *** Function reversing
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-reversing
+:END:
 
 Instances of the ~feast.function.Reverse~ class are
 ~Funtion~s and ~Loggable~s which represent the elements of another
 ~Function~ but in reverse order.
 *** Function concatenation
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-concatenation
+:END:
 
 Instances of the ~feast.function.Concatenate~ class are ~Function~s
 and ~Loggable~s whose elements are composed of the elements of their
@@ -565,6 +649,9 @@ rather than a single real parameter with multiple dimensions:
 </reproductiveNumber>
 #+end_src
 *** Function scaling
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-scaling
+:END:
 
 Instances of ~feast.function.Scale~ allow one ~Function~ to be scaled
 by another:
@@ -576,6 +663,9 @@ by another:
 </scaledBirthRate>
 #+end_src
 *** Function interleaving
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-interleaving
+:END:
 
 Instances of ~feast.function.Interleave~ represent the result of interleaving
 the elements of several input ~Function~s.  For example:
@@ -603,7 +693,13 @@ is a ~Function~ with a value of 3.
 
 
 ** Tree and Alignment Input/Output
+:PROPERTIES:
+:CUSTOM_ID: id-2-Tree-and-Alignment-Input/Output
+:END:
 *** TreeFromNewickFile & TreeFromNexusFile
+:PROPERTIES:
+:CUSTOM_ID: id-3-TreeFromNewickFile-&-TreeFromNexusFile
+:END:
 
 These classes allow trees to be loaded at runtime from Newick files rather
 than stored in the BEAST 2 XML:
@@ -627,6 +723,9 @@ Both classes are thin wrappers around ~TreeParser~, so all of the various inputs
 supported by that class are also supported.
 
 *** TraitSetFromTaxonSet
+:PROPERTIES:
+:CUSTOM_ID: id-3-TraitSetFromTaxonSet
+:END:
 
 This class allows ~TraitSet~s to be configured directly from
 ~TaxonSet~s.  This is similar in spirit to the "auto configuration"
@@ -655,6 +754,9 @@ Instead of ~everythingAfterLast="true"~, one can also use ~everythingBeforeFirst
 ~takeGroup="N"~ where N is the index of the group (delimited by the chosen delimiter).
 
 *** TraitSetFromXSV
+:PROPERTIES:
+:CUSTOM_ID: id-3-TraitSetFromXSV
+:END:
 
 This class allows ~TraitSet~s to be initialised from external CSV/TSV files.
 
@@ -698,6 +800,9 @@ Finally, you can set the optional input ~skipFirstRow~ to "true" to cause
 be useful for CSV/TSV files which include a header line.
 
 *** TaxonSetFromTree
+:PROPERTIES:
+:CUSTOM_ID: id-3-TaxonSetFromTree
+:END:
 
 This class allows ~TaxonSet~s to be initialized from trees.  Like
 ~TraitSetFromTree~, this class doesn't perform any file i/o, but makes
@@ -713,6 +818,9 @@ which could be included as an input to a ~TraitSetFromXSV~ as
 described in the previous section.
 
 *** AlignmentFromNexus/Fasta
+:PROPERTIES:
+:CUSTOM_ID: id-3-AlignmentFromNexus/Fasta
+:END:
 
 This class allows alignments to be loaded at runtime from Nexus or Fasta files
 rather than stored in the BEAST 2 XML:
@@ -746,12 +854,18 @@ is sometimes convenient to be able to do this.  As a bonus, the
 fragment to disk.
 
 ** Mathematical Expressions 
+:PROPERTIES:
+:CUSTOM_ID: id-2-Mathematical-Expressions
+:END:
 
 The following classes, which are found in ~feast.expressions~, provide
 support for parsing of simple arithmetic expressions.
 
 
 *** ExpCalculator
+:PROPERTIES:
+:CUSTOM_ID: id-3-ExpCalculator
+:END:
 
 Takes an arithmetic expression and returns the result by acting
 as a Loggable or a Function.  Binary operators can be applied to
@@ -798,6 +912,9 @@ cheating.)
 
 
 *** ExpCalculatorDistribution
+:PROPERTIES:
+:CUSTOM_ID: id-3-ExpCalculatorDistribution
+:END:
 
 This is basically identical to ExpCalculator, but extends the abstract
 Distribution class, allowing the definition of arbitrary distributions
@@ -813,17 +930,35 @@ density.
 
 
 *** ExpCalculatorParametricDistribution
+:PROPERTIES:
+:CUSTOM_ID: id-3-ExpCalculatorParametricDistribution
+:END:
 
 This provides a cut-down version of the ExpCalculatorDistribution
 functionality that is compatible with beast.math.distributions.Prior.
 
 
 * License
+:PROPERTIES:
+:CUSTOM_ID: id-1-License
+:END:
 
 This software is free (as in freedom).  With the exception of the
 libraries on which it depends, it is made available under the terms of
 the GNU General Public Licence version 3, which is contained in this
 directory in the file named COPYING.
+
+# Evaluate the following block to update section IDs
+#
+#+begin_src emacs-lisp :cache no :exports none :results none
+(org-map-entries
+   (lambda ()
+     (pcase (org-heading-components)
+       (`(,level ,_ ,_ ,_ ,title ,_)
+        (org-set-property "CUSTOM_ID"
+                          (format "id-%d-%s" level (string-replace " " "-" title)))
+        (format "%s %s" level title)))))
+#+end_src
 
 # Local Variables:
 # org-html-validation-link: nil
