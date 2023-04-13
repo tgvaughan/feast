@@ -1,6 +1,6 @@
 # Dockerfile to build container for unit testing
 
-FROM openjdk:11
+FROM eclipse-temurin:17
 
 RUN apt-get update && apt-get install -y git ant
 
