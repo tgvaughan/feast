@@ -22,8 +22,15 @@ the "Install/Upgrade" button.
 Building from source
 --------------------
 
-The default target in the provided [Apache ANT](http://ant.apache.org)
-build script can be used to build the BEAST 2 package from scratch.
+To build the package you'll need OpenJDK 17 or later, together
+with an installation of the OpenJFX SDK. Once these dependencies
+are in place, issue the following command from the root directory
+of this repository:
+
+```sh
+JAVA_FX_HOME=/path/to/openjfx/libs ant
+```
+
 The package archive will be left in the `dist/` directory.
 
 Documentation
