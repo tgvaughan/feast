@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -60,14 +61,17 @@ public class FeastMain {
                         stream.filter(f -> f.toString().contains("beast_services.xml")).forEach(f -> {
                             System.out.println("Saw " + f);
 
-                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                             Document doc;
+                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                             try {
-                                doc = factory.newDocumentBuilder().parse(f.toFile());
-                            } catch (SAXException | IOException |
-                                     ParserConfigurationException e) {
+                                InputStream is = Files.newInputStream(f);
+                                doc = factory.newDocumentBuilder().parse(is);
+                            } catch (IOException |
+                                     ParserConfigurationException |
+                                     SAXException e) {
                                 throw new RuntimeException(e);
                             }
+
                             BEASTClassLoader.classLoader.addServices(
                                     doc.getDocumentElement().getAttribute("name"),
                                     PackageManager.parseServices(doc));
