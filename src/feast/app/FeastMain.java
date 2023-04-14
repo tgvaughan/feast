@@ -30,61 +30,51 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class FeastMain {
     public static void main(String[] args) {
 
-        System.out.println("Looking for services embedded in classpath:");
+        System.out.println("************************************");
+        System.out.println("**** FeastMain BEAST 2 Launcher ****");
+        System.out.println("************************************\n");
+        System.out.println("Hunting for beast_service.xml files embedded in classpath:");
 
         String[] cpEntries = System.getProperty("java.class.path").split(File.pathSeparator);
 
-        for (String cpEntry : cpEntries) {
-            File file = new File(cpEntry);
-            if (file.isDirectory()) {
-                try (Stream<Path> stream = Files.walk(file.toPath())) {
-                    stream.forEach(f -> {
-                        System.out.println("Saw " + f);
-
-                        if (f.getFileName().toString().equals("beast_services.xml")) {
-                            System.out.println("Loading...");
+        Arrays.stream(cpEntries)
+                .map(File::new)
+                .filter(f -> f.isDirectory() || (f.isFile() && f.toString().endsWith(".jar")))
+                .map(f -> {
+                    if (f.isDirectory())
+                        return f.toPath();
+                    else {
+                        try {
+                            return FileSystems.newFileSystem(f.toPath()).getPath("/");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                })
+                .forEach(p -> {
+                    try (Stream<Path> stream = Files.walk(p)) {
+                        stream.filter(p2 -> p2.getFileName() != null)
+                                .filter(p2 -> p2.getFileName().toString().equals("beast_services.xml"))
+                                .forEach(p2 -> {
+                            System.out.println("- Processing " + p2 + "...");
 
                             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                             Document doc;
+
                             try {
-                                doc = factory.newDocumentBuilder().parse(f.toFile());
+                                InputStream is = Files.newInputStream(p2);
+                                doc = factory.newDocumentBuilder().parse(is);
                             } catch (SAXException | IOException |
                                      ParserConfigurationException e) {
-                                throw new RuntimeException(e);
-                            }
-                            BEASTClassLoader.classLoader.addServices(
-                                    doc.getDocumentElement().getAttribute("name"),
-                                    PackageManager.parseServices(doc));
-                        }
-                    });
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else if(file.isFile()) {
-                System.out.println("Processing jar file: " + cpEntry);
-
-                try (FileSystem fs = FileSystems.newFileSystem(file.toPath())) {
-                    try (Stream<Path> stream = Files.walk(fs.getPath("/"))) {
-                        stream.filter(f -> f.toString().contains("beast_services.xml")).forEach(f -> {
-                            System.out.println("Saw " + f);
-
-                            Document doc;
-                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                            try {
-                                InputStream is = Files.newInputStream(f);
-                                doc = factory.newDocumentBuilder().parse(is);
-                            } catch (IOException |
-                                     ParserConfigurationException |
-                                     SAXException e) {
                                 throw new RuntimeException(e);
                             }
 
@@ -92,12 +82,12 @@ public class FeastMain {
                                     doc.getDocumentElement().getAttribute("name"),
                                     PackageManager.parseServices(doc));
                         });
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+                });
+
+        System.out.println("Done. Handing over to BeastMain...");
 
         BeastMain.main(args);
     }

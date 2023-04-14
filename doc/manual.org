@@ -35,8 +35,16 @@ the "Install/Upgrade" button.
 :CUSTOM_ID: id-2-Building-from-source
 :END:
 
-The default target in the provided Apache ANT (http://ant.apache.org)
-build script can be used to build the BEAST 2 package from scratch.
+To build the package you'll need OpenJDK 17 or later, the OpenJFX SDK
+(https://openjfx.io) and Apache ANT (http://ant.apache.org). Once
+these dependencies are in place, issue the following command from the
+root directory of this repository:
+
+#+begin_src sh
+JAVA_FX_HOME=/path/to/openjfx/libs ant
+#+end_src
+
+(Replace ~/path/t/openjfx/libs~ with the location of the OpenJFX libraries.)
 The package archive will be left in the ~dist/~ directory.
 
 * Features
@@ -46,6 +54,48 @@ The package archive will be left in the ~dist/~ directory.
 
 The rest of this document is an asymptotically complete list of the features feast
 provides, in reverse chronological order of the date each was added.
+
+** Single BEAST 2.7 Jar files
+:PROPERTIES:
+:CUSTOM_ID: id-2-Single-BEAST-2.7-Jar-files
+:END:
+
+Unlike earlier versions, BEAST 2.7 has a sophisticated system for
+controlling which package classes are available to use in analyses.
+While this is a great step forward, its implementation currently
+precludes building the stand-alone jar file bundles of BEAST 2 and its
+packages which are so helpful for collaboration using in-development
+BEAST 2 models.
+
+Feast now includes a class =feast.app.FeastMain= which addresses this
+problem.  It is a small wrapper around =beastfx.app.beast.BeastMain=
+which, before handing control of the execution over to BEAST, seaches
+through all of the directories and jar files in the runtime classpath
+for files named ~beast_services.xml~.  When it finds one of these files,
+=FeastMain= treats these the same as a standard ~version.xml~ file by
+registering all of the services it contains.
+
+In order to use this wrapper to make a standalone jar file for a package,
+follow these steps:
+
+1. Copy (or symlink) any necessary version.xml files into the ~src/~
+   directory of your project.
+2. Build a jar file with the =Main-Class:= attribute in ~MANIFEST.MF~
+   set to =feast.app.FeastMain=.  (You don't necessarily need to edit
+   this file directly, most software that builds jar files will ask
+   you at some point for the main class: simply enter =feast.app.FeastMain=
+   when asked.)
+
+To launch an analysis using this jar file (here we suppose it's named
+~my.jara~), use either
+#+begin_src sh
+java -jar my.jar analysis.xml
+#+end_src
+or, if you are not using a combined openjdk+openjfx installation, 
+#+begin_src sh
+java --module-path=/path/to/openjfx/libs --add-modules javafx.fxml -jar my.jar analysis.xml
+#+end_src
+here ~/path/to/openjfx/libs~ specifies the location of the JavaFX libraries.
 
 ** Initializing RealParameters
 :PROPERTIES:
