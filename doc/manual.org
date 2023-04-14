@@ -87,7 +87,7 @@ follow these steps:
    when asked.)
 
 To launch an analysis using this jar file (here we suppose it's named
-~my.jara~), use either
+~my.jar~), use either
 #+begin_src sh
 java -jar my.jar analysis.xml
 #+end_src
