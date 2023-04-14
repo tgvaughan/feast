@@ -184,6 +184,10 @@
             <fileset dir="${src}"
                      includes="**/*.png" />
         </copy>
+        <copy todir="${build}">
+            <fileset dir="${src}"
+                     includes="**/*.xml" />
+        </copy>
     </target>
 
     <!-- Prepare for unit test compilation -->
@@ -240,6 +244,7 @@
                 <pathelement path="${build-test}" />
                 <fileset dir="${beast-source-root}/lib" includes="**/*.jar"/>
                 <pathelement path="${build-beast}"/>
+                <pathelement path="${build-beastfx}"/>
             </classpath>
         </javadoc>
     </target>
