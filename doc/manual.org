@@ -79,7 +79,8 @@ In order to use this wrapper to make a standalone jar file for a package,
 follow these steps:
 
 1. Copy (or symlink) any necessary version.xml files into the ~src/~
-   directory of your project.
+   directory of your project. You can place them in any package
+   directory you like, but be sure to name each file ~beast_services.xml~.
 2. Build a jar file with the =Main-Class:= attribute in ~MANIFEST.MF~
    set to =feast.app.FeastMain=.  (You don't necessarily need to edit
    this file directly, most software that builds jar files will ask
