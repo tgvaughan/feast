@@ -42,7 +42,7 @@ public class FeastMain {
         System.out.println("************************************");
         System.out.println("**** FeastMain BEAST 2 Launcher ****");
         System.out.println("************************************\n");
-        System.out.println("Hunting for beast_service.xml files embedded in classpath:");
+        System.out.println("Hunting for beast_services.xml files embedded in classpath:");
 
         String[] cpEntries = System.getProperty("java.class.path").split(File.pathSeparator);
 
