@@ -15,6 +15,7 @@
 
 # Build output
 /build-lib
-/build
+/build-beast
+/build-beastfx
 /dist
 /javadoc
