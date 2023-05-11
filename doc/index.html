@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-04-17 Mon 08:48 -->
+<!-- 2023-05-11 Thu 16:33 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -1078,7 +1078,12 @@ For Nexus files, only the first trees block encountered is processed.
 
 <p>
 Both classes are thin wrappers around <code>TreeParser</code>, so all of the various inputs
-supported by that class are also supported.
+supported by that class are also supported. In particular, setting <code>adjustTipHeights</code>
+to "true" causes all tip ages to be set to zero, which is sometimes desirable
+when reading in trees with only extant tips in order to avoid rounding errors.
+(Such rounding errors can cause problems with tree priors such as BDSKY
+which use the age of tips to classify samples as resulting from
+ρ-sampling or ψ-sampling.)
 </p>
 </div>
 </div>
@@ -1465,7 +1470,7 @@ directory in the file named COPYING.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-04-17 Mon 08:48</p>
+<p class="date">Created: 2023-05-11 Thu 16:33</p>
 </div>
 </body>
 </html>
