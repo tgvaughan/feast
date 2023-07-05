@@ -75,12 +75,15 @@ for files named ~beast_services.xml~.  When it finds one of these files,
 =FeastMain= treats these the same as a standard ~version.xml~ file by
 registering all of the services it contains.
 
-In order to use this wrapper to make a standalone jar file for a package,
+In order to use this wrapper to make a stand-alone jar file for a package,
 follow these steps:
 
-1. Copy (or symlink) any necessary version.xml files into the ~src/~
+1. Copy (or symlink) any necessary version.xml files into a package
+   directory below the ~src/~
    directory of your project. You can place them in any package
    directory you like, but be sure to name each file ~beast_services.xml~.
+   **Beware:** jar files share a single namespace, so avoid placing
+   the file directly in the ~src/~ directory itself when bundling multiple BEAST 2 projects into the jar.
 2. Build a jar file with the =Main-Class:= attribute in ~MANIFEST.MF~
    set to =feast.app.FeastMain=.  (You don't necessarily need to edit
    this file directly, most software that builds jar files will ask

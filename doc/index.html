@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-05-11 Thu 16:33 -->
+<!-- 2023-07-05 Wed 16:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -182,14 +182,17 @@ registering all of the services it contains.
 </p>
 
 <p>
-In order to use this wrapper to make a standalone jar file for a package,
+In order to use this wrapper to make a stand-alone jar file for a package,
 follow these steps:
 </p>
 
 <ol class="org-ol">
-<li>Copy (or symlink) any necessary version.xml files into the <code>src/</code>
+<li>Copy (or symlink) any necessary version.xml files into a package
+directory below the <code>src/</code>
 directory of your project. You can place them in any package
-directory you like, but be sure to name each file <code>beast_services.xml</code>.</li>
+directory you like, but be sure to name each file <code>beast_services.xml</code>.
+<b><b>Beware:</b></b> jar files share a single namespace, so avoid placing
+the file directly in the <code>src/</code> directory itself when bundling multiple BEAST 2 projects into the jar.</li>
 <li>Build a jar file with the <code>Main-Class:</code> attribute in <code>MANIFEST.MF</code>
 set to <code>feast.app.FeastMain</code>.  (You don't necessarily need to edit
 this file directly, most software that builds jar files will ask
@@ -1470,7 +1473,7 @@ directory in the file named COPYING.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-05-11 Thu 16:33</p>
+<p class="date">Created: 2023-07-05 Wed 16:57</p>
 </div>
 </body>
 </html>
