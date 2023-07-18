@@ -249,7 +249,7 @@ For example, here is a time-shifted exponential growth population mode:
 At time 0, the population size of this shifted model is the same as
 the population size of the exponential growth model at time 0.5.
 
-The ~offset~ input expects a ~Function~ value, so ~RealParameter~s etc. can
+The ~offset~ input expects a ~Function~ value, so ~RealParameter~ objectss etc. can
 also be used here.
 *** Compound coalescent population functions
 :PROPERTIES:
@@ -415,9 +415,9 @@ is its own ~ModelSelectionParameter~, shares exactly the same set of
 "parameter" and "selectionIndices" inputs, but has its own unique value of
 "thisIndex".
 
-Beware that ~ModelSelectionParameter~ is that is only
-compatible with distributions which take ~Function~s rather than ~RealParameter~
-s as input.
+Beware that ~ModelSelectionParameter~ is that is only compatible with
+distributions which take ~Function~ objects rather than
+~RealParameter~ objects as input.
 
 ** Operators
 :PROPERTIES:
@@ -635,12 +635,27 @@ coalescent tree density as a function of the population size is provided as
 :PROPERTIES:
 :CUSTOM_ID: id-2-Function-(array)-creation-and-manipulation
 :END:
+
+This section describes feast classes which implement the BEAST 2 ~Function~ interface.
+A ~Function~ here refers to an array of real numbers.  (The naming is an unfortunate
+historical decision.)  Many ~BEASTObject~ classes implement ~Function~, including ~RealParameter~
+and ~Tree~.  (In the example of ~Tree~, the real numbers represent node ages.)
+
+Many of the classes here take one or more ~Function~ objects as input,
+and act to transform or combine the inputs to yield the value of the
+output ~Function~.   This means that instances of these classes can be chained
+so as to achieve a variety of fairly complex transformations.
+
+Note that all of the classes discussed here also implement the ~Loggable~ interface,
+meaning that they can be passed directly as inputs to the ~<logger/>~ elements in the
+XML.
+
 *** Numeric sequences as Functions
 :PROPERTIES:
 :CUSTOM_ID: id-3-Numeric-sequences-as-Functions
 :END:
 
-Instances of ~feast.function.Sequence~ are ~Function~s which contain a sequence
+An instance of ~feast.function.Sequence~ is a ~Function~ which contains a sequence
 of numbers evenly separated between two bounds.  For instance, the following
 XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
 i.e. 0,0.1,0.2,...,9.9,10:
@@ -653,7 +668,7 @@ i.e. 0,0.1,0.2,...,9.9,10:
 :CUSTOM_ID: id-3-Function-Slicing
 :END:
 
-Instances of the ~feast.function.Slice~ class are ~Function~s and ~Loggable~s which
+An instance of the ~feast.function.Slice~ class is a ~Function~ which
 represent or more elements of another ~Function~.  This allows
 element-specific priors to be set, and individual elements to be logged.
 
@@ -682,16 +697,16 @@ same ~RealParamter~:
 :END:
 
 Instances of the ~feast.function.Reverse~ class are
-~Funtion~s and ~Loggable~s which represent the elements of another
+~Funtion~ and ~Loggable~ which represent the elements of another
 ~Function~ but in reverse order.
 *** Function concatenation
 :PROPERTIES:
 :CUSTOM_ID: id-3-Function-concatenation
 :END:
 
-Instances of the ~feast.function.Concatenate~ class are ~Function~s
-and ~Loggable~s whose elements are composed of the elements of their
-input ~Function~s joined together.  For example, here is a ~Function~
+An instance of the ~feast.function.Concatenate~ class is a ~Function~
+whose elements are composed of the elements of their
+input ~Function~ objects joined together.  For example, here is a ~Function~
 representing a piecewise constant reproductive number to be used as
 input to the BDSKY tree prior, but composed of distinct input parameters
 rather than a single real parameter with multiple dimensions:
@@ -722,7 +737,7 @@ by another:
 :END:
 
 Instances of ~feast.function.Interleave~ represent the result of interleaving
-the elements of several input ~Function~s.  For example:
+the elements of several input ~Function~ objects.  For example:
 
 #+begin_src xml
 <twoDemeBirthRate spec="feast.function.interleave">
@@ -733,9 +748,10 @@ the elements of several input ~Function~s.  For example:
 
 is as a ~Function~ with elements 1,2,3,4,5,6,7,8.
 
-Finally, instances of ~feast.function.UniqueElementCount~ are ~Function~s which
-contain a single integer representing the number of unique values contained
-in the elements of an input ~Function~.  For example,
+Finally, instances of ~feast.function.UniqueElementCount~ are
+~Function~ objects which contain a single integer representing the
+number of unique values contained in the elements of an input
+~Function~.  For example,
 
 #+begin_src xml
 <uniqueValues spec="feast.function.UniqueElementCount">
@@ -786,12 +802,12 @@ which use the age of tips to classify samples as resulting from
 :CUSTOM_ID: id-3-TraitSetFromTaxonSet
 :END:
 
-This class allows ~TraitSet~s to be configured directly from
-~TaxonSet~s.  This is similar in spirit to the "auto configuration"
-option provided by BEAUti to set up tree tip dates from information
-encoded in the sequence names.  While it's not directly i/o related,
-it solves a common problem that occurs when trees are loaded from an
-external file.
+This class allows ~TraitSet~ objects to be configured directly from
+~TaxonSet~ objects.  This is similar in spirit to the "auto
+configuration" option provided by BEAUti to set up tree tip dates from
+information encoded in the sequence names.  While it's not directly
+i/o related, it solves a common problem that occurs when trees are
+loaded from an external file.
 
 Use this as you would usually use a ~TraitSet~, but instead of including the
 trait assignments directly in the body, specify inputs indicating how to extract
@@ -817,7 +833,8 @@ Instead of ~everythingAfterLast="true"~, one can also use ~everythingBeforeFirst
 :CUSTOM_ID: id-3-TraitSetFromXSV
 :END:
 
-This class allows ~TraitSet~s to be initialised from external CSV/TSV files.
+This class allows ~TraitSet~ objects to be initialised from external
+CSV/TSV files.
 
 Use this as you would use ~TraitSet~, but instead of including the
 trait assignments in the body, use the inputs to direct the class
@@ -863,9 +880,9 @@ be useful for CSV/TSV files which include a header line.
 :CUSTOM_ID: id-3-TaxonSetFromTree
 :END:
 
-This class allows ~TaxonSet~s to be initialized from trees.  Like
-~TraitSetFromTree~, this class doesn't perform any file i/o, but makes
-it easier to work with trees loaded from external files.
+This class allows ~TaxonSet~ objects to be initialized from trees.
+Like ~TraitSetFromTree~, this class doesn't perform any file i/o, but
+makes it easier to work with trees loaded from external files.
 
 An example use is:
 
@@ -1002,10 +1019,10 @@ functionality that is compatible with beast.math.distributions.Prior.
 :CUSTOM_ID: id-1-License
 :END:
 
-This software is free (as in freedom).  With the exception of the
+The feast package is free (as in freedom).  With the exception of the
 libraries on which it depends, it is made available under the terms of
-the GNU General Public Licence version 3, which is contained in this
-directory in the file named COPYING.
+the GNU General Public Licence version 3, which is distributed with feast
+or may be found online at https://www.gnu.org/licenses/gpl-3.0.html.
 
 # Evaluate the following block to update section IDs
 #

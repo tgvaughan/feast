@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-07-05 Wed 16:57 -->
+<!-- 2023-07-18 Tue 13:51 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -412,7 +412,7 @@ the population size of the exponential growth model at time 0.5.
 </p>
 
 <p>
-The <code>offset</code> input expects a <code>Function</code> value, so ~RealParameter~s etc. can
+The <code>offset</code> input expects a <code>Function</code> value, so <code>RealParameter</code> objectss etc. can
 also be used here.
 </p>
 </div>
@@ -624,9 +624,9 @@ is its own <code>ModelSelectionParameter</code>, shares exactly the same set of
 </p>
 
 <p>
-Beware that <code>ModelSelectionParameter</code> is that is only
-compatible with distributions which take <code>Function~s rather than ~RealParameter</code>
-s as input.
+Beware that <code>ModelSelectionParameter</code> is that is only compatible with
+distributions which take <code>Function</code> objects rather than
+<code>RealParameter</code> objects as input.
 </p>
 </div>
 </div>
@@ -902,12 +902,32 @@ coalescent tree density as a function of the population size is provided as
 <div id="outline-container-id-2-Function-(array)-creation-and-manipulation" class="outline-3">
 <h3 id="id-2-Function-(array)-creation-and-manipulation"><span class="section-number-3">2.8.</span> Function (array) creation and manipulation</h3>
 <div class="outline-text-3" id="text-id-2-Function-(array)-creation-and-manipulation">
+<p>
+This section describes feast classes which implement the BEAST 2 <code>Function</code> interface.
+A <code>Function</code> here refers to an array of real numbers.  (The naming is an unfortunate
+historical decision.)  Many <code>BEASTObject</code> classes implement <code>Function</code>, including <code>RealParameter</code>
+and <code>Tree</code>.  (In the example of <code>Tree</code>, the real numbers represent node ages.)
+</p>
+
+<p>
+Many of the classes here take one or more <code>Function</code> objects as input,
+and act to transform or combine the inputs to yield the value of the
+output <code>Function</code>.   This means that instances of these classes can be chained
+so as to achieve a variety of fairly complex transformations.
+</p>
+
+<p>
+Note that all of the classes discussed here also implement the <code>Loggable</code> interface,
+meaning that they can be passed directly as inputs to the <code>&lt;logger/&gt;</code> elements in the
+XML.
+</p>
 </div>
+
 <div id="outline-container-id-3-Numeric-sequences-as-Functions" class="outline-4">
 <h4 id="id-3-Numeric-sequences-as-Functions"><span class="section-number-4">2.8.1.</span> Numeric sequences as Functions</h4>
 <div class="outline-text-4" id="text-id-3-Numeric-sequences-as-Functions">
 <p>
-Instances of <code>feast.function.Sequence</code> are ~Function~s which contain a sequence
+An instance of <code>feast.function.Sequence</code> is a <code>Function</code> which contains a sequence
 of numbers evenly separated between two bounds.  For instance, the following
 XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
 i.e. 0,0.1,0.2,&#x2026;,9.9,10:
@@ -923,8 +943,8 @@ i.e. 0,0.1,0.2,&#x2026;,9.9,10:
 <h4 id="id-3-Function-Slicing"><span class="section-number-4">2.8.2.</span> Function Slicing</h4>
 <div class="outline-text-4" id="text-id-3-Function-Slicing">
 <p>
-Instances of the <code>feast.function.Slice</code> class are <code>Function~s and ~Loggable~s which
-represent or more elements of another ~Function</code>.  This allows
+An instance of the <code>feast.function.Slice</code> class is a <code>Function</code> which
+represent or more elements of another <code>Function</code>.  This allows
 element-specific priors to be set, and individual elements to be logged.
 </p>
 
@@ -960,8 +980,8 @@ same <code>RealParamter</code>:
 <div class="outline-text-4" id="text-id-3-Function-reversing">
 <p>
 Instances of the <code>feast.function.Reverse</code> class are
-<code>Funtion~s and ~Loggable~s which represent the elements of another
-~Function</code> but in reverse order.
+<code>Funtion</code> and <code>Loggable</code> which represent the elements of another
+<code>Function</code> but in reverse order.
 </p>
 </div>
 </div>
@@ -969,9 +989,9 @@ Instances of the <code>feast.function.Reverse</code> class are
 <h4 id="id-3-Function-concatenation"><span class="section-number-4">2.8.4.</span> Function concatenation</h4>
 <div class="outline-text-4" id="text-id-3-Function-concatenation">
 <p>
-Instances of the <code>feast.function.Concatenate</code> class are ~Function~s
-and <code>Loggable~s whose elements are composed of the elements of their
-input ~Function~s joined together.  For example, here is a ~Function</code>
+An instance of the <code>feast.function.Concatenate</code> class is a <code>Function</code>
+whose elements are composed of the elements of their
+input <code>Function</code> objects joined together.  For example, here is a <code>Function</code>
 representing a piecewise constant reproductive number to be used as
 input to the BDSKY tree prior, but composed of distinct input parameters
 rather than a single real parameter with multiple dimensions:
@@ -1008,7 +1028,7 @@ by another:
 <div class="outline-text-4" id="text-id-3-Function-interleaving">
 <p>
 Instances of <code>feast.function.Interleave</code> represent the result of interleaving
-the elements of several input ~Function~s.  For example:
+the elements of several input <code>Function</code> objects.  For example:
 </p>
 
 <div class="org-src-container">
@@ -1024,9 +1044,10 @@ is as a <code>Function</code> with elements 1,2,3,4,5,6,7,8.
 </p>
 
 <p>
-Finally, instances of <code>feast.function.UniqueElementCount</code> are ~Function~s which
-contain a single integer representing the number of unique values contained
-in the elements of an input <code>Function</code>.  For example,
+Finally, instances of <code>feast.function.UniqueElementCount</code> are
+<code>Function</code> objects which contain a single integer representing the
+number of unique values contained in the elements of an input
+<code>Function</code>.  For example,
 </p>
 
 <div class="org-src-container">
@@ -1095,12 +1116,12 @@ which use the age of tips to classify samples as resulting from
 <h4 id="id-3-TraitSetFromTaxonSet"><span class="section-number-4">2.9.2.</span> TraitSetFromTaxonSet</h4>
 <div class="outline-text-4" id="text-id-3-TraitSetFromTaxonSet">
 <p>
-This class allows ~TraitSet~s to be configured directly from
-~TaxonSet~s.  This is similar in spirit to the "auto configuration"
-option provided by BEAUti to set up tree tip dates from information
-encoded in the sequence names.  While it's not directly i/o related,
-it solves a common problem that occurs when trees are loaded from an
-external file.
+This class allows <code>TraitSet</code> objects to be configured directly from
+<code>TaxonSet</code> objects.  This is similar in spirit to the "auto
+configuration" option provided by BEAUti to set up tree tip dates from
+information encoded in the sequence names.  While it's not directly
+i/o related, it solves a common problem that occurs when trees are
+loaded from an external file.
 </p>
 
 <p>
@@ -1135,7 +1156,8 @@ Instead of <code>everythingAfterLast="true"</code>, one can also use <code>every
 <h4 id="id-3-TraitSetFromXSV"><span class="section-number-4">2.9.3.</span> TraitSetFromXSV</h4>
 <div class="outline-text-4" id="text-id-3-TraitSetFromXSV">
 <p>
-This class allows ~TraitSet~s to be initialised from external CSV/TSV files.
+This class allows <code>TraitSet</code> objects to be initialised from external
+CSV/TSV files.
 </p>
 
 <p>
@@ -1197,9 +1219,9 @@ be useful for CSV/TSV files which include a header line.
 <h4 id="id-3-TaxonSetFromTree"><span class="section-number-4">2.9.4.</span> TaxonSetFromTree</h4>
 <div class="outline-text-4" id="text-id-3-TaxonSetFromTree">
 <p>
-This class allows <code>TaxonSet~s to be initialized from trees.  Like
-~TraitSetFromTree</code>, this class doesn't perform any file i/o, but makes
-it easier to work with trees loaded from external files.
+This class allows <code>TaxonSet</code> objects to be initialized from trees.
+Like <code>TraitSetFromTree</code>, this class doesn't perform any file i/o, but
+makes it easier to work with trees loaded from external files.
 </p>
 
 <p>
@@ -1463,17 +1485,17 @@ functionality that is compatible with beast.math.distributions.Prior.
 <h2 id="id-1-License"><span class="section-number-2">3.</span> License</h2>
 <div class="outline-text-2" id="text-id-1-License">
 <p>
-This software is free (as in freedom).  With the exception of the
+The feast package is free (as in freedom).  With the exception of the
 libraries on which it depends, it is made available under the terms of
-the GNU General Public Licence version 3, which is contained in this
-directory in the file named COPYING.
+the GNU General Public Licence version 3, which is distributed with feast
+or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">https://www.gnu.org/licenses/gpl-3.0.html</a>.
 </p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-07-05 Wed 16:57</p>
+<p class="date">Created: 2023-07-18 Tue 13:51</p>
 </div>
 </body>
 </html>
