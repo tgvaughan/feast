@@ -470,6 +470,26 @@ The ~SmartRealRandomWalkOperator~ acts analogously, but implements a random
 walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
 elements.
 
+*** Operators on IntegerParameters
+:PROPERTIES:
+:CUSTOM_ID: id-3-Operators-on-IntegerParameters
+:END:
+
+Parameters of type ~IntegerParameter~ require special operators.  Beast has
+two main operators for this type: ~IntUniformOperator~ (now deprecated in favour
+of ~UniformOperator~) and ~IntRandomWalkOperator~.  Feast exptends this
+collection with a pair of operators allowing for joint operation on a subset
+of elements of a single ~IntegerParameter~.  The new operators are:
+
+1. ~BlockIntUniformOperator~ and
+2. ~BlockIntRandomWalkOperator~.
+
+These operators take the same inputs as the vanilla (non-block) BEAST 2 versions,
+but with the addition of an input named =indicator= which takes the same
+~BooleanParameter~ input as the similarly-named input of the ~BlockScaleOperator~
+described above.
+
+
 *** Sampling from a discrete set of states
 :PROPERTIES:
 :CUSTOM_ID: id-3-Sampling-from-a-discrete-set-of-states

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-07-18 Tue 13:51 -->
+<!-- 2023-09-18 Mon 10:49 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -53,7 +53,8 @@
 <li><a href="#id-2-Operators">2.6. Operators</a>
 <ul>
 <li><a href="#id-3-Scaling-subsets-of-RealParameter-elements-together">2.6.1. Scaling subsets of RealParameter elements together</a></li>
-<li><a href="#id-3-Sampling-from-a-discrete-set-of-states">2.6.2. Sampling from a discrete set of states</a></li>
+<li><a href="#id-3-Operators-on-IntegerParameters">2.6.2. Operators on IntegerParameters</a></li>
+<li><a href="#id-3-Sampling-from-a-discrete-set-of-states">2.6.3. Sampling from a discrete set of states</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Model-validation">2.7. Model validation</a>
@@ -697,8 +698,34 @@ elements.
 </div>
 </div>
 
+<div id="outline-container-id-3-Operators-on-IntegerParameters" class="outline-4">
+<h4 id="id-3-Operators-on-IntegerParameters"><span class="section-number-4">2.6.2.</span> Operators on IntegerParameters</h4>
+<div class="outline-text-4" id="text-id-3-Operators-on-IntegerParameters">
+<p>
+Parameters of type <code>IntegerParameter</code> require special operators.  Beast has
+two main operators for this type: <code>IntUniformOperator</code> (now deprecated in favour
+of <code>UniformOperator</code>) and <code>IntRandomWalkOperator</code>.  Feast exptends this
+collection with a pair of operators allowing for joint operation on a subset
+of elements of a single <code>IntegerParameter</code>.  The new operators are:
+</p>
+
+<ol class="org-ol">
+<li><code>BlockIntUniformOperator</code> and</li>
+<li><code>BlockIntRandomWalkOperator</code>.</li>
+</ol>
+
+<p>
+These operators take the same inputs as the vanilla (non-block) BEAST 2 versions,
+but with the addition of an input named <code>indicator</code> which takes the same
+<code>BooleanParameter</code> input as the similarly-named input of the <code>BlockScaleOperator</code>
+described above.
+</p>
+</div>
+</div>
+
+
 <div id="outline-container-id-3-Sampling-from-a-discrete-set-of-states" class="outline-4">
-<h4 id="id-3-Sampling-from-a-discrete-set-of-states"><span class="section-number-4">2.6.2.</span> Sampling from a discrete set of states</h4>
+<h4 id="id-3-Sampling-from-a-discrete-set-of-states"><span class="section-number-4">2.6.3.</span> Sampling from a discrete set of states</h4>
 <div class="outline-text-4" id="text-id-3-Sampling-from-a-discrete-set-of-states">
 <p>
 Occasionally we wish to characterise the posterior for a parameter or tree
@@ -1495,7 +1522,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-07-18 Tue 13:51</p>
+<p class="date">Created: 2023-09-18 Mon 10:49</p>
 </div>
 </body>
 </html>
