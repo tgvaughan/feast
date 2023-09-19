@@ -289,6 +289,46 @@ exponential and constant components.
 The file ~piecewiseCoalescent.xml~ illustrates how this class can be used in a
 simple coalescent analysis.
 
+*** Expression coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Expression-coalescent-population-functions
+:END:
+
+The ~ExpressionPopulationModel~ class allows you to specify a
+population function symbolically using a mathematical expression
+evaluated at runtime.
+
+For example, here is a sinusoidally-varying population function with
+an exponentially-decaying amplitude:
+
+#+begin_src xml
+  <populationModel spec="ExpressionPopulationModel">
+    exp(0.1t)*(cos(2*t) + 2)
+  </populationModel>
+#+end_src
+
+These models can also depend on one or more ~RealParameter~ or ~Function~ objects:
+#+begin_src xml
+  <populationModel spec="ExpressionPopulationModel">
+    exp(gamma*t)*(cos(omega*t) + 2)
+    <arg id="omega" spec="RealParameter" value="0.3"/>
+    <arg idref="gamma"/>
+  </populationModel>
+#+end_src
+taking care that these objects have IDs defined, since these IDs are used to
+refer to the objects inside of the expression.
+
+The optional =isLog= input (boolean) can be used to indicate that the value of the
+expression is the natural logarithm of the population size rather than the
+population size itself.
+
+The optional =maxTimeToConsider= input (double) can be used to change the maximum
+time to be considered when numerically inverting the "intensity function"  (integral
+of 1/N(t)), a procedure necessary for simulating coalescent trees using this model.
+
+For a complete description of the arithmetic expression syntax which can be used
+to specify population dynamics, refer to [[ExpCalculator]].
+
 ** Log File Post-processing
 :PROPERTIES:
 :CUSTOM_ID: id-2-Log-File-Post-processing
@@ -990,6 +1030,7 @@ Example expressions follow. (I and J are IDs of RealParameters with elements
 | sum(I)                      | {6.0}                      |
 | cumsum(I)                   | {1.0, 3.0, 6.0}            |
 | diff(I)                     | {1.0, 1.0}                 |
+| {sin(0), cos(0)}            | {0.0, 1.0}                 |
 | {1,2,3}^2                   | {1.0, 4.0, 9.0}            |
 | theta(I-2)                  | {0.0, 1.0, 1.0}            |
 | I < 3 && I >=1              | {1.0, 1.0, 0.0}            |

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-09-18 Mon 10:49 -->
+<!-- 2023-09-19 Tue 18:30 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -41,6 +41,7 @@
 <ul>
 <li><a href="#id-3-Time-shifted-coalescent-population-functions">2.3.1. Time-shifted coalescent population functions</a></li>
 <li><a href="#id-3-Compound-coalescent-population-functions">2.3.2. Compound coalescent population functions</a></li>
+<li><a href="#id-3-Expression-coalescent-population-functions">2.3.3. Expression coalescent population functions</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Log-File-Post-processing">2.4. Log File Post-processing</a></li>
@@ -465,6 +466,62 @@ exponential and constant components.
 <p>
 The file <code>piecewiseCoalescent.xml</code> illustrates how this class can be used in a
 simple coalescent analysis.
+</p>
+</div>
+</div>
+
+<div id="outline-container-id-3-Expression-coalescent-population-functions" class="outline-4">
+<h4 id="id-3-Expression-coalescent-population-functions"><span class="section-number-4">2.3.3.</span> Expression coalescent population functions</h4>
+<div class="outline-text-4" id="text-id-3-Expression-coalescent-population-functions">
+<p>
+The <code>ExpressionPopulationModel</code> class allows you to specify a
+population function symbolically using a mathematical expression
+evaluated at runtime.
+</p>
+
+<p>
+For example, here is a sinusoidally-varying population function with
+an exponentially-decaying amplitude:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-text">  exp(0.1t)*(cos(2*t) + 2)</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+
+<p>
+These models can also depend on one or more <code>RealParameter</code> or <code>Function</code> objects:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-text">  exp(gamma*t)*(cos(omega*t) + 2)</span>
+<span class="org-nxml-text">  </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"omega"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"gamma"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+<p>
+taking care that these objects have IDs defined, since these IDs are used to
+refer to the objects inside of the expression.
+</p>
+
+<p>
+The optional <code>isLog</code> input (boolean) can be used to indicate that the value of the
+expression is the natural logarithm of the population size rather than the
+population size itself.
+</p>
+
+<p>
+The optional <code>maxTimeToConsider</code> input (double) can be used to change the maximum
+time to be considered when numerically inverting the "intensity function"  (integral
+of 1/N(t)), a procedure necessary for simulating coalescent trees using this model.
+</p>
+
+<p>
+For a complete description of the arithmetic expression syntax which can be used
+to specify population dynamics, refer to <a href="#id-3-ExpCalculator">2.10.1</a>.
 </p>
 </div>
 </div>
@@ -1427,6 +1484,11 @@ Example expressions follow. (I and J are IDs of RealParameters with elements
 </tr>
 
 <tr>
+<td class="org-left">{sin(0), cos(0)}</td>
+<td class="org-left">{0.0, 1.0}</td>
+</tr>
+
+<tr>
 <td class="org-left">{1,2,3}<sup>2</sup></td>
 <td class="org-left">{1.0, 4.0, 9.0}</td>
 </tr>
@@ -1522,7 +1584,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-09-18 Mon 10:49</p>
+<p class="date">Created: 2023-09-19 Tue 18:30</p>
 </div>
 </body>
 </html>

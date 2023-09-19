@@ -1,4 +1,4 @@
-// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.10.1
+// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.12.0
 package feast.expressions.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class ExpressionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.10.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.12.0", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -20,9 +20,9 @@ public class ExpressionParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, ADD=11, SUB=12, MUL=13, DIV=14, MOD=15, POW=16, EXP=17, LOG=18, 
 		SQRT=19, SUM=20, THETA=21, ABS=22, MIN=23, MAX=24, LEN=25, SORT=26, DIFF=27, 
-		CUMSUM=28, AND=29, OR=30, EQ=31, GT=32, LT=33, GE=34, LE=35, NE=36, ZERO=37, 
-		NZINT=38, NNFLOAT=39, IDENT=40, COMMENT_SINGLELINE=41, COMMENT_MULTILINE=42, 
-		WHITESPACE=43;
+		CUMSUM=28, SIN=29, COS=30, AND=31, OR=32, EQ=33, GT=34, LT=35, GE=36, 
+		LE=37, NE=38, ZERO=39, NZINT=40, NNFLOAT=41, IDENT=42, COMMENT_SINGLELINE=43, 
+		COMMENT_MULTILINE=44, WHITESPACE=45;
 	public static final int
 		RULE_expression = 0;
 	private static String[] makeRuleNames() {
@@ -37,8 +37,8 @@ public class ExpressionParser extends Parser {
 			null, "'('", "')'", "'{'", "','", "'}'", "'['", "']'", "':'", "'!'", 
 			"'?'", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'", "'exp'", "'log'", "'sqrt'", 
 			"'sum'", "'theta'", "'abs'", "'min'", "'max'", "'len'", "'sort'", "'diff'", 
-			"'cumsum'", "'&&'", "'||'", "'=='", "'>'", "'<'", "'>='", "'<='", "'!='", 
-			"'0'"
+			"'cumsum'", "'sin'", "'cos'", "'&&'", "'||'", "'=='", "'>'", "'<'", "'>='", 
+			"'<='", "'!='", "'0'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -46,9 +46,9 @@ public class ExpressionParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, "ADD", 
 			"SUB", "MUL", "DIV", "MOD", "POW", "EXP", "LOG", "SQRT", "SUM", "THETA", 
-			"ABS", "MIN", "MAX", "LEN", "SORT", "DIFF", "CUMSUM", "AND", "OR", "EQ", 
-			"GT", "LT", "GE", "LE", "NE", "ZERO", "NZINT", "NNFLOAT", "IDENT", "COMMENT_SINGLELINE", 
-			"COMMENT_MULTILINE", "WHITESPACE"
+			"ABS", "MIN", "MAX", "LEN", "SORT", "DIFF", "CUMSUM", "SIN", "COS", "AND", 
+			"OR", "EQ", "GT", "LT", "GE", "LE", "NE", "ZERO", "NZINT", "NNFLOAT", 
+			"IDENT", "COMMENT_SINGLELINE", "COMMENT_MULTILINE", "WHITESPACE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -102,6 +102,7 @@ public class ExpressionParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class ExpressionContext extends ParserRuleContext {
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -113,6 +114,7 @@ public class ExpressionParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class UnaryOpContext extends ExpressionContext {
 		public Token op;
 		public ExpressionContext expression() {
@@ -130,6 +132,8 @@ public class ExpressionParser extends Parser {
 		public TerminalNode SORT() { return getToken(ExpressionParser.SORT, 0); }
 		public TerminalNode DIFF() { return getToken(ExpressionParser.DIFF, 0); }
 		public TerminalNode CUMSUM() { return getToken(ExpressionParser.CUMSUM, 0); }
+		public TerminalNode SIN() { return getToken(ExpressionParser.SIN, 0); }
+		public TerminalNode COS() { return getToken(ExpressionParser.COS, 0); }
 		public UnaryOpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -145,6 +149,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class VariableContext extends ExpressionContext {
 		public TerminalNode IDENT() { return getToken(ExpressionParser.IDENT, 0); }
 		public VariableContext(ExpressionContext ctx) { copyFrom(ctx); }
@@ -162,6 +167,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class NegationContext extends ExpressionContext {
 		public TerminalNode SUB() { return getToken(ExpressionParser.SUB, 0); }
 		public ExpressionContext expression() {
@@ -182,6 +188,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class MulDivContext extends ExpressionContext {
 		public Token op;
 		public List<ExpressionContext> expression() {
@@ -208,6 +215,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class AddSubContext extends ExpressionContext {
 		public Token op;
 		public List<ExpressionContext> expression() {
@@ -233,6 +241,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class BooleanOpContext extends ExpressionContext {
 		public Token op;
 		public List<ExpressionContext> expression() {
@@ -258,6 +267,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class SequenceContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -280,6 +290,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class ExponentiationContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -303,6 +314,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class BracketedContext extends ExpressionContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -322,6 +334,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class ArrayContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -344,6 +357,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class FactorialContext extends ExpressionContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -363,6 +377,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class NumberContext extends ExpressionContext {
 		public Token val;
 		public TerminalNode ZERO() { return getToken(ExpressionParser.ZERO, 0); }
@@ -383,6 +398,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class ArraySubscriptContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -405,6 +421,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class EqualityContext extends ExpressionContext {
 		public Token op;
 		public List<ExpressionContext> expression() {
@@ -434,6 +451,7 @@ public class ExpressionParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class IfThenElseContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -531,6 +549,8 @@ public class ExpressionParser extends Parser {
 			case SORT:
 			case DIFF:
 			case CUMSUM:
+			case SIN:
+			case COS:
 				{
 				_localctx = new UnaryOpContext(_localctx);
 				_ctx = _localctx;
@@ -538,7 +558,7 @@ public class ExpressionParser extends Parser {
 				setState(18);
 				((UnaryOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXP) | (1L << LOG) | (1L << SQRT) | (1L << SUM) | (1L << THETA) | (1L << ABS) | (1L << MIN) | (1L << MAX) | (1L << LEN) | (1L << SORT) | (1L << DIFF) | (1L << CUMSUM))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 2147352576L) != 0)) ) {
 					((UnaryOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
@@ -584,7 +604,7 @@ public class ExpressionParser extends Parser {
 				setState(26);
 				((NumberContext)_localctx).val = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ZERO) | (1L << NZINT) | (1L << NNFLOAT))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3848290697216L) != 0)) ) {
 					((NumberContext)_localctx).val = (Token)_errHandler.recoverInline(this);
 				}
 				else {
@@ -642,7 +662,7 @@ public class ExpressionParser extends Parser {
 						setState(36);
 						((MulDivContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MUL) | (1L << DIV) | (1L << MOD))) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 57344L) != 0)) ) {
 							((MulDivContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -684,7 +704,7 @@ public class ExpressionParser extends Parser {
 						setState(42);
 						((EqualityContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EQ) | (1L << GT) | (1L << LT) | (1L << GE) | (1L << LE) | (1L << NE))) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 541165879296L) != 0)) ) {
 							((EqualityContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -809,7 +829,7 @@ public class ExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001+B\u0002\u0000\u0007\u0000\u0001\u0000\u0001\u0000\u0001\u0000"+
+		"\u0004\u0001-B\u0002\u0000\u0007\u0000\u0001\u0000\u0001\u0000\u0001\u0000"+
 		"\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000"+
 		"\u0005\u0000\f\b\u0000\n\u0000\f\u0000\u000f\t\u0000\u0001\u0000\u0001"+
 		"\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001"+
@@ -820,41 +840,41 @@ public class ExpressionParser extends Parser {
 		"\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001"+
 		"\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001"+
 		"\u0000\u0005\u0000=\b\u0000\n\u0000\f\u0000@\t\u0000\u0001\u0000\u0000"+
-		"\u0001\u0000\u0001\u0000\u0000\u0006\u0001\u0000\u0011\u001c\u0001\u0000"+
-		"%\'\u0001\u0000\r\u000f\u0001\u0000\u000b\f\u0001\u0000\u001f$\u0001\u0000"+
-		"\u001d\u001eO\u0000\u001b\u0001\u0000\u0000\u0000\u0002\u0003\u0006\u0000"+
-		"\uffff\uffff\u0000\u0003\u0004\u0005\u0001\u0000\u0000\u0004\u0005\u0003"+
-		"\u0000\u0000\u0000\u0005\u0006\u0005\u0002\u0000\u0000\u0006\u001c\u0001"+
-		"\u0000\u0000\u0000\u0007\b\u0005\u0003\u0000\u0000\b\r\u0003\u0000\u0000"+
-		"\u0000\t\n\u0005\u0004\u0000\u0000\n\f\u0003\u0000\u0000\u0000\u000b\t"+
-		"\u0001\u0000\u0000\u0000\f\u000f\u0001\u0000\u0000\u0000\r\u000b\u0001"+
-		"\u0000\u0000\u0000\r\u000e\u0001\u0000\u0000\u0000\u000e\u0010\u0001\u0000"+
-		"\u0000\u0000\u000f\r\u0001\u0000\u0000\u0000\u0010\u0011\u0005\u0005\u0000"+
-		"\u0000\u0011\u001c\u0001\u0000\u0000\u0000\u0012\u0013\u0007\u0000\u0000"+
-		"\u0000\u0013\u0014\u0005\u0001\u0000\u0000\u0014\u0015\u0003\u0000\u0000"+
-		"\u0000\u0015\u0016\u0005\u0002\u0000\u0000\u0016\u001c\u0001\u0000\u0000"+
-		"\u0000\u0017\u0018\u0005\f\u0000\u0000\u0018\u001c\u0003\u0000\u0000\b"+
-		"\u0019\u001c\u0005(\u0000\u0000\u001a\u001c\u0007\u0001\u0000\u0000\u001b"+
-		"\u0002\u0001\u0000\u0000\u0000\u001b\u0007\u0001\u0000\u0000\u0000\u001b"+
-		"\u0012\u0001\u0000\u0000\u0000\u001b\u0017\u0001\u0000\u0000\u0000\u001b"+
-		"\u0019\u0001\u0000\u0000\u0000\u001b\u001a\u0001\u0000\u0000\u0000\u001c"+
-		">\u0001\u0000\u0000\u0000\u001d\u001e\n\f\u0000\u0000\u001e\u001f\u0005"+
-		"\b\u0000\u0000\u001f=\u0003\u0000\u0000\r !\n\t\u0000\u0000!\"\u0005\u0010"+
-		"\u0000\u0000\"=\u0003\u0000\u0000\t#$\n\u0007\u0000\u0000$%\u0007\u0002"+
-		"\u0000\u0000%=\u0003\u0000\u0000\b&\'\n\u0006\u0000\u0000\'(\u0007\u0003"+
-		"\u0000\u0000(=\u0003\u0000\u0000\u0007)*\n\u0005\u0000\u0000*+\u0007\u0004"+
-		"\u0000\u0000+=\u0003\u0000\u0000\u0006,-\n\u0004\u0000\u0000-.\u0007\u0005"+
-		"\u0000\u0000.=\u0003\u0000\u0000\u0005/0\n\u0003\u0000\u000001\u0005\n"+
-		"\u0000\u000012\u0003\u0000\u0000\u000023\u0005\b\u0000\u000034\u0003\u0000"+
-		"\u0000\u00034=\u0001\u0000\u0000\u000056\n\r\u0000\u000067\u0005\u0006"+
-		"\u0000\u000078\u0003\u0000\u0000\u000089\u0005\u0007\u0000\u00009=\u0001"+
-		"\u0000\u0000\u0000:;\n\n\u0000\u0000;=\u0005\t\u0000\u0000<\u001d\u0001"+
-		"\u0000\u0000\u0000< \u0001\u0000\u0000\u0000<#\u0001\u0000\u0000\u0000"+
-		"<&\u0001\u0000\u0000\u0000<)\u0001\u0000\u0000\u0000<,\u0001\u0000\u0000"+
-		"\u0000</\u0001\u0000\u0000\u0000<5\u0001\u0000\u0000\u0000<:\u0001\u0000"+
-		"\u0000\u0000=@\u0001\u0000\u0000\u0000><\u0001\u0000\u0000\u0000>?\u0001"+
-		"\u0000\u0000\u0000?\u0001\u0001\u0000\u0000\u0000@>\u0001\u0000\u0000"+
-		"\u0000\u0004\r\u001b<>";
+		"\u0001\u0000\u0001\u0000\u0000\u0006\u0001\u0000\u0011\u001e\u0001\u0000"+
+		"\')\u0001\u0000\r\u000f\u0001\u0000\u000b\f\u0001\u0000!&\u0001\u0000"+
+		"\u001f O\u0000\u001b\u0001\u0000\u0000\u0000\u0002\u0003\u0006\u0000\uffff"+
+		"\uffff\u0000\u0003\u0004\u0005\u0001\u0000\u0000\u0004\u0005\u0003\u0000"+
+		"\u0000\u0000\u0005\u0006\u0005\u0002\u0000\u0000\u0006\u001c\u0001\u0000"+
+		"\u0000\u0000\u0007\b\u0005\u0003\u0000\u0000\b\r\u0003\u0000\u0000\u0000"+
+		"\t\n\u0005\u0004\u0000\u0000\n\f\u0003\u0000\u0000\u0000\u000b\t\u0001"+
+		"\u0000\u0000\u0000\f\u000f\u0001\u0000\u0000\u0000\r\u000b\u0001\u0000"+
+		"\u0000\u0000\r\u000e\u0001\u0000\u0000\u0000\u000e\u0010\u0001\u0000\u0000"+
+		"\u0000\u000f\r\u0001\u0000\u0000\u0000\u0010\u0011\u0005\u0005\u0000\u0000"+
+		"\u0011\u001c\u0001\u0000\u0000\u0000\u0012\u0013\u0007\u0000\u0000\u0000"+
+		"\u0013\u0014\u0005\u0001\u0000\u0000\u0014\u0015\u0003\u0000\u0000\u0000"+
+		"\u0015\u0016\u0005\u0002\u0000\u0000\u0016\u001c\u0001\u0000\u0000\u0000"+
+		"\u0017\u0018\u0005\f\u0000\u0000\u0018\u001c\u0003\u0000\u0000\b\u0019"+
+		"\u001c\u0005*\u0000\u0000\u001a\u001c\u0007\u0001\u0000\u0000\u001b\u0002"+
+		"\u0001\u0000\u0000\u0000\u001b\u0007\u0001\u0000\u0000\u0000\u001b\u0012"+
+		"\u0001\u0000\u0000\u0000\u001b\u0017\u0001\u0000\u0000\u0000\u001b\u0019"+
+		"\u0001\u0000\u0000\u0000\u001b\u001a\u0001\u0000\u0000\u0000\u001c>\u0001"+
+		"\u0000\u0000\u0000\u001d\u001e\n\f\u0000\u0000\u001e\u001f\u0005\b\u0000"+
+		"\u0000\u001f=\u0003\u0000\u0000\r !\n\t\u0000\u0000!\"\u0005\u0010\u0000"+
+		"\u0000\"=\u0003\u0000\u0000\t#$\n\u0007\u0000\u0000$%\u0007\u0002\u0000"+
+		"\u0000%=\u0003\u0000\u0000\b&\'\n\u0006\u0000\u0000\'(\u0007\u0003\u0000"+
+		"\u0000(=\u0003\u0000\u0000\u0007)*\n\u0005\u0000\u0000*+\u0007\u0004\u0000"+
+		"\u0000+=\u0003\u0000\u0000\u0006,-\n\u0004\u0000\u0000-.\u0007\u0005\u0000"+
+		"\u0000.=\u0003\u0000\u0000\u0005/0\n\u0003\u0000\u000001\u0005\n\u0000"+
+		"\u000012\u0003\u0000\u0000\u000023\u0005\b\u0000\u000034\u0003\u0000\u0000"+
+		"\u00034=\u0001\u0000\u0000\u000056\n\r\u0000\u000067\u0005\u0006\u0000"+
+		"\u000078\u0003\u0000\u0000\u000089\u0005\u0007\u0000\u00009=\u0001\u0000"+
+		"\u0000\u0000:;\n\n\u0000\u0000;=\u0005\t\u0000\u0000<\u001d\u0001\u0000"+
+		"\u0000\u0000< \u0001\u0000\u0000\u0000<#\u0001\u0000\u0000\u0000<&\u0001"+
+		"\u0000\u0000\u0000<)\u0001\u0000\u0000\u0000<,\u0001\u0000\u0000\u0000"+
+		"</\u0001\u0000\u0000\u0000<5\u0001\u0000\u0000\u0000<:\u0001\u0000\u0000"+
+		"\u0000=@\u0001\u0000\u0000\u0000><\u0001\u0000\u0000\u0000>?\u0001\u0000"+
+		"\u0000\u0000?\u0001\u0001\u0000\u0000\u0000@>\u0001\u0000\u0000\u0000"+
+		"\u0004\r\u001b<>";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

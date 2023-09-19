@@ -1,4 +1,4 @@
-// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.10.1
+// Generated from /Users/vaughant/code/beast_and_friends/feast/src/feast/expressions/parser/Expression.g4 by ANTLR 4.12.0
 package feast.expressions.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
+@SuppressWarnings("CheckReturnValue")
 public class ExpressionBaseListener implements ExpressionListener {
 	/**
 	 * {@inheritDoc}

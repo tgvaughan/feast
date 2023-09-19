@@ -7,7 +7,7 @@ expression :
     |   '{' expression (',' expression)* '}'                    # Array
     |   expression '[' expression ']'                           # ArraySubscript
     |   expression ':' expression                               # Sequence
-    |   op=(EXP|LOG|SQRT|SUM|THETA|ABS|MIN|MAX|LEN|SORT|DIFF|CUMSUM) '(' expression ')'      # UnaryOp
+    |   op=(EXP|LOG|SQRT|SUM|THETA|ABS|MIN|MAX|LEN|SORT|DIFF|CUMSUM|SIN|COS) '(' expression ')'      # UnaryOp
     |   expression '!'                                          # Factorial
     |<assoc=right> expression '^' expression                    # Exponentiation
     |   '-' expression                                          # Negation
@@ -41,6 +41,8 @@ LEN : 'len' ;
 SORT : 'sort' ;
 DIFF : 'diff' ;
 CUMSUM : 'cumsum' ;
+SIN : 'sin' ;
+COS : 'cos' ;
 
 AND : '&&' ;
 OR : '||' ;

@@ -279,6 +279,18 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
                     res[i] = arg[i+1] - arg[i];
                 break;
 
+            case ExpressionParser.SIN:
+                res = getResultArray(ctx, arg.length);
+                for (int i=0; i<res.length; i++)
+                    res[i] = Math.sin(arg[i]);
+                break;
+
+            case ExpressionParser.COS:
+                res = getResultArray(ctx, arg.length);
+                for (int i=0; i<res.length; i++)
+                    res[i] = Math.cos(arg[i]);
+                break;
+
         }
         
         return res;
