@@ -27,7 +27,7 @@ import beast.base.util.Randomizer;
 
 public class BlockIntRandomWalkOperator extends Operator {
 
-    public Input<IntegerParameter> windowSizeInput = new Input<>(
+    public Input<Integer> windowSizeInput = new Input<>(
             "windowSize", "The size of the window centred on the " +
             "old value within which the new value can be chosen.", Input.Validate.REQUIRED);
 
@@ -54,7 +54,7 @@ public class BlockIntRandomWalkOperator extends Operator {
         if (hasIndicator && indicator.getDimension() != parameter.getDimension())
             throw new IllegalArgumentException("Indicator and parameter dimension must match.");
 
-        windowSize = windowSizeInput.get().getValue();
+        windowSize = windowSizeInput.get();
     }
 
     @Override
