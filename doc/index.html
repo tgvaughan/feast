@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-09-19 Tue 18:30 -->
+<!-- 2023-09-26 Tue 12:31 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -522,6 +522,14 @@ of 1/N(t)), a procedure necessary for simulating coalescent trees using this mod
 <p>
 For a complete description of the arithmetic expression syntax which can be used
 to specify population dynamics, refer to <a href="#id-3-ExpCalculator">2.10.1</a>.
+</p>
+
+<p>
+<b>Beware</b>: <code>ExpressionPopulationModel</code> uses numerical integration and numerical
+root finding algorithms to compute the "intensity" (integral of 1/N(t)) and
+its inverse.  The current implementation of this algorithm, particularly the inverse,
+is slow and susceptible to numerical errors.  Take care when using this population
+model, particularly for quickly-changing population functions!
 </p>
 </div>
 </div>
@@ -1584,7 +1592,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-09-19 Tue 18:30</p>
+<p class="date">Created: 2023-09-26 Tue 12:31</p>
 </div>
 </body>
 </html>

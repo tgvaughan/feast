@@ -329,6 +329,12 @@ of 1/N(t)), a procedure necessary for simulating coalescent trees using this mod
 For a complete description of the arithmetic expression syntax which can be used
 to specify population dynamics, refer to [[ExpCalculator]].
 
+*Beware*: ~ExpressionPopulationModel~ uses numerical integration and numerical
+root finding algorithms to compute the "intensity" (integral of 1/N(t)) and
+its inverse.  The current implementation of this algorithm, particularly the inverse,
+is slow and susceptible to numerical errors.  Take care when using this population
+model, particularly for quickly-changing population functions!
+
 ** Log File Post-processing
 :PROPERTIES:
 :CUSTOM_ID: id-2-Log-File-Post-processing
