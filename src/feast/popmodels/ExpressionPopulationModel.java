@@ -76,7 +76,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
     TrapezoidIntegrator intensityIntegrator;
 
     InvIntensityODE invIntensityODE;
-    InvIntensityEventHandler invIntensityeEventHandler;
+    InvIntensityEventHandler invIntensityEventHandler;
     DormandPrince54Integrator invIntensityIntegrator;
 
     @Override
@@ -111,11 +111,11 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
                     + "expressions must be single-valued.");
 
         intensityIntegrator = new TrapezoidIntegrator();
-        invIntensityIntegrator = new DormandPrince54Integrator(1e-6, 1, 1e-3, 1e-3);
+
+        invIntensityIntegrator = new DormandPrince54Integrator(1e-6,
+                1, 1e-3, 1e-3);
         invIntensityODE = new InvIntensityODE();
-        invIntensityeEventHandler = new InvIntensityEventHandler();
-        invIntensityIntegrator.addEventHandler(invIntensityeEventHandler,
-                1, 1e-3, Integer.MAX_VALUE);
+        invIntensityEventHandler = new InvIntensityEventHandler();
     }
 
     @Override
@@ -140,7 +140,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
     @Override
     public double getIntensity(double t) {
         if (t == 0.0)
-            return 0;
+            return 0.0;
 
         // Compute intensity using a rough numerical approach.
         // TODO figure out a caching scheme to avoid recomputing this intgral so frequently
@@ -152,19 +152,24 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
 
     @Override
     public double getInverseIntensity(double x) {
-        if (x == 0.0)
-            return 0.0;
+        if (x == 0.0 || x == Double.POSITIVE_INFINITY)
+            return x;
 
         // Computes inverse intensity using a rough numerical approach.
         // TODO figure out a caching scheme to avoid recomputing this integral so frequently.
 
-        invIntensityeEventHandler.setTarget(x);
+        invIntensityIntegrator.clearEventHandlers();
+        invIntensityIntegrator.addEventHandler(invIntensityEventHandler,
+                1, 1e-3, Integer.MAX_VALUE);
+        invIntensityEventHandler.setTarget(x);
 
         intensity[0] = 0.0;
         double result = invIntensityIntegrator.integrate(invIntensityODE,
                 0, intensity, maxTimeToConsider, intensity);
+
         if (result >= maxTimeToConsider)
-            throw new RuntimeException("Error computing inverse intensity in ExpressionPopModel.");
+            throw new IllegalStateException("Numerical error computing inverse " +
+                    "intensity. (Maybe population size is changing too quickly?)");
 
         return result;
     }
@@ -257,7 +262,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
 
         ExpressionPopulationModel epm = new ExpressionPopulationModel();
         epm.initByName(
-                "value", "sin(alpha*t)",
+                "value", "alpha*(cos(t)+1)",
                 "isLog", true,
                 "arg", arg);
 
