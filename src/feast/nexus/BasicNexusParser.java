@@ -58,7 +58,7 @@ public class BasicNexusParser {
         StringBuilder cmdStrBuilder = new StringBuilder();
 
         while (true) {
-            int nextInt = (char)fileReader.read();
+            int nextInt = fileReader.read();
             if (nextInt<0)
                 return null;
 
