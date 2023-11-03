@@ -27,7 +27,7 @@ ways to combine existing models and make certain tasks easier.
 :END:
 
 You can install directly from within BEAUti by opening the package
-manager via File->"Manage packages", selecting "feast" and clicking
+manager via File→"Manage packages", selecting "feast" and clicking
 the "Install/Upgrade" button.
 
 ** Building from source
@@ -621,6 +621,7 @@ The class supports the same inputs as ~Alignment~ and ~beast.app.seqgen.Simulate
 with the exception that the ~data~ input should be omitted - it will cause
 strange errors if you include it.  Also, only strict clocks are currently
 supported, so there is no ~branchRateModel~ input.
+
 *** DensityMapper
 :PROPERTIES:
 :CUSTOM_ID: id-3-DensityMapper
@@ -696,6 +697,31 @@ also provided for all other parameters.
 An example usage of ~DensityMapper~ which produces the variation in a
 coalescent tree density as a function of the population size is provided as
 ~DensityMapper.xml~ which can be found in the examples directory.
+
+*** Sequence alignment shuffling
+:PROPERTIES:
+:CUSTOM_ID: id-3-Sequence-alignment-shuffling
+:END:
+
+Occasionally, for the purpose of date randomization tests, it is useful to be
+able to randomize the association between taxon names and the input sequences.
+The ~ShuffledAlignment~ class makes this easy.  Simply replace the existing
+alignment definition in the XML, which is usually something like 
+
+#+begin_src xml
+  <alignment id="data" spec="Alignment"> ... </alignment>
+#+end_src
+
+with the folllowing:
+
+#+begin_src xml
+  <alignment id="data" spec="ShuffledAlignment">
+    <alignment spec="Alignment"> ... </alignment>
+  </alignment>
+#+end_src
+
+When doing this, take care that you move any ID defined on the original alignment
+object to the new ~ShuffledAlignment~ object.
 
 ** Function (array) creation and manipulation
 :PROPERTIES:
