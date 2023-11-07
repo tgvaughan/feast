@@ -28,10 +28,7 @@ import beast.base.inference.parameter.BooleanParameter;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Tim Vaughan
@@ -127,6 +124,13 @@ public class DensityMapper extends Runnable {
                 stateNodes.add((StateNode) input.get());
             else if (input.get() instanceof BEASTObject) {
                 stateNodes.addAll(collectStateNodes((BEASTObject)input.get()));
+            } else if (input.get() instanceof List<?>) {
+                for (Object obj : (List<?>) input.get()) {
+                    if (obj instanceof StateNode)
+                        stateNodes.add((StateNode) obj);
+                    else if (obj instanceof BEASTObject)
+                        stateNodes.addAll(collectStateNodes((BEASTObject) obj));
+                }
             }
         }
 
