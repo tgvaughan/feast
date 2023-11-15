@@ -52,809 +52,14 @@ The package archive will be left in the ~dist/~ directory.
 :CUSTOM_ID: id-1-Features
 :END:
 
-The rest of this document is an asymptotically complete list of the features feast
-provides, in reverse chronological order of the date each was added.
+This section aims to be a complete list of the features feast provides,
+organised by topic.
 
-** Single BEAST 2.7 Jar files
+** Importing data from files
 :PROPERTIES:
-:CUSTOM_ID: id-2-Single-BEAST-2.7-Jar-files
+:CUSTOM_ID: id-2-Importing-data-from-files
 :END:
 
-Unlike earlier versions, BEAST 2.7 has a sophisticated system for
-controlling which package classes are available to use in analyses.
-While this is a great step forward, its implementation currently
-precludes building the stand-alone jar file bundles of BEAST 2 and its
-packages which are so helpful for collaboration using in-development
-BEAST 2 models.
-
-Feast now includes a class =feast.app.FeastMain= which addresses this
-problem.  It is a small wrapper around =beastfx.app.beast.BeastMain=
-which, before handing control of the execution over to BEAST, seaches
-through all of the directories and jar files in the runtime classpath
-for files named ~beast_services.xml~.  When it finds one of these files,
-=FeastMain= treats these the same as a standard ~version.xml~ file by
-registering all of the services it contains.
-
-In order to use this wrapper to make a stand-alone jar file for a package,
-follow these steps:
-
-1. Copy (or symlink) any necessary version.xml files into a package
-   directory below the ~src/~
-   directory of your project. You can place them in any package
-   directory you like, but be sure to name each file ~beast_services.xml~.
-   **Beware:** jar files share a single namespace, so avoid placing
-   the file directly in the ~src/~ directory itself when bundling multiple BEAST 2 projects into the jar.
-2. Build a jar file with the =Main-Class:= attribute in ~MANIFEST.MF~
-   set to =feast.app.FeastMain=.  (You don't necessarily need to edit
-   this file directly, most software that builds jar files will ask
-   you at some point for the main class: simply enter =feast.app.FeastMain=
-   when asked.)
-
-To launch an analysis using this jar file (here we suppose it's named
-~my.jar~), use either
-#+begin_src sh
-java -jar my.jar analysis.xml
-#+end_src
-or, if you are not using a combined openjdk+openjfx installation, 
-#+begin_src sh
-java --module-path=/path/to/openjfx/libs --add-modules javafx.fxml -jar my.jar analysis.xml
-#+end_src
-here ~/path/to/openjfx/libs~ specifies the location of the JavaFX libraries.
-
-** Initializing RealParameters
-:PROPERTIES:
-:CUSTOM_ID: id-2-Initializing-RealParameters
-:END:
-*** Initialize RealParameters from CSV/TSV files
-:PROPERTIES:
-:CUSTOM_ID: id-3-Initialize-RealParameters-from-CSV/TSV-files
-:END:
-
-When setting up complicated analyses, it can be useful to extract some
-(fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
-The ~RealParameterFromXSV~ and ~RealParameterFromLabelledXSV~ classes can be
-used to do this.
-
-~RealParameterFromXSV~ simply initializes the parameter with values read
-(in row-major order) from a rectangular portion of the table in the specified
-file. For instance,
-#+begin_src xml
-<migrationRates spec="feast.fileio.RealParameterFromXSV"
-                fileName="migration_rates.csv"
-                sep=","
-                startRow="1" rowCount="3"
-                startCol="1" colCount="3"/>
-#+end_src
-could be used to initialize a 3x3 matrix of migration rates in some analysis
-using elements in a CSV file.  The inputs ~startRow~ and ~startCol~ both
-default to "0", while leaving either ~rowCount~ and ~colCount~ undefined
-will cause values to be taken up until the end of the corresponding row
-or column.
-
-~RealParameterFromLabelledXSV~ works simillarly, but assumes that the either
-or both of the first row or column contain labels, and allows these labels
-to be used to specify elements. For example,
-#+begin_src xml
-<samplingProportions spec="feast.fileio.RealParameterFromLabelledXSV"
-    fileName="sampling.tsv"
-    colLabels="sampling"
-    rowLabels="early_cretaceous, late_cretaceous, jurassic"/>
-#+end_src
-could be used to set sampling rates for geological epochs from some
-external data file.  If ~rowLabels~ is omitted, the entire column
-will be read.  Similarly, if ~colLabels~ is omitted, the entire row
-is read.
-*** Initialize RealParameters from Functions
-:PROPERTIES:
-:CUSTOM_ID: id-3-Initialize-RealParameters-from-Functions
-:END:
-
-The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
-**initialized** from a ~Function~.  Thus you can do things like
-
-#+begin_src xml
-<samplingRateChangeTimes spec="RealParameterFromFunction">
-    <function spec="ExpCalculator" value="{0,max(taxonTimes)+0.1}">
-        <arg id="taxonTimes" spec="TraitSetAsFunction" traitSet="@dateTrait"/>
-    </function>
-</samplingRateChangeTimes>
-#+end_src
-
-which initializes a BDSKY sampling rate change time array so that the change
-automatically falls just before the oldest sample.
-
-Beware that ~RealParameterFromFunction~ only retrieves the ~Function~ values
-during initialization. **Changes in the ~Function~ values after initialization
-will not be reflected in the parameter!**
-*** Initializing RealParameters using formatted times
-:PROPERTIES:
-:CUSTOM_ID: id-3-Initializing-RealParameters-using-formatted-times
-:END:
-
-Particularly in birth-death models, it is often desirable to specify
-several points in time as ages relative to the "present".  This is done
-when setting up change times for birth-death parameters, and requires
-one to do a fairly large number of error-prone calculations involving
-converting date strings like "05/03/1980" and "27/02/1980" to fractional
-years before some later date such as "01/01/1990".  Once converted, these
-values become extremely important yet difficult to interpret entries in
-the final BEAST XML file.
-
-The ~TimeParameter~ class is intended to combat this.  It can be used
-anywhere that a ~RealParameter~ is expected.  For example, to create
-a ~RealParameter~ with the ages corresponding to the times above, use
-
-#+begin_src xml
-<parameter spec="TimeParameter"
-           time="05/03/1980 27/02/1980"
-           mostRecentSampleTime="01/01/1990"
-           timeFormat="dd/MM/yyyy"/>
-#+end_src
-
-This is completely equivalent to
-
-#+begin_src xml
-<parameter spec="RealParameter"
-           value="9.825137 9.844262"/>
-#+end_src
-
-but much more readable.
-
-Note that the time format specification string is the same as used by the
-~dateFormat~ input to ~TraitSet~, and applies both to the values of ~time~
-and the value of ~mostRecentSampleTime~.  If this format specifier is not provided,
-the time is assumed to have already been converted to fractional years, so
-the only action taken by TimeParameter is to subtract this value from
-~mostRecentSampleTime~.
-*** Randomly sampling initial RealParameter values
-:PROPERTIES:
-:CUSTOM_ID: id-3-Randomly-sampling-initial-RealParameter-values
-:END:
-
-Sometimes several attempts are needed to find a acceptable starting state for
-MCMC. An initializer for tree, capable of generating a new starting tree at each
-attempt is implemented in BEAST. ~InitRandomRealParameter~ allows you to sample new
-initial parameter values at each attempt. The distribution, from which to sample, can
-be the parameter prior or any other proper distribution.
-
-For example, here we sample a birth rate value from a uniform distribution
-at each initialization attempt:
-#+begin_src xml
-<init id="birthRateInitializer" spec="feast.parameter.InitRandomRealParameter"
-    initial="@birthRate">
-    <Uniform id="Uniform.birthRate" name="distr" lower="0" upper="1.5"/>
-</init>
-#+end_src
-
-
-** Coalescent population functions
-:PROPERTIES:
-:CUSTOM_ID: id-2-Coalescent-population-functions
-:END:
-*** Time-shifted coalescent population functions
-:PROPERTIES:
-:CUSTOM_ID: id-3-Time-shifted-coalescent-population-functions
-:END:
-
-The ~ShiftedPopulationModel~ class allows you to create a new
-~PopulationFunction~ which is a time-shifted view of an existing population
-function.
-
-For example, here is a time-shifted exponential growth population mode:
-#+begin_src xml
-<populationModel spec="ShiftedPopulationModel" offset="0.5">
-    <populationModel spec="ExponentialGrowth" popSize="1.0" growthRate="1.0"/>
-</populationModel>
-#+end_src
-At time 0, the population size of this shifted model is the same as
-the population size of the exponential growth model at time 0.5.
-
-The ~offset~ input expects a ~Function~ value, so ~RealParameter~ objectss etc. can
-also be used here.
-*** Compound coalescent population functions
-:PROPERTIES:
-:CUSTOM_ID: id-3-Compound-coalescent-population-functions
-:END:
-
-BEAST 2 includes several commonly-used coalescent population models such
-as a constant population function and an exponential growth function.
-To add other population functions required writing a new Java class.
-The ~CompoundPopulationModel~ class lifts this restriction.
-
-This class allows you to combine existing population functions (i.e.
-objects which implement the ~PopulationFunction~ interface) in a piecewise
-manner to construct arbitrarily complicated compound models.
-
-For example, here is a piecewise-constant population function created
-by joining together three ~ConstantPopulation~ models:
-#+begin_src xml
-<populationModel spec="CompoundPopulationModel">
-    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></populationModel>
-    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></populationModel>
-    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></populationModel>
-    <changeTimes spec="RealParameter" value="1.0 3.0"/>
-</populationModel>
-#+end_src
-The ~changeTimes~ input specifies the times of the transitions between
-models, and thus must have one less element than the number of constituent models.
-
-Setting the boolean ~makeContinuous~ input to "true" (by default it is "false")
-will cause all component populations besides the most recent (i.e. first) to be
-scaled so that the resulting compound population function is continuous.
-While this is useless for compound population functions composed solely of
-constant components (as it will result in a single constant population function),
-this is useful for creating piecewise-exponential functions or mixtures between
-exponential and constant components.
-
-The file ~piecewiseCoalescent.xml~ illustrates how this class can be used in a
-simple coalescent analysis.
-
-*** Expression coalescent population functions
-:PROPERTIES:
-:CUSTOM_ID: id-3-Expression-coalescent-population-functions
-:END:
-
-The ~ExpressionPopulationModel~ class allows you to specify a
-population function symbolically using a mathematical expression
-evaluated at runtime.
-
-For example, here is a sinusoidally-varying population function with
-an exponentially-decaying amplitude:
-
-#+begin_src xml
-  <populationModel spec="ExpressionPopulationModel">
-    exp(0.1t)*(cos(2*t) + 2)
-  </populationModel>
-#+end_src
-
-These models can also depend on one or more ~RealParameter~ or ~Function~ objects:
-#+begin_src xml
-  <populationModel spec="ExpressionPopulationModel">
-    exp(gamma*t)*(cos(omega*t) + 2)
-    <arg id="omega" spec="RealParameter" value="0.3"/>
-    <arg idref="gamma"/>
-  </populationModel>
-#+end_src
-taking care that these objects have IDs defined, since these IDs are used to
-refer to the objects inside of the expression.
-
-The optional =isLog= input (boolean) can be used to indicate that the value of the
-expression is the natural logarithm of the population size rather than the
-population size itself.
-
-The optional =maxTimeToConsider= input (double) can be used to change the maximum
-time to be considered when numerically inverting the "intensity function"  (integral
-of 1/N(t)), a procedure necessary for simulating coalescent trees using this model.
-
-For a complete description of the arithmetic expression syntax which can be used
-to specify population dynamics, refer to [[ExpCalculator]].
-
-*Beware*: ~ExpressionPopulationModel~ uses numerical integration and numerical
-root finding algorithms to compute the "intensity" (integral of 1/N(t)) and
-its inverse.  The current implementation of this algorithm, particularly the inverse,
-is slow and susceptible to numerical errors.  Take care when using this population
-model, particularly for quickly-changing population functions!
-
-** Log File Post-processing
-:PROPERTIES:
-:CUSTOM_ID: id-2-Log-File-Post-processing
-:END:
-
-Occasionally it's useful to be able to resurrect BEAST states from trace
-and tree log files in order to perform further processing.  This is useful,
-for instance, if you realise that it would have been useful to compute
-additional tree statistics.  Or perhaps you'd like to stochastically map
-ancestral traits onto trees belonging to the posterior of a multi-type
-birth-death analysis.  The ~feast.fileio.LogFileIterator~ class and its
-friends allow you to do these things and more.
-
-The ~LogFileIterator~ class is a ~Runnable~ class, meaning that you use it
-in place of BEAST's usual ~MCMC~ class at the top level.  A trivial example
-is as follows:
-
-#+begin_src xml
-<beast version='2.0' namespace='feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'>
-
-  <run spec="LogFileIterator">
-    <logFileState spec="TraceLogFileState" logFileName="original_analysis.log">
-      <logFileEntry spec="LogFileRealParameter" fieldName="hky.kappa">
-        <fieldParameter id="kappa" spec="RealParameter" value="0.0"/>
-      </logFileEntry>
-    </logFileState>
-
-    <logFileState spec="TreeLogFileState" logFileName="original_analysis.trees">
-      <tree spec="beast.evolution.tree.Tree" id="tree"/>
-    </logFileState>
-
-    <logger logEvery="10000" fileName="processed.log">
-      <log idref="recoveredParameter"/>
-      <log id="treestat" spec="beast.evolution.tree.TreeStatLogger" tree="@tree"/>
-    </logger>
-
-    <logger logEvery="100000">
-      <log idref="kappa"/>
-      <log idref="treestat"/>
-    </logger>
-  </run>
-</beast>
-#+end_src
-
-In this example (which is also provided in the examples directory as ~TreeLogFileIteratorTest.xml~)
-we use the "hky.kappa" field of the ~original_analysis.log~ trace log file to set the value of a
-~RealParameter~ named "kappa".  Simultaneously, we use the trees in the tree log file ~original_analysis.trees~
-to set the value of the ~Tree~ named "tree".  The value of "kappa" and the height and length statistics
-of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
-
-** Model selection
-:PROPERTIES:
-:CUSTOM_ID: id-2-Model-selection
-:END:
-*** DirichletProcessOperator and DirichletProcessPrior
-:PROPERTIES:
-:CUSTOM_ID: id-3-DirichletProcessOperator-and-DirichletProcessPrior
-:END:
-
-The ~DirichletProcessPrior~ and ~DirichletProcessOperator~ allow the application
-of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
-
-For example, suppose you have a model with parameter ~X~ to which you wish
-to apply such a prior.  To do this, include the following prior for ~X~
-in the target density:
-
-#+begin_src xml
-<distribution spec="DirichletProcessPrior" parameter="@X">
-    <scaleParameter id="dppScale" spec="RealParameter" value="1.0"/>
-    <baseDistrib id="dppBase" spec="LogNormalDistributionModel" M="0.8" S="0.5"/>
-</distribution>
-#+end_src
-
-You also need to include the following operator:
-
-#+begin_src xml
-<operator spec="DirichletProcessOperator" parameter="@X"
-          scaleParameter="@dppScale" baseDistrib="@dppBase" weight="1.0"/>
-#+end_src
-
-Other operators on ~X~ can be included, but only if they do not alter the
-number of elements of ~X~ which are identical.
-*** ModelSelectionParameter
-:PROPERTIES:
-:CUSTOM_ID: id-3-ModelSelectionParameter
-:END:
-
-While model selection is extremely complicated in general, it can be almost
-trivial when the number of models you wish to consider is small and the models
-can be regarded as special cases of either each other
-(i.e. the are nested) or can easily expressed as special cases of a single
-general model.
-
-The ~ModelSelectionParameter~ is created with this kind of BSSVS-style model
-selection in mind. It is a ~CalculationNode~ implementing ~Function~ which takes
-one or more parameters (also ~Function~s) as input, together with an
-~IntegerParameter~ known as the selection index. The ~ModelSelectionParameter~
-acts as though it is the parameter specified by the selection index.
-
-The simplest application of this is to allow BEAST to select between models
-1 and 2, where in model 1 a parameter (eg the extinction rate) is zero, while
-in model 2 the extinction rate has some unknown non-zero value.
-
-We can implement this by defining the death rate to be a ~ModelSelectionParameter~:
-#+begin_src xml
-<deathRate id="deathRate" spec="ModelSelectionParameter">
-    <parameter spec="RealParameter" value="0.0"/>
-    <parameter id="nonZeroDeathRate" spec="RealParameter" value="1.0"/>
-    <selectionIndices id="selectionIdx" spec="IntegerParameter" value="1" lower="0" upper="1"/>
-</deathRate>
-#+end_src
-We then use this "deathRate" parameter as input to the tree prior, place some
-sensible prior on "nonZeroDeathRate", and add an operator to modify the
-"selectionIdx" ~IntegerParameter~.  The result is equivalent to placing a
-"spike and slab" prior on the death rate parameter, which is a mixture between
-a point mass at zero and whatever prior you place on "nonZeroDeathRate".
-
-In addition to this simple case, if "selectionIndices" is an ~IntegerParameter~
-with more than one element, the additional ~ModelSelectionParameter~ input,
-"thisIndex", can be used to specify which element to use to select the parameter.
-This allows you to sample across models where, for example, subsets of different
-parameters are allowed to be exactly equal.  In this case, each model parameter
-is its own ~ModelSelectionParameter~, shares exactly the same set of 
-"parameter" and "selectionIndices" inputs, but has its own unique value of
-"thisIndex".
-
-Beware that ~ModelSelectionParameter~ is that is only compatible with
-distributions which take ~Function~ objects rather than
-~RealParameter~ objects as input.
-
-** Operators
-:PROPERTIES:
-:CUSTOM_ID: id-2-Operators
-:END:
-*** Scaling subsets of RealParameter elements together
-:PROPERTIES:
-:CUSTOM_ID: id-3-Scaling-subsets-of-RealParameter-elements-together
-:END:
-
-It's occasionally necessary to tie multiple elements of a RealParameter
-together, for instance to represent a vector of rates where a subset of
-these rates are conditioned to be identical.  The ~BlockScaleOperator~
-operator makes this possible.  It behaves essentially identically to the
-standard BEAST 2 ~ScaleOperator~, with inputs "parameter" and "indicator"
-specifying respectively the ~RealParameter~ to scale and the ~BooleanParameter~
-indicating which elements to scale.  The differences are that ~BlockScaleOperator~
-
-  1. _always_ scales the selected elements together (i.e. using the same
-      scale factor), and
-  2. it correctly takes into account the number of degrees of freedom
-     (i.e. unique element values) among the selected elements.
-     
-An example usage of this operator is as follows:
-#+begin_src xml
-<operator spec="BlockScaleOperator" parameter="@paramToScale"
-          scaleFactor="0.8" weight="1.0">
-    <indicator spec="BooleanParameter" value="true true false false" estimate="false"/>
-</operator>
-#+end_src
-Here "@paramToScale" references a ~RealParameter~ with 4 elements, and the
-operator jointly scales the first two.
-
-An alternative approach is available in the ~SmartScaleOperator~, which
-does not use indicator variables but instead considers elements with
-identical values to represent the same random variable.  Thus, the following
-achieves the same result as above, with the added requirement that values
-to be scaled together must be initialised to the same value:
-
-#+begin_src xml
-<state>
-    <stateNode spec="RealParameter" id="paramToScale" value="1 1 2 2"/>
-</state>
-
-<operator spec="SmartScaleOperator" parameter="@paramToScale"
-          scaleFactor="0.8" weight="1.0"/>
-#+end_src
-
-The ~SmartRealRandomWalkOperator~ acts analogously, but implements a random
-walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
-elements.
-
-*** Operators on IntegerParameters
-:PROPERTIES:
-:CUSTOM_ID: id-3-Operators-on-IntegerParameters
-:END:
-
-Parameters of type ~IntegerParameter~ require special operators.  Beast has
-two main operators for this type: ~IntUniformOperator~ (now deprecated in favour
-of ~UniformOperator~) and ~IntRandomWalkOperator~.  Feast exptends this
-collection with a pair of operators allowing for joint operation on a subset
-of elements of a single ~IntegerParameter~.  The new operators are:
-
-1. ~BlockIntUniformOperator~ and
-2. ~BlockIntRandomWalkOperator~.
-
-These operators take the same inputs as the vanilla (non-block) BEAST 2 versions,
-but with the addition of an input named =indicator= which takes the same
-~BooleanParameter~ input as the similarly-named input of the ~BlockScaleOperator~
-described above.
-
-
-*** Sampling from a discrete set of states
-:PROPERTIES:
-:CUSTOM_ID: id-3-Sampling-from-a-discrete-set-of-states
-:END:
-Occasionally we wish to characterise the posterior for a parameter or tree
-which is constrained to a small set of discrete traits.  This can be
-accomplished using the ~DiscreteUniformJumpOperator~.
-
-For instance, suppose we have a small set of trees we want the MCMC to
-sample from.  We can accomplish this as follows:
-#+begin_src xml
-<operator spec="DiscreteUniformJumpOperator" x="@tree" weight="1">
-  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
-               newick="((((1:0.232 ..."/>
-  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
-               newick="(((5:1.2321 ..."/>
-  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
-               newick="((((3:4.222 ..."/>
-</operator>
-#+end_src
-where the "..." are the remainder of the newick strings.
-
-Take care when using this operator that the state nodes specified by
-the ~<possibility/>~ elements are actually possible values of ~x~.
-I.e. parameters must have the same dimension and satisfy the bounds of
-~x~, and trees must correspond to the same set of taxa as ~x~.
-
-** Model validation 
-:PROPERTIES:
-:CUSTOM_ID: id-2-Model-validation
-:END:
-*** Easy state simulation
-:PROPERTIES:
-:CUSTOM_ID: id-3-Easy-state-simulation
-:END:
-
-One BEAST 2 idiom which is pervasive in my code at least is the existance
-of StateNodes that initialize their own state stochastically.  ~RandomTree~
-is an example of this in the core: this class is a ~Tree~ that initializes
-itself by drawing from a coalescent distribution with a given population
-function.
-
-While such classes usually exist to choose a starting state for the
-MCMC chain, it is often necessary - particularly in the validation phase
-of model development - to simulate a large number of instances of this
-simulated state.  This is usually because the simulation is often done from some
-known distribution, which can then be compared against the output of MCMC.
-
-The class ~feast.simulation.GPSimulator~ (from "general purpose simulator")
-class simply makes it possible to configure this kind of simulation using
-a BEAST XML file.  It is simply a ~beast.core.Runnable~ that takes a ~BEASTObject~
-as input, a number of iterations and some loggers. For each iteration, it then simply calls the
-~BEASTObject~'s ~initAndValidate~ method and tells the loggers to write their
-results.
-
-See ~examples/SimulateCoalescentTrees.xml~ for an example of using ~GPSimulator~
-to simulate 100 coalescent trees.
-*** Sequence alignment simulation
-:PROPERTIES:
-:CUSTOM_ID: id-3-Sequence-alignment-simulation
-:END:
-
-While BEAST contains its own alignment simulator in ~beast.app.seqgen.SimulatedAlignment~,
-this can be awkward to use as it requires pre-specifying the taxa to associate
-with the simulated alignment.
-
-The ~feast.simulation.SimulatedAlignment~ class is a simpler alignment simulator
-which lifts this requirement.  For example, the following will initialize
-an alignment by simulating sequences down the input tree using a Jukes-Cantor
-substitution model:
-
-#+begin_src xml
-<alignment spec="feast.simulation.SimulatedAlignment"
-           outputFileName="simulated_alignment.nexus"
-           tree="@tree" sequenceLength="1000">
-    <siteModel spec="SiteModel">
-        <substModel spec="JukesCantor"/>
-    </siteModel>
-</alignment>
-#+end_src
-
-The class supports the same inputs as ~Alignment~ and ~beast.app.seqgen.SimulatedAlignment~,
-with the exception that the ~data~ input should be omitted - it will cause
-strange errors if you include it.  Also, only strict clocks are currently
-supported, so there is no ~branchRateModel~ input.
-
-*** DensityMapper
-:PROPERTIES:
-:CUSTOM_ID: id-3-DensityMapper
-:END:
-
-This class provides an easy way to produce plots of the variation in a
-particular ~Distribution~ (i.e. probability density) as a function of one or
-more parameters.  The class extends the BEAST ~Runnable~ abstract class and
-thus takes the place of the ~MCMC~ class in a regular BEAST XML.  To use
-~DensityMapper~ you'll therefore need to create an XML with the following
-general form:
-
-#+begin_src xml
-<beast version="2.0">
-    <run spec="DensityMapper">
-        <distribution id="distrib" ... />
-
-        <realParam spec="RealParameter" id="paramA"
-            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
-        <steps spec="IntegerParameter"
-            value="STEPS_A"/>
-
-        <realParam spec="RealParameter" id="paramB"
-            value="V_B1 V_B2" lower="LOWER_B" upper="UPPER_B"/>
-        <steps spec="IntegerParameter"
-            value="STEPS_B1 STEPS_B2"/>
-
-        <logger spec="Logger" logEvery="1">
-            <log idref="paramA"/>
-            <log idref="paramB"/>
-            <log idref="distrib"/>
-        </logger>
-
-        <!-- Additional (screen?) loggers -->
-    </run>
-</beast>
-#+end_src
-
-The ~<realParam>~ elements specify which parameters are varied, the upper and
-lower bounds of these parameters specify the range over which the parameter is
-varied, and the corresponding ~<steps>~ elements specify the number of steps to
-use for each parameter. When the number of steps is 1 the parameter is not
-varied and instead the contents of the ~value~ attribute is used.
-
-When parameters are vectors, the associated ~<steps>~ parameter may have
-dimension 1 in which case all elements of the vector parameter are varied
-together (e.g. [0,0], [0.1,0.1], ..., [1, 1]).  Alternatively, the steps
-parameter may have dimension equal to that of the real parameter in which case
-each element of the parameter is varied independently with the corresponding
-number of steps (e.g. [0,0], [0, 0.1], ..., [0, 1], [0.1, 0.0], ..., [1, 1]).
-To keep one component of a vector parameter fixed, set the corresponding steps
-element to 1.
-
-If, in addition to the ~<realParam>~ and ~<steps>~ elements a
-~<logScale>~ BooleanParameter element is provided, DensityMapper will
-evaluate the densities at a logarithmic distribution of parameter
-values between the same bounds.  I.e., the following snippet will
-cause ~paramA~ to be set to values logarithmically distributed between
-LOWER_A and UPPER_A:
-
-#+begin_src xml
-        <realParam spec="RealParameter" id="paramA"
-            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
-        <steps spec="IntegerParameter"
-            value="STEPS_A"/>
-        <logScale spec="BooleanParameter"
-            value="true"/>
-#+end_src
-
-Take care that if the log-scale element is provided for one parameter that it is
-also provided for all other parameters.
-
-An example usage of ~DensityMapper~ which produces the variation in a
-coalescent tree density as a function of the population size is provided as
-~DensityMapper.xml~ which can be found in the examples directory.
-
-*** Sequence alignment shuffling
-:PROPERTIES:
-:CUSTOM_ID: id-3-Sequence-alignment-shuffling
-:END:
-
-Occasionally, for the purpose of date randomization tests, it is useful to be
-able to randomize the association between taxon names and the input sequences.
-The ~ShuffledAlignment~ class makes this easy.  Simply replace the existing
-alignment definition in the XML, which is usually something like 
-
-#+begin_src xml
-  <alignment id="data" spec="Alignment"> ... </alignment>
-#+end_src
-
-with the folllowing:
-
-#+begin_src xml
-  <alignment id="data" spec="ShuffledAlignment">
-    <alignment spec="Alignment"> ... </alignment>
-  </alignment>
-#+end_src
-
-When doing this, take care that you move any ID defined on the original alignment
-object to the new ~ShuffledAlignment~ object.
-
-** Function (array) creation and manipulation
-:PROPERTIES:
-:CUSTOM_ID: id-2-Function-(array)-creation-and-manipulation
-:END:
-
-This section describes feast classes which implement the BEAST 2 ~Function~ interface.
-A ~Function~ here refers to an array of real numbers.  (The naming is an unfortunate
-historical decision.)  Many ~BEASTObject~ classes implement ~Function~, including ~RealParameter~
-and ~Tree~.  (In the example of ~Tree~, the real numbers represent node ages.)
-
-Many of the classes here take one or more ~Function~ objects as input,
-and act to transform or combine the inputs to yield the value of the
-output ~Function~.   This means that instances of these classes can be chained
-so as to achieve a variety of fairly complex transformations.
-
-Note that all of the classes discussed here also implement the ~Loggable~ interface,
-meaning that they can be passed directly as inputs to the ~<logger/>~ elements in the
-XML.
-
-*** Numeric sequences as Functions
-:PROPERTIES:
-:CUSTOM_ID: id-3-Numeric-sequences-as-Functions
-:END:
-
-An instance of ~feast.function.Sequence~ is a ~Function~ which contains a sequence
-of numbers evenly separated between two bounds.  For instance, the following
-XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
-i.e. 0,0.1,0.2,...,9.9,10:
-
-#+begin_src xml
-<function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
-#+end_src
-*** Function Slicing
-:PROPERTIES:
-:CUSTOM_ID: id-3-Function-Slicing
-:END:
-
-An instance of the ~feast.function.Slice~ class is a ~Function~ which
-represent or more elements of another ~Function~.  This allows
-element-specific priors to be set, and individual elements to be logged.
-
-Here's a simple example of using ~Slice~ to place a prior on a subset of elements
-of a ~RealParameter~:
-
-#+begin_src xml
-<distrib spec="Prior">
-    <x spec="feast.function.Slice" arg="@samplingProportion" index="2" count="1"/>
-    <distr spec="LogNormalDistributionModel" M="0" S="1"/>
-</distrib>
-#+end_src
-
-The optional ~by~ input can be used to increase the step size between elements.  For
-example, here's how one could use ~Slice~ to apply a prior to elements 1,3,5 of the
-same ~RealParamter~:
-
-#+begin_src xml
-<distrib spec="Prior">
-    <x spec="feast.function.Slice" arg="@samplingProportion" index="1" count="3" by="2"/>
-</distrib>
-#+end_src
-*** Function reversing
-:PROPERTIES:
-:CUSTOM_ID: id-3-Function-reversing
-:END:
-
-Instances of the ~feast.function.Reverse~ class are
-~Funtion~ and ~Loggable~ which represent the elements of another
-~Function~ but in reverse order.
-*** Function concatenation
-:PROPERTIES:
-:CUSTOM_ID: id-3-Function-concatenation
-:END:
-
-An instance of the ~feast.function.Concatenate~ class is a ~Function~
-whose elements are composed of the elements of their
-input ~Function~ objects joined together.  For example, here is a ~Function~
-representing a piecewise constant reproductive number to be used as
-input to the BDSKY tree prior, but composed of distinct input parameters
-rather than a single real parameter with multiple dimensions:
-
-#+begin_src xml
-<reproductiveNumber spec="feast.function.Concatenate">
-    <arg spec="RealParameter" value="1.0"/>
-    <arg spec="RealParameter" value="2.0"/>
-</reproductiveNumber>
-#+end_src
-*** Function scaling
-:PROPERTIES:
-:CUSTOM_ID: id-3-Function-scaling
-:END:
-
-Instances of ~feast.function.Scale~ allow one ~Function~ to be scaled
-by another:
-
-#+begin_src xml
-<scaledBirthRate spec="feast.function.Scale">
-  <function spec="RealParameter" value="1.0 2.0 3.0"/>
-  <scaleBy spec="RealParameter" value="1.5"/>
-</scaledBirthRate>
-#+end_src
-*** Function interleaving
-:PROPERTIES:
-:CUSTOM_ID: id-3-Function-interleaving
-:END:
-
-Instances of ~feast.function.Interleave~ represent the result of interleaving
-the elements of several input ~Function~ objects.  For example:
-
-#+begin_src xml
-<twoDemeBirthRate spec="feast.function.interleave">
-  <arg spec="RealParameter" value="1 3 5 7"/>
-  <arg spec="RealParameter" value="2 4 6 8"/>
-</twoDemeBirthRate>
-#+end_src
-
-is as a ~Function~ with elements 1,2,3,4,5,6,7,8.
-
-Finally, instances of ~feast.function.UniqueElementCount~ are
-~Function~ objects which contain a single integer representing the
-number of unique values contained in the elements of an input
-~Function~.  For example,
-
-#+begin_src xml
-<uniqueValues spec="feast.function.UniqueElementCount">
-    <arg spec="RealParameter" value="1.5 10 1.5 1.4"/>
-</uniqueValues>
-#+end_src
-
-is a ~Function~ with a value of 3.
-
-
-** Tree and Alignment Input/Output
 :PROPERTIES:
 :CUSTOM_ID: id-2-Tree-and-Alignment-Input/Output
 :END:
@@ -1021,6 +226,177 @@ is sometimes convenient to be able to do this.  As a bonus, the
 ~xmlFileName~ attribute can be used to write the appropriate XML
 fragment to disk.
 
+*** Initialize RealParameters from CSV/TSV files
+:PROPERTIES:
+:CUSTOM_ID: id-3-Initialize-RealParameters-from-CSV/TSV-files
+:END:
+
+When setting up complicated analyses, it can be useful to extract some
+(fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
+The ~RealParameterFromXSV~ and ~RealParameterFromLabelledXSV~ classes can be
+used to do this.
+
+~RealParameterFromXSV~ simply initializes the parameter with values read
+(in row-major order) from a rectangular portion of the table in the specified
+file. For instance,
+#+begin_src xml
+<migrationRates spec="feast.fileio.RealParameterFromXSV"
+                fileName="migration_rates.csv"
+                sep=","
+                startRow="1" rowCount="3"
+                startCol="1" colCount="3"/>
+#+end_src
+could be used to initialize a 3x3 matrix of migration rates in some analysis
+using elements in a CSV file.  The inputs ~startRow~ and ~startCol~ both
+default to "0", while leaving either ~rowCount~ and ~colCount~ undefined
+will cause values to be taken up until the end of the corresponding row
+or column.
+
+~RealParameterFromLabelledXSV~ works simillarly, but assumes that the either
+or both of the first row or column contain labels, and allows these labels
+to be used to specify elements. For example,
+#+begin_src xml
+<samplingProportions spec="feast.fileio.RealParameterFromLabelledXSV"
+    fileName="sampling.tsv"
+    colLabels="sampling"
+    rowLabels="early_cretaceous, late_cretaceous, jurassic"/>
+#+end_src
+could be used to set sampling rates for geological epochs from some
+external data file.  If ~rowLabels~ is omitted, the entire column
+will be read.  Similarly, if ~colLabels~ is omitted, the entire row
+is read.
+
+** Function (array) creation and manipulation
+:PROPERTIES:
+:CUSTOM_ID: id-2-Function-(array)-creation-and-manipulation
+:END:
+
+This section describes feast classes which implement the BEAST 2 ~Function~ interface.
+A ~Function~ here refers to an array of real numbers.  (The naming is an unfortunate
+historical decision.)  Many ~BEASTObject~ classes implement ~Function~, including ~RealParameter~
+and ~Tree~.  (In the example of ~Tree~, the real numbers represent node ages.)
+
+Many of the classes here take one or more ~Function~ objects as input,
+and act to transform or combine the inputs to yield the value of the
+output ~Function~.   This means that instances of these classes can be chained
+so as to achieve a variety of fairly complex transformations.
+
+Note that all of the classes discussed here also implement the ~Loggable~ interface,
+meaning that they can be passed directly as inputs to the ~<logger/>~ elements in the
+XML.
+
+*** Numeric sequences as Functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Numeric-sequences-as-Functions
+:END:
+
+An instance of ~feast.function.Sequence~ is a ~Function~ which contains a sequence
+of numbers evenly separated between two bounds.  For instance, the following
+XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
+i.e. 0,0.1,0.2,...,9.9,10:
+
+#+begin_src xml
+<function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
+#+end_src
+*** Function Slicing
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-Slicing
+:END:
+
+An instance of the ~feast.function.Slice~ class is a ~Function~ which
+represent or more elements of another ~Function~.  This allows
+element-specific priors to be set, and individual elements to be logged.
+
+Here's a simple example of using ~Slice~ to place a prior on a subset of elements
+of a ~RealParameter~:
+
+#+begin_src xml
+<distrib spec="Prior">
+    <x spec="feast.function.Slice" arg="@samplingProportion" index="2" count="1"/>
+    <distr spec="LogNormalDistributionModel" M="0" S="1"/>
+</distrib>
+#+end_src
+
+The optional ~by~ input can be used to increase the step size between elements.  For
+example, here's how one could use ~Slice~ to apply a prior to elements 1,3,5 of the
+same ~RealParamter~:
+
+#+begin_src xml
+<distrib spec="Prior">
+    <x spec="feast.function.Slice" arg="@samplingProportion" index="1" count="3" by="2"/>
+</distrib>
+#+end_src
+*** Function reversing
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-reversing
+:END:
+
+Instances of the ~feast.function.Reverse~ class are
+~Funtion~ and ~Loggable~ which represent the elements of another
+~Function~ but in reverse order.
+*** Function concatenation
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-concatenation
+:END:
+
+An instance of the ~feast.function.Concatenate~ class is a ~Function~
+whose elements are composed of the elements of their
+input ~Function~ objects joined together.  For example, here is a ~Function~
+representing a piecewise constant reproductive number to be used as
+input to the BDSKY tree prior, but composed of distinct input parameters
+rather than a single real parameter with multiple dimensions:
+
+#+begin_src xml
+<reproductiveNumber spec="feast.function.Concatenate">
+    <arg spec="RealParameter" value="1.0"/>
+    <arg spec="RealParameter" value="2.0"/>
+</reproductiveNumber>
+#+end_src
+*** Function scaling
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-scaling
+:END:
+
+Instances of ~feast.function.Scale~ allow one ~Function~ to be scaled
+by another:
+
+#+begin_src xml
+<scaledBirthRate spec="feast.function.Scale">
+  <function spec="RealParameter" value="1.0 2.0 3.0"/>
+  <scaleBy spec="RealParameter" value="1.5"/>
+</scaledBirthRate>
+#+end_src
+*** Function interleaving
+:PROPERTIES:
+:CUSTOM_ID: id-3-Function-interleaving
+:END:
+
+Instances of ~feast.function.Interleave~ represent the result of interleaving
+the elements of several input ~Function~ objects.  For example:
+
+#+begin_src xml
+<twoDemeBirthRate spec="feast.function.interleave">
+  <arg spec="RealParameter" value="1 3 5 7"/>
+  <arg spec="RealParameter" value="2 4 6 8"/>
+</twoDemeBirthRate>
+#+end_src
+
+is as a ~Function~ with elements 1,2,3,4,5,6,7,8.
+
+Finally, instances of ~feast.function.UniqueElementCount~ are
+~Function~ objects which contain a single integer representing the
+number of unique values contained in the elements of an input
+~Function~.  For example,
+
+#+begin_src xml
+<uniqueValues spec="feast.function.UniqueElementCount">
+    <arg spec="RealParameter" value="1.5 10 1.5 1.4"/>
+</uniqueValues>
+#+end_src
+
+is a ~Function~ with a value of 3.
+
+
 ** Mathematical Expressions 
 :PROPERTIES:
 :CUSTOM_ID: id-2-Mathematical-Expressions
@@ -1106,6 +482,635 @@ density.
 This provides a cut-down version of the ExpCalculatorDistribution
 functionality that is compatible with beast.math.distributions.Prior.
 
+
+** RealParameter initialisation
+:PROPERTIES:
+:CUSTOM_ID: id-2-RealParameter-initialisation
+:END:
+*** Initialize RealParameters from Functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Initialize-RealParameters-from-Functions
+:END:
+
+The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
+**initialized** from a ~Function~.  Thus you can do things like
+
+#+begin_src xml
+<samplingRateChangeTimes spec="RealParameterFromFunction">
+    <function spec="ExpCalculator" value="{0,max(taxonTimes)+0.1}">
+        <arg id="taxonTimes" spec="TraitSetAsFunction" traitSet="@dateTrait"/>
+    </function>
+</samplingRateChangeTimes>
+#+end_src
+
+which initializes a BDSKY sampling rate change time array so that the change
+automatically falls just before the oldest sample.
+
+Beware that ~RealParameterFromFunction~ only retrieves the ~Function~ values
+during initialization. **Changes in the ~Function~ values after initialization
+will not be reflected in the parameter!**
+*** Initializing RealParameters using formatted times
+:PROPERTIES:
+:CUSTOM_ID: id-3-Initializing-RealParameters-using-formatted-times
+:END:
+
+Particularly in birth-death models, it is often desirable to specify
+several points in time as ages relative to the "present".  This is done
+when setting up change times for birth-death parameters, and requires
+one to do a fairly large number of error-prone calculations involving
+converting date strings like "05/03/1980" and "27/02/1980" to fractional
+years before some later date such as "01/01/1990".  Once converted, these
+values become extremely important yet difficult to interpret entries in
+the final BEAST XML file.
+
+The ~TimeParameter~ class is intended to combat this.  It can be used
+anywhere that a ~RealParameter~ is expected.  For example, to create
+a ~RealParameter~ with the ages corresponding to the times above, use
+
+#+begin_src xml
+<parameter spec="TimeParameter"
+           time="05/03/1980 27/02/1980"
+           mostRecentSampleTime="01/01/1990"
+           timeFormat="dd/MM/yyyy"/>
+#+end_src
+
+This is completely equivalent to
+
+#+begin_src xml
+<parameter spec="RealParameter"
+           value="9.825137 9.844262"/>
+#+end_src
+
+but much more readable.
+
+Note that the time format specification string is the same as used by the
+~dateFormat~ input to ~TraitSet~, and applies both to the values of ~time~
+and the value of ~mostRecentSampleTime~.  If this format specifier is not provided,
+the time is assumed to have already been converted to fractional years, so
+the only action taken by TimeParameter is to subtract this value from
+~mostRecentSampleTime~.
+*** Randomly sampling initial RealParameter values
+:PROPERTIES:
+:CUSTOM_ID: id-3-Randomly-sampling-initial-RealParameter-values
+:END:
+
+Sometimes several attempts are needed to find a acceptable starting state for
+MCMC. An initializer for tree, capable of generating a new starting tree at each
+attempt is implemented in BEAST. ~InitRandomRealParameter~ allows you to sample new
+initial parameter values at each attempt. The distribution, from which to sample, can
+be the parameter prior or any other proper distribution.
+
+For example, here we sample a birth rate value from a uniform distribution
+at each initialization attempt:
+#+begin_src xml
+<init id="birthRateInitializer" spec="feast.parameter.InitRandomRealParameter"
+    initial="@birthRate">
+    <Uniform id="Uniform.birthRate" name="distr" lower="0" upper="1.5"/>
+</init>
+#+end_src
+
+** RealParameter and IntegerParameter Operators
+:PROPERTIES:
+:CUSTOM_ID: id-2-RealParameter-and-IntegerParameter-Operators
+:END:
+*** Scaling subsets of RealParameter elements together
+:PROPERTIES:
+:CUSTOM_ID: id-3-Scaling-subsets-of-RealParameter-elements-together
+:END:
+
+It's occasionally necessary to tie multiple elements of a RealParameter
+together, for instance to represent a vector of rates where a subset of
+these rates are conditioned to be identical.  The ~BlockScaleOperator~
+operator makes this possible.  It behaves essentially identically to the
+standard BEAST 2 ~ScaleOperator~, with inputs "parameter" and "indicator"
+specifying respectively the ~RealParameter~ to scale and the ~BooleanParameter~
+indicating which elements to scale.  The differences are that ~BlockScaleOperator~
+
+  1. _always_ scales the selected elements together (i.e. using the same
+      scale factor), and
+  2. it correctly takes into account the number of degrees of freedom
+     (i.e. unique element values) among the selected elements.
+     
+An example usage of this operator is as follows:
+#+begin_src xml
+<operator spec="BlockScaleOperator" parameter="@paramToScale"
+          scaleFactor="0.8" weight="1.0">
+    <indicator spec="BooleanParameter" value="true true false false" estimate="false"/>
+</operator>
+#+end_src
+Here "@paramToScale" references a ~RealParameter~ with 4 elements, and the
+operator jointly scales the first two.
+
+An alternative approach is available in the ~SmartScaleOperator~, which
+does not use indicator variables but instead considers elements with
+identical values to represent the same random variable.  Thus, the following
+achieves the same result as above, with the added requirement that values
+to be scaled together must be initialised to the same value:
+
+#+begin_src xml
+<state>
+    <stateNode spec="RealParameter" id="paramToScale" value="1 1 2 2"/>
+</state>
+
+<operator spec="SmartScaleOperator" parameter="@paramToScale"
+          scaleFactor="0.8" weight="1.0"/>
+#+end_src
+
+The ~SmartRealRandomWalkOperator~ acts analogously, but implements a random
+walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
+elements.
+
+*** Operators on IntegerParameters
+:PROPERTIES:
+:CUSTOM_ID: id-3-Operators-on-IntegerParameters
+:END:
+
+Parameters of type ~IntegerParameter~ require special operators.  Beast has
+two main operators for this type: ~IntUniformOperator~ (now deprecated in favour
+of ~UniformOperator~) and ~IntRandomWalkOperator~.  Feast exptends this
+collection with a pair of operators allowing for joint operation on a subset
+of elements of a single ~IntegerParameter~.  The new operators are:
+
+1. ~BlockIntUniformOperator~ and
+2. ~BlockIntRandomWalkOperator~.
+
+These operators take the same inputs as the vanilla (non-block) BEAST 2 versions,
+but with the addition of an input named =indicator= which takes the same
+~BooleanParameter~ input as the similarly-named input of the ~BlockScaleOperator~
+described above.
+
+
+
+** Coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-2-Coalescent-population-functions
+:END:
+*** Time-shifted coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Time-shifted-coalescent-population-functions
+:END:
+
+The ~ShiftedPopulationModel~ class allows you to create a new
+~PopulationFunction~ which is a time-shifted view of an existing population
+function.
+
+For example, here is a time-shifted exponential growth population mode:
+#+begin_src xml
+<populationModel spec="ShiftedPopulationModel" offset="0.5">
+    <populationModel spec="ExponentialGrowth" popSize="1.0" growthRate="1.0"/>
+</populationModel>
+#+end_src
+At time 0, the population size of this shifted model is the same as
+the population size of the exponential growth model at time 0.5.
+
+The ~offset~ input expects a ~Function~ value, so ~RealParameter~ objectss etc. can
+also be used here.
+*** Compound coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Compound-coalescent-population-functions
+:END:
+
+BEAST 2 includes several commonly-used coalescent population models such
+as a constant population function and an exponential growth function.
+To add other population functions required writing a new Java class.
+The ~CompoundPopulationModel~ class lifts this restriction.
+
+This class allows you to combine existing population functions (i.e.
+objects which implement the ~PopulationFunction~ interface) in a piecewise
+manner to construct arbitrarily complicated compound models.
+
+For example, here is a piecewise-constant population function created
+by joining together three ~ConstantPopulation~ models:
+#+begin_src xml
+<populationModel spec="CompoundPopulationModel">
+    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></populationModel>
+    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></populationModel>
+    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></populationModel>
+    <changeTimes spec="RealParameter" value="1.0 3.0"/>
+</populationModel>
+#+end_src
+The ~changeTimes~ input specifies the times of the transitions between
+models, and thus must have one less element than the number of constituent models.
+
+Setting the boolean ~makeContinuous~ input to "true" (by default it is "false")
+will cause all component populations besides the most recent (i.e. first) to be
+scaled so that the resulting compound population function is continuous.
+While this is useless for compound population functions composed solely of
+constant components (as it will result in a single constant population function),
+this is useful for creating piecewise-exponential functions or mixtures between
+exponential and constant components.
+
+The file ~piecewiseCoalescent.xml~ illustrates how this class can be used in a
+simple coalescent analysis.
+
+*** Expression coalescent population functions
+:PROPERTIES:
+:CUSTOM_ID: id-3-Expression-coalescent-population-functions
+:END:
+
+The ~ExpressionPopulationModel~ class allows you to specify a
+population function symbolically using a mathematical expression
+evaluated at runtime.
+
+For example, here is a sinusoidally-varying population function with
+an exponentially-decaying amplitude:
+
+#+begin_src xml
+  <populationModel spec="ExpressionPopulationModel">
+    exp(0.1t)*(cos(2*t) + 2)
+  </populationModel>
+#+end_src
+
+These models can also depend on one or more ~RealParameter~ or ~Function~ objects:
+#+begin_src xml
+  <populationModel spec="ExpressionPopulationModel">
+    exp(gamma*t)*(cos(omega*t) + 2)
+    <arg id="omega" spec="RealParameter" value="0.3"/>
+    <arg idref="gamma"/>
+  </populationModel>
+#+end_src
+taking care that these objects have IDs defined, since these IDs are used to
+refer to the objects inside of the expression.
+
+The optional =isLog= input (boolean) can be used to indicate that the value of the
+expression is the natural logarithm of the population size rather than the
+population size itself.
+
+The optional =maxTimeToConsider= input (double) can be used to change the maximum
+time to be considered when numerically inverting the "intensity function"  (integral
+of 1/N(t)), a procedure necessary for simulating coalescent trees using this model.
+
+For a complete description of the arithmetic expression syntax which can be used
+to specify population dynamics, refer to [[ExpCalculator]].
+
+*Beware*: ~ExpressionPopulationModel~ uses numerical integration and numerical
+root finding algorithms to compute the "intensity" (integral of 1/N(t)) and
+its inverse.  The current implementation of this algorithm, particularly the inverse,
+is slow and susceptible to numerical errors.  Take care when using this population
+model, particularly for quickly-changing population functions!
+
+** Model selection and averaging
+:PROPERTIES:
+:CUSTOM_ID: id-2-Model-selection-and-averaging
+:END:
+*** DirichletProcessOperator and DirichletProcessPrior
+:PROPERTIES:
+:CUSTOM_ID: id-3-DirichletProcessOperator-and-DirichletProcessPrior
+:END:
+
+The ~DirichletProcessPrior~ and ~DirichletProcessOperator~ allow the application
+of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
+
+For example, suppose you have a model with parameter ~X~ to which you wish
+to apply such a prior.  To do this, include the following prior for ~X~
+in the target density:
+
+#+begin_src xml
+<distribution spec="DirichletProcessPrior" parameter="@X">
+    <scaleParameter id="dppScale" spec="RealParameter" value="1.0"/>
+    <baseDistrib id="dppBase" spec="LogNormalDistributionModel" M="0.8" S="0.5"/>
+</distribution>
+#+end_src
+
+You also need to include the following operator:
+
+#+begin_src xml
+<operator spec="DirichletProcessOperator" parameter="@X"
+          scaleParameter="@dppScale" baseDistrib="@dppBase" weight="1.0"/>
+#+end_src
+
+Other operators on ~X~ can be included, but only if they do not alter the
+number of elements of ~X~ which are identical.
+*** ModelSelectionParameter
+:PROPERTIES:
+:CUSTOM_ID: id-3-ModelSelectionParameter
+:END:
+
+While model selection is extremely complicated in general, it can be almost
+trivial when the number of models you wish to consider is small and the models
+can be regarded as special cases of either each other
+(i.e. the are nested) or can easily expressed as special cases of a single
+general model.
+
+The ~ModelSelectionParameter~ is created with this kind of BSSVS-style model
+selection in mind. It is a ~CalculationNode~ implementing ~Function~ which takes
+one or more parameters (also ~Function~s) as input, together with an
+~IntegerParameter~ known as the selection index. The ~ModelSelectionParameter~
+acts as though it is the parameter specified by the selection index.
+
+The simplest application of this is to allow BEAST to select between models
+1 and 2, where in model 1 a parameter (eg the extinction rate) is zero, while
+in model 2 the extinction rate has some unknown non-zero value.
+
+We can implement this by defining the death rate to be a ~ModelSelectionParameter~:
+#+begin_src xml
+<deathRate id="deathRate" spec="ModelSelectionParameter">
+    <parameter spec="RealParameter" value="0.0"/>
+    <parameter id="nonZeroDeathRate" spec="RealParameter" value="1.0"/>
+    <selectionIndices id="selectionIdx" spec="IntegerParameter" value="1" lower="0" upper="1"/>
+</deathRate>
+#+end_src
+We then use this "deathRate" parameter as input to the tree prior, place some
+sensible prior on "nonZeroDeathRate", and add an operator to modify the
+"selectionIdx" ~IntegerParameter~.  The result is equivalent to placing a
+"spike and slab" prior on the death rate parameter, which is a mixture between
+a point mass at zero and whatever prior you place on "nonZeroDeathRate".
+
+In addition to this simple case, if "selectionIndices" is an ~IntegerParameter~
+with more than one element, the additional ~ModelSelectionParameter~ input,
+"thisIndex", can be used to specify which element to use to select the parameter.
+This allows you to sample across models where, for example, subsets of different
+parameters are allowed to be exactly equal.  In this case, each model parameter
+is its own ~ModelSelectionParameter~, shares exactly the same set of 
+"parameter" and "selectionIndices" inputs, but has its own unique value of
+"thisIndex".
+
+Beware that ~ModelSelectionParameter~ is that is only compatible with
+distributions which take ~Function~ objects rather than
+~RealParameter~ objects as input.
+*** Sampling from a discrete set of states
+:PROPERTIES:
+:CUSTOM_ID: id-3-Sampling-from-a-discrete-set-of-states
+:END:
+Occasionally we wish to characterise the posterior for a parameter or tree
+which is constrained to a small set of discrete traits.  This can be
+accomplished using the ~DiscreteUniformJumpOperator~.
+
+For instance, suppose we have a small set of trees we want the MCMC to
+sample from.  We can accomplish this as follows:
+#+begin_src xml
+<operator spec="DiscreteUniformJumpOperator" x="@tree" weight="1">
+  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
+               newick="((((1:0.232 ..."/>
+  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
+               newick="(((5:1.2321 ..."/>
+  <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
+               newick="((((3:4.222 ..."/>
+</operator>
+#+end_src
+where the "..." are the remainder of the newick strings.
+
+Take care when using this operator that the state nodes specified by
+the ~<possibility/>~ elements are actually possible values of ~x~.
+I.e. parameters must have the same dimension and satisfy the bounds of
+~x~, and trees must correspond to the same set of taxa as ~x~.
+
+
+** Simulation and Testing
+:PROPERTIES:
+:CUSTOM_ID: id-2-Simulation-and-Testing
+:END:
+*** Easy state simulation
+:PROPERTIES:
+:CUSTOM_ID: id-3-Easy-state-simulation
+:END:
+
+One BEAST 2 idiom which is pervasive in my code at least is the existance
+of StateNodes that initialize their own state stochastically.  ~RandomTree~
+is an example of this in the core: this class is a ~Tree~ that initializes
+itself by drawing from a coalescent distribution with a given population
+function.
+
+While such classes usually exist to choose a starting state for the
+MCMC chain, it is often necessary - particularly in the validation phase
+of model development - to simulate a large number of instances of this
+simulated state.  This is usually because the simulation is often done from some
+known distribution, which can then be compared against the output of MCMC.
+
+The class ~feast.simulation.GPSimulator~ (from "general purpose simulator")
+class simply makes it possible to configure this kind of simulation using
+a BEAST XML file.  It is simply a ~beast.core.Runnable~ that takes a ~BEASTObject~
+as input, a number of iterations and some loggers. For each iteration, it then simply calls the
+~BEASTObject~'s ~initAndValidate~ method and tells the loggers to write their
+results.
+
+See ~examples/SimulateCoalescentTrees.xml~ for an example of using ~GPSimulator~
+to simulate 100 coalescent trees.
+*** Sequence alignment simulation
+:PROPERTIES:
+:CUSTOM_ID: id-3-Sequence-alignment-simulation
+:END:
+
+While BEAST contains its own alignment simulator in ~beast.app.seqgen.SimulatedAlignment~,
+this can be awkward to use as it requires pre-specifying the taxa to associate
+with the simulated alignment.
+
+The ~feast.simulation.SimulatedAlignment~ class is a simpler alignment simulator
+which lifts this requirement.  For example, the following will initialize
+an alignment by simulating sequences down the input tree using a Jukes-Cantor
+substitution model:
+
+#+begin_src xml
+<alignment spec="feast.simulation.SimulatedAlignment"
+           outputFileName="simulated_alignment.nexus"
+           tree="@tree" sequenceLength="1000">
+    <siteModel spec="SiteModel">
+        <substModel spec="JukesCantor"/>
+    </siteModel>
+</alignment>
+#+end_src
+
+The class supports the same inputs as ~Alignment~ and ~beast.app.seqgen.SimulatedAlignment~,
+with the exception that the ~data~ input should be omitted - it will cause
+strange errors if you include it.  Also, only strict clocks are currently
+supported, so there is no ~branchRateModel~ input.
+
+*** DensityMapper
+:PROPERTIES:
+:CUSTOM_ID: id-3-DensityMapper
+:END:
+
+This class provides an easy way to produce plots of the variation in a
+particular ~Distribution~ (i.e. probability density) as a function of one or
+more parameters.  The class extends the BEAST ~Runnable~ abstract class and
+thus takes the place of the ~MCMC~ class in a regular BEAST XML.  To use
+~DensityMapper~ you'll therefore need to create an XML with the following
+general form:
+
+#+begin_src xml
+<beast version="2.0">
+    <run spec="DensityMapper">
+        <distribution id="distrib" ... />
+
+        <realParam spec="RealParameter" id="paramA"
+            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
+        <steps spec="IntegerParameter"
+            value="STEPS_A"/>
+
+        <realParam spec="RealParameter" id="paramB"
+            value="V_B1 V_B2" lower="LOWER_B" upper="UPPER_B"/>
+        <steps spec="IntegerParameter"
+            value="STEPS_B1 STEPS_B2"/>
+
+        <logger spec="Logger" logEvery="1">
+            <log idref="paramA"/>
+            <log idref="paramB"/>
+            <log idref="distrib"/>
+        </logger>
+
+        <!-- Additional (screen?) loggers -->
+    </run>
+</beast>
+#+end_src
+
+The ~<realParam>~ elements specify which parameters are varied, the upper and
+lower bounds of these parameters specify the range over which the parameter is
+varied, and the corresponding ~<steps>~ elements specify the number of steps to
+use for each parameter. When the number of steps is 1 the parameter is not
+varied and instead the contents of the ~value~ attribute is used.
+
+When parameters are vectors, the associated ~<steps>~ parameter may have
+dimension 1 in which case all elements of the vector parameter are varied
+together (e.g. [0,0], [0.1,0.1], ..., [1, 1]).  Alternatively, the steps
+parameter may have dimension equal to that of the real parameter in which case
+each element of the parameter is varied independently with the corresponding
+number of steps (e.g. [0,0], [0, 0.1], ..., [0, 1], [0.1, 0.0], ..., [1, 1]).
+To keep one component of a vector parameter fixed, set the corresponding steps
+element to 1.
+
+If, in addition to the ~<realParam>~ and ~<steps>~ elements a
+~<logScale>~ BooleanParameter element is provided, DensityMapper will
+evaluate the densities at a logarithmic distribution of parameter
+values between the same bounds.  I.e., the following snippet will
+cause ~paramA~ to be set to values logarithmically distributed between
+~LOWER_A~ and ~UPPER_A~:
+
+#+begin_src xml
+        <realParam spec="RealParameter" id="paramA"
+            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
+        <steps spec="IntegerParameter"
+            value="STEPS_A"/>
+        <logScale spec="BooleanParameter"
+            value="true"/>
+#+end_src
+
+Take care that if the log-scale element is provided for one parameter that it is
+also provided for all other parameters.
+
+An example usage of ~DensityMapper~ which produces the variation in a
+coalescent tree density as a function of the population size is provided as
+~DensityMapper.xml~ which can be found in the examples directory.
+
+*** Sequence alignment shuffling
+:PROPERTIES:
+:CUSTOM_ID: id-3-Sequence-alignment-shuffling
+:END:
+
+Occasionally, for the purpose of date randomization tests, it is useful to be
+able to randomize the association between taxon names and the input sequences.
+The ~ShuffledAlignment~ class makes this easy.  Simply replace the existing
+alignment definition in the XML, which is usually something like 
+
+#+begin_src xml
+  <alignment id="data" spec="Alignment"> ... </alignment>
+#+end_src
+
+with the folllowing:
+
+#+begin_src xml
+  <alignment id="data" spec="ShuffledAlignment">
+    <alignment spec="Alignment"> ... </alignment>
+  </alignment>
+#+end_src
+
+When doing this, take care that you move any ID defined on the original alignment
+object to the new ~ShuffledAlignment~ object.
+
+** Log File Post-processing
+:PROPERTIES:
+:CUSTOM_ID: id-2-Log-File-Post-processing
+:END:
+
+Occasionally it's useful to be able to resurrect BEAST states from trace
+and tree log files in order to perform further processing.  This is useful,
+for instance, if you realise that it would have been useful to compute
+additional tree statistics.  Or perhaps you'd like to stochastically map
+ancestral traits onto trees belonging to the posterior of a multi-type
+birth-death analysis.  The ~feast.fileio.LogFileIterator~ class and its
+friends allow you to do these things and more.
+
+The ~LogFileIterator~ class is a ~Runnable~ class, meaning that you use it
+in place of BEAST's usual ~MCMC~ class at the top level.  A trivial example
+is as follows:
+
+#+begin_src xml
+<beast version='2.0' namespace='feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'>
+
+  <run spec="LogFileIterator">
+    <logFileState spec="TraceLogFileState" logFileName="original_analysis.log">
+      <logFileEntry spec="LogFileRealParameter" fieldName="hky.kappa">
+        <fieldParameter id="kappa" spec="RealParameter" value="0.0"/>
+      </logFileEntry>
+    </logFileState>
+
+    <logFileState spec="TreeLogFileState" logFileName="original_analysis.trees">
+      <tree spec="beast.evolution.tree.Tree" id="tree"/>
+    </logFileState>
+
+    <logger logEvery="10000" fileName="processed.log">
+      <log idref="recoveredParameter"/>
+      <log id="treestat" spec="beast.evolution.tree.TreeStatLogger" tree="@tree"/>
+    </logger>
+
+    <logger logEvery="100000">
+      <log idref="kappa"/>
+      <log idref="treestat"/>
+    </logger>
+  </run>
+</beast>
+#+end_src
+
+In this example (which is also provided in the examples directory as ~TreeLogFileIteratorTest.xml~)
+we use the "hky.kappa" field of the ~original_analysis.log~ trace log file to set the value of a
+~RealParameter~ named "kappa".  Simultaneously, we use the trees in the tree log file ~original_analysis.trees~
+to set the value of the ~Tree~ named "tree".  The value of "kappa" and the height and length statistics
+of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
+
+** Single BEAST 2.7 Jar files
+:PROPERTIES:
+:CUSTOM_ID: id-2-Single-BEAST-2.7-Jar-files
+:END:
+
+Unlike earlier versions, BEAST 2.7 has a sophisticated system for
+controlling which package classes are available to use in analyses.
+While this is a great step forward, its implementation currently
+precludes building the stand-alone jar file bundles of BEAST 2 and its
+packages which are so helpful for collaboration using in-development
+BEAST 2 models.
+
+Feast now includes a class =feast.app.FeastMain= which addresses this
+problem.  It is a small wrapper around =beastfx.app.beast.BeastMain=
+which, before handing control of the execution over to BEAST, seaches
+through all of the directories and jar files in the runtime classpath
+for files named ~beast_services.xml~.  When it finds one of these files,
+=FeastMain= treats these the same as a standard ~version.xml~ file by
+registering all of the services it contains.
+
+In order to use this wrapper to make a stand-alone jar file for a package,
+follow these steps:
+
+1. Copy (or symlink) any necessary version.xml files into a package
+   directory below the ~src/~
+   directory of your project. You can place them in any package
+   directory you like, but be sure to name each file ~beast_services.xml~.
+   **Beware:** jar files share a single namespace, so avoid placing
+   the file directly in the ~src/~ directory itself when bundling multiple BEAST 2 projects into the jar.
+2. Build a jar file with the =Main-Class:= attribute in ~MANIFEST.MF~
+   set to =feast.app.FeastMain=.  (You don't necessarily need to edit
+   this file directly, most software that builds jar files will ask
+   you at some point for the main class: simply enter =feast.app.FeastMain=
+   when asked.)
+
+To launch an analysis using this jar file (here we suppose it's named
+~my.jar~), use either
+#+begin_src sh
+java -jar my.jar analysis.xml
+#+end_src
+or, if you are not using a combined openjdk+openjfx installation, 
+#+begin_src sh
+java --module-path=/path/to/openjfx/libs --add-modules javafx.fxml -jar my.jar analysis.xml
+#+end_src
+here ~/path/to/openjfx/libs~ specifies the location of the JavaFX libraries.
 
 * License
 :PROPERTIES:
