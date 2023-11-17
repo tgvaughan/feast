@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-11-15 Wed 17:53 -->
+<!-- 2023-11-17 Fri 20:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -92,6 +92,7 @@
 </li>
 <li><a href="#id-2-Log-File-Post-processing">2.9. Log File Post-processing</a></li>
 <li><a href="#id-2-Single-BEAST-2.7-Jar-files">2.10. Single BEAST 2.7 Jar files</a></li>
+<li><a href="#id-2-Feast-Query:-BEAST-2.7-Object-Browser">2.11. Feast Query: BEAST 2.7 Object Browser</a></li>
 </ul>
 </li>
 <li><a href="#id-1-License">3. License</a></li>
@@ -1615,6 +1616,50 @@ here <code>/path/to/openjfx/libs</code> specifies the location of the JavaFX lib
 </p>
 </div>
 </div>
+
+<div id="outline-container-id-2-Feast-Query:-BEAST-2.7-Object-Browser" class="outline-3">
+<h3 id="id-2-Feast-Query:-BEAST-2.7-Object-Browser"><span class="section-number-3">2.11.</span> Feast Query: BEAST 2.7 Object Browser</h3>
+<div class="outline-text-3" id="text-id-2-Feast-Query:-BEAST-2.7-Object-Browser">
+<p>
+Feast includes a simple GUI application called <code>FeastQuery</code> which
+can be launched using BEAST 2.7's <code>AppLauncher</code> utility
+or by selection "launch apps" from BEAUti's File menu.
+</p>
+
+<p>
+<code>FeastQuery</code> provides information about the XML-compatible
+BEASTObjects in all of the packages currently installed on your system.
+It is intended to be used as an aid to writing and editing BEAST 2.7 XML
+scripts.
+</p>
+
+
+<figure id="org5b6a89c">
+<img src="figures/feastquery.png" alt="feastquery.png">
+
+</figure>
+
+<p>
+The documentation provided by <code>FeastQuery</code> is mostly equivalent to
+that provided by the BEAST 2.7 core utility, <code>DocMaker</code>.  The main
+advantages of <code>FeastQuery</code> are:
+</p>
+
+<ol class="org-ol">
+<li>It doesn't require you to create, store and continually update a
+directory full of HTML files.</li>
+<li>It doesn't require a separate web browser.</li>
+<li>It has a dynamic filtering facility that lets you quickly identify
+the class you're looking for.</li>
+</ol>
+
+<p>
+The main drawback with respect to <code>DocMaker</code> is that, currently, there
+are no hyperlinks between BEASTObjects in the database.  This may change
+in future.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-id-1-License" class="outline-2">
@@ -1631,7 +1676,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-11-15 Wed 17:53</p>
+<p class="date">Created: 2023-11-17 Fri 20:28</p>
 </div>
 </body>
 </html>

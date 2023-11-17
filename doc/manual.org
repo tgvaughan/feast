@@ -1112,6 +1112,36 @@ java --module-path=/path/to/openjfx/libs --add-modules javafx.fxml -jar my.jar a
 #+end_src
 here ~/path/to/openjfx/libs~ specifies the location of the JavaFX libraries.
 
+** Feast Query: BEAST 2.7 Object Browser
+:PROPERTIES:
+:CUSTOM_ID: id-2-Feast-Query:-BEAST-2.7-Object-Browser
+:END:
+
+Feast includes a simple GUI application called ~FeastQuery~ which
+can be launched using BEAST 2.7's ~AppLauncher~ utility
+or by selection "launch apps" from BEAUti's File menu.
+
+~FeastQuery~ provides information about the XML-compatible
+BEASTObjects in all of the packages currently installed on your system.
+It is intended to be used as an aid to writing and editing BEAST 2.7 XML
+scripts.
+
+[[file:figures/feastquery.png]]
+
+The documentation provided by ~FeastQuery~ is mostly equivalent to
+that provided by the BEAST 2.7 core utility, ~DocMaker~.  The main
+advantages of ~FeastQuery~ are:
+
+1. It doesn't require you to create, store and continually update a
+   directory full of HTML files.
+2. It doesn't require a separate web browser.
+3. It has a dynamic filtering facility that lets you quickly identify
+   the class you're looking for.
+
+The main drawback with respect to ~DocMaker~ is that, currently, there
+are no hyperlinks between BEASTObjects in the database.  This may change
+in future.
+
 * License
 :PROPERTIES:
 :CUSTOM_ID: id-1-License
