@@ -373,6 +373,6 @@ public class FeastQuery extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch(FeastQuery.class, args);
     }
 }
