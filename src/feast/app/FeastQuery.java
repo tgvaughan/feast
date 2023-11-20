@@ -24,6 +24,7 @@ import beast.base.core.Input;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -139,7 +140,9 @@ public class FeastQuery extends Application {
                 } else {
                     c = (Class<?>) types[0];
                 }
-                typeName = c.getName().substring(c.getName().lastIndexOf('.') + 1);
+                String className = c.getName().substring(c.getName().lastIndexOf('.') + 1);
+                typeName = (input.get() instanceof List) ? "[" + className + "]" : className;
+
             } catch (ClassCastException e) {
                 typeName = null;
             }
@@ -216,6 +219,7 @@ public class FeastQuery extends Application {
         BorderPane bp = new BorderPane();
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().add(createTreeView());
+        splitPane.setDividerPositions(0.33);
 
         WebView webView = new WebView();
         objectInfoContent = webView.getEngine();
@@ -327,7 +331,7 @@ public class FeastQuery extends Application {
                 .append("border: 1px solid gray;")
                 .append("border-collapse: collapse;")
                 .append(")}\n")
-                .append("tr.req { background: #fbb; }\n")
+                .append(".req { background: #9bf; }\n")
                 .append("</style></head><body>");
 
         sb.append("<p><b>Object Name:</b> ").append(boInfo.classNameFQ).append("</p>");
@@ -337,7 +341,8 @@ public class FeastQuery extends Application {
         if (boInfo.inputInfos.isEmpty())
         sb.append("<b>Object defines no inputs.</b>");
         else {
-            sb.append("<p><b>Inputs:</b> (Required inputs are highlighted in red.)<br>");
+            sb.append("<p><b>Inputs:</b> (Required inputs are highlighted in " +
+                    "<span class=\"req\">blue</span>.)<br>");
             sb.append("<table><tr>")
                     .append("<th>Input</th>")
                     .append("<th>Type</th>")
@@ -368,11 +373,23 @@ public class FeastQuery extends Application {
 
         loadBeastObjects();
 
-        primaryStage.setScene(new Scene(initializeUI(), 800, 600));
+        primaryStage.setScene(new Scene(initializeUI(), 1024, 600));
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-        launch(FeastQuery.class, args);
+        try {
+            launch(FeastQuery.class, args);
+        } catch (IllegalStateException e) {
+            Platform.runLater(() -> {
+                try {
+                    FeastQuery feastQuery = new FeastQuery();
+                    Stage primaryStage = new Stage();
+                    feastQuery.start(primaryStage);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
     }
 }
