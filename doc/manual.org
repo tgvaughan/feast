@@ -1138,9 +1138,6 @@ advantages of ~FeastQuery~ are:
 3. It has a dynamic filtering facility that lets you quickly identify
    the class you're looking for.
 
-The main drawback with respect to ~DocMaker~ is that, currently, there
-are no hyperlinks between BEASTObjects in the database.  This may change
-in future.
 
 * License
 :PROPERTIES:

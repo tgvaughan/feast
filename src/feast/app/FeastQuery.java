@@ -25,16 +25,21 @@ import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.concurrent.Worker;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -61,6 +66,8 @@ public class FeastQuery extends Application {
         String description;
         String citations;
 
+        Class<?> beastClass;
+
         List<InputInfo> inputInfos;
 
         boolean loadingError;
@@ -81,7 +88,7 @@ public class FeastQuery extends Application {
             loadingError = false;
 
             try {
-                Class<?> beastClass = BEASTClassLoader.forName(
+                beastClass = BEASTClassLoader.forName(
                         classNameFQ,
                         "beast.base.core.BEASTInterface");
                 BEASTObject o = (BEASTObject) beastClass.newInstance();
@@ -102,6 +109,10 @@ public class FeastQuery extends Application {
                 loadingError = true;
             }
         }
+
+        public String toString() {
+            return classNameFQ;
+        }
     }
 
     /**
@@ -111,9 +122,14 @@ public class FeastQuery extends Application {
     public static class InputInfo {
         String inputName;
         String tipText;
-        String typeName;
+        String inputClassNameFQ;
+        String inputClassName;
+        Boolean isList;
         Boolean required;
         Object defaultValue;
+
+
+        List<BOInfo> assignableFrom;
 
         /**
          * Create a new InputInfo object.  Both the BEASTObject associated with
@@ -134,22 +150,28 @@ public class FeastQuery extends Application {
             try {
                 // Awful do-si-do required to extract type of input.
                 Type[] types = ((ParameterizedType) inputField.getGenericType()).getActualTypeArguments();
-                Class<?> c;
-                if (input.get() instanceof List) {
-                    c = (Class<?>) ((ParameterizedType) types[0]).getActualTypeArguments()[0];
-                } else {
-                    c = (Class<?>) types[0];
-                }
-                String className = c.getName().substring(c.getName().lastIndexOf('.') + 1);
-                typeName = (input.get() instanceof List) ? "[" + className + "]" : className;
+                Class<?> inputClass;
+
+                isList = input.get() instanceof List;
+
+                if (isList)
+                    inputClass = (Class<?>) ((ParameterizedType) types[0]).getActualTypeArguments()[0];
+                else
+                    inputClass = (Class<?>) types[0];
+
+                inputClassNameFQ = inputClass.getName();
+                if (inputClassNameFQ.contains("$"))
+                    inputClassNameFQ = inputClassNameFQ.substring(0, inputClassNameFQ.lastIndexOf('$'));
+                inputClassName = inputClassNameFQ.substring(inputClass.getName().lastIndexOf('.') + 1);
 
             } catch (ClassCastException e) {
-                typeName = null;
+                // Nothing to do.
             }
 
             required = input.getRule().equals(Input.Validate.REQUIRED);
             defaultValue = input.defaultValue;
         }
+
     }
 
     /**
@@ -183,7 +205,8 @@ public class FeastQuery extends Application {
      * Map from package names (really just the root package of the service
      * FQCNs) to lists containing the processed BOInfo objects.
      */
-    SortedMap<String, List<BOInfo>> beastObjects;
+    SortedMap<String, List<BOInfo>> beastObjectsByPackage;
+    List<String> allBeastObjectNames;
 
     /**
      * Populate the beastObjects map.
@@ -191,7 +214,8 @@ public class FeastQuery extends Application {
      *                     something goes wrong.
      */
     void loadBeastObjects() throws IOException {
-        beastObjects = new TreeMap<>();
+        beastObjectsByPackage = new TreeMap<>();
+        allBeastObjectNames = new ArrayList<>();
 
         PackageManager.loadExternalJars();
 
@@ -200,19 +224,28 @@ public class FeastQuery extends Application {
             if (boInfo.loadingError)
                 continue;
 
-            if (!beastObjects.containsKey(boInfo.packageName))
-                beastObjects.put(boInfo.packageName, new ArrayList<>());
+            if (!beastObjectsByPackage.containsKey(boInfo.packageName))
+                beastObjectsByPackage.put(boInfo.packageName, new ArrayList<>());
 
-            beastObjects.get(boInfo.packageName).add(boInfo);
+            beastObjectsByPackage.get(boInfo.packageName).add(boInfo);
+            allBeastObjectNames.add(boInfo.classNameFQ);
         }
 
-        for (String packageName : beastObjects.keySet()) {
-            beastObjects.get(packageName).sort(Comparator.comparing(o -> o.classNameFQ));
+        // Add some special BEASTObjects:
+        allBeastObjectNames.add("beast.base.core.Function");
+
+        // Ensure objects are sorted lexicographically
+        for (String packageName : beastObjectsByPackage.keySet()) {
+            beastObjectsByPackage.get(packageName).sort(Comparator.comparing(o -> o.classNameFQ));
         }
+        allBeastObjectNames.sort(String::compareTo);
     }
 
     TextField searchBox;
+    ComboBox<String> assignableToBox;
     WebEngine objectInfoContent;
+
+    Stack<BOInfo> pageHistory;
 
     private Parent initializeUI() {
 
@@ -221,24 +254,73 @@ public class FeastQuery extends Application {
         splitPane.getItems().add(createTreeView());
         splitPane.setDividerPositions(0.33);
 
+        VBox vBox = new VBox();
+        HBox hBox = new HBox();
+        Button backButton = new Button("<- Previous page");
+        hBox.getChildren().add(backButton);
+        hBox.setAlignment(Pos.BASELINE_RIGHT);
+        vBox.getChildren().add(hBox);
+
         WebView webView = new WebView();
         objectInfoContent = webView.getEngine();
-        splitPane.getItems().add(webView);
+        vBox.getChildren().add(webView);
+
+        splitPane.getItems().add(vBox);
         bp.setCenter(splitPane);
 
-        HBox hBox = new HBox();
+        hBox = new HBox();
         hBox.getChildren().add(new Label("Filter: "));
 
         searchBox = new TextField();
         hBox.getChildren().add(searchBox);
+
+        hBox.getChildren().add(new Label(" Assignable to:"));
+        assignableToBox = new ComboBox<>(FXCollections.observableList(allBeastObjectNames));
+        assignableToBox.setEditable(true);
+        assignableToBox.setMaxWidth(300);
+        hBox.getChildren().add(assignableToBox);
+
+        Button clearButton = new Button("Clear filters");
+        hBox.getChildren().add(clearButton);
+
         HBox.setHgrow(searchBox, Priority.ALWAYS);
         bp.setBottom(hBox);
 
         displayObjectInfo(null);
 
-        searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterObjectTree(newValue);
+        searchBox.textProperty().addListener((observable, oldValue, newValue) -> filterObjectTree());
+        assignableToBox.setOnAction(event -> filterObjectTree());
+
+        objectInfoContent.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+
+            if (newValue == Worker.State.SUCCEEDED) {
+                EventListener listener = evt -> {
+                    String href = ((Element) evt.getTarget()).getAttribute("href");
+                    assignableToBox.setValue(href);
+                };
+
+                Document doc = objectInfoContent.getDocument();
+                NodeList links = doc.getElementsByTagName("a");
+                for (int i=0; i<links.getLength(); i++) {
+                    ((EventTarget) links.item(i)).addEventListener("click", listener, true);
+                }
+            }
+
         });
+
+        clearButton.setOnAction(event -> {
+            searchBox.setText("");
+            assignableToBox.setValue("");
+        });
+
+        backButton.setOnAction(event -> {
+            if (pageHistory.size()>1) {
+                pageHistory.pop();
+                displayObjectInfo(pageHistory.peek());
+            }
+        });
+
+        pageHistory = new Stack<>();
 
         return bp;
     }
@@ -249,11 +331,11 @@ public class FeastQuery extends Application {
         objectTreeRoot = new TreeItem<> (new BOTreeEntry("Installed Packages"));
         objectTreeRootCopy = new TreeItem<> (objectTreeRoot.getValue());
 
-        for (String packageName : beastObjects.keySet()) {
+        for (String packageName : beastObjectsByPackage.keySet()) {
             TreeItem<BOTreeEntry> packageItem = new TreeItem<> (new BOTreeEntry(packageName));
             TreeItem<BOTreeEntry> packageItemCopy = new TreeItem<>(packageItem.getValue());
 
-            for (BOInfo boInfo : beastObjects.get(packageName)) {
+            for (BOInfo boInfo : beastObjectsByPackage.get(packageName)) {
                 TreeItem<BOTreeEntry> boItem = new TreeItem<>(new BOTreeEntry(boInfo.classNameFQ, boInfo));
                 packageItem.getChildren().add(boItem);
                 packageItemCopy.getChildren().add(boItem);
@@ -271,11 +353,13 @@ public class FeastQuery extends Application {
         TreeView<BOTreeEntry> treeView = new TreeView<> (objectTreeRoot);
         treeView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if (newValue == null)
-                        displayObjectInfo(null);
-                    else {
+                    if (newValue != null) {
                         BOTreeEntry itemLabel = newValue.getValue();
-                        displayObjectInfo(itemLabel.boInfo);
+                        if (itemLabel.boInfo != null) {
+                            displayObjectInfo(itemLabel.boInfo);
+                            if (pageHistory.isEmpty() || !pageHistory.peek().equals(itemLabel.boInfo))
+                                pageHistory.push(itemLabel.boInfo);
+                        }
                     }
         });
 
@@ -285,21 +369,43 @@ public class FeastQuery extends Application {
         return treePane;
     }
 
+
     /**
      * Replaces the object tree with a tree containing
      * only those services containing a specific substring.
-     *
-     * @param search substring used to filter
      */
-    private void filterObjectTree(String search) {
-        String lowerSearch = search.toLowerCase();
+    private void filterObjectTree() {
+
+        // Extract assignable to class and search string from UI elements.
+        // (It's ugly to have UI code polluting this method, but alternatives
+        // were too verbose!)
+
+        String assignableToClassName = assignableToBox.getSelectionModel().getSelectedItem();
+        if (assignableToClassName == null)
+            assignableToClassName = "";
+        else
+            assignableToClassName = assignableToClassName.trim();
+
+        if (assignableToClassName.isEmpty())
+            assignableToClassName = "beast.base.core.BEASTInterface";
+        Class<?> assignableToClass;
+        try {
+            assignableToClass = BEASTClassLoader.forName(assignableToClassName);
+        } catch (ClassNotFoundException e) {
+            return; // Abort filtering
+        }
+
+        String searchString = searchBox.getText().trim().toLowerCase();
+
+        // Do the filtering:
 
         objectTreeRoot.getChildren().clear();
         for (TreeItem<BOTreeEntry> packageItemCopy : objectTreeRootCopy.getChildren()) {
             TreeItem<BOTreeEntry> packageItem = new TreeItem<>(packageItemCopy.getValue());
 
             for (TreeItem<BOTreeEntry> objectItem : packageItemCopy.getChildren()) {
-                if (objectItem.getValue().boInfo.classNameFQ.toLowerCase().contains(lowerSearch))
+                if (objectItem.getValue().boInfo.classNameFQ.toLowerCase().contains(searchString)
+                        && assignableToClass.isAssignableFrom(objectItem.getValue().boInfo.beastClass))
                     packageItem.getChildren().add(objectItem);
             }
 
@@ -331,7 +437,7 @@ public class FeastQuery extends Application {
                 .append("border: 1px solid gray;")
                 .append("border-collapse: collapse;")
                 .append(")}\n")
-                .append(".req { background: #9bf; }\n")
+                .append(".req { background: #fbb; }\n")
                 .append("</style></head><body>");
 
         sb.append("<p><b>Object Name:</b> ").append(boInfo.classNameFQ).append("</p>");
@@ -342,20 +448,35 @@ public class FeastQuery extends Application {
         sb.append("<b>Object defines no inputs.</b>");
         else {
             sb.append("<p><b>Inputs:</b> (Required inputs are highlighted in " +
-                    "<span class=\"req\">blue</span>.)<br>");
+                    "<span class=\"req\">red</span>.)<br>");
             sb.append("<table><tr>")
                     .append("<th>Input</th>")
                     .append("<th>Type</th>")
                     .append("<th>Default</th>")
                     .append("<th>Description</th>")
                     .append("</tr>");
-            for (InputInfo inputInfo : boInfo.inputInfos)
+            for (InputInfo inputInfo : boInfo.inputInfos) {
+                String typeLink;
+                if (inputInfo.inputClassNameFQ == null) {
+                    typeLink = "-";
+                } else {
+                    if (allBeastObjectNames.contains(inputInfo.inputClassNameFQ)) {
+                        typeLink = "<a href=\"" + inputInfo.inputClassNameFQ + "\">" +
+                                inputInfo.inputClassName + "</a>";
+                    } else {
+                        typeLink = inputInfo.inputClassName;
+                    }
+                    if (inputInfo.isList)
+                        typeLink = "[" + typeLink + "]";
+                }
                 sb.append(inputInfo.required ? "<tr class=\"req\">" : "<tr>")
                         .append("<td>").append(inputInfo.inputName).append("</td>")
-                        .append("<td>") .append(inputInfo.typeName == null ? "-" : inputInfo.typeName).append("</td>")
+                        .append("<td>").append(typeLink).append("</td>")
                         .append("<td>").append(inputInfo.defaultValue == null ? "-" : inputInfo.defaultValue).append("</td>")
                         .append("<td>").append(inputInfo.tipText).append("</td></tr>");
+            }
             sb.append("</table></p>");
+
 
         }
 
@@ -365,6 +486,7 @@ public class FeastQuery extends Application {
         sb.append("</body></html>");
 
         objectInfoContent.loadContent(sb.toString());
+
     }
 
     @Override
