@@ -172,16 +172,16 @@ Finally, you can set the optional input ~skipFirstRow~ to "true" to cause
 ~TraitSetFromXSV~ to ignore the first line of the input file.  This can
 be useful for CSV/TSV files which include a header line.
 
-*** TaxonSetFromTree
+*** TaxonSetFromTree & TipDatesFromTree
 :PROPERTIES:
-:CUSTOM_ID: id-3-TaxonSetFromTree
+:CUSTOM_ID: id-3-TaxonSetFromTree-&-TipDatesFromTree
 :END:
 
-This class allows ~TaxonSet~ objects to be initialized from trees.
-Like ~TraitSetFromTree~, this class doesn't perform any file i/o, but
-makes it easier to work with trees loaded from external files.
+These classs allow ~TaxonSet~ and ~TraitSet~ objects to be initialized from trees.
+Like ~TraitSetFromTaxonSet~, these classes don't themselves perform any file i/o, but
+makes it easier to work with trees loaded from external files, or simulated inline.
 
-An example use is:
+An example use of ~TaxonSetFromTree~ is:
 
 #+begin_src xml
 <taxonset spec="TaxonSetFromTree" tree="@tree"/>
@@ -189,6 +189,15 @@ An example use is:
 
 which could be included as an input to a ~TraitSetFromXSV~ as
 described in the previous section.
+
+~TipDatesFromTree~ is used similarly to create a ~TraitSet~ object
+representing the ages of tips on an input tree:
+
+#+begin_src xml
+<traitset id="tipDates" spec="TipDatesFromTree" tree="@tree">
+  <taxa id="taxonSet" spec="TaxonSetFromTree" tree="@tree"/>
+</traitset>
+#+end_src
 
 *** AlignmentFromNexus/Fasta
 :PROPERTIES:

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-11-22 Wed 18:09 -->
+<!-- 2023-11-23 Thu 19:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -33,7 +33,7 @@
 <li><a href="#id-3-TreeFromNewickFile-&-TreeFromNexusFile">2.1.1. TreeFromNewickFile &amp; TreeFromNexusFile</a></li>
 <li><a href="#id-3-TraitSetFromTaxonSet">2.1.2. TraitSetFromTaxonSet</a></li>
 <li><a href="#id-3-TraitSetFromXSV">2.1.3. TraitSetFromXSV</a></li>
-<li><a href="#id-3-TaxonSetFromTree">2.1.4. TaxonSetFromTree</a></li>
+<li><a href="#id-3-TaxonSetFromTree-&-TipDatesFromTree">2.1.4. TaxonSetFromTree &amp; TipDatesFromTree</a></li>
 <li><a href="#id-3-AlignmentFromNexus/Fasta">2.1.5. AlignmentFromNexus/Fasta</a></li>
 <li><a href="#id-3-Initialize-RealParameters-from-CSV/TSV-files">2.1.6. Initialize RealParameters from CSV/TSV files</a></li>
 </ul>
@@ -316,17 +316,17 @@ be useful for CSV/TSV files which include a header line.
 </div>
 </div>
 
-<div id="outline-container-id-3-TaxonSetFromTree" class="outline-4">
-<h4 id="id-3-TaxonSetFromTree"><span class="section-number-4">2.1.4.</span> TaxonSetFromTree</h4>
-<div class="outline-text-4" id="text-id-3-TaxonSetFromTree">
+<div id="outline-container-id-3-TaxonSetFromTree-&-TipDatesFromTree" class="outline-4">
+<h4 id="id-3-TaxonSetFromTree-&-TipDatesFromTree"><span class="section-number-4">2.1.4.</span> TaxonSetFromTree &amp; TipDatesFromTree</h4>
+<div class="outline-text-4" id="text-id-3-TaxonSetFromTree-&-TipDatesFromTree">
 <p>
-This class allows <code>TaxonSet</code> objects to be initialized from trees.
-Like <code>TraitSetFromTree</code>, this class doesn't perform any file i/o, but
-makes it easier to work with trees loaded from external files.
+These classs allow <code>TaxonSet</code> and <code>TraitSet</code> objects to be initialized from trees.
+Like <code>TraitSetFromTaxonSet</code>, these classes don't themselves perform any file i/o, but
+makes it easier to work with trees loaded from external files, or simulated inline.
 </p>
 
 <p>
-An example use is:
+An example use of <code>TaxonSetFromTree</code> is:
 </p>
 
 <div class="org-src-container">
@@ -338,6 +338,18 @@ An example use is:
 which could be included as an input to a <code>TraitSetFromXSV</code> as
 described in the previous section.
 </p>
+
+<p>
+<code>TipDatesFromTree</code> is used similarly to create a <code>TraitSet</code> object
+representing the ages of tips on an input tree:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">traitset</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"tipDates"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TipDatesFromTree"</span> <span class="org-nxml-attribute-local-name">tree</span>=<span class="org-string">"@tree"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">taxa</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"taxonSet"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TaxonSetFromTree"</span> <span class="org-nxml-attribute-local-name">tree</span>=<span class="org-string">"@tree"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">traitset</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
 </div>
 </div>
 
@@ -1634,7 +1646,7 @@ scripts.
 </p>
 
 
-<figure id="org92dea4a">
+<figure id="orgee1a169">
 <img src="figures/feastquery.png" alt="feastquery.png">
 
 </figure>
@@ -1671,7 +1683,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-11-22 Wed 18:09</p>
+<p class="date">Created: 2023-11-23 Thu 19:15</p>
 </div>
 </body>
 </html>
