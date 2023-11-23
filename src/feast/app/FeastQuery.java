@@ -57,151 +57,6 @@ import java.util.*;
 public class FeastQuery extends Application {
 
     /**
-     * Class of objects representing individual "services", i.e.
-     * children of BEASTObject.
-     */
-    public static class BOInfo {
-        String packageName;
-        String className, classNameFQ;
-        String description;
-        String citations;
-
-        Class<?> beastClass;
-
-        List<InputInfo> inputInfos;
-
-        boolean loadingError;
-
-
-        /**
-         * Create a new BOInfo object.  Involves lots of introspection
-         * of the specified service in order to determine information
-         * relevant to documentation.
-         *
-         * @param service fully qualified class name of the service.
-         */
-        public BOInfo(String service) {
-            classNameFQ = service;
-            className = service.substring(service.lastIndexOf('.')+1);
-            packageName = service.substring(0, service.indexOf('.'));
-
-            loadingError = false;
-
-            try {
-                beastClass = BEASTClassLoader.forName(
-                        classNameFQ,
-                        "beast.base.core.BEASTInterface");
-                BEASTObject o = (BEASTObject) beastClass.newInstance();
-
-                description = o.getDescription();
-                citations = o.getCitations();
-
-                inputInfos = new ArrayList<>();
-                for (Field field : beastClass.getFields()) {
-                    if (!field.getType().isAssignableFrom(Input.class))
-                        continue;
-
-                    inputInfos.add(new InputInfo(o, field));
-                }
-
-            } catch (NoClassDefFoundError | ClassNotFoundException | InstantiationException |
-                     ClassCastException | IllegalAccessException e) {
-                loadingError = true;
-            }
-        }
-
-        public String toString() {
-            return classNameFQ;
-        }
-    }
-
-    /**
-     * Class of objects representing documentation-relevant information
-     * about individual inputs.
-     */
-    public static class InputInfo {
-        String inputName;
-        String tipText;
-        String inputClassNameFQ;
-        String inputClassName;
-        Boolean isList;
-        Boolean required;
-        Object defaultValue;
-
-
-        List<BOInfo> assignableFrom;
-
-        /**
-         * Create a new InputInfo object.  Both the BEASTObject associated with
-         * the input as well as the field corresponding to the actual input
-         * are required in order to extract all of the documentation-relevant
-         * information.
-         *
-         * @param beastObject BEASTObject possessing the input
-         * @param inputField field corresponding to the input
-         * @throws IllegalAccessException
-         */
-        public InputInfo(BEASTObject beastObject, Field inputField) throws IllegalAccessException {
-            Input<?> input = (Input<?>) inputField.get(beastObject);
-
-            inputName = input.getName();
-            tipText = input.getTipText();
-
-            try {
-                // Awful do-si-do required to extract type of input.
-                Type[] types = ((ParameterizedType) inputField.getGenericType()).getActualTypeArguments();
-                Class<?> inputClass;
-
-                isList = input.get() instanceof List;
-
-                if (isList)
-                    inputClass = (Class<?>) ((ParameterizedType) types[0]).getActualTypeArguments()[0];
-                else
-                    inputClass = (Class<?>) types[0];
-
-                inputClassNameFQ = inputClass.getName();
-                if (inputClassNameFQ.contains("$"))
-                    inputClassNameFQ = inputClassNameFQ.substring(0, inputClassNameFQ.lastIndexOf('$'));
-                inputClassName = inputClassNameFQ.substring(inputClass.getName().lastIndexOf('.') + 1);
-
-            } catch (ClassCastException e) {
-                // Nothing to do.
-            }
-
-            required = input.getRule().equals(Input.Validate.REQUIRED);
-            defaultValue = input.defaultValue;
-        }
-
-    }
-
-    /**
-     * Class of objects representing individual entries in the beast object
-     * tree.  This is only necessary because I want to mix both BOInfo objects
-     * and non-BOInfo objects (packages names, the tree root) in the same tree,
-     * while also being able to retrieve the BOInfo objects for specific
-     * tree elements when available.
-     */
-    public static class BOTreeEntry {
-        String display;
-        BOInfo boInfo;
-        Integer size;
-
-        public BOTreeEntry(String display, BOInfo boInfo) {
-            this.display = display;
-            this.boInfo = boInfo;
-        }
-
-        public BOTreeEntry(String display) {
-            this(display, null);
-        }
-
-        @Override
-        public String toString() {
-            return display + (size == null ? "" : " (" + size + ")");
-        }
-    }
-
-    /**
      * Map from package names (really just the root package of the service
      * FQCNs) to lists containing the processed BOInfo objects.
      */
@@ -264,6 +119,7 @@ public class FeastQuery extends Application {
         WebView webView = new WebView();
         objectInfoContent = webView.getEngine();
         vBox.getChildren().add(webView);
+        VBox.setVgrow(webView, Priority.ALWAYS);
 
         splitPane.getItems().add(vBox);
         bp.setCenter(splitPane);
@@ -368,7 +224,6 @@ public class FeastQuery extends Application {
 
         return treePane;
     }
-
 
     /**
      * Replaces the object tree with a tree containing
@@ -512,6 +367,151 @@ public class FeastQuery extends Application {
                     throw new RuntimeException(ex);
                 }
             });
+        }
+    }
+
+    /**
+     * Class of objects representing individual "services", i.e.
+     * children of BEASTObject.
+     */
+    public static class BOInfo {
+        String packageName;
+        String className, classNameFQ;
+        String description;
+        String citations;
+
+        Class<?> beastClass;
+
+        List<InputInfo> inputInfos;
+
+        boolean loadingError;
+
+
+        /**
+         * Create a new BOInfo object.  Involves lots of introspection
+         * of the specified service in order to determine information
+         * relevant to documentation.
+         *
+         * @param service fully qualified class name of the service.
+         */
+        public BOInfo(String service) {
+            classNameFQ = service;
+            className = service.substring(service.lastIndexOf('.')+1);
+            packageName = service.substring(0, service.indexOf('.'));
+
+            loadingError = false;
+
+            try {
+                beastClass = BEASTClassLoader.forName(
+                        classNameFQ,
+                        "beast.base.core.BEASTInterface");
+                BEASTObject o = (BEASTObject) beastClass.newInstance();
+
+                description = o.getDescription();
+                citations = o.getCitations();
+
+                inputInfos = new ArrayList<>();
+                for (Field field : beastClass.getFields()) {
+                    if (!field.getType().isAssignableFrom(Input.class))
+                        continue;
+
+                    inputInfos.add(new InputInfo(o, field));
+                }
+
+            } catch (NoClassDefFoundError | ClassNotFoundException | InstantiationException |
+                     ClassCastException | IllegalAccessException e) {
+                loadingError = true;
+            }
+        }
+
+        public String toString() {
+            return classNameFQ;
+        }
+    }
+
+    /**
+     * Class of objects representing documentation-relevant information
+     * about individual inputs.
+     */
+    public static class InputInfo {
+        String inputName;
+        String tipText;
+        String inputClassNameFQ;
+        String inputClassName;
+        Boolean isList;
+        Boolean required;
+        Object defaultValue;
+
+
+        List<BOInfo> assignableFrom;
+
+        /**
+         * Create a new InputInfo object.  Both the BEASTObject associated with
+         * the input as well as the field corresponding to the actual input
+         * are required in order to extract all of the documentation-relevant
+         * information.
+         *
+         * @param beastObject BEASTObject possessing the input
+         * @param inputField field corresponding to the input
+         * @throws IllegalAccessException
+         */
+        public InputInfo(BEASTObject beastObject, Field inputField) throws IllegalAccessException {
+            Input<?> input = (Input<?>) inputField.get(beastObject);
+
+            inputName = input.getName();
+            tipText = input.getTipText();
+
+            try {
+                // Awful do-si-do required to extract type of input.
+                Type[] types = ((ParameterizedType) inputField.getGenericType()).getActualTypeArguments();
+                Class<?> inputClass;
+
+                isList = input.get() instanceof List;
+
+                if (isList)
+                    inputClass = (Class<?>) ((ParameterizedType) types[0]).getActualTypeArguments()[0];
+                else
+                    inputClass = (Class<?>) types[0];
+
+                inputClassNameFQ = inputClass.getName();
+                if (inputClassNameFQ.contains("$"))
+                    inputClassNameFQ = inputClassNameFQ.substring(0, inputClassNameFQ.lastIndexOf('$'));
+                inputClassName = inputClassNameFQ.substring(inputClass.getName().lastIndexOf('.') + 1);
+
+            } catch (ClassCastException e) {
+                // Nothing to do.
+            }
+
+            required = input.getRule().equals(Input.Validate.REQUIRED);
+            defaultValue = input.defaultValue;
+        }
+
+    }
+
+    /**
+     * Class of objects representing individual entries in the beast object
+     * tree.  This is only necessary because I want to mix both BOInfo objects
+     * and non-BOInfo objects (packages names, the tree root) in the same tree,
+     * while also being able to retrieve the BOInfo objects for specific
+     * tree elements when available.
+     */
+    public static class BOTreeEntry {
+        String display;
+        BOInfo boInfo;
+        Integer size;
+
+        public BOTreeEntry(String display, BOInfo boInfo) {
+            this.display = display;
+            this.boInfo = boInfo;
+        }
+
+        public BOTreeEntry(String display) {
+            this(display, null);
+        }
+
+        @Override
+        public String toString() {
+            return display + (size == null ? "" : " (" + size + ")");
         }
     }
 }
