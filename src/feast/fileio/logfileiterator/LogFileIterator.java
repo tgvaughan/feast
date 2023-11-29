@@ -21,6 +21,7 @@ package feast.fileio.logfileiterator;
 
 import beast.base.core.BEASTInterface;
 import beast.base.core.BEASTObject;
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Logger;
 import beast.base.inference.Runnable;
@@ -33,6 +34,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Description("A Runnable which iterates over ever sample in one or more input " +
+        "log files and produces a new set of log files as output.")
 public class LogFileIterator extends Runnable {
 
     public Input<List<LogFileState>> logFileStateInput = new Input<>("logFileState",

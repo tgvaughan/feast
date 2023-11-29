@@ -19,11 +19,14 @@
 
 package feast.fileio;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.evolution.alignment.Taxon;
 import beast.base.evolution.alignment.TaxonSet;
 import beast.base.evolution.tree.Tree;
 
+@Description("Represents a TaxonSet object where the taxon names are " +
+        "extracted from the given tree.")
 public class TaxonSetFromTree extends TaxonSet {
 
     public Input<Tree> treeInput = new Input<>("tree",

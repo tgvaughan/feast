@@ -19,6 +19,7 @@
 
 package feast.fileio.logfileiterator;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.StateNode;
 
@@ -26,6 +27,8 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Description("A LogFileState representing the mapping from input trace log file " +
+        "samples to BEAST 2 Parameters.")
 public class TraceLogFileState extends LogFileState {
 
     public Input<List<LogFileRealParameter>> logFileEntryInput = new Input<>("logFileEntry",

@@ -19,6 +19,7 @@
 
 package feast.fileio;
 
+import beast.base.core.Description;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.parser.NexusParser;
 
@@ -31,6 +32,10 @@ import java.io.PrintStream;
  *
  * @author Tim Vaughan
  */
+
+@Description("Objects of this type are regular beast Alignments, but are " +
+        "populated using data read in from an external NEXUS file.  Sequence " +
+        "labels used as taxon labels.")
 public class AlignmentFromNexus extends AlignmentFromFile {
     
     public AlignmentFromNexus() { }

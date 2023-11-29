@@ -19,16 +19,18 @@
 
 package feast.fileio;
 
+import beast.base.core.Description;
 import beast.base.evolution.alignment.Sequence;
 
 import java.io.*;
 
 /**
- * Read in an alignment from a fasta file.  Sequence labels are assumed
- * to be taxon labels.
- *
  * @author Tim Vaughan
  */
+
+@Description("Objects of this type are regular beast Alignments, but are " +
+        "populated using data read in from an external fasta file.  Sequence " +
+        "labels used as taxon labels.")
 public class AlignmentFromFasta extends AlignmentFromFile {
 
     public AlignmentFromFasta() { }

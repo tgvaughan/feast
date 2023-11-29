@@ -19,6 +19,7 @@
 
 package feast.fileio.logfileiterator;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.evolution.alignment.Taxon;
 import beast.base.evolution.alignment.TaxonSet;
@@ -33,6 +34,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Description("A LogFileState representing the mapping from input tree log file " +
+        "samples to BEAST 2 Trees.")
 public class TreeLogFileState extends LogFileState {
 
     public Input<Tree> treeInput = new Input<>("tree",

@@ -20,6 +20,7 @@
 package feast.fileio.logfileiterator;
 
 import beast.base.core.BEASTObject;
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.StateNode;
 
@@ -29,6 +30,8 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Set;
 
+@Description("A container for one or more state variables to be populated on " +
+        "the basis of an input log file.")
 public abstract class LogFileState extends BEASTObject {
     public Input<String> logFileNameInput = new Input<>("logFileName", "Name of log file",
             Input.Validate.REQUIRED);

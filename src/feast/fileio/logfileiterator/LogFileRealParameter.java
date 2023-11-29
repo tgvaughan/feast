@@ -20,9 +20,12 @@
 package feast.fileio.logfileiterator;
 
 import beast.base.core.BEASTObject;
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.parameter.RealParameter;
 
+@Description("Represents a RealParameter to be read in from a log file as part of " +
+        "a LogFileIterator run.")
 public class LogFileRealParameter extends BEASTObject {
 
     public Input<String> fieldNameInput = new Input<>("fieldName", "Name of field in log file.",
