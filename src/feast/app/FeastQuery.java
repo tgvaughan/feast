@@ -86,8 +86,16 @@ public class FeastQuery extends Application {
             allBeastObjectNames.add(boInfo.classNameFQ);
         }
 
-        // Add some special BEASTObjects:
+        // Add some special BEASTObjects: (Is there an easy way to populate this list automatically?)
         allBeastObjectNames.add("beast.base.core.Function");
+        allBeastObjectNames.add("beast.base.evolution.TreeInterface");
+        allBeastObjectNames.add("beast.base.inference.StateNode");
+        allBeastObjectNames.add("beast.base.inference.CalculationNode");
+        allBeastObjectNames.add("beast.base.inference.Distribution");
+        allBeastObjectNames.add("beast.base.inference.distribution.ParametricDistribution");
+        allBeastObjectNames.add("beast.base.inference.StateNodeInitialiser");
+        allBeastObjectNames.add("beast.base.evolution.substitionmodel.SubtitutionModel");
+        allBeastObjectNames.add("beast.base.evolution.branchratemodel.BranchRateModel");
 
         // Ensure objects are sorted lexicographically
         for (String packageName : beastObjectsByPackage.keySet()) {
@@ -132,7 +140,6 @@ public class FeastQuery extends Application {
 
         hBox.getChildren().add(new Label(" Assignable to:"));
         assignableToBox = new ComboBox<>(FXCollections.observableList(allBeastObjectNames));
-        assignableToBox.setEditable(true);
         assignableToBox.setMaxWidth(300);
         hBox.getChildren().add(assignableToBox);
 
@@ -232,8 +239,8 @@ public class FeastQuery extends Application {
     private void filterObjectTree() {
 
         // Extract assignable to class and search string from UI elements.
-        // (It's ugly to have UI code polluting this method, but alternatives
-        // were too verbose!)
+        // (It's ugly to have UI code polluting this method, but easy
+        // alternatives were uglier!)
 
         String assignableToClassName = assignableToBox.getSelectionModel().getSelectedItem();
         if (assignableToClassName == null)
