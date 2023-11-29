@@ -19,8 +19,10 @@
 
 package feast.function;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 
+@Description("A Function representing a contiguous sequence of integers, e.g. [2,3,4,5].")
 public class Sequence extends LoggableFunction {
 
     public Input<Double> startInput = new Input<>("start",

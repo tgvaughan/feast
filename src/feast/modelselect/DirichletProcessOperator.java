@@ -19,6 +19,7 @@
 
 package feast.modelselect;
 
+import beast.base.core.Description;
 import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
@@ -30,6 +31,8 @@ import org.apache.commons.math.MathException;
 
 import java.util.*;
 
+@Description("An operator for sampling the elements of a RealParameter (parameter) " +
+        "by sampling from a Dirichlet process prior.")
 public class DirichletProcessOperator extends Operator {
 
     public Input<RealParameter> parameterInput = new Input<>(

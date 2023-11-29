@@ -48,7 +48,7 @@ import java.util.List;
  * @author Tim Vaughan
  */
 @Description("A sequence alignment which is a randomly shuffled version of" +
-        " the input alignment.  Use for ")
+        " the input alignment.  Can be used for performing date randomization tests.")
 public class ShuffledAlignment extends Alignment {
 
     public Input<Alignment> alignmentInput = new Input<>("alignment",
