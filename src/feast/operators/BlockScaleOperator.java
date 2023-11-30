@@ -19,6 +19,7 @@
 
 package feast.operators;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
 import beast.base.inference.parameter.BooleanParameter;
@@ -28,6 +29,7 @@ import beast.base.util.Randomizer;
 import java.util.HashSet;
 import java.util.Set;
 
+@Description("Operator which acts on subsets of elements of a RealParameter.")
 public class BlockScaleOperator extends Operator {
 
     public Input<RealParameter> parameterInput = new Input<>(

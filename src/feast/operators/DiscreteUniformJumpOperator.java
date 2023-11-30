@@ -19,6 +19,7 @@
 
 package feast.operators;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
 import beast.base.inference.StateNode;
@@ -27,7 +28,8 @@ import beast.base.util.Randomizer;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Description("An operator which uniformly selects values for the input " +
+        "state node from the provided discrete set of possibilities.")
 public class DiscreteUniformJumpOperator extends Operator {
 
     public Input<StateNode> xInput = new Input<>("x",

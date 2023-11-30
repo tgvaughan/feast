@@ -19,12 +19,15 @@
 
 package feast.operators;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
 import beast.base.inference.parameter.BooleanParameter;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.util.Randomizer;
 
+@Description("Operator which acts on subsets of elements of an IntegerParameter," +
+        " similar to the operation of IntRandomWalkOperator.")
 public class BlockIntRandomWalkOperator extends Operator {
 
     public Input<Integer> windowSizeInput = new Input<>(

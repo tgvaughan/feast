@@ -20,6 +20,7 @@
 package feast.popmodels;
 
 import beast.base.core.BEASTObject;
+import beast.base.core.Description;
 import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.evolution.tree.coalescent.PopulationFunction;
@@ -45,10 +46,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Population model where the population size function is given by an
- * expression evaluated at runtime.
- */
+@Description("A population model where the population size function is given by an" +
+        " expression evaluated at runtime.")
 public class ExpressionPopulationModel extends PopulationFunction.Abstract {
 
     public Input<String> expressionInput = new Input<>("value",

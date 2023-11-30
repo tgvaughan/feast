@@ -19,6 +19,7 @@
 
 package feast.popmodels;
 
+import beast.base.core.Description;
 import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.evolution.tree.coalescent.ExponentialGrowth;
@@ -28,6 +29,8 @@ import beast.base.inference.parameter.RealParameter;
 import java.io.PrintStream;
 import java.util.List;
 
+@Description("A population model which is time-shifted relative to an input" +
+        " population model.")
 public class ShiftedPopulationModel extends PopulationFunction.Abstract {
 
     public Input<PopulationFunction> popFuncInput = new Input<>(

@@ -19,12 +19,16 @@
 
 package feast.operators;
 
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
 import beast.base.inference.parameter.BooleanParameter;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.util.Randomizer;
 
+@Description("Operator which acts on subsets of elements of an IntegerParameter " +
+        "by uniformly selecting new values from the allowed range of values, " +
+        "similar to the action of IntUniformOperator.")
 public class BlockIntUniformOperator extends Operator {
 
     public Input<IntegerParameter> parameterInput = new Input<>(

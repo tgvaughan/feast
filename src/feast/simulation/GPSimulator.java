@@ -20,6 +20,7 @@
 package feast.simulation;
 
 import beast.base.core.BEASTObject;
+import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Logger;
 import beast.base.inference.Runnable;
@@ -27,6 +28,8 @@ import beast.base.inference.Runnable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Description("This Runnable allows you to iterate the initialisation of some" +
+        " BEASTObject and to log the results using the standard Logger mechanism.")
 public class GPSimulator extends Runnable {
 
     public Input<List<BEASTObject>> beastObjectInput = new Input<>(
