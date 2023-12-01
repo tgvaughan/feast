@@ -40,9 +40,19 @@ public class RandomRealParameter extends RealParameter implements StateNodeIniti
             Input.Validate.REQUIRED);
 
 
+    public RandomRealParameter() {
+        valuesInput.setRule(Input.Validate.OPTIONAL);
+    }
+
     @Override
     public void initAndValidate() {
-        super.initAndValidate();
+        if (valuesInput.get().isEmpty()) {
+            if (initialInput.get() == null)
+                throw new IllegalArgumentException("Either value or initial input of RandomRealParameter must be set.");
+        } else {
+            super.initAndValidate();
+        }
+
         initStateNodes();
     }
 

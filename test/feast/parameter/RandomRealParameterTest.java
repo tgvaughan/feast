@@ -22,6 +22,7 @@ package feast.parameter;
 
 import beast.base.inference.distribution.ParametricDistribution;
 import beast.base.inference.distribution.Uniform;
+import beast.base.inference.parameter.RealParameter;
 import beast.base.util.DiscreteStatistics;
 import beast.base.util.Randomizer;
 import org.junit.Assert;
@@ -30,18 +31,37 @@ import org.junit.Test;
 public class RandomRealParameterTest {
 
     @Test
-    public void test() {
+    public void testSelf() {
         Randomizer.setSeed(53);
 
         ParametricDistribution distr = new Uniform();
         distr.initByName("lower", "5", "upper", "10");
 
         RandomRealParameter randomRealParameter = new RandomRealParameter();
-        randomRealParameter.initByName("dimension", "100000", "value", "1.0",
+        randomRealParameter.initByName("dimension", "100000", "value", "0",
                 "distr", distr);
 
         Assert.assertEquals(7.5, DiscreteStatistics.mean(randomRealParameter.getDoubleValues()), 0.01);
         Assert.assertEquals(25.0/12.0, DiscreteStatistics.variance(randomRealParameter.getDoubleValues()), 0.01);
+
+    }
+
+    @Test
+    public void testOther() {
+        Randomizer.setSeed(53);
+
+        ParametricDistribution distr = new Uniform();
+        distr.initByName("lower", "5", "upper", "10");
+
+        RealParameter paramToInitialise = new RealParameter();
+        paramToInitialise.initByName("dimension", "100000", "value", "1.0");
+
+        RandomRealParameter randomRealParameter = new RandomRealParameter();
+        randomRealParameter.initByName("initial",  paramToInitialise,
+                "distr", distr);
+
+        Assert.assertEquals(7.5, DiscreteStatistics.mean(paramToInitialise.getDoubleValues()), 0.01);
+        Assert.assertEquals(25.0/12.0, DiscreteStatistics.variance(paramToInitialise.getDoubleValues()), 0.01);
 
     }
 }
