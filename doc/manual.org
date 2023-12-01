@@ -184,7 +184,7 @@ makes it easier to work with trees loaded from external files, or simulated inli
 An example use of ~TaxonSetFromTree~ is:
 
 #+begin_src xml
-<taxonset spec="TaxonSetFromTree" tree="@tree"/>
+<taxonset spec="feast.fileio.TaxonSetFromTree" tree="@tree"/>
 #+end_src
 
 which could be included as an input to a ~TraitSetFromXSV~ as
@@ -194,8 +194,8 @@ described in the previous section.
 representing the ages of tips on an input tree:
 
 #+begin_src xml
-<traitset id="tipDates" spec="TipDatesFromTree" tree="@tree">
-  <taxa id="taxonSet" spec="TaxonSetFromTree" tree="@tree"/>
+<traitset id="tipDates" spec="feast.fileio.TipDatesFromTree" tree="@tree">
+  <taxa id="taxonSet" spec="feast.fileio.TaxonSetFromTree" tree="@tree"/>
 </traitset>
 #+end_src
 
@@ -505,9 +505,9 @@ The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
 **initialized** from a ~Function~.  Thus you can do things like
 
 #+begin_src xml
-<samplingRateChangeTimes spec="RealParameterFromFunction">
-    <function spec="ExpCalculator" value="{0,max(taxonTimes)+0.1}">
-        <arg id="taxonTimes" spec="TraitSetAsFunction" traitSet="@dateTrait"/>
+<samplingRateChangeTimes spec="feast.parameter.RealParameterFromFunction">
+    <function spec="feast.expressions.ExpCalculator" value="{0,max(taxonTimes)+0.1}">
+        <arg id="taxonTimes" spec="feast.function.TraitSetAsFunction" traitSet="@dateTrait"/>
     </function>
 </samplingRateChangeTimes>
 #+end_src
@@ -537,7 +537,7 @@ anywhere that a ~RealParameter~ is expected.  For example, to create
 a ~RealParameter~ with the ages corresponding to the times above, use
 
 #+begin_src xml
-<parameter spec="TimeParameter"
+<parameter spec="feast.parameter.TimeParameter"
            time="05/03/1980 27/02/1980"
            mostRecentSampleTime="01/01/1990"
            timeFormat="dd/MM/yyyy"/>
@@ -558,21 +558,21 @@ and the value of ~mostRecentSampleTime~.  If this format specifier is not provid
 the time is assumed to have already been converted to fractional years, so
 the only action taken by TimeParameter is to subtract this value from
 ~mostRecentSampleTime~.
-*** Randomly sampling initial RealParameter values
+*** Randomly initializing RealParameter values
 :PROPERTIES:
-:CUSTOM_ID: id-3-Randomly-sampling-initial-RealParameter-values
+:CUSTOM_ID: id-3-Randomly-initializing-RealParameter-values
 :END:
 
 Sometimes several attempts are needed to find a acceptable starting state for
-MCMC. An initializer for tree, capable of generating a new starting tree at each
-attempt is implemented in BEAST. ~InitRandomRealParameter~ allows you to sample new
+MCMC. An initializer for trees, capable of generating a new starting tree at each
+attempt is implemented in BEAST. ~RandomRealParameter~ allows you to sample new
 initial parameter values at each attempt. The distribution, from which to sample, can
 be the parameter prior or any other proper distribution.
 
 For example, here we sample a birth rate value from a uniform distribution
 at each initialization attempt:
 #+begin_src xml
-<init id="birthRateInitializer" spec="feast.parameter.InitRandomRealParameter"
+<init id="birthRateInitializer" spec="feast.parameter.RandomRealParameter"
     initial="@birthRate">
     <Uniform id="Uniform.birthRate" name="distr" lower="0" upper="1.5"/>
 </init>
@@ -602,7 +602,7 @@ indicating which elements to scale.  The differences are that ~BlockScaleOperato
      
 An example usage of this operator is as follows:
 #+begin_src xml
-<operator spec="BlockScaleOperator" parameter="@paramToScale"
+<operator spec="feast.operators.BlockScaleOperator" parameter="@paramToScale"
           scaleFactor="0.8" weight="1.0">
     <indicator spec="BooleanParameter" value="true true false false" estimate="false"/>
 </operator>
@@ -621,7 +621,7 @@ to be scaled together must be initialised to the same value:
     <stateNode spec="RealParameter" id="paramToScale" value="1 1 2 2"/>
 </state>
 
-<operator spec="SmartScaleOperator" parameter="@paramToScale"
+<operator spec="feast.operators.SmartScaleOperator" parameter="@paramToScale"
           scaleFactor="0.8" weight="1.0"/>
 #+end_src
 
@@ -665,7 +665,7 @@ function.
 
 For example, here is a time-shifted exponential growth population mode:
 #+begin_src xml
-<populationModel spec="ShiftedPopulationModel" offset="0.5">
+<populationModel spec="feast.popmodels.ShiftedPopulationModel" offset="0.5">
     <populationModel spec="ExponentialGrowth" popSize="1.0" growthRate="1.0"/>
 </populationModel>
 #+end_src
@@ -691,7 +691,7 @@ manner to construct arbitrarily complicated compound models.
 For example, here is a piecewise-constant population function created
 by joining together three ~ConstantPopulation~ models:
 #+begin_src xml
-<populationModel spec="CompoundPopulationModel">
+<populationModel spec="feast.popmodels.CompoundPopulationModel">
     <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></populationModel>
     <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></populationModel>
     <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></populationModel>
@@ -725,7 +725,7 @@ For example, here is a sinusoidally-varying population function with
 an exponentially-decaying amplitude:
 
 #+begin_src xml
-  <populationModel spec="ExpressionPopulationModel">
+  <populationModel spec="feast.popmodels.ExpressionPopulationModel">
     exp(0.1t)*(cos(2*t) + 2)
   </populationModel>
 #+end_src
@@ -775,7 +775,7 @@ to apply such a prior.  To do this, include the following prior for ~X~
 in the target density:
 
 #+begin_src xml
-<distribution spec="DirichletProcessPrior" parameter="@X">
+<distribution spec="feast.modelselect.DirichletProcessPrior" parameter="@X">
     <scaleParameter id="dppScale" spec="RealParameter" value="1.0"/>
     <baseDistrib id="dppBase" spec="LogNormalDistributionModel" M="0.8" S="0.5"/>
 </distribution>
@@ -813,7 +813,7 @@ in model 2 the extinction rate has some unknown non-zero value.
 
 We can implement this by defining the death rate to be a ~ModelSelectionParameter~:
 #+begin_src xml
-<deathRate id="deathRate" spec="ModelSelectionParameter">
+<deathRate id="deathRate" spec="feast.modelselect.ModelSelectionParameter">
     <parameter spec="RealParameter" value="0.0"/>
     <parameter id="nonZeroDeathRate" spec="RealParameter" value="1.0"/>
     <selectionIndices id="selectionIdx" spec="IntegerParameter" value="1" lower="0" upper="1"/>
@@ -848,7 +848,7 @@ accomplished using the ~DiscreteUniformJumpOperator~.
 For instance, suppose we have a small set of trees we want the MCMC to
 sample from.  We can accomplish this as follows:
 #+begin_src xml
-<operator spec="DiscreteUniformJumpOperator" x="@tree" weight="1">
+<operator spec="feast.modelselect.DiscreteUniformJumpOperator" x="@tree" weight="1">
   <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
                newick="((((1:0.232 ..."/>
   <possibility spec="TreeParser" adjustTipHeight="false" taxa="@alignment" estimate="false"
@@ -938,7 +938,7 @@ general form:
 
 #+begin_src xml
 <beast version="2.0">
-    <run spec="DensityMapper">
+    <run spec="feast.mapping.DensityMapper">
         <distribution id="distrib" ... />
 
         <realParam spec="RealParameter" id="paramA"
@@ -1017,7 +1017,7 @@ alignment definition in the XML, which is usually something like
 with the folllowing:
 
 #+begin_src xml
-  <alignment id="data" spec="ShuffledAlignment">
+  <alignment id="data" spec="feast.simulation.ShuffledAlignment">
     <alignment spec="Alignment"> ... </alignment>
   </alignment>
 #+end_src

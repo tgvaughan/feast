@@ -72,7 +72,7 @@
     <provider classname="feast.expressions.ExpCalculatorParametricDistribution"/>
     <provider classname="feast.parameter.RealParameterFromFunction"/>
     <provider classname="feast.parameter.TimeParameter"/>
-    <provider classname="feast.parameter.InitRandomRealParameter"/>
+    <provider classname="feast.parameter.RandomRealParameter"/>
     <provider classname="feast.popmodels.ShiftedPopulationModel"/>
     <provider classname="feast.popmodels.CompoundPopulationModel"/>
     <provider classname="feast.popmodels.ExpressionPopulationModel"/>

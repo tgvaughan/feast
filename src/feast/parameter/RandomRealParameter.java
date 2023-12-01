@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Ugne Stolz
+ * Copyright (c) 2023 Ugne Stolz, Tim Vaughan
  *
  * This file is part of feast.
  *
@@ -19,7 +19,6 @@
 
 package feast.parameter;
 
-import beast.base.core.BEASTObject;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.StateNode;
@@ -33,54 +32,59 @@ import org.apache.commons.math.MathException;
 import java.util.List;
 
 @Description("Helps to randomly initialize a RealParameter from a given distribution")
-public class InitRandomRealParameter extends BEASTObject implements StateNodeInitialiser {
-    final public Input<RealParameter> paramInput = new Input<>("initial",
-            "Initial parameter.", Input.Validate.REQUIRED);
+public class RandomRealParameter extends RealParameter implements StateNodeInitialiser {
+    final public Input<RealParameter> initialInput = new Input<>("initial",
+            "Parameter to initialize. (If absent, initialise RandomRealParameter itself.)");
     final public Input<ParametricDistribution> distributionInput = new Input<>("distr",
             "Distribution from which to draw a random value. Usually the prior ditribution for this parameter.",
             Input.Validate.REQUIRED);
 
 
-    boolean sample_from_tmp = false;
-    ParametricDistribution distribution;
     @Override
     public void initAndValidate() {
+        super.initAndValidate();
         initStateNodes();
     }
 
-
     @Override
     public void initStateNodes() {
-        int dim = paramInput.get().getDimension();
-        distribution = distributionInput.get();
+        if (initialInput.get() != null)
+            sampleParameter(initialInput.get());
+        else
+            sampleParameter(this);
+    }
+
+    protected void sampleParameter(RealParameter parameter) {
+        int dim = parameter.getDimension();
+        ParametricDistribution distribution = distributionInput.get();
         if (distribution instanceof Uniform)
             if (Double.isInfinite(((Uniform) distribution).lowerInput.get()) ||
-                Double.isInfinite(((Uniform) distribution).upperInput.get())){
-            System.out.println("Cannot sample from improper Uniform distribution." +
-                    "One or both bounds are infinite.");
-            System.exit(1);
-        }
+                    Double.isInfinite(((Uniform) distribution).upperInput.get())){
+                System.out.println("Cannot sample from improper Uniform distribution." +
+                        "One or both bounds are infinite.");
+                System.exit(1);
+            }
         if (distribution instanceof OneOnX){
             System.out.println("Currently not implemented for OneOnX distribution.");
             System.exit(1);
         }
 
         for (int i = 0; i < dim; i++){
-            Double rnd = null;
+            Double rnd;
             try {
                 do {
                     rnd  = distribution.sample(1)[0][0];
-                } while (rnd < paramInput.get().getLower() || rnd > paramInput.get().getUpper());
+                } while (rnd < parameter.getLower() || rnd > parameter.getUpper());
             } catch (MathException e) {
                 throw new RuntimeException(e);
             }
-            paramInput.get().setValue(i, rnd);
+            parameter.setValue(i, rnd);
         }
     }
 
     @Override
     public void getInitialisedStateNodes(List<StateNode> stateNodes) {
-        stateNodes.add(paramInput.get());
+        stateNodes.add(initialInput.get());
     }
 
 
