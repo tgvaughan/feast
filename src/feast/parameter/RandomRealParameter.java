@@ -31,7 +31,7 @@ import org.apache.commons.math.MathException;
 
 import java.util.List;
 
-@Description("Helps to randomly initialize a RealParameter from a given distribution")
+@Description("Randomly innitialise a RealParameter by sampling from a ParametricDistribution.")
 public class RandomRealParameter extends RealParameter implements StateNodeInitialiser {
     final public Input<RealParameter> initialInput = new Input<>("initial",
             "Parameter to initialize. (If absent, initialise RandomRealParameter itself.)");
