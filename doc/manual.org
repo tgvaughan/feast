@@ -924,6 +924,21 @@ with the exception that the ~data~ input should be omitted - it will cause
 strange errors if you include it.  Also, only strict clocks are currently
 supported, so there is no ~branchRateModel~ input.
 
+~feast.simulation.SimulatedAlignment~ also allows you to specify a known ancestral
+sequence for the simulation.  To do this, supply a ~Sequence~ tot the ~startingSequence~ input as
+follows:
+
+#+begin_src xml
+<alignment spec="feast.simulation.SimulatedAlignment"
+           outputFileName="simulated_alignment.nexus"
+           tree="@tree" sequenceLength="10">
+  <startingSequence spec="Sequence" taxon="ancestor"> GATCGATCGA </startingSequence>
+  <siteModel spec="SiteModel">
+    <substModel spec="JukesCantor"/>
+  </siteModel>
+</alignment>
+#+end_src
+
 *** DensityMapper
 :PROPERTIES:
 :CUSTOM_ID: id-3-DensityMapper

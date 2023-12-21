@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-12-01 Fri 13:53 -->
+<!-- 2023-12-21 Thu 15:22 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -1383,6 +1383,24 @@ with the exception that the <code>data</code> input should be omitted - it will 
 strange errors if you include it.  Also, only strict clocks are currently
 supported, so there is no <code>branchRateModel</code> input.
 </p>
+
+<p>
+<code>feast.simulation.SimulatedAlignment</code> also allows you to specify a known ancestral
+sequence for the simulation.  To do this, supply a <code>Sequence</code> tot the <code>startingSequence</code> input as
+follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.simulation.SimulatedAlignment"</span>
+           <span class="org-nxml-attribute-local-name">outputFileName</span>=<span class="org-string">"simulated_alignment.nexus"</span>
+           <span class="org-nxml-attribute-local-name">tree</span>=<span class="org-string">"@tree"</span> <span class="org-nxml-attribute-local-name">sequenceLength</span>=<span class="org-string">"10"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">startingSequence</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Sequence"</span> <span class="org-nxml-attribute-local-name">taxon</span>=<span class="org-string">"ancestor"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text"> GATCGATCGA </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">startingSequence</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">siteModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"SiteModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">substModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"JukesCantor"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">siteModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
 </div>
 </div>
 
@@ -1646,7 +1664,7 @@ scripts.
 </p>
 
 
-<figure id="org861e8be">
+<figure id="orgc3fa7f4">
 <img src="figures/feastquery.png" alt="feastquery.png">
 
 </figure>
@@ -1683,7 +1701,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-12-01 Fri 13:53</p>
+<p class="date">Created: 2023-12-21 Thu 15:22</p>
 </div>
 </body>
 </html>

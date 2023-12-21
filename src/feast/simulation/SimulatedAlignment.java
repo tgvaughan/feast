@@ -69,10 +69,16 @@ public class SimulatedAlignment extends Alignment {
             "outputFileName",
             "Name of file (if any) simulated alignment should be saved to.");
 
+    public Input<Sequence> startingSequenceInput = new Input<>(
+            "startingSequence",
+            "Initial sequence to start from.  (Default is random draw from equilibrium distribution.)");
+
     private Tree tree;
     private SiteModel siteModel;
     private int seqLength;
     private DataType dataType;
+
+    private Sequence startingSequence;
 
     private String ancestralSeqStr;
 
@@ -87,9 +93,15 @@ public class SimulatedAlignment extends Alignment {
         siteModel = siteModelInput.get();
         seqLength = sequenceLengthInput.get();
 
+        startingSequence = startingSequenceInput.get();
+
         sequences.clear();
 
         grabDataType();
+
+        if (startingSequence != null && startingSequence.getSequence(dataType).size() != seqLength)
+            throw new RuntimeException("Starting sequence length does not match " +
+                    "desired length of simulated sequence alignment.");
 
         simulate();
 
@@ -122,20 +134,26 @@ public class SimulatedAlignment extends Alignment {
         int nStates = substModel instanceof JukesCantor
                 ? 4
                 : substModel.getStateCount();
-        double[][] transitionProbs = new double[nCategories][nStates*nStates];
+        double[][] transitionProbs = new double[nCategories][nStates * nStates];
 
         int[][] alignment = new int[nTaxa][seqLength];
 
         int[] categories = new int[seqLength];
-        for (int i=0; i<seqLength; i++)
+        for (int i = 0; i < seqLength; i++)
             categories[i] = Randomizer.randomChoicePDF(categoryProbs);
 
         Node root = tree.getRoot();
 
         int[] parentSequence = new int[seqLength];
-        double[] frequencies = siteModel.getSubstitutionModel().getFrequencies();
-        for (int i=0; i<parentSequence.length; i++)
-            parentSequence[i] = Randomizer.randomChoicePDF(frequencies);
+        if (startingSequenceInput.get() != null) {
+            for (int i=0; i<parentSequence.length; i++)
+                parentSequence[i] = startingSequenceInput.get().getSequence(dataType).get(i);
+        }
+        else {
+            double[] frequencies = siteModel.getSubstitutionModel().getFrequencies();
+            for (int i = 0; i < parentSequence.length; i++)
+                parentSequence[i] = Randomizer.randomChoicePDF(frequencies);
+        }
 
         ancestralSeqStr = dataType.encodingToString(parentSequence);
 
