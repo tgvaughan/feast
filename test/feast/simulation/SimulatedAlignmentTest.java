@@ -24,7 +24,6 @@ import beast.base.evolution.sitemodel.SiteModel;
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.TreeParser;
-import beast.base.inference.parameter.RealParameter;
 import beast.base.util.Randomizer;
 import org.junit.Assert;
 import org.junit.Test;
