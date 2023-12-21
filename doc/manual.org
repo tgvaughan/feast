@@ -925,7 +925,7 @@ strange errors if you include it.  Also, only strict clocks are currently
 supported, so there is no ~branchRateModel~ input.
 
 ~feast.simulation.SimulatedAlignment~ also allows you to specify a known ancestral
-sequence for the simulation.  To do this, supply a ~Sequence~ tot the ~startingSequence~ input as
+sequence for the simulation.  To do this, supply a ~Sequence~ to the ~startingSequence~ input as
 follows:
 
 #+begin_src xml
