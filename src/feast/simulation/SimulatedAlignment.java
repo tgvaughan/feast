@@ -20,6 +20,7 @@
 package feast.simulation;
 
 import beast.base.core.Description;
+import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
@@ -73,14 +74,20 @@ public class SimulatedAlignment extends Alignment {
             "startingSequence",
             "Initial sequence to start from.  (Default is random draw from equilibrium distribution.)");
 
+    public Input<Function> startingSequenceAgeInput = new Input<>(
+            "startingSequenceAge",
+            "When startingSequence is specified, age (relative to the " +
+                    "final sample) at which the sequence simulation starts " +
+                    "from. (Default is the age of the root of the tree, but " +
+                    "use this to make the starting sequence correspond to" +
+                    "an earlier time.) Must be greater than the tMRCA of the tree.");
+
     private Tree tree;
     private SiteModel siteModel;
     private int seqLength;
     private DataType dataType;
 
     private Sequence startingSequence;
-
-    private String ancestralSeqStr;
 
     public SimulatedAlignment() {
         sequenceInput.setRule(Input.Validate.OPTIONAL);
@@ -145,17 +152,26 @@ public class SimulatedAlignment extends Alignment {
         Node root = tree.getRoot();
 
         int[] parentSequence = new int[seqLength];
-        if (startingSequenceInput.get() != null) {
+        if (startingSequence != null) {
+
             for (int i=0; i<parentSequence.length; i++)
-                parentSequence[i] = startingSequenceInput.get().getSequence(dataType).get(i);
+                parentSequence[i] = startingSequence.getSequence(dataType).get(i);
+
+            if (startingSequenceAgeInput.get() != null) {
+                if (startingSequenceAgeInput.get().getArrayValue()<root.getHeight())
+                    throw new IllegalArgumentException("Starting sequence age " +
+                            "must be older than corresponding tree root.");
+
+                parentSequence = getEvolvedSequence(root, parentSequence,
+                        transitionProbs, categories,
+                        startingSequenceAgeInput.get().getArrayValue(), root.getHeight());
+            }
         }
         else {
             double[] frequencies = siteModel.getSubstitutionModel().getFrequencies();
             for (int i = 0; i < parentSequence.length; i++)
                 parentSequence[i] = Randomizer.randomChoicePDF(frequencies);
         }
-
-        ancestralSeqStr = dataType.encodingToString(parentSequence);
 
         traverse(root, parentSequence,
                 categories, transitionProbs,
@@ -175,6 +191,44 @@ public class SimulatedAlignment extends Alignment {
     }
 
     /**
+     * Simulate the evolution of a sequence under a substitution model over
+     * a specified time.
+     *
+     * @param node node below lineage on which evolution is to be simulated.
+     * @param startSequence starting sequence at the earlier time.
+     * @param transitionProbs working space for computing transition probabilities.
+     * @param categories working space for computing categories.
+     * @param startTime earlier time
+     * @param endTime later time
+     * @return reference to sequence (newly allocated) array representing evolved sequence.
+     */
+    private int[] getEvolvedSequence(Node node, int[] startSequence,
+                                double[][] transitionProbs,
+                                int[] categories,
+                                double startTime, double endTime) {
+        // Calculate transition probabilities
+        for (int i=0; i<siteModel.getCategoryCount(); i++) {
+            siteModel.getSubstitutionModel().getTransitionProbabilities(
+                    node, startTime, endTime,
+                    siteModel.getRateForCategory(i, node),
+                    transitionProbs[i]);
+        }
+
+        // Draw characters on child sequence
+        int[] endSequence = new int[startSequence.length];
+        int nStates = dataType.getStateCount();
+        double[] charProb = new double[nStates];
+        for (int i=0; i<endSequence.length; i++) {
+            int category = categories[i];
+            System.arraycopy(transitionProbs[category],
+                    startSequence[i]*nStates, charProb, 0, nStates);
+            endSequence[i] = Randomizer.randomChoicePDF(charProb);
+        }
+
+        return endSequence;
+    }
+
+    /**
      * Traverse a tree, simulating a sequence alignment down it.
      *
      * @param node Node of the tree
@@ -190,24 +244,9 @@ public class SimulatedAlignment extends Alignment {
 
         for (Node child : node.getChildren()) {
 
-            // Calculate transition probabilities
-            for (int i=0; i<siteModel.getCategoryCount(); i++) {
-                siteModel.getSubstitutionModel().getTransitionProbabilities(
-                        child, node.getHeight(), child.getHeight(),
-                        siteModel.getRateForCategory(i, child),
-                        transitionProbs[i]);
-            }
-
-            // Draw characters on child sequence
-            int[] childSequence = new int[parentSequence.length];
-            int nStates = dataType.getStateCount();
-            double[] charProb = new double[nStates];
-            for (int i=0; i<childSequence.length; i++) {
-                int category = categories[i];
-                System.arraycopy(transitionProbs[category],
-                        parentSequence[i]*nStates, charProb, 0, nStates);
-                childSequence[i] = Randomizer.randomChoicePDF(charProb);
-            }
+            int[] childSequence = getEvolvedSequence(child, parentSequence,
+                    transitionProbs, categories,
+                    node.getHeight(), child.getHeight());
 
             if (child.isLeaf()) {
                 System.arraycopy(childSequence, 0,

@@ -939,6 +939,12 @@ follows:
 </alignment>
 #+end_src
 
+When used with ~startingSequence~, the optional input
+~startingSequenceAge~ can be used to specify the age relative to the
+most recent leaf at which the lineage above the root (the stem lineage) held the
+specified sequence.  This might be useful for birth-death models which
+consider the stem lineage to be part of the tree.
+
 *** DensityMapper
 :PROPERTIES:
 :CUSTOM_ID: id-3-DensityMapper

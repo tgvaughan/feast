@@ -57,7 +57,7 @@ public class SimulatedAlignmentTest {
             }
         }
 
-        // This should hold for low substition rates
+        // This should hold for low substitution rates
         Assert.assertEquals(1e-3, snpCount/100000.0/getTreeLength(tree.getRoot()), 1e-4);
     }
 
@@ -75,7 +75,6 @@ public class SimulatedAlignmentTest {
 
     @Test
     public void testStartingSequence() {
-
         TreeParser tree = new TreeParser("((t4:2.369581270289798,(t2:0.7362719592981231,t8:0.7362719592981231):1.6333093109916748):1.4995934976492373,((((t9:0.8936315906157204,(t6:0.8779660314367823,t0:0.8779660314367823):0.015665559178938082):1.2275368715430122,t1:2.1211684621587326):0.359584409136005,t7:2.4807528712947375):1.0357416037243077,(t10:2.225485714051735,(t3:2.1642811859654225,(t11:0.31165890742494096,t5:0.31165890742494096):1.8526222785404816):0.06120452808631249):1.2910087609673102):0.3526802929199899):0.13082523206096486;");
 
 
@@ -90,6 +89,27 @@ public class SimulatedAlignmentTest {
                 "siteModel", siteModel,
                 "sequenceLength", 10,
                 "startingSequence", new Sequence("parent", startingSequence));
+
+        for (Sequence leafSequence : simulatedAlignment.sequenceInput.get())
+            Assert.assertEquals(startingSequence, leafSequence.dataInput.get());
+    }
+
+    @Test
+    public void testStemStartingSequence() {
+        TreeParser tree = new TreeParser("((t4:2.369581270289798,(t2:0.7362719592981231,t8:0.7362719592981231):1.6333093109916748):1.4995934976492373,((((t9:0.8936315906157204,(t6:0.8779660314367823,t0:0.8779660314367823):0.015665559178938082):1.2275368715430122,t1:2.1211684621587326):0.359584409136005,t7:2.4807528712947375):1.0357416037243077,(t10:2.225485714051735,(t3:2.1642811859654225,(t11:0.31165890742494096,t5:0.31165890742494096):1.8526222785404816):0.06120452808631249):1.2910087609673102):0.3526802929199899):0.13082523206096486;");
+
+        SiteModel siteModel = new SiteModel();
+        siteModel.initByName("substModel", new JukesCantor(),
+                "mutationRate", "0.0");
+
+        String startingSequence = "GGGGGCCCCC";
+
+        SimulatedAlignment simulatedAlignment = new SimulatedAlignment();
+        simulatedAlignment.initByName("tree" ,tree,
+                "siteModel", siteModel,
+                "sequenceLength", 10,
+                "startingSequence", new Sequence("parent", startingSequence),
+                "startingSequenceAge", "4.0");
 
         for (Sequence leafSequence : simulatedAlignment.sequenceInput.get())
             Assert.assertEquals(startingSequence, leafSequence.dataInput.get());
