@@ -40,6 +40,14 @@ public class TimeParameter extends RealParameter {
             "One or more (space-delimited) times to be used in initializing parameter",
             Input.Validate.REQUIRED);
 
+    public Input<String> timeEarlierInput = new Input<>("timeEarlier",
+            "Time to be converted into an upper bound on the parameter value, " +
+                    "in format specified by timeFormat");
+
+    public Input<String> timeLaterInput = new Input<>("timeLater",
+            "Time to be converted into an lower bound on the parameter value, " +
+                    "in format specified by timeFormat");
+
     public Input<String> mostRecentSampleTimeInput = new Input<>("mostRecentSampleTime",
             "Time of the most recent sample, in format specified by timeFormat",
             Input.Validate.REQUIRED);
@@ -50,10 +58,17 @@ public class TimeParameter extends RealParameter {
 
     @Override
     public void initAndValidate() {
-        Double offsetTime = getTimeAsDouble(mostRecentSampleTimeInput.get());
+        double offsetTime = getTimeAsDouble(mostRecentSampleTimeInput.get());
 
         for (String timeString : timeInput.get().split(" "))
             valuesInput.setValue(offsetTime - getTimeAsDouble(timeString), this);
+
+        if (timeEarlierInput.get() != null) {
+            upperValueInput.setValue(offsetTime - getTimeAsDouble(timeEarlierInput.get()), this);
+        }
+
+        if (timeLaterInput.get() != null)
+            lowerValueInput.setValue(offsetTime - getTimeAsDouble(timeLaterInput.get()), this);
 
         super.initAndValidate();
     }
