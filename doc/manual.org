@@ -552,12 +552,18 @@ This is completely equivalent to
 
 but much more readable.
 
-Note that the time format specification string is the same as used by the
-~dateFormat~ input to ~TraitSet~, and applies both to the values of ~time~
-and the value of ~mostRecentSampleTime~.  If this format specifier is not provided,
-the time is assumed to have already been converted to fractional years, so
-the only action taken by TimeParameter is to subtract this value from
-~mostRecentSampleTime~.
+In addition, the ~timeEarlier~ and ~timeLater~ inputs can be used to
+set the bounds of the parameter.  These are equivalent to ~upper~ and
+~lower~ inputs of ~RealParameter~, but accept formatted times.
+
+Note that the time format specification string is the same as used by
+the ~dateFormat~ input to ~TraitSet~, and applies both to the values
+of ~time~ and the value of ~mostRecentSampleTime~.  If this format
+specifier is not provided, the time is assumed to have already been
+converted to fractional years, so the only action taken by
+TimeParameter is to subtract this value from ~mostRecentSampleTime~.
+
+
 *** Randomly initializing RealParameter values
 :PROPERTIES:
 :CUSTOM_ID: id-3-Randomly-initializing-RealParameter-values

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-12-22 Fri 14:38 -->
+<!-- 2024-02-09 Fri 09:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -892,15 +892,23 @@ but much more readable.
 </p>
 
 <p>
-Note that the time format specification string is the same as used by the
-<code>dateFormat</code> input to <code>TraitSet</code>, and applies both to the values of <code>time</code>
-and the value of <code>mostRecentSampleTime</code>.  If this format specifier is not provided,
-the time is assumed to have already been converted to fractional years, so
-the only action taken by TimeParameter is to subtract this value from
-<code>mostRecentSampleTime</code>.
+In addition, the <code>timeEarlier</code> and <code>timeLater</code> inputs can be used to
+set the bounds of the parameter.  These are equivalent to <code>upper</code> and
+<code>lower</code> inputs of <code>RealParameter</code>, but accept formatted times.
+</p>
+
+<p>
+Note that the time format specification string is the same as used by
+the <code>dateFormat</code> input to <code>TraitSet</code>, and applies both to the values
+of <code>time</code> and the value of <code>mostRecentSampleTime</code>.  If this format
+specifier is not provided, the time is assumed to have already been
+converted to fractional years, so the only action taken by
+TimeParameter is to subtract this value from <code>mostRecentSampleTime</code>.
 </p>
 </div>
 </div>
+
+
 <div id="outline-container-id-3-Randomly-initializing-RealParameter-values" class="outline-4">
 <h4 id="id-3-Randomly-initializing-RealParameter-values"><span class="section-number-4">2.4.3.</span> Randomly initializing RealParameter values</h4>
 <div class="outline-text-4" id="text-id-3-Randomly-initializing-RealParameter-values">
@@ -1672,7 +1680,7 @@ scripts.
 </p>
 
 
-<figure id="org4d19d9e">
+<figure id="orgb1ad183">
 <img src="figures/feastquery.png" alt="feastquery.png">
 
 </figure>
@@ -1709,7 +1717,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2023-12-22 Fri 14:38</p>
+<p class="date">Created: 2024-02-09 Fri 09:57</p>
 </div>
 </body>
 </html>
