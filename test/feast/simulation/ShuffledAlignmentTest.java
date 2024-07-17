@@ -48,13 +48,13 @@ public class ShuffledAlignmentTest {
                 shuffledAlignment.sequenceInput.get().get(3).getTaxon());
 
         // Valid only for seed above
-        assertEquals(alignment.sequenceInput.get().get(2).getData(),
-                shuffledAlignment.sequenceInput.get().get(0).getData());
         assertEquals(alignment.sequenceInput.get().get(0).getData(),
-                shuffledAlignment.sequenceInput.get().get(1).getData());
-        assertEquals(alignment.sequenceInput.get().get(1).getData(),
                 shuffledAlignment.sequenceInput.get().get(2).getData());
-        assertEquals(alignment.sequenceInput.get().get(3).getData(),
+        assertEquals(alignment.sequenceInput.get().get(1).getData(),
+                shuffledAlignment.sequenceInput.get().get(1).getData());
+        assertEquals(alignment.sequenceInput.get().get(2).getData(),
                 shuffledAlignment.sequenceInput.get().get(3).getData());
+        assertEquals(alignment.sequenceInput.get().get(3).getData(),
+                shuffledAlignment.sequenceInput.get().get(0).getData());
     }
 }
