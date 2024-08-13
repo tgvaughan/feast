@@ -39,7 +39,7 @@ public abstract class LogFileState extends BEASTObject {
     protected String logFileName;
     protected BufferedReader inFile;
 
-    protected int currentSample;
+    protected long currentSample;
 
     @Override
     public void initAndValidate() {
@@ -58,11 +58,11 @@ public abstract class LogFileState extends BEASTObject {
         return logFileName;
     }
 
-    public int getCurrentSample() {
+    public long getCurrentSample() {
         return currentSample;
     }
 
-    public abstract int updateToNextEntry();
+    public abstract long updateToNextEntry();
 
     public abstract List<StateNode> getStateNodes();
 

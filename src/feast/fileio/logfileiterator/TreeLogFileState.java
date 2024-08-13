@@ -97,7 +97,7 @@ public class TreeLogFileState extends LogFileState {
             "^tree\\s+STATE_(\\d+)\\s*=\\s*(\\[&[^]]*])?\\s*(.*)$");
 
     @Override
-    public int updateToNextEntry() {
+    public long updateToNextEntry() {
 
         String line = readNexusLine();
 
@@ -110,7 +110,7 @@ public class TreeLogFileState extends LogFileState {
         if (!m.find())
             throw new IllegalStateException("Error parsing tree log file line:\n" + line);
 
-        currentSample = Integer.parseInt(m.group(1));
+        currentSample = Long.parseLong(m.group(1));
         String newickString = m.group(3);
 
         TreeParser treeParser = new TreeParser();
