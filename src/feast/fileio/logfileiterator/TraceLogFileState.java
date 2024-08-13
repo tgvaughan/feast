@@ -77,7 +77,7 @@ public class TraceLogFileState extends LogFileState {
             return line.split("\t");
     }
 
-    public int updateToNextEntry() {
+    public long updateToNextEntry() {
 
         String[] values = getNextLogLine();
 

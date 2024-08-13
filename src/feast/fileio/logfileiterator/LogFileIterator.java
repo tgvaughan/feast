@@ -123,11 +123,11 @@ public class LogFileIterator extends Runnable {
 
             // Increment each input log file by one state
 
-            int nextSample = 0;
+            long nextSample = 0;
 
             for (LogFileState logFileState : logFileStates) {
 
-                int thisSample = logFileState.updateToNextEntry();
+                long thisSample = logFileState.updateToNextEntry();
 
 
                 if (thisSample < 0) {
