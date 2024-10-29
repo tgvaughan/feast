@@ -12,8 +12,7 @@
     <property name="local-beastfx-source-root" location="../BeastFX"/>
 
     <!-- BEAST 2 currently uses Java 1.8 -->
-    <property name="sourceVersion" value="1.8"/>
-    <property name="targetVersion" value="1.8"/>
+    <property name="releaseVersion" value="17"/>
 
     <!-- Directories necessary for all BEAST 2 packages -->
     <property name="examples" location="examples"/>
@@ -97,8 +96,7 @@
         <javac 
             srcdir="${beast-source-root}/src"
             destdir="${build-beast}"
-            source="${sourceVersion}"
-            target="${targetVersion}"
+            release="${releaseVersion}"
             includeantruntime="false"
             encoding="UTF-8"
             fork="yes">
@@ -160,8 +158,7 @@
     <!-- Compile -->
     <target name="compile" depends="build-beast,build-beastfx">
       <javac srcdir="${src}" destdir="${build}"
-             source="${sourceVersion}"
-             target="${targetVersion}"
+             release="${releaseVersion}"
              includeantruntime="false"
              encoding="UTF-8"
              fork="yes">
@@ -198,8 +195,7 @@
     <!-- Compile unit tests -->
     <target name="compile-test" depends="init-test,compile,copy-resources">
       <javac srcdir="${test}" destdir="${build-test}" includeantruntime="false"
-             source="${sourceVersion}"
-             target="${targetVersion}"
+             release="${releaseVersion}"
              fork="yes">
             <classpath>
                 <pathelement path="${classpath}"/>
