@@ -476,6 +476,11 @@ Notice that the expression is supplied as the ~value~ input.  The
 ~arg~ inputs provide one or more ~Function~ objects to be referenced
 within the expression by their IDs.
 
+*When used exclusively for logging*, the value caching behaviour
+~ExpCalculator~ uses by default to reduce unnecessary computation can
+result in the expression not being updated as necessary.  To avoid
+this, set the boolean ~useCaching~ input to =false=.
+
 *** ExpCalculatorDistribution
 :PROPERTIES:
 :CUSTOM_ID: id-3-ExpCalculatorDistribution

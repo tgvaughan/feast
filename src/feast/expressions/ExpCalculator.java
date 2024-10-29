@@ -27,10 +27,7 @@ import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import feast.function.LoggableFunction;
 import org.antlr.v4.runtime.*;
@@ -78,7 +75,11 @@ public class ExpCalculator extends LoggableFunction {
             "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
-    
+    public Input<Boolean> useCachingInput = new Input<>("useCaching",
+            "Set to false to disable caching of function values. " +
+                    "(This can be useful when using ExpCalculator " +
+                    "exclusively for logging.) Default true.", true);
+
     ParseTree parseTree;
     ExpCalculatorVisitor visitor;
     
@@ -113,7 +114,7 @@ public class ExpCalculator extends LoggableFunction {
     }
 
     private void update() {
-        if (visitor != null && dirty) {
+        if (visitor != null && (dirty || !useCachingInput.get())) {
             res = visitor.visit(parseTree);
             dirty = false;
         }
@@ -159,6 +160,16 @@ public class ExpCalculator extends LoggableFunction {
     public double getArrayValue(int i) {
         update();
         return res[i];
+    }
+
+    @Override
+    public double[] getDoubleValues() {
+        update();
+        double[] values = new double[getDimension()];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = res[i];
+        }
+        return values;
     }
 
     @Override

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-10-17 Thu 14:14 -->
+<!-- 2024-10-29 Tue 17:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -792,6 +792,13 @@ representing the birth rate of some birth-death model:
 Notice that the expression is supplied as the <code>value</code> input.  The
 <code>arg</code> inputs provide one or more <code>Function</code> objects to be referenced
 within the expression by their IDs.
+</p>
+
+<p>
+<b>When used exclusively for logging</b>, the value caching behaviour
+<code>ExpCalculator</code> uses by default to reduce unnecessary computation can
+result in the expression not being updated as necessary.  To avoid
+this, set the boolean <code>useCaching</code> input to <code>true</code>.
 </p>
 </div>
 </div>
@@ -1694,7 +1701,7 @@ scripts.
 </p>
 
 
-<figure id="orgfde0d28">
+<figure id="org5982bd7">
 <img src="figures/feastquery.png" alt="feastquery.png">
 
 </figure>
@@ -1731,7 +1738,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2024-10-17 Thu 14:14</p>
+<p class="date">Created: 2024-10-29 Tue 17:57</p>
 </div>
 </body>
 </html>
