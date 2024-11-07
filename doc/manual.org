@@ -60,9 +60,6 @@ organised by topic.
 :CUSTOM_ID: id-2-Importing-data-from-files
 :END:
 
-:PROPERTIES:
-:CUSTOM_ID: id-2-Tree-and-Alignment-Input/Output
-:END:
 *** TreeFromNewickFile & TreeFromNexusFile
 :PROPERTIES:
 :CUSTOM_ID: id-3-TreeFromNewickFile-&-TreeFromNexusFile
