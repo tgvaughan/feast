@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-11-14 Thu 11:50 -->
+<!-- 2024-12-17 Tue 16:38 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -59,7 +59,6 @@
 <ul>
 <li><a href="#id-3-Initialize-RealParameters-from-Functions">2.4.1. Initialize RealParameters from Functions</a></li>
 <li><a href="#id-3-Initializing-RealParameters-using-formatted-times">2.4.2. Initializing RealParameters using formatted times</a></li>
-<li><a href="#id-3-Randomly-initializing-RealParameter-values">2.4.3. Randomly initializing RealParameter values</a></li>
 </ul>
 </li>
 <li><a href="#id-2-RealParameter-and-IntegerParameter-Operators">2.5. RealParameter and IntegerParameter Operators</a>
@@ -86,8 +85,9 @@
 <ul>
 <li><a href="#id-3-Easy-state-simulation">2.8.1. Easy state simulation</a></li>
 <li><a href="#id-3-Sequence-alignment-simulation">2.8.2. Sequence alignment simulation</a></li>
-<li><a href="#id-3-DensityMapper">2.8.3. DensityMapper</a></li>
+<li><a href="#id-3-Randomly-initializing-RealParameter-values">2.8.3. Randomly initializing RealParameter values</a></li>
 <li><a href="#id-3-Sequence-alignment-shuffling">2.8.4. Sequence alignment shuffling</a></li>
+<li><a href="#id-3-DensityMapper">2.8.5. DensityMapper</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Log-File-Post-processing">2.9. Log File Post-processing</a></li>
@@ -926,33 +926,8 @@ TimeParameter is to subtract this value from <code>mostRecentSampleTime</code>.
 </p>
 </div>
 </div>
+</div>
 
-
-<div id="outline-container-id-3-Randomly-initializing-RealParameter-values" class="outline-4">
-<h4 id="id-3-Randomly-initializing-RealParameter-values"><span class="section-number-4">2.4.3.</span> Randomly initializing RealParameter values</h4>
-<div class="outline-text-4" id="text-id-3-Randomly-initializing-RealParameter-values">
-<p>
-Sometimes several attempts are needed to find a acceptable starting state for
-MCMC. An initializer for trees, capable of generating a new starting tree at each
-attempt is implemented in BEAST. <code>RandomRealParameter</code> allows you to sample new
-initial parameter values at each attempt. The distribution, from which to sample, can
-be the parameter prior or any other proper distribution.
-</p>
-
-<p>
-For example, here we sample a birth rate value from a uniform distribution
-at each initialization attempt:
-</p>
-<div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">init</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"birthRateInitializer"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealParameter"</span>
-    <span class="org-nxml-attribute-local-name">initial</span>=<span class="org-string">"@birthRate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">Uniform</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"Uniform.birthRate"</span> <span class="org-nxml-attribute-local-name">name</span>=<span class="org-string">"distr"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">init</span><span class="org-nxml-tag-delimiter">&gt;</span>
-</pre>
-</div>
-</div>
-</div>
-</div>
 
 <div id="outline-container-id-2-RealParameter-and-IntegerParameter-Operators" class="outline-3">
 <h3 id="id-2-RealParameter-and-IntegerParameter-Operators"><span class="section-number-3">2.5.</span> RealParameter and IntegerParameter Operators</h3>
@@ -1377,6 +1352,7 @@ to simulate 100 coalescent trees.
 </p>
 </div>
 </div>
+
 <div id="outline-container-id-3-Sequence-alignment-simulation" class="outline-4">
 <h4 id="id-3-Sequence-alignment-simulation"><span class="section-number-4">2.8.2.</span> Sequence alignment simulation</h4>
 <div class="outline-text-4" id="text-id-3-Sequence-alignment-simulation">
@@ -1439,8 +1415,76 @@ consider the stem lineage to be part of the tree.
 </div>
 </div>
 
+<div id="outline-container-id-3-Randomly-initializing-RealParameter-values" class="outline-4">
+<h4 id="id-3-Randomly-initializing-RealParameter-values"><span class="section-number-4">2.8.3.</span> Randomly initializing RealParameter values</h4>
+<div class="outline-text-4" id="text-id-3-Randomly-initializing-RealParameter-values">
+<p>
+Sometimes several attempts are needed to find a acceptable starting
+state for MCMC. An initializer for trees, capable of generating a new
+starting tree at each attempt is implemented in BEAST. In the same
+way, <code>RandomRealParameter</code> allows you to sample new initial parameter
+values at each attempt. The distribution, from which to sample, can be
+the parameter prior or any other proper distribution.
+</p>
+
+<p>
+For example, here we sample a birth rate value from a uniform distribution
+at each initialization attempt:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">init</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealParameter"</span> <span class="org-nxml-attribute-local-name">initial</span>=<span class="org-string">"@birthRate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.base.inference.distribution.Uniform"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">init</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+
+<p>
+Alternatively, you can use <code>RandomRealParameter</code> wherever BEAST expects a <code>RealParameter</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">birthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealParameter"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.base.inference.distribution.Uniform"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">birthRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-id-3-Sequence-alignment-shuffling" class="outline-4">
+<h4 id="id-3-Sequence-alignment-shuffling"><span class="section-number-4">2.8.4.</span> Sequence alignment shuffling</h4>
+<div class="outline-text-4" id="text-id-3-Sequence-alignment-shuffling">
+<p>
+Occasionally, for the purpose of date randomization tests, it is useful to be
+able to randomize the association between taxon names and the input sequences.
+The <code>ShuffledAlignment</code> class makes this easy.  Simply replace the existing
+alignment definition in the XML, which is usually something like 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"data"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Alignment"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text"> ... </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+
+<p>
+with the folllowing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"data"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.simulation.ShuffledAlignment"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Alignment"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text"> ... </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+
+<p>
+When doing this, take care that you move any ID defined on the original alignment
+object to the new <code>ShuffledAlignment</code> object.
+</p>
+</div>
+</div>
+
 <div id="outline-container-id-3-DensityMapper" class="outline-4">
-<h4 id="id-3-DensityMapper"><span class="section-number-4">2.8.3.</span> DensityMapper</h4>
+<h4 id="id-3-DensityMapper"><span class="section-number-4">2.8.5.</span> DensityMapper</h4>
 <div class="outline-text-4" id="text-id-3-DensityMapper">
 <p>
 This class provides an easy way to produce plots of the variation in a
@@ -1525,39 +1569,6 @@ also provided for all other parameters.
 An example usage of <code>DensityMapper</code> which produces the variation in a
 coalescent tree density as a function of the population size is provided as
 <code>DensityMapper.xml</code> which can be found in the examples directory.
-</p>
-</div>
-</div>
-
-<div id="outline-container-id-3-Sequence-alignment-shuffling" class="outline-4">
-<h4 id="id-3-Sequence-alignment-shuffling"><span class="section-number-4">2.8.4.</span> Sequence alignment shuffling</h4>
-<div class="outline-text-4" id="text-id-3-Sequence-alignment-shuffling">
-<p>
-Occasionally, for the purpose of date randomization tests, it is useful to be
-able to randomize the association between taxon names and the input sequences.
-The <code>ShuffledAlignment</code> class makes this easy.  Simply replace the existing
-alignment definition in the XML, which is usually something like 
-</p>
-
-<div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"data"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Alignment"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text"> ... </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
-</pre>
-</div>
-
-<p>
-with the folllowing:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"data"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.simulation.ShuffledAlignment"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">alignment</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Alignment"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text"> ... </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
-<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">alignment</span><span class="org-nxml-tag-delimiter">&gt;</span>
-</pre>
-</div>
-
-<p>
-When doing this, take care that you move any ID defined on the original alignment
-object to the new <code>ShuffledAlignment</code> object.
 </p>
 </div>
 </div>
@@ -1699,7 +1710,7 @@ scripts.
 </p>
 
 
-<figure id="org9036845">
+<figure id="orgffc84bd">
 <img src="figures/feastquery.png" alt="feastquery.png">
 
 </figure>
@@ -1736,7 +1747,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2024-11-14 Thu 11:50</p>
+<p class="date">Created: 2024-12-17 Tue 16:38</p>
 </div>
 </body>
 </html>
