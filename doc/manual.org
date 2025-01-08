@@ -1105,7 +1105,7 @@ is as follows:
     </logFileState>
 
     <logger logEvery="10000" fileName="processed.log">
-      <log idref="recoveredParameter"/>
+      <log idref="kappa"/>
       <log id="treestat" spec="beast.evolution.tree.TreeStatLogger" tree="@tree"/>
     </logger>
 
