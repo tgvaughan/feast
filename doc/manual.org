@@ -1078,13 +1078,14 @@ coalescent tree density as a function of the population size is provided as
 :CUSTOM_ID: id-2-Log-File-Post-processing
 :END:
 
-Occasionally it's useful to be able to resurrect BEAST states from trace
-and tree log files in order to perform further processing.  This is useful,
-for instance, if you realise that it would have been useful to compute
-additional tree statistics.  Or perhaps you'd like to stochastically map
-ancestral traits onto trees belonging to the posterior of a multi-type
-birth-death analysis.  The ~feast.fileio.LogFileIterator~ class and its
-friends allow you to do these things and more.
+Occasionally it's useful to be able to resurrect BEAST states from
+trace and tree log files in order to perform further processing.  This
+is useful, for instance, if you realise that it would have been useful
+to compute additional tree statistics.  Or perhaps you'd like to
+stochastically map ancestral traits onto trees belonging to the
+posterior of a multi-type birth-death analysis.
+The ~feast.fileio.logfileiterator.LogFileIterator~ class and its friends
+allow you to do these things and more.
 
 The ~LogFileIterator~ class is a ~Runnable~ class, meaning that you use it
 in place of BEAST's usual ~MCMC~ class at the top level.  A trivial example
