@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Ugne Stolz, Tim Vaughan
+ * Copyright (c) 2023 Ugne Stolz, ETH Zurich
  *
  * This file is part of feast.
  *
