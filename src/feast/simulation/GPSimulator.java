@@ -19,6 +19,7 @@
 
 package feast.simulation;
 
+import beast.base.core.BEASTInterface;
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
 import beast.base.core.Input;
@@ -26,7 +27,9 @@ import beast.base.inference.Logger;
 import beast.base.inference.Runnable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Description("This Runnable allows you to iterate the initialisation of some" +
         " BEASTObject and to log the results using the standard Logger mechanism.")
@@ -50,6 +53,8 @@ public class GPSimulator extends Runnable {
     @Override
     public void initAndValidate() { }
 
+    Set<BEASTObject> initializedObjects = new HashSet<>();
+
     @Override
     public void run() throws Exception {
 
@@ -64,8 +69,9 @@ public class GPSimulator extends Runnable {
 
         for (int i=0; i<nSimsInput.get(); i++) {
             if (i>0) {
+                initializedObjects.clear();
                 for (BEASTObject beastObject : beastObjectInput.get())
-                    beastObject.initAndValidate();
+                    recursiveReinit(beastObject, initializedObjects);
             }
 
             // Log state
@@ -77,4 +83,22 @@ public class GPSimulator extends Runnable {
         for (Logger logger : loggersInput.get())
             logger.close();
     }
+
+    void recursiveReinit(BEASTObject beastObject, Set<BEASTObject> initializedObjects) {
+        if (initializedObjects.contains(beastObject))
+            return;
+
+        for (Input<?> input : beastObject.getInputs().values()) {
+            if (input.get() != null && input.get() instanceof  BEASTObject) {
+
+                recursiveReinit((BEASTObject) input.get(), initializedObjects);
+            }
+        }
+
+        beastObject.initAndValidate();
+
+        initializedObjects.add(beastObject);
+    }
+
+
 }
