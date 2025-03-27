@@ -108,5 +108,8 @@ public class TreeFromNexusFile extends TreeParser {
 
         if (translateMap != null)
             translateLeafIds(translateMap);
+
+        for (int nodeNr=0; nodeNr<getLeafNodeCount(); nodeNr++)
+            m_storedNodes[nodeNr].setID(m_nodes[nodeNr].getID());
     }
 }
