@@ -119,16 +119,16 @@ public class DensityMapper extends Runnable {
     Set<StateNode> collectStateNodes(BEASTObject rootObject) {
        HashSet<StateNode> stateNodes = new HashSet<>();
 
-        for (Input input : rootObject.getInputs().values()) {
+        for (Input<?> input : rootObject.getInputs().values()) {
             if (input.get() instanceof  StateNode)
                 stateNodes.add((StateNode) input.get());
-            else if (input.get() instanceof BEASTObject) {
-                stateNodes.addAll(collectStateNodes((BEASTObject)input.get()));
+            else if (input.get() instanceof CalculationNode) {
+                stateNodes.addAll(collectStateNodes((CalculationNode)input.get()));
             } else if (input.get() instanceof List<?>) {
                 for (Object obj : (List<?>) input.get()) {
                     if (obj instanceof StateNode)
                         stateNodes.add((StateNode) obj);
-                    else if (obj instanceof BEASTObject)
+                    else if (obj instanceof CalculationNode)
                         stateNodes.addAll(collectStateNodes((BEASTObject) obj));
                 }
             }
