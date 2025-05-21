@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="128"
+   height="128"
+   viewBox="0 0 33.866667 33.866666"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="FeastQueryIcon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="4.1928019"
+     inkscape:cx="47.22379"
+     inkscape:cy="102.79522"
+     inkscape:window-width="1840"
+     inkscape:window-height="1137"
+     inkscape:window-x="43"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g4"
+       transform="matrix(1.3681181,0,0,1.3681181,-3.4614302,-3.5003451)">
+      <g
+         id="g2"
+         transform="matrix(0.77936205,0,0,0.77936205,-0.01856279,1.3908382)">
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:0.499999;paint-order:fill markers stroke"
+           id="rect1"
+           width="20.950588"
+           height="25.178568"
+           x="6.4580393"
+           y="3.4076259"
+           ry="2.7765839" />
+        <g
+           id="g1"
+           transform="translate(0.43159005,-1.3726739)">
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452727,7.8880226 H 24.358214"
+             id="path1" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452728,10.59704 H 24.358214"
+             id="path1-9" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452728,13.306057 H 24.358214"
+             id="path1-3" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452729,16.015075 H 24.358214"
+             id="path1-9-9" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452729,18.724093 H 24.358214"
+             id="path1-7" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452729,21.43311 H 24.358214"
+             id="path1-9-6" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452729,24.142127 H 24.358214"
+             id="path1-3-2" />
+          <path
+             style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="M 8.6452729,26.851145 H 24.358214"
+             id="path1-9-9-7" />
+        </g>
+      </g>
+      <g
+         id="g3"
+         transform="rotate(40.478317,37.157054,-22.668851)">
+        <circle
+           style="fill:#ffffff;stroke:#000000;stroke-width:0.499999;paint-order:fill markers stroke"
+           id="path2"
+           cx="43.536804"
+           cy="21.649813"
+           r="4.727735" />
+        <circle
+           style="fill:#ffffff;stroke:#000000;stroke-width:0.397008;paint-order:fill markers stroke"
+           id="path2-7"
+           cx="43.536804"
+           cy="21.649813"
+           r="3.7539051" />
+        <rect
+           style="fill:#000000;stroke:#000000;stroke-width:0.499999;paint-order:fill markers stroke"
+           id="rect3"
+           width="10.639368"
+           height="2.3660443"
+           x="48.264538"
+           y="20.466789"
+           ry="0.83594853" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:1.81545px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;word-spacing:0px;text-anchor:middle;stroke-width:0.0680792"
+         x="13.200945"
+         y="15.319727"
+         id="text3"><tspan
+           sodipodi:role="line"
+           id="tspan3"
+           x="13.200945"
+           y="15.319727"
+           style="stroke-width:0.0680792">&lt;RealPa</tspan></text>
+    </g>
+  </g>
+</svg>
