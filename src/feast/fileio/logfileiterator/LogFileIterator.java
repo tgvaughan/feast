@@ -151,8 +151,11 @@ public class LogFileIterator extends Runnable {
                 }
             }
 
+
             // Update log file parameter outputs
             state.robustlyCalcPosterior(dummyPosterior);
+            state.setEverythingDirty(true);
+            state.checkCalculationNodesDirtiness();
 
             // Generate output log files for this state
 

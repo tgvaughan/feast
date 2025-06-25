@@ -99,7 +99,7 @@ public class TraceLogFileState extends LogFileState {
     @Override
     public List<StateNode> getStateNodes() {
         if (stateNodes == null)
-            stateNodes = logFileEntries.stream().map(e -> e.fieldParameter).collect(Collectors.toList());
+            stateNodes = logFileEntries.stream().map(e -> e.fieldParameter).distinct().collect(Collectors.toList());
 
         return stateNodes;
     }
