@@ -39,6 +39,13 @@ Documentation
 A guide to the various components in feast (with examples) can be
 found at https://tgvaughan.github.io/feast.
 
+Note for Programmers
+--------------------
+
+Please avoid including feast as a dependency in your BEAST 2 packages.
+It is intended as a _user_-facing library to allow more freedom to specify
+models, and may change often as better approaches to this goal are found.
+
 License
 -------
 
