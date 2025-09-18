@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-17 Mon 14:40 -->
+<!-- 2025-09-18 Thu 17:26 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -46,6 +46,7 @@
 <li><a href="#id-3-Function-concatenation">2.2.4. Function concatenation</a></li>
 <li><a href="#id-3-Function-scaling">2.2.5. Function scaling</a></li>
 <li><a href="#id-3-Function-interleaving">2.2.6. Function interleaving</a></li>
+<li><a href="#id-3-Functions-from-Trees-and-Tree-metadata">2.2.7. Functions from Trees and Tree metadata</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Mathematical-Expressions">2.3. Mathematical Expressions</a>
@@ -55,9 +56,9 @@
 <li><a href="#id-3-ExpCalculatorParametricDistribution">2.3.3. ExpCalculatorParametricDistribution</a></li>
 </ul>
 </li>
-<li><a href="#id-2-RealParameter-initialisation">2.4. RealParameter initialisation</a>
+<li><a href="#id-2-Parameter-initialisation">2.4. Parameter initialisation</a>
 <ul>
-<li><a href="#id-3-Initialize-RealParameters-from-Functions">2.4.1. Initialize RealParameters from Functions</a></li>
+<li><a href="#id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions">2.4.1. Initialize RealParameters and IntegerParameters from Functions</a></li>
 <li><a href="#id-3-Initializing-RealParameters-using-formatted-times">2.4.2. Initializing RealParameters using formatted times</a></li>
 </ul>
 </li>
@@ -102,7 +103,6 @@
 <p>
 GitHub Repository: <a href="https://github.com/tgvaughan/feast">https://github.com/tgvaughan/feast</a>
 </p>
-
 <div id="outline-container-id-1-Overview" class="outline-2">
 <h2 id="id-1-Overview"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-id-1-Overview">
@@ -119,7 +119,6 @@ You won't find new models here, but you will find different
 ways to combine existing models and make certain tasks easier.
 </p>
 </div>
-
 <div id="outline-container-id-2-Installation" class="outline-3">
 <h3 id="id-2-Installation"><span class="section-number-3">1.1.</span> Installation</h3>
 <div class="outline-text-3" id="text-id-2-Installation">
@@ -130,7 +129,6 @@ the "Install/Upgrade" button.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-2-Building-from-source" class="outline-3">
 <h3 id="id-2-Building-from-source"><span class="section-number-3">1.2.</span> Building from source</h3>
 <div class="outline-text-3" id="text-id-2-Building-from-source">
@@ -153,7 +151,6 @@ The package archive will be left in the <code>dist/</code> directory.
 </div>
 </div>
 </div>
-
 <div id="outline-container-id-1-Features" class="outline-2">
 <h2 id="id-1-Features"><span class="section-number-2">2.</span> Features</h2>
 <div class="outline-text-2" id="text-id-1-Features">
@@ -162,12 +159,10 @@ This section aims to be a complete list of the features feast provides,
 organised by topic.
 </p>
 </div>
-
 <div id="outline-container-id-2-Importing-data-from-files" class="outline-3">
 <h3 id="id-2-Importing-data-from-files"><span class="section-number-3">2.1.</span> Importing data from files</h3>
 <div class="outline-text-3" id="text-id-2-Importing-data-from-files">
 </div>
-
 <div id="outline-container-id-3-TreeFromNewickFile-&-TreeFromNexusFile" class="outline-4">
 <h4 id="id-3-TreeFromNewickFile-&-TreeFromNexusFile"><span class="section-number-4">2.1.1.</span> TreeFromNewickFile &amp; TreeFromNexusFile</h4>
 <div class="outline-text-4" id="text-id-3-TreeFromNewickFile-&-TreeFromNexusFile">
@@ -210,7 +205,6 @@ which use the age of tips to classify samples as resulting from
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-TraitSetFromTaxonSet" class="outline-4">
 <h4 id="id-3-TraitSetFromTaxonSet"><span class="section-number-4">2.1.2.</span> TraitSetFromTaxonSet</h4>
 <div class="outline-text-4" id="text-id-3-TraitSetFromTaxonSet">
@@ -250,7 +244,6 @@ Instead of <code>everythingAfterLast="true"</code>, one can also use <code>every
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-TraitSetFromXSV" class="outline-4">
 <h4 id="id-3-TraitSetFromXSV"><span class="section-number-4">2.1.3.</span> TraitSetFromXSV</h4>
 <div class="outline-text-4" id="text-id-3-TraitSetFromXSV">
@@ -313,7 +306,6 @@ be useful for CSV/TSV files which include a header line.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-TaxonSetFromTree-&-TipDatesFromTree" class="outline-4">
 <h4 id="id-3-TaxonSetFromTree-&-TipDatesFromTree"><span class="section-number-4">2.1.4.</span> TaxonSetFromTree &amp; TipDatesFromTree</h4>
 <div class="outline-text-4" id="text-id-3-TaxonSetFromTree-&-TipDatesFromTree">
@@ -350,7 +342,6 @@ representing the ages of tips on an input tree:
 </div>
 </div>
 </div>
-
 <div id="outline-container-id-3-AlignmentFromNexus/Fasta" class="outline-4">
 <h4 id="id-3-AlignmentFromNexus/Fasta"><span class="section-number-4">2.1.5.</span> AlignmentFromNexus/Fasta</h4>
 <div class="outline-text-4" id="text-id-3-AlignmentFromNexus/Fasta">
@@ -396,7 +387,6 @@ fragment to disk.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-Initialize-RealParameters-from-CSV/TSV-files" class="outline-4">
 <h4 id="id-3-Initialize-RealParameters-from-CSV/TSV-files"><span class="section-number-4">2.1.6.</span> Initialize RealParameters from CSV/TSV files</h4>
 <div class="outline-text-4" id="text-id-3-Initialize-RealParameters-from-CSV/TSV-files">
@@ -449,7 +439,6 @@ is read.
 </div>
 </div>
 </div>
-
 <div id="outline-container-id-2-Function-(array)-creation-and-manipulation" class="outline-3">
 <h3 id="id-2-Function-(array)-creation-and-manipulation"><span class="section-number-3">2.2.</span> Function (array) creation and manipulation</h3>
 <div class="outline-text-3" id="text-id-2-Function-(array)-creation-and-manipulation">
@@ -473,7 +462,6 @@ meaning that they can be passed directly as inputs to the <code>&lt;logger/&gt;<
 XML.
 </p>
 </div>
-
 <div id="outline-container-id-3-Numeric-sequences-as-Functions" class="outline-4">
 <h4 id="id-3-Numeric-sequences-as-Functions"><span class="section-number-4">2.2.1.</span> Numeric sequences as Functions</h4>
 <div class="outline-text-4" id="text-id-3-Numeric-sequences-as-Functions">
@@ -613,9 +601,43 @@ is a <code>Function</code> with a value of 3.
 </p>
 </div>
 </div>
+<div id="outline-container-id-3-Functions-from-Trees-and-Tree-metadata" class="outline-4">
+<h4 id="id-3-Functions-from-Trees-and-Tree-metadata"><span class="section-number-4">2.2.7.</span> Functions from Trees and Tree metadata</h4>
+<div class="outline-text-4" id="text-id-3-Functions-from-Trees-and-Tree-metadata">
+<p>
+Every BEAST <code>Tree</code> object is already a <code>Function</code> whose $i^{\text{th}}$ element is the
+age of the node with index (node number) $i$.
+</p>
+
+<p>
+The <code>feast.function.TraitSetAsFunction</code> class can be used to represent numeric <code>TraitSet</code>
+elements as elements of a <code>Function</code>.  For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nodeAges</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.TraitSetAsFunction"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
 </div>
+<p>
+Represents such an <code>Function</code>.
+</p>
 
-
+<p>
+Similarly, the <code>feast.function.MetadataAsFunction</code> class can be used to represent
+arbitrary numeric metadata included in the tree object as a <code>Function</code>.  For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nodeMeta</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.MetadataAsFunction"</span> <span class="org-nxml-attribute-local-name">key</span>=<span class="org-string">"md"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">tree</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TreeParser"</span> <span class="org-nxml-attribute-local-name">newick</span>=<span class="org-string">"(0[&amp;md=10]:1,(1[&amp;md=11]:1,2[&amp;md=12]:2)3:1)4:0;"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">nodeMeta</span><span class="org-nxml-tag-delimiter">&gt;</span> 
+</pre>
+</div>
+<p>
+is a <code>Function</code> of length 5 having elements [10,11,12,NaN,NaN].  (Note that missing
+values are represented in the <code>Function</code> with NaN.)
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-id-2-Mathematical-Expressions" class="outline-3">
 <h3 id="id-2-Mathematical-Expressions"><span class="section-number-3">2.3.</span> Mathematical Expressions</h3>
 <div class="outline-text-3" id="text-id-2-Mathematical-Expressions">
@@ -624,8 +646,6 @@ The following classes, which are found in <code>feast.expressions</code>, provid
 support for parsing of simple arithmetic expressions.
 </p>
 </div>
-
-
 <div id="outline-container-id-3-ExpCalculator" class="outline-4">
 <h4 id="id-3-ExpCalculator"><span class="section-number-4">2.3.1.</span> ExpCalculator</h4>
 <div class="outline-text-4" id="text-id-3-ExpCalculator">
@@ -800,7 +820,6 @@ this, set the boolean <code>useCaching</code> input to <code>false</code>.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-ExpCalculatorDistribution" class="outline-4">
 <h4 id="id-3-ExpCalculatorDistribution"><span class="section-number-4">2.3.2.</span> ExpCalculatorDistribution</h4>
 <div class="outline-text-4" id="text-id-3-ExpCalculatorDistribution">
@@ -821,8 +840,6 @@ density.
 </p>
 </div>
 </div>
-
-
 <div id="outline-container-id-3-ExpCalculatorParametricDistribution" class="outline-4">
 <h4 id="id-3-ExpCalculatorParametricDistribution"><span class="section-number-4">2.3.3.</span> ExpCalculatorParametricDistribution</h4>
 <div class="outline-text-4" id="text-id-3-ExpCalculatorParametricDistribution">
@@ -833,18 +850,18 @@ functionality that is compatible with beast.math.distributions.Prior.
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-id-2-RealParameter-initialisation" class="outline-3">
-<h3 id="id-2-RealParameter-initialisation"><span class="section-number-3">2.4.</span> RealParameter initialisation</h3>
-<div class="outline-text-3" id="text-id-2-RealParameter-initialisation">
+<div id="outline-container-id-2-Parameter-initialisation" class="outline-3">
+<h3 id="id-2-Parameter-initialisation"><span class="section-number-3">2.4.</span> Parameter initialisation</h3>
+<div class="outline-text-3" id="text-id-2-Parameter-initialisation">
 </div>
-<div id="outline-container-id-3-Initialize-RealParameters-from-Functions" class="outline-4">
-<h4 id="id-3-Initialize-RealParameters-from-Functions"><span class="section-number-4">2.4.1.</span> Initialize RealParameters from Functions</h4>
-<div class="outline-text-4" id="text-id-3-Initialize-RealParameters-from-Functions">
+<div id="outline-container-id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions" class="outline-4">
+<h4 id="id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions"><span class="section-number-4">2.4.1.</span> Initialize RealParameters and IntegerParameters from Functions</h4>
+<div class="outline-text-4" id="text-id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions">
 <p>
-The <code>RealParameterFromFunction</code> class provides a <code>RealParameter</code> which is
-<b><b>initialized</b></b> from a <code>Function</code>.  Thus you can do things like
+The <code>feast.parameter.RealParameterFromFunction</code> and
+<code>feast.parameter.IntegerParameterFromFunction</code> classes each provide a
+<code>Parameter</code> which is <b><b>initialized</b></b> from a <code>Function</code>.  Thus you can
+do things like
 </p>
 
 <div class="org-src-container">
@@ -862,9 +879,9 @@ automatically falls just before the oldest sample.
 </p>
 
 <p>
-Beware that <code>RealParameterFromFunction</code> only retrieves the <code>Function</code> values
-during initialization. <b><b>Changes in the <code>Function</code> values after initialization
-will not be reflected in the parameter!</b></b>
+Beware that these classes retrieve the <code>Function</code> values only during
+initialization. <b><b>Changes in the <code>Function</code> values after
+initialization will not be reflected in the parameter!</b></b>
 </p>
 </div>
 </div>
@@ -927,8 +944,6 @@ TimeParameter is to subtract this value from <code>mostRecentSampleTime</code>.
 </div>
 </div>
 </div>
-
-
 <div id="outline-container-id-2-RealParameter-and-IntegerParameter-Operators" class="outline-3">
 <h3 id="id-2-RealParameter-and-IntegerParameter-Operators"><span class="section-number-3">2.5.</span> RealParameter and IntegerParameter Operators</h3>
 <div class="outline-text-3" id="text-id-2-RealParameter-and-IntegerParameter-Operators">
@@ -993,7 +1008,6 @@ elements.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-Operators-on-IntegerParameters" class="outline-4">
 <h4 id="id-3-Operators-on-IntegerParameters"><span class="section-number-4">2.5.2.</span> Operators on IntegerParameters</h4>
 <div class="outline-text-4" id="text-id-3-Operators-on-IntegerParameters">
@@ -1019,9 +1033,6 @@ described above.
 </div>
 </div>
 </div>
-
-
-
 <div id="outline-container-id-2-Coalescent-population-functions" class="outline-3">
 <h3 id="id-2-Coalescent-population-functions"><span class="section-number-3">2.6.</span> Coalescent population functions</h3>
 <div class="outline-text-3" id="text-id-2-Coalescent-population-functions">
@@ -1105,7 +1116,6 @@ simple coalescent analysis.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-Expression-coalescent-population-functions" class="outline-4">
 <h4 id="id-3-Expression-coalescent-population-functions"><span class="section-number-4">2.6.3.</span> Expression coalescent population functions</h4>
 <div class="outline-text-4" id="text-id-3-Expression-coalescent-population-functions">
@@ -1121,9 +1131,9 @@ an exponentially-decaying amplitude:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.popmodels.ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-<span class="org-nxml-text">  exp(0.1t)*(cos(2*t) + 2)</span>
-<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.popmodels.ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">
+  exp(0.1t)*(cos(2*t) + 2)
+</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -1131,9 +1141,9 @@ an exponentially-decaying amplitude:
 These models can also depend on one or more <code>RealParameter</code> or <code>Function</code> objects:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-<span class="org-nxml-text">  exp(gamma*t)*(cos(omega*t) + 2)</span>
-<span class="org-nxml-text">  </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"omega"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">
+  exp(gamma*t)*(cos(omega*t) + 2)
+  </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"omega"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
   <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"gamma"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
@@ -1170,7 +1180,6 @@ model, particularly for quickly-changing population functions!
 </div>
 </div>
 </div>
-
 <div id="outline-container-id-2-Model-selection-and-averaging" class="outline-3">
 <h3 id="id-2-Model-selection-and-averaging"><span class="section-number-3">2.7.</span> Model selection and averaging</h3>
 <div class="outline-text-3" id="text-id-2-Model-selection-and-averaging">
@@ -1312,8 +1321,6 @@ I.e. parameters must have the same dimension and satisfy the bounds of
 </div>
 </div>
 </div>
-
-
 <div id="outline-container-id-2-Simulation-and-Testing" class="outline-3">
 <h3 id="id-2-Simulation-and-Testing"><span class="section-number-3">2.8.</span> Simulation and Testing</h3>
 <div class="outline-text-3" id="text-id-2-Simulation-and-Testing">
@@ -1352,7 +1359,6 @@ to simulate 100 coalescent trees.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-Sequence-alignment-simulation" class="outline-4">
 <h4 id="id-3-Sequence-alignment-simulation"><span class="section-number-4">2.8.2.</span> Sequence alignment simulation</h4>
 <div class="outline-text-4" id="text-id-3-Sequence-alignment-simulation">
@@ -1414,7 +1420,6 @@ consider the stem lineage to be part of the tree.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-Randomly-initializing-RealParameter-values" class="outline-4">
 <h4 id="id-3-Randomly-initializing-RealParameter-values"><span class="section-number-4">2.8.3.</span> Randomly initializing RealParameter values</h4>
 <div class="outline-text-4" id="text-id-3-Randomly-initializing-RealParameter-values">
@@ -1449,7 +1454,6 @@ Alternatively, you can use <code>RandomRealParameter</code> wherever BEAST expec
 </div>
 </div>
 </div>
-
 <div id="outline-container-id-3-Sequence-alignment-shuffling" class="outline-4">
 <h4 id="id-3-Sequence-alignment-shuffling"><span class="section-number-4">2.8.4.</span> Sequence alignment shuffling</h4>
 <div class="outline-text-4" id="text-id-3-Sequence-alignment-shuffling">
@@ -1482,7 +1486,6 @@ object to the new <code>ShuffledAlignment</code> object.
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-3-DensityMapper" class="outline-4">
 <h4 id="id-3-DensityMapper"><span class="section-number-4">2.8.5.</span> DensityMapper</h4>
 <div class="outline-text-4" id="text-id-3-DensityMapper">
@@ -1573,7 +1576,6 @@ coalescent tree density as a function of the population size is provided as
 </div>
 </div>
 </div>
-
 <div id="outline-container-id-2-Log-File-Post-processing" class="outline-3">
 <h3 id="id-2-Log-File-Post-processing"><span class="section-number-3">2.9.</span> Log File Post-processing</h3>
 <div class="outline-text-3" id="text-id-2-Log-File-Post-processing">
@@ -1631,7 +1633,6 @@ of "tree" are then written to the file "processed.log" and the screen in the usu
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-2-Single-BEAST-2.7-Jar-files" class="outline-3">
 <h3 id="id-2-Single-BEAST-2.7-Jar-files"><span class="section-number-3">2.10.</span> Single BEAST 2.7 Jar files</h3>
 <div class="outline-text-3" id="text-id-2-Single-BEAST-2.7-Jar-files">
@@ -1693,7 +1694,6 @@ here <code>/path/to/openjfx/libs</code> specifies the location of the JavaFX lib
 </p>
 </div>
 </div>
-
 <div id="outline-container-id-2-Feast-Query:-BEAST-2.7-Object-Browser" class="outline-3">
 <h3 id="id-2-Feast-Query:-BEAST-2.7-Object-Browser"><span class="section-number-3">2.11.</span> Feast Query: BEAST 2.7 Object Browser</h3>
 <div class="outline-text-3" id="text-id-2-Feast-Query:-BEAST-2.7-Object-Browser">
@@ -1711,7 +1711,7 @@ scripts.
 </p>
 
 
-<figure id="org0466270">
+<figure id="org2f3364d">
 <img src="figures/feastquery.png" alt="feastquery.png">
 
 </figure>
@@ -1732,8 +1732,6 @@ the class you're looking for.</li>
 </div>
 </div>
 </div>
-
-
 <div id="outline-container-id-1-License" class="outline-2">
 <h2 id="id-1-License"><span class="section-number-2">3.</span> License</h2>
 <div class="outline-text-2" id="text-id-1-License">
@@ -1748,7 +1746,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2025-03-17 Mon 14:40</p>
+<p class="date">Created: 2025-09-18 Thu 17:26</p>
 </div>
 </body>
 </html>

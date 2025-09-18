@@ -403,6 +403,31 @@ number of unique values contained in the elements of an input
 is a ~Function~ with a value of 3.
 
 
+*** Functions from Trees and Tree metadata
+:PROPERTIES:
+:CUSTOM_ID: id-3-Functions-from-Trees-and-Tree-metadata
+:END:
+
+Every BEAST ~Tree~ object is already a ~Function~ whose $i^{\text{th}}$ element is the
+age of the node with index (node number) $i$.
+
+The ~feast.function.TraitSetAsFunction~ class can be used to represent numeric ~TraitSet~
+elements as elements of a ~Function~.  For instance,
+#+begin_src xml
+  <nodeAges spec="feast.function.TraitSetAsFunction" traitSet="@dateTrait"/>
+#+end_src
+Represents such an ~Function~.
+
+Similarly, the ~feast.function.MetadataAsFunction~ class can be used to represent
+arbitrary numeric metadata included in the tree object as a ~Function~.  For instance,
+#+begin_src xml
+  <nodeMeta spec="feast.function.MetadataAsFunction" key="md">
+    <tree spec="TreeParser" newick="(0[&md=10]:1,(1[&md=11]:1,2[&md=12]:2)3:1)4:0;"/>
+  </nodeMeta> 
+#+end_src
+is a ~Function~ of length 5 having elements [10,11,12,NaN,NaN].  (Note that missing
+values are represented in the ~Function~ with NaN.)
+
 ** Mathematical Expressions 
 :PROPERTIES:
 :CUSTOM_ID: id-2-Mathematical-Expressions
@@ -505,17 +530,19 @@ This provides a cut-down version of the ExpCalculatorDistribution
 functionality that is compatible with beast.math.distributions.Prior.
 
 
-** RealParameter initialisation
+** Parameter initialisation
 :PROPERTIES:
-:CUSTOM_ID: id-2-RealParameter-initialisation
+:CUSTOM_ID: id-2-Parameter-initialisation
 :END:
-*** Initialize RealParameters from Functions
+*** Initialize RealParameters and IntegerParameters from Functions
 :PROPERTIES:
-:CUSTOM_ID: id-3-Initialize-RealParameters-from-Functions
+:CUSTOM_ID: id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions
 :END:
 
-The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
-**initialized** from a ~Function~.  Thus you can do things like
+The ~feast.parameter.RealParameterFromFunction~ and
+~feast.parameter.IntegerParameterFromFunction~ classes each provide a
+~Parameter~ which is **initialized** from a ~Function~.  Thus you can
+do things like
 
 #+begin_src xml
 <samplingRateChangeTimes spec="feast.parameter.RealParameterFromFunction">
@@ -528,9 +555,10 @@ The ~RealParameterFromFunction~ class provides a ~RealParameter~ which is
 which initializes a BDSKY sampling rate change time array so that the change
 automatically falls just before the oldest sample.
 
-Beware that ~RealParameterFromFunction~ only retrieves the ~Function~ values
-during initialization. **Changes in the ~Function~ values after initialization
-will not be reflected in the parameter!**
+Beware that these classes retrieve the ~Function~ values only during
+initialization. **Changes in the ~Function~ values after
+initialization will not be reflected in the parameter!**
+
 *** Initializing RealParameters using formatted times
 :PROPERTIES:
 :CUSTOM_ID: id-3-Initializing-RealParameters-using-formatted-times
