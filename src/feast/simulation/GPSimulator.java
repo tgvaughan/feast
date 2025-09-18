@@ -19,7 +19,6 @@
 
 package feast.simulation;
 
-import beast.base.core.BEASTInterface;
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
 import beast.base.core.Input;
