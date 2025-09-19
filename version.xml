@@ -40,6 +40,7 @@
     <provider classname="feast.function.Reverse"/>
     <provider classname="feast.function.Concatenate"/>
     <provider classname="feast.function.TraitSetAsFunction"/>
+    <provider classname="feast.function.MetadataAsFunction"/>
     <provider classname="feast.function.Interleave"/>
     <provider classname="feast.function.LoggableFunction"/>
     <provider classname="feast.function.Slice"/>
@@ -66,6 +67,7 @@
     <provider classname="feast.expressions.parser.ExpressionLexer"/>
     <provider classname="feast.expressions.ExpCalculatorParametricDistribution"/>
     <provider classname="feast.parameter.RealParameterFromFunction"/>
+    <provider classname="feast.parameter.IntegerParameterFromFunction"/>
     <provider classname="feast.parameter.TimeParameter"/>
     <provider classname="feast.parameter.RandomRealParameter"/>
     <provider classname="feast.popmodels.ShiftedPopulationModel"/>
