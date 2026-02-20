@@ -90,7 +90,7 @@ public class TraceLogFileState extends LogFileState {
             columnEntryMap.get(c).setFieldParameterValue(values[c]);
         }
 
-        currentSample = Integer.parseInt(values[0]);
+        currentSample = Long.parseLong(values[0]);
         return currentSample;
     }
 
