@@ -20,13 +20,14 @@
 package feast.simulation;
 
 import beast.base.evolution.alignment.Sequence;
-import beast.base.evolution.sitemodel.SiteModel;
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.TreeParser;
+import beast.base.spec.evolution.sitemodel.SiteModel;
 import beast.base.util.Randomizer;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SimulatedAlignmentTest {
 
@@ -58,7 +59,7 @@ public class SimulatedAlignmentTest {
         }
 
         // This should hold for low substitution rates
-        Assert.assertEquals(1e-3, snpCount/100000.0/getTreeLength(tree.getRoot()), 1e-4);
+        assertEquals(1e-3, snpCount/100000.0/getTreeLength(tree.getRoot()), 1e-4);
     }
 
     private double getTreeLength(Node root) {
@@ -91,7 +92,7 @@ public class SimulatedAlignmentTest {
                 "startingSequence", new Sequence("parent", startingSequence));
 
         for (Sequence leafSequence : simulatedAlignment.sequenceInput.get())
-            Assert.assertEquals(startingSequence, leafSequence.dataInput.get());
+            assertEquals(startingSequence, leafSequence.dataInput.get());
     }
 
     @Test
@@ -112,6 +113,6 @@ public class SimulatedAlignmentTest {
                 "startingSequenceAge", "4.0");
 
         for (Sequence leafSequence : simulatedAlignment.sequenceInput.get())
-            Assert.assertEquals(startingSequence, leafSequence.dataInput.get());
+            assertEquals(startingSequence, leafSequence.dataInput.get());
     }
 }

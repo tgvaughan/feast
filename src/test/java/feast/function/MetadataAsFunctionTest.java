@@ -21,8 +21,10 @@ package feast.function;
 
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeParser;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MetadataAsFunctionTest {
 
@@ -33,15 +35,15 @@ public class MetadataAsFunctionTest {
         MetadataAsFunction mdfunc = new MetadataAsFunction();
         mdfunc.initByName("tree", tree, "key", "md");
 
-        Assert.assertEquals((Double)tree.getNode(0).getMetaData("md"),
-                mdfunc.getArrayValue(0), 1e-10);
-        Assert.assertEquals((Double)tree.getNode(1).getMetaData("md"),
-                mdfunc.getArrayValue(1), 1e-10);
-        Assert.assertEquals((Double)tree.getNode(2).getMetaData("md"),
-                mdfunc.getArrayValue(2), 1e-10);
+        assertEquals((Double)tree.getNode(0).getMetaData("md"),
+         mdfunc.getArrayValue(0), 1e-10);
+        assertEquals((Double)tree.getNode(1).getMetaData("md"),
+         mdfunc.getArrayValue(1), 1e-10);
+        assertEquals((Double)tree.getNode(2).getMetaData("md"),
+         mdfunc.getArrayValue(2), 1e-10);
 
-        Assert.assertTrue(Double.isNaN(mdfunc.getArrayValue(3)));
-        Assert.assertTrue(Double.isNaN(mdfunc.getArrayValue(4)));
+        assertTrue(Double.isNaN(mdfunc.getArrayValue(3)));
+        assertTrue(Double.isNaN(mdfunc.getArrayValue(4)));
     }
 
 }

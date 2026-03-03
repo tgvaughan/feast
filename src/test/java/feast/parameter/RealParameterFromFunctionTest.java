@@ -20,8 +20,9 @@
 package feast.parameter;
 
 import beast.base.inference.parameter.RealParameter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RealParameterFromFunctionTest {
 
@@ -32,9 +33,9 @@ public class RealParameterFromFunctionTest {
         RealParameterFromFunction rpff = new RealParameterFromFunction();
         rpff.initByName("function", originalParameter);
 
-        Assert.assertEquals(3, rpff.getDimension(), 1e-10);
-        Assert.assertEquals(originalParameter.getValue(0), rpff.getValue(0), 1e-10);
-        Assert.assertEquals(originalParameter.getValue(1), rpff.getValue(1), 1e-10);
-        Assert.assertEquals(originalParameter.getValue(2), rpff.getValue(2), 1e-10);
+        assertEquals(3, rpff.getDimension(), 1e-10);
+        assertEquals(originalParameter.getValue(0), rpff.getValue(0), 1e-10);
+        assertEquals(originalParameter.getValue(1), rpff.getValue(1), 1e-10);
+        assertEquals(originalParameter.getValue(2), rpff.getValue(2), 1e-10);
     }
 }

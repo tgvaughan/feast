@@ -1,8 +1,9 @@
 package feast.function;
 
 import beast.base.inference.parameter.RealParameter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterleaveTest {
 
@@ -23,21 +24,21 @@ public class InterleaveTest {
         for (int i=0; i<interleave.getDimension(); i++)
             System.out.print(interleave.getArrayValue(i) + " ");
 
-        Assert.assertEquals(16, interleave.getDimension());
+        assertEquals(16, interleave.getDimension());
 
-        Assert.assertEquals(arg1.getArrayValue(0), interleave.getArrayValue(0), 1e-10);
-        Assert.assertEquals(arg2.getArrayValue(0), interleave.getArrayValue(1), 1e-10);
-        Assert.assertEquals(arg3.getArrayValue(0), interleave.getArrayValue(2), 1e-10);
-        Assert.assertEquals(arg4.getArrayValue(0), interleave.getArrayValue(3), 1e-10);
+        assertEquals(arg1.getArrayValue(0), interleave.getArrayValue(0), 1e-10);
+        assertEquals(arg2.getArrayValue(0), interleave.getArrayValue(1), 1e-10);
+        assertEquals(arg3.getArrayValue(0), interleave.getArrayValue(2), 1e-10);
+        assertEquals(arg4.getArrayValue(0), interleave.getArrayValue(3), 1e-10);
 
-        Assert.assertEquals(arg1.getArrayValue(2), interleave.getArrayValue(8), 1e-10);
-        Assert.assertEquals(arg2.getArrayValue(2), interleave.getArrayValue(9), 1e-10);
-        Assert.assertEquals(arg3.getArrayValue(0), interleave.getArrayValue(10), 1e-10);
-        Assert.assertEquals(arg4.getArrayValue(0), interleave.getArrayValue(11), 1e-10);
+        assertEquals(arg1.getArrayValue(2), interleave.getArrayValue(8), 1e-10);
+        assertEquals(arg2.getArrayValue(2), interleave.getArrayValue(9), 1e-10);
+        assertEquals(arg3.getArrayValue(0), interleave.getArrayValue(10), 1e-10);
+        assertEquals(arg4.getArrayValue(0), interleave.getArrayValue(11), 1e-10);
 
-        Assert.assertEquals(arg1.getArrayValue(3), interleave.getArrayValue(12), 1e-10);
-        Assert.assertEquals(arg2.getArrayValue(0), interleave.getArrayValue(13), 1e-10);
-        Assert.assertEquals(arg3.getArrayValue(1), interleave.getArrayValue(14), 1e-10);
-        Assert.assertEquals(arg4.getArrayValue(0), interleave.getArrayValue(15), 1e-10);
+        assertEquals(arg1.getArrayValue(3), interleave.getArrayValue(12), 1e-10);
+        assertEquals(arg2.getArrayValue(0), interleave.getArrayValue(13), 1e-10);
+        assertEquals(arg3.getArrayValue(1), interleave.getArrayValue(14), 1e-10);
+        assertEquals(arg4.getArrayValue(0), interleave.getArrayValue(15), 1e-10);
     }
 }

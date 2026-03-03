@@ -17,9 +17,10 @@
 
 package feast.fileio;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  *
@@ -56,13 +57,13 @@ public class TreeFromNewickFileTest {
         assertEquals(5, tree.getNodeCount());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testTreeIndexOOB() {
         TreeFromNewickFile tree = new TreeFromNewickFile();
-        tree.initByName(
+        assertThrows(RuntimeException.class, () -> tree.initByName(
                 "fileName", "test/feast/fileio/test_trees.newick",
                 "treeIndex", 2,
                 "IsLabelledNewick", true,
-                "adjustTipHeights", false);
+                "adjustTipHeights", false));
     }
 }

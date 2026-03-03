@@ -25,8 +25,9 @@ import beast.base.inference.distribution.Uniform;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.util.DiscreteStatistics;
 import beast.base.util.Randomizer;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RandomRealParameterTest {
 
@@ -41,8 +42,8 @@ public class RandomRealParameterTest {
         randomRealParameter.initByName("dimension", "100000", "value", "0",
                 "distr", distr);
 
-        Assert.assertEquals(7.5, DiscreteStatistics.mean(randomRealParameter.getDoubleValues()), 0.01);
-        Assert.assertEquals(25.0/12.0, DiscreteStatistics.variance(randomRealParameter.getDoubleValues()), 0.01);
+        assertEquals(7.5, DiscreteStatistics.mean(randomRealParameter.getDoubleValues()), 0.01);
+        assertEquals(25.0/12.0, DiscreteStatistics.variance(randomRealParameter.getDoubleValues()), 0.01);
 
     }
 
@@ -60,8 +61,8 @@ public class RandomRealParameterTest {
         randomRealParameter.initByName("initial",  paramToInitialise,
                 "distr", distr);
 
-        Assert.assertEquals(7.5, DiscreteStatistics.mean(paramToInitialise.getDoubleValues()), 0.01);
-        Assert.assertEquals(25.0/12.0, DiscreteStatistics.variance(paramToInitialise.getDoubleValues()), 0.01);
+        assertEquals(7.5, DiscreteStatistics.mean(paramToInitialise.getDoubleValues()), 0.01);
+        assertEquals(25.0/12.0, DiscreteStatistics.variance(paramToInitialise.getDoubleValues()), 0.01);
 
     }
 }

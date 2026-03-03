@@ -17,13 +17,12 @@
 
 package feast.fileio;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -69,14 +68,14 @@ public class TreeFromNexusFileTest {
         assertFalse(taxonNames.contains("pig"));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testTreeIndexOOB() throws Exception {
 
         TreeFromNexusFile tree = new TreeFromNexusFile();
-        tree.initByName(
+        assertThrows(RuntimeException.class, () -> tree.initByName(
                 "fileName", "test/feast/fileio/test_trees.nexus",
                 "IsLabelledNewick", true,
                 "treeIndex", 2,
-                "adjustTipHeights", false);
+                "adjustTipHeights", false));
     }
 }

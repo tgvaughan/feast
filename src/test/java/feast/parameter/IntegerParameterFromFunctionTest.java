@@ -20,8 +20,9 @@
 package feast.parameter;
 
 import beast.base.inference.parameter.IntegerParameter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IntegerParameterFromFunctionTest {
 
@@ -32,9 +33,9 @@ public class IntegerParameterFromFunctionTest {
         IntegerParameterFromFunction rpff = new IntegerParameterFromFunction();
         rpff.initByName("function", originalParameter);
 
-        Assert.assertEquals(3, rpff.getDimension());
-        Assert.assertEquals(originalParameter.getValue(0), rpff.getValue(0), 1e-10);
-        Assert.assertEquals(originalParameter.getValue(1), rpff.getValue(1), 1e-10);
-        Assert.assertEquals(originalParameter.getValue(2), rpff.getValue(2), 1e-10);
+        assertEquals(3, rpff.getDimension());
+        assertEquals(originalParameter.getValue(0), rpff.getValue(0), 1e-10);
+        assertEquals(originalParameter.getValue(1), rpff.getValue(1), 1e-10);
+        assertEquals(originalParameter.getValue(2), rpff.getValue(2), 1e-10);
     }
 }
