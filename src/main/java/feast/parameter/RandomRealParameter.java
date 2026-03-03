@@ -27,11 +27,10 @@ import beast.base.inference.distribution.OneOnX;
 import beast.base.inference.distribution.ParametricDistribution;
 import beast.base.inference.distribution.Uniform;
 import beast.base.inference.parameter.RealParameter;
-import org.apache.commons.math.MathException;
 
 import java.util.List;
 
-@Description("Randomly innitialise a RealParameter by sampling from a ParametricDistribution.")
+@Description("Randomly initialise a RealParameter by sampling from a ParametricDistribution.")
 public class RandomRealParameter extends RealParameter implements StateNodeInitialiser {
     final public Input<RealParameter> initialInput = new Input<>("initial",
             "Parameter to initialize. (If absent, initialise RandomRealParameter itself.)");
@@ -81,13 +80,9 @@ public class RandomRealParameter extends RealParameter implements StateNodeIniti
 
         for (int i = 0; i < dim; i++){
             Double rnd;
-            try {
-                do {
-                    rnd  = distribution.sample(1)[0][0];
-                } while (rnd < parameter.getLower() || rnd > parameter.getUpper());
-            } catch (MathException e) {
-                throw new RuntimeException(e);
-            }
+            do {
+                rnd  = distribution.sample(1)[0][0];
+            } while (rnd < parameter.getLower() || rnd > parameter.getUpper());
             parameter.setValue(i, rnd);
         }
     }

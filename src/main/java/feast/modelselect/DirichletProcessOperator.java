@@ -27,7 +27,6 @@ import beast.base.inference.StateNode;
 import beast.base.inference.distribution.ParametricDistribution;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.util.Randomizer;
-import org.apache.commons.math.MathException;
 
 import java.util.*;
 
@@ -88,12 +87,8 @@ public class DirichletProcessOperator extends Operator {
         double u = Randomizer.nextDouble()*(alpha+N-1);
         if (u < alpha) {
             logHR -= Math.log(alpha/(alpha+N-1));
-            try {
-                param.setValue(idx, distr.sample(1)[0][0]);
-                logHR -= distr.logDensity(param.getValue(idx));
-            } catch (MathException e) {
-                throw new RuntimeException("Base distribution does not permit sampling.");
-            }
+            param.setValue(idx, distr.sample(1)[0][0]);
+            logHR -= distr.logDensity(param.getValue(idx));
         } else {
             int idxPrime = (int)Math.round(Math.floor(u-alpha));
 

@@ -20,7 +20,7 @@
 package feast.expressions.parser;
 
 import beast.base.core.Function;
-import org.apache.commons.math3.special.Gamma;
+import beast.base.util.GammaFunction;
 
 import java.util.*;
 
@@ -326,7 +326,7 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
         Double [] res = getResultArray(ctx, arg.length);
         for (int i=0; i<res.length; i++) {
-            res[i] = Gamma.gamma(1+arg[i]);
+            res[i] = Math.exp(GammaFunction.lnGamma(1+arg[i]));
         }
 
         return res;

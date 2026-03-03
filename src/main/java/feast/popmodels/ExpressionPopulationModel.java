@@ -32,12 +32,10 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.commons.math3.analysis.integration.TrapezoidIntegrator;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math3.ode.events.EventHandler;
-import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
+import org.apache.commons.math4.legacy.analysis.integration.TrapezoidIntegrator;
+import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.legacy.ode.events.EventHandler;
+import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince54Integrator;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -217,7 +215,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
         }
 
         @Override
-        public void computeDerivatives(double t, double[] y, double[] ydot) throws MaxCountExceededException, DimensionMismatchException {
+        public void computeDerivatives(double t, double[] y, double[] ydot) {
             ydot[0] = 1/getPopSize(t);
         }
     }

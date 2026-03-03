@@ -23,8 +23,6 @@ import beast.base.evolution.alignment.Alignment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A Nexus block containing a sequence alignment.  Note that this is preferred
@@ -57,14 +55,10 @@ public class CharactersBlock extends NexusBlock {
         
         StringBuilder matrix = new StringBuilder("matrix ");
         for (int i=0; i<alignment.getTaxonCount(); i++) {
-            try {
-                String taxonName = alignment.getTaxaNames().get(i);
-                String sequence = alignment.getDataType()
-                        .encodingToString(alignment.getCounts().get(i));
-                matrix.append("\n\t\t").append(taxonName).append(" ").append(sequence);
-            } catch (Exception ex) {
-                Logger.getLogger(CharactersBlock.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            String taxonName = alignment.getTaxaNames().get(i);
+            String sequence = alignment.getDataType()
+                    .encodingToString(alignment.getCounts().get(i));
+            matrix.append("\n\t\t").append(taxonName).append(" ").append(sequence);
         }
         lines.add(matrix.toString());
         
