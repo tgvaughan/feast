@@ -11,7 +11,7 @@ public class RealParameterFromXSVTest {
 
         RealParameterFromXSV rpfXSV = new RealParameterFromXSV();
         rpfXSV.initByName(
-                "fileName", "test/feast/fileio/test_csv.csv",
+                "fileName", "src/test/java/feast/fileio/test_csv.csv",
                 "startRow", 0,
                 "startCol", 0,
                 "sep", ","
@@ -28,7 +28,7 @@ public class RealParameterFromXSVTest {
 
         RealParameterFromXSV rpfXSV = new RealParameterFromXSV();
         rpfXSV.initByName(
-                "fileName", "test/feast/fileio/test_csv.csv",
+                "fileName", "src/test/java/feast/fileio/test_csv.csv",
                 "startRow", 3,
                 "rowCount", 1,
                 "startCol", 0,
@@ -47,7 +47,7 @@ public class RealParameterFromXSVTest {
 
         RealParameterFromXSV rpfXSV = new RealParameterFromXSV();
         rpfXSV.initByName(
-                "fileName", "test/feast/fileio/test_csv.csv",
+                "fileName", "src/test/java/feast/fileio/test_csv.csv",
                 "startRow", 0,
                 "startCol", 2,
                 "colCount", 1,

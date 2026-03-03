@@ -40,7 +40,7 @@ public class AlignmentFromFastaTest {
     
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.fasta");
+                "fileName", "src/test/java/feast/fileio/test_alignment.fasta");
 
         assertEquals(4, alignment.getTaxonCount());
         assertEquals(20, alignment.getSiteCount());
@@ -52,7 +52,7 @@ public class AlignmentFromFastaTest {
 
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.fasta",
+                "fileName", "src/test/java/feast/fileio/test_alignment.fasta",
                 "endsWith", "e");
 
         assertEquals(2, alignment.getTaxonCount());
@@ -69,7 +69,7 @@ public class AlignmentFromFastaTest {
 
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.fasta",
+                "fileName", "src/test/java/feast/fileio/test_alignment.fasta",
                 "includeOnly", new TaxonSet(taxa));
 
         assertEquals(2, alignment.getTaxonCount());
@@ -84,7 +84,7 @@ public class AlignmentFromFastaTest {
     public void testAlignmentFromFastaURL() {
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/test/feast/fileio/test_alignment.fasta");
+                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/src/test/java/feast/fileio/test_alignment.fasta");
 
         assertEquals(4, alignment.getTaxonCount());
         assertEquals(20, alignment.getSiteCount());

@@ -12,11 +12,11 @@ public class TraitSetFromXSVTest {
 
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.fasta");
+                "fileName", "src/test/java/feast/fileio/test_alignment.fasta");
 
         TraitSetFromXSV traitSet = new TraitSetFromXSV();
         traitSet.initByName("taxa", new TaxonSet(alignment),
-                "fileName", "test/feast/fileio/test_traitset.csv",
+                "fileName", "src/test/java/feast/fileio/test_traitset.csv",
                 "skipFirstRow", true,
                 "sep", ",",
                 "traitname", "date",

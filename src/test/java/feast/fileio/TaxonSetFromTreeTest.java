@@ -11,7 +11,7 @@ public class TaxonSetFromTreeTest {
     public void test() {
         TreeFromNewickFile tree = new TreeFromNewickFile();
         tree.initByName(
-                "fileName", "test/feast/fileio/test_trees.newick",
+                "fileName", "src/test/java/feast/fileio/test_trees.newick",
                 "IsLabelledNewick", true,
                 "adjustTipHeights", false);
 

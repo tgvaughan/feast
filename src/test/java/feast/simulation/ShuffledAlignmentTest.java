@@ -33,7 +33,7 @@ public class ShuffledAlignmentTest {
 
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.fasta");
+                "fileName", "src/test/java/feast/fileio/test_alignment.fasta");
 
         ShuffledAlignment shuffledAlignment = new ShuffledAlignment();
         shuffledAlignment.initByName("alignment", alignment);

@@ -35,7 +35,7 @@ public class AlignmentFromNexusTest {
     
         AlignmentFromNexus alignment = new AlignmentFromNexus();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.nexus");
+                "fileName", "src/test/java/feast/fileio/test_alignment.nexus");
 
         assertEquals(4, alignment.getTaxonCount());
         assertEquals(20, alignment.getSiteCount());
@@ -47,7 +47,7 @@ public class AlignmentFromNexusTest {
 
         AlignmentFromNexus alignment = new AlignmentFromNexus();
         alignment.initByName(
-                "fileName", "test/feast/fileio/test_alignment.nexus",
+                "fileName", "src/test/java/feast/fileio/test_alignment.nexus",
                 "endsWith", "e");
 
         assertEquals(2, alignment.getTaxonCount());
@@ -59,7 +59,7 @@ public class AlignmentFromNexusTest {
     public void testAlignmentFromNexusURL() {
         AlignmentFromNexus alignment = new AlignmentFromNexus();
         alignment.initByName(
-                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/test/feast/fileio/test_alignment.nexus");
+                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/src/test/java/feast/fileio/test_alignment.nexus");
 
         assertEquals(4, alignment.getTaxonCount());
         assertEquals(20, alignment.getSiteCount());

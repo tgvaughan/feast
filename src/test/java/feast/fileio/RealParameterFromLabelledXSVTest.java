@@ -11,7 +11,7 @@ public class RealParameterFromLabelledXSVTest {
 
         RealParameterFromLabelledXSV rpflXSV = new RealParameterFromLabelledXSV();
         rpflXSV.initByName(
-                "fileName", "test/feast/fileio/test_labelled_csv.csv",
+                "fileName", "src/test/java/feast/fileio/test_labelled_csv.csv",
                 "rowLabels", "row_1",
                 "colLabels", "col_3",
                 "sep", ","
@@ -26,7 +26,7 @@ public class RealParameterFromLabelledXSVTest {
 
         RealParameterFromLabelledXSV rpflXSV = new RealParameterFromLabelledXSV();
         rpflXSV.initByName(
-                "fileName", "test/feast/fileio/test_labelled_csv2.csv",
+                "fileName", "src/test/java/feast/fileio/test_labelled_csv2.csv",
                 "colLabels", "col_3",
                 "sep", ","
         );
@@ -44,7 +44,7 @@ public class RealParameterFromLabelledXSVTest {
 
         RealParameterFromLabelledXSV rpflXSV = new RealParameterFromLabelledXSV();
         rpflXSV.initByName(
-                "fileName", "test/feast/fileio/test_labelled_csv3.csv",
+                "fileName", "src/test/java/feast/fileio/test_labelled_csv3.csv",
                 "rowLabels", "row_2",
                 "sep", ","
         );

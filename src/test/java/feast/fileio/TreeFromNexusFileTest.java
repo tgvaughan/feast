@@ -38,7 +38,7 @@ public class TreeFromNexusFileTest {
     
         TreeFromNexusFile tree = new TreeFromNexusFile();
         tree.initByName(
-                "fileName", "test/feast/fileio/test_trees.nexus",
+                "fileName", "src/test/java/feast/fileio/test_trees.nexus",
                 "IsLabelledNewick", true,
                 "adjustTipHeights", false);
 
@@ -55,7 +55,7 @@ public class TreeFromNexusFileTest {
 
         TreeFromNexusFile tree = new TreeFromNexusFile();
         tree.initByName(
-                "fileName", "test/feast/fileio/test_trees.nexus",
+                "fileName", "src/test/java/feast/fileio/test_trees.nexus",
                 "IsLabelledNewick", true,
                 "treeIndex", 1,
                 "adjustTipHeights", false);
@@ -73,7 +73,7 @@ public class TreeFromNexusFileTest {
 
         TreeFromNexusFile tree = new TreeFromNexusFile();
         assertThrows(RuntimeException.class, () -> tree.initByName(
-                "fileName", "test/feast/fileio/test_trees.nexus",
+                "fileName", "src/test/java/feast/fileio/test_trees.nexus",
                 "IsLabelledNewick", true,
                 "treeIndex", 2,
                 "adjustTipHeights", false));
