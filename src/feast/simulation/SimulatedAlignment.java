@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Tim Vaughan
+ * Copyright (c) 2023 ETH Zurich
  *
  * This file is part of feast.
  *
