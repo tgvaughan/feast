@@ -28,6 +28,7 @@ import beast.base.evolution.alignment.TaxonSet;
 import beast.base.evolution.datatype.DataType;
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.evolution.substitutionmodel.SubstitutionModel;
+import beast.base.evolution.branchratemodel.BranchRateModel;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 import beast.base.spec.evolution.sitemodel.SiteModel;
@@ -82,8 +83,12 @@ public class SimulatedAlignment extends Alignment {
                     "use this to make the starting sequence correspond to" +
                     "an earlier time.) Must be greater than the tMRCA of the tree.");
 
+    final public Input<BranchRateModel.Base> BranchRateModelInput = new Input<>("branchRateModel",
+            "A model describing the rates on the branches of the tree.");
+
     private Tree tree;
     private SiteModel siteModel;
+    private BranchRateModel branchRateModel;
     private int seqLength;
     private DataType dataType;
 
@@ -98,6 +103,7 @@ public class SimulatedAlignment extends Alignment {
 
         tree = treeInput.get();
         siteModel = siteModelInput.get();
+        branchRateModel = BranchRateModelInput.get();
         seqLength = sequenceLengthInput.get();
 
         startingSequence = startingSequenceInput.get();
@@ -203,14 +209,18 @@ public class SimulatedAlignment extends Alignment {
      * @return reference to sequence (newly allocated) array representing evolved sequence.
      */
     private int[] getEvolvedSequence(Node node, int[] startSequence,
-                                double[][] transitionProbs,
-                                int[] categories,
-                                double startTime, double endTime) {
+                                     double[][] transitionProbs,
+                                     int[] categories,
+                                     double startTime, double endTime) {
         // Calculate transition probabilities
         for (int i=0; i<siteModel.getCategoryCount(); i++) {
+
+            double branchRate = (branchRateModel == null ? 1.0 : branchRateModel.getRateForBranch(node));
+            branchRate *= siteModel.getRateForCategory(i, node);
+
             siteModel.getSubstitutionModel().getTransitionProbabilities(
                     node, startTime, endTime,
-                    siteModel.getRateForCategory(i, node),
+                    branchRate,
                     transitionProbs[i]);
         }
 
@@ -238,9 +248,9 @@ public class SimulatedAlignment extends Alignment {
      * @param regionAlignment alignment for particular region
      */
     private void traverse(Node node,
-            int[] parentSequence,
-            int[] categories, double[][] transitionProbs,
-            int[][] regionAlignment) {
+                          int[] parentSequence,
+                          int[] categories, double[][] transitionProbs,
+                          int[][] regionAlignment) {
 
         for (Node child : node.getChildren()) {
 
@@ -278,8 +288,8 @@ public class SimulatedAlignment extends Alignment {
                     }
                     dataTypeDescList.add(thisDataType.getTypeDescription());
                 } catch (ClassNotFoundException
-                    | InstantiationException
-                    | IllegalAccessException e) {
+                         | InstantiationException
+                         | IllegalAccessException e) {
                 }
             }
             if (dataType == null) {
