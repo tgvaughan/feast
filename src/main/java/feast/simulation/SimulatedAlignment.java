@@ -22,16 +22,19 @@ package feast.simulation;
 import beast.base.core.Description;
 import beast.base.core.Function;
 import beast.base.core.Input;
+import beast.base.core.Log;
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.alignment.TaxonSet;
 import beast.base.evolution.datatype.DataType;
-import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.evolution.substitutionmodel.SubstitutionModel;
 import beast.base.evolution.branchratemodel.BranchRateModel;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
+import beast.base.spec.domain.Real;
 import beast.base.spec.evolution.sitemodel.SiteModel;
+import beast.base.spec.evolution.substitutionmodel.JukesCantor;
+import beast.base.spec.type.RealVector;
 import beast.base.util.Randomizer;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
@@ -44,6 +47,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Tim Vaughan
@@ -75,7 +79,7 @@ public class SimulatedAlignment extends Alignment {
             "startingSequence",
             "Initial sequence to start from.  (Default is random draw from equilibrium distribution.)");
 
-    public Input<Function> startingSequenceAgeInput = new Input<>(
+    public Input<RealVector<Real>> startingSequenceAgeInput = new Input<>(
             "startingSequenceAge",
             "When startingSequence is specified, age (relative to the " +
                     "final sample) at which the sequence simulation starts " +
@@ -164,13 +168,13 @@ public class SimulatedAlignment extends Alignment {
                 parentSequence[i] = startingSequence.getSequence(dataType).get(i);
 
             if (startingSequenceAgeInput.get() != null) {
-                if (startingSequenceAgeInput.get().getArrayValue()<root.getHeight())
+                if (startingSequenceAgeInput.get().get(0)<root.getHeight())
                     throw new IllegalArgumentException("Starting sequence age " +
                             "must be older than corresponding tree root.");
 
                 parentSequence = getEvolvedSequence(root, parentSequence,
                         transitionProbs, categories,
-                        startingSequenceAgeInput.get().getArrayValue(), root.getHeight());
+                        startingSequenceAgeInput.get().get(0), root.getHeight());
             }
         }
         else {
@@ -277,19 +281,20 @@ public class SimulatedAlignment extends Alignment {
             dataType = userDataTypeInput.get();
         } else {
 
+            Set<String> dataTypes = BEASTClassLoader.loadService(DataType.class);
+
             List<String> dataTypeDescList = new ArrayList<>();
-            List<String> classNames = PackageManager.find(DataType.class, "beast.base.evolution.datatype");
-            for (String className : classNames) {
+            for (String d : dataTypes) {
                 try {
-                    DataType thisDataType = (DataType) BEASTClassLoader.forName(className).newInstance();
-                    if (dataTypeInput.get().equals(thisDataType.getTypeDescription())) {
-                        dataType = thisDataType;
-                        break;
+                    DataType thisDataType = (DataType) BEASTClassLoader.forName(d).newInstance();
+                    if (thisDataType.isStandard()) {
+                        if (dataTypeInput.get().equals(thisDataType.getTypeDescription())) {
+                            dataType = thisDataType;
+                            break;
+                        }
+                        dataTypeDescList.add(thisDataType.getTypeDescription());
                     }
-                    dataTypeDescList.add(thisDataType.getTypeDescription());
-                } catch (ClassNotFoundException
-                         | InstantiationException
-                         | IllegalAccessException e) {
+                } catch (Throwable e) {
                 }
             }
             if (dataType == null) {
@@ -300,5 +305,4 @@ public class SimulatedAlignment extends Alignment {
             }
         }
     }
-
 }

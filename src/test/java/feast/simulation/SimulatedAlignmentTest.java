@@ -20,10 +20,13 @@
 package feast.simulation;
 
 import beast.base.evolution.alignment.Sequence;
-import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.TreeParser;
+import beast.base.spec.domain.PositiveReal;
+import beast.base.spec.domain.Real;
 import beast.base.spec.evolution.sitemodel.SiteModel;
+import beast.base.spec.evolution.substitutionmodel.JukesCantor;
+import beast.base.spec.inference.parameter.RealScalarParam;
 import beast.base.util.Randomizer;
 import org.junit.jupiter.api.Test;
 
@@ -81,7 +84,7 @@ public class SimulatedAlignmentTest {
 
         SiteModel siteModel = new SiteModel();
         siteModel.initByName("substModel", new JukesCantor(),
-                "mutationRate", "0.0");
+                "mutationRate", "1e-5"); //new RealScalarParam<>(1e-5, PositiveReal.INSTANCE));
 
         String startingSequence = "GGGGGCCCCC";
 
@@ -101,7 +104,7 @@ public class SimulatedAlignmentTest {
 
         SiteModel siteModel = new SiteModel();
         siteModel.initByName("substModel", new JukesCantor(),
-                "mutationRate", "0.0");
+                "mutationRate", "1e-5");
 
         String startingSequence = "GGGGGCCCCC";
 
