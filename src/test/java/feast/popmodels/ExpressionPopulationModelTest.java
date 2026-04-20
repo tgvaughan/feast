@@ -1,6 +1,7 @@
 package feast.popmodels;
 
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +11,7 @@ public class ExpressionPopulationModelTest {
     @Test
     public void testPopSize() {
 
-        RealParameter arg = new RealParameter("1.0");
+        RealVectorParam<Real> arg = new RealVectorParam<>(new double[] {1.0}, Real.INSTANCE);
         arg.setID("alpha");
 
         ExpressionPopulationModel epm = new ExpressionPopulationModel();
@@ -35,7 +36,7 @@ public class ExpressionPopulationModelTest {
     @Test
     public void testIntensity() {
 
-        RealParameter arg = new RealParameter("1.0");
+        RealVectorParam<Real> arg = new RealVectorParam<>(new double[] {1.0}, Real.INSTANCE);
         arg.setID("alpha");
 
         ExpressionPopulationModel epm = new ExpressionPopulationModel();

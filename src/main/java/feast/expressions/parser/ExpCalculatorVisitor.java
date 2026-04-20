@@ -20,6 +20,7 @@
 package feast.expressions.parser;
 
 import beast.base.core.Function;
+import beast.base.spec.type.RealVector;
 import beast.base.util.GammaFunction;
 
 import java.util.*;
@@ -46,15 +47,15 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         }
     }
 
-    Map<String, Function> functionsMap;
+    Map<String, RealVector> realVectorMap;
     
     /**
      * Create a new Expression AST visitor.
      * 
-     * @param functionMap map from function names to Functions
+     * @param realVectorMap map from RealVector names to RealVectors
      */
-    public ExpCalculatorVisitor(Map<String, Function> functionMap) {
-        this.functionsMap = functionMap;
+    public ExpCalculatorVisitor(Map<String, RealVector> realVectorMap) {
+        this.realVectorMap = realVectorMap;
     }
     
     @Override
@@ -75,17 +76,17 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
     public Double[] visitVariable(ExpressionParser.VariableContext ctx) {
 
         String paramName = ctx.IDENT().getText();
-        if (!functionsMap.containsKey(paramName))
+        if (!realVectorMap.containsKey(paramName))
             throw new IllegalArgumentException("Paramter/Function " + paramName
                     + " in expression was not found in list of provided"
                     + " parameters/functions.");
 
-        Function param = functionsMap.get(paramName);
+        RealVector param = realVectorMap.get(paramName);
 
-        Double[] res = getResultArray(ctx, param.getDimension());
+        Double[] res = getResultArray(ctx, param.size());
 
         for (int i = 0; i < res.length; i++)
-            res[i] = param.getArrayValue(i);
+            res[i] = param.get(i);
 
         return res;
     }

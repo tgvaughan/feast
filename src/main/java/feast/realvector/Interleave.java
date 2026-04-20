@@ -17,11 +17,14 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Function;
 import beast.base.core.Input;
+import beast.base.spec.domain.Domain;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,42 +32,57 @@ import java.util.List;
 /**
  * @author Tim Vaughan
  */
-@Description("A function produced by interleaving the elements of two " +
-        "or more input functions.")
-public class Interleave extends LoggableFunction {
+@Description("A RealVector produced by interleaving the elements of two " +
+        "or more input RealVectors.")
+public class Interleave<D extends Real> extends CalculatedRealVector<D> {
 
-    public Input<List<Function>> argsInput = new Input<>("arg",
-            "Function to interleave.",
+    public Input<List<RealVector>> argsInput = new Input<>("arg",
+            "RealVectors to interleave.",
             new ArrayList<>());
 
     int maxLen, dim;
-    List<Function> args;
+    List<RealVector> args;
+    Domain domain;
 
     @Override
     public void initAndValidate() {
         args = argsInput.get();
 
+        if (args.isEmpty())
+            throw new IllegalArgumentException("Interleave requires at least one RealVector to interleave");
+
+        domain = args.getFirst().getDomain();
+
         maxLen = 0;
-        for (Function arg : args)
-            maxLen = Math.max(arg.getDimension(), maxLen);
+        for (RealVector arg : args) {
+            if (arg.getDomain() != domain)
+                throw new IllegalArgumentException("Arguments to Interleave must have the same domain");
+
+            maxLen = Math.max(arg.size(), maxLen);
+        }
 
         dim = maxLen*args.size();
     }
 
     @Override
-    public int getDimension() {
+    public D getDomain() {
+        return (D) domain;
+    }
+
+    @Override
+    public int size() {
         return dim;
     }
 
     @Override
-    public double getArrayValue(int i) {
+    public double get(int i) {
         if (i >= dim)
             throw new IllegalArgumentException("Index exceeds length of interleaved function.");
 
         int col = i / args.size();
         int row = i % args.size();
 
-        Function arg = args.get(row);
-        return arg.getArrayValue(col % arg.getDimension());
+        RealVector arg = args.get(row);
+        return arg.get(col % arg.size());
     }
 }

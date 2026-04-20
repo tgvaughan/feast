@@ -17,30 +17,35 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
-import beast.base.core.Description;
-import beast.base.core.Input;
-import beast.base.evolution.tree.Tree;
+import beast.base.core.Loggable;
+import beast.base.inference.CalculationNode;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
 
-@Description("Function representing ages of sample nodes of tree.")
-public class SampleAges extends LoggableFunction {
+import java.io.PrintStream;
 
-    public Input<Tree> treeInput = new Input<>("tree",
-            "Tree to extract leaf ages from.",
-            Input.Validate.REQUIRED);
+public abstract class LoggableRealVector<D extends Real> extends CalculationNode implements Loggable, RealVector<D> {
 
     @Override
-    public void initAndValidate() {
+    public void init(PrintStream out) {
+        if (size()==1) {
+            out.print(getID() + "\t");
+        } else {
+            for (int i = 0; i < size(); i++)
+                out.print(getID() + "[" + i + "]\t");
+        }
     }
 
     @Override
-    public int getDimension() {
-        return treeInput.get().getLeafNodeCount();
+    public void log(long nSample, PrintStream out) {
+        for (int i=0; i<size(); i++)
+            out.print(get(i) + "\t");
     }
 
     @Override
-    public double getArrayValue(int dim) {
-        return treeInput.get().getArrayValue(dim);
+    public void close(PrintStream out) {
+
     }
 }

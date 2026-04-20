@@ -84,7 +84,7 @@ public class AlignmentFromFastaTest {
     public void testAlignmentFromFastaURL() {
         AlignmentFromFasta alignment = new AlignmentFromFasta();
         alignment.initByName(
-                "url", "https://raw.githubusercontent.com/tgvaughan/feast/master/src/test/java/feast/fileio/test_alignment.fasta");
+                "url", "https://raw.githubusercontent.com/tgvaughan/feast/beast2.8-migration/src/test/java/feast/fileio/test_alignment.fasta");
 
         assertEquals(4, alignment.getTaxonCount());
         assertEquals(20, alignment.getSiteCount());

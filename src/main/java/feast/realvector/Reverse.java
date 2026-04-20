@@ -17,34 +17,35 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
-import beast.base.core.Function;
-import beast.base.core.Loggable;
-import beast.base.inference.CalculationNode;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
 
-import java.io.PrintStream;
+@Description("A Function whose elements are the elements of the input Function but in reverse order.")
+public class Reverse<D extends Real> extends CalculatedRealVector<D> {
 
-public abstract class LoggableFunction extends CalculationNode implements Loggable, Function {
+    public Input<RealVector<D>> realVectorInput = new Input<>("arg",
+            "Argument to reverse elements of.", Input.Validate.REQUIRED);
 
     @Override
-    public void init(PrintStream out) {
-        if (getDimension()==1) {
-            out.print(getID() + "\t");
-        } else {
-            for (int i = 0; i < getDimension(); i++)
-                out.print(getID() + "[" + i + "]\t");
-        }
+    public void initAndValidate() { }
+
+    @Override
+    public D getDomain() {
+        return (D) D.INSTANCE;
     }
 
     @Override
-    public void log(long nSample, PrintStream out) {
-        for (int i=0; i<getDimension(); i++)
-            out.print(getArrayValue(i) + "\t");
+    public int size() {
+        return realVectorInput.get().size();
     }
 
     @Override
-    public void close(PrintStream out) {
-
+    public double get(int dim) {
+        return realVectorInput.get().get(size()-1-dim);
     }
+
 }

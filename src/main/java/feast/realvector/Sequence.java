@@ -17,13 +17,18 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
+import beast.base.spec.domain.Real;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Description("A Function representing an evenly-spaced sequence of real numbers.")
-public class Sequence extends LoggableFunction {
+public class Sequence<D extends Real> extends LoggableRealVector<D> {
 
     public Input<Double> startInput = new Input<>("start",
             "Start value of sequence",
@@ -37,7 +42,12 @@ public class Sequence extends LoggableFunction {
             "Length of sequence",
             Input.Validate.REQUIRED);
 
-    double[] values;
+    Double[] values;
+
+    @Override
+    public D getDomain() {
+        return (D) D.INSTANCE;
+    }
 
     @Override
     public void initAndValidate() {
@@ -47,7 +57,7 @@ public class Sequence extends LoggableFunction {
             throw new IllegalArgumentException("Sequence length input " +
                     "must be at least 2.");
 
-        values = new double[length];
+        values = new Double[length];
 
         double start = startInput.get();
         double stop = stopInput.get();
@@ -58,12 +68,17 @@ public class Sequence extends LoggableFunction {
     }
 
     @Override
-    public int getDimension() {
+    public List<Double> getElements() {
+        return Arrays.asList(values);
+    }
+
+    @Override
+    public int size() {
         return values.length;
     }
 
     @Override
-    public double getArrayValue(int dim) {
+    public double get(int dim) {
         return values[dim];
     }
 }

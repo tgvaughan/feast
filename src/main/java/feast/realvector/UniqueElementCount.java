@@ -17,20 +17,25 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Function;
 import beast.base.core.Input;
+import beast.base.core.Loggable;
+import beast.base.inference.CalculationNode;
+import beast.base.spec.domain.Int;
+import beast.base.spec.type.IntScalar;
+import beast.base.spec.type.RealVector;
 
 import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
 @Description("Function representing the number of unique elements of another function.")
-public class UniqueElementCount extends LoggableFunction {
+public class UniqueElementCount<D extends Int> extends CalculationNode implements Loggable, IntScalar<D> {
 
-    public Input<Function> argInput = new Input<>("arg",
+    public Input<RealVector> argInput = new Input<>("arg",
             "Number of unique elements of this parameter will be logged.",
             Input.Validate.REQUIRED);
 
@@ -41,19 +46,20 @@ public class UniqueElementCount extends LoggableFunction {
     }
 
     @Override
-    public int getDimension() {
+    public D getDomain() {
+        return (D) D.INSTANCE;
+    }
+
+    @Override
+    public int size() {
         return 1;
     }
 
     @Override
-    public double getArrayValue(int dim) {
-
-        if (dim > 0)
-            return 0;
-
+    public int get() {
         valueSet.clear();
-        for (int i = 0; i< argInput.get().getDimension(); i++) {
-            valueSet.add(argInput.get().getArrayValue(i));
+        for (int i = 0; i< argInput.get().size(); i++) {
+            valueSet.add(argInput.get().get(i));
         }
 
         return valueSet.size();
@@ -65,8 +71,8 @@ public class UniqueElementCount extends LoggableFunction {
     }
 
     @Override
-    public void log(long sample, PrintStream out) {
-        out.print(getArrayValue(0));
+    public void log(long nSample, PrintStream out) {
+        out.print(get() + "\t");
     }
 
     @Override

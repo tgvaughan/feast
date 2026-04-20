@@ -17,19 +17,21 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
+import beast.base.spec.domain.Domain;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
 
 /**
  * @author Tim Vaughan
  */
 @Description("A Function representing a number of elements of another Function.")
-public class Slice extends LoggableFunction {
+public class Slice<D extends Real> extends CalculatedRealVector<D> {
 
-    public Input<Function> functionInput = new Input<>("arg",
+    public Input<RealVector> realVectorInput = new Input<>("arg",
             "Argument to extract element from.", Input.Validate.REQUIRED);
 
     public Input<Integer> startIndexInput = new Input<>("index",
@@ -43,6 +45,8 @@ public class Slice extends LoggableFunction {
 
     protected int indexStart, indexEnd, count, by;
 
+    Domain domain;
+
     @Override
     public void initAndValidate() {
         indexStart = startIndexInput.get();
@@ -50,25 +54,27 @@ public class Slice extends LoggableFunction {
         by = byInput.get();
         indexEnd = indexStart + by*(count - 1);
 
-        if (indexEnd >= functionInput.get().getDimension())
+        if (indexEnd >= realVectorInput.get().size())
             throw new IllegalArgumentException("Index and count arguments to" +
                     " Slice are out of bounds.");
+
+        domain = realVectorInput.get().getDomain();
     }
 
     @Override
-    public int getDimension() {
+    public D getDomain() {
+        return (D) domain;
+    }
+
+    @Override
+    public int size() {
         return count;
     }
 
     @Override
-    public double getArrayValue() {
-        return getArrayValue(0);
-    }
-
-    @Override
-    public double getArrayValue(int iDim) {
+    public double get(int iDim) {
         if (iDim < count)
-            return functionInput.get().getArrayValue(indexStart + iDim*by);
+            return realVectorInput.get().get(indexStart + iDim*by);
         else
             return 0;
     }

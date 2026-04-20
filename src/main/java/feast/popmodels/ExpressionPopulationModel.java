@@ -25,6 +25,8 @@ import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.evolution.tree.coalescent.PopulationFunction;
 import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;
@@ -55,7 +57,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
             "True if expression represents log(P), false if it represents P. "
                     + "Default is false.", false);
 
-    public Input<List<Function>> functionsInput = new Input<>(
+    public Input<List<RealVector>> realVectorsInput = new Input<>(
             "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
@@ -66,7 +68,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
 
     ParseTree parseTree;
     ExpCalculatorVisitor visitor;
-    LightParameter param;
+    TimeRealVectorParam timeParam;
     boolean isLog;
     double maxTimeToConsider;
 
@@ -80,17 +82,17 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
     public void initAndValidate() {
 
         // Parameter to house real value
-        param = new LightParameter(1.0);
+        timeParam = new TimeRealVectorParam(1.0);
 
         isLog = isLogInput.get();
         maxTimeToConsider = maxTimeToConsiderInput.get();
 
         // Assemble name->param map
-        Map<String, Function> functionsMap = new HashMap<>();
-        functionsMap.put("t", param);
-        for (Function func : functionsInput.get()) {
-            BEASTObject obj = (BEASTObject)func;
-            functionsMap.put(obj.getID(), func);
+        Map<String, RealVector> realVectorMap = new HashMap<>();
+        realVectorMap.put("t", timeParam);
+        for (RealVector realVector : realVectorsInput.get()) {
+            BEASTObject obj = (BEASTObject)realVector;
+            realVectorMap.put(obj.getID(), realVector);
         }
 
         // Build AST from expression string
@@ -101,7 +103,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
         parseTree = parser.expression();
 
         // Create new visitor for calculating expression values:
-        visitor = new ExpCalculatorVisitor(functionsMap);
+        visitor = new ExpCalculatorVisitor(realVectorMap);
 
         if (visitor.visit(parseTree).length != 1)
             throw new IllegalArgumentException("ExpressionPopulationModel "
@@ -122,7 +124,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
 
     @Override
     public double getPopSize(double t) {
-        param.setValue(t);
+        timeParam.setValue(t);
         double val = visitor.visit(parseTree)[0];
         if (isLog)
             return Math.exp(val);
@@ -172,36 +174,40 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
     }
 
     /**
-     * Light-weight RealParameter-equivalent used to bind the time value
+     * Light-weight RealScalarParam-equivalent used to bind the time value
      * to the symbol "t" in the population size expression.
      */
-    private static class LightParameter implements Function {
+    private static class TimeRealVectorParam implements RealVector<Real> {
 
         double value;
 
-        public LightParameter(double value) {
+        public TimeRealVectorParam(double value) {
             this.value = value;
         }
 
         @Override
-        public int getDimension() {
+        public Real getDomain() {
+            return Real.INSTANCE;
+        }
+
+        @Override
+        public List<Double> getElements() {
+            return List.of(value);
+        }
+
+        @Override
+        public int size() {
             return 1;
         }
 
         @Override
-        public double getArrayValue() {
-            return value;
-        }
-
-        @Override
-        public double getArrayValue(int iDim) {
+        public double get(int i) {
             return value;
         }
 
         public void setValue(double newValue) {
             value = newValue;
         }
-
     }
 
     /**

@@ -21,15 +21,16 @@ package feast.expressions;
 
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
 import feast.expressions.parser.ExpressionParser;
 import java.io.PrintStream;
 import java.util.*;
 
-import feast.function.LoggableFunction;
+import feast.realvector.LoggableRealVector;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -66,12 +67,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
         + " parameters can be specified using [] notation.  Parameters with"
         + " differing dimension are combined as in R, with the shortest "
         + " parameter being repeated as many times as necessary.")
-public class ExpCalculator extends LoggableFunction {
+public class ExpCalculator<D extends Real> extends LoggableRealVector<D> {
     
     public Input<String> expressionInput = new Input<>("value",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
     
-    public Input<List<Function>> functionsInput = new Input<>(
+    public Input<List<RealVector>> realVectorsInput = new Input<>(
             "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
@@ -94,10 +95,10 @@ public class ExpCalculator extends LoggableFunction {
     public void initAndValidate() {
         
         // Assemble name->param map
-        Map<String, Function> functionsMap = new HashMap<>();
-        for (Function func : functionsInput.get()) {
-            BEASTObject obj = (BEASTObject)func;
-            functionsMap.put(obj.getID(), func);
+        Map<String, RealVector> realVectorMap = new HashMap<>();
+        for (RealVector realVector : realVectorsInput.get()) {
+            BEASTObject obj = (BEASTObject)realVector;
+            realVectorMap.put(obj.getID(), realVector);
         }
 
         // Build AST from expression string
@@ -108,7 +109,7 @@ public class ExpCalculator extends LoggableFunction {
         parseTree = parser.expression();
         
         // Create new visitor for calculating expression values:
-        visitor = new ExpCalculatorVisitor(functionsMap);
+        visitor = new ExpCalculatorVisitor(realVectorMap);
 
         dirty = true;
     }
@@ -137,7 +138,7 @@ public class ExpCalculator extends LoggableFunction {
     @Override
     public void log(long nSample, PrintStream out) {
         update();
-        for (int i = 0; i < getDimension(); i++)
+        for (int i = 0; i < size(); i++)
             out.print(res[i] + "\t");
     }
 
@@ -145,31 +146,26 @@ public class ExpCalculator extends LoggableFunction {
     public void close(PrintStream out) { }
 
     @Override
-    public int getDimension() {
+    public D getDomain() {
+        return (D) D.INSTANCE;
+    }
+
+    @Override
+    public int size() {
         update();
         return res.length;
     }
 
     @Override
-    public double getArrayValue() {
-        update();
-        return res[0];
-    }
-
-    @Override
-    public double getArrayValue(int i) {
+    public double get(int i) {
         update();
         return res[i];
     }
 
     @Override
-    public double[] getDoubleValues() {
+    public List<Double> getElements() {
         update();
-        double[] values = new double[getDimension()];
-        for (int i = 0; i < values.length; i++) {
-            values[i] = res[i];
-        }
-        return values;
+        return Collections.unmodifiableList(new ArrayList<>(Arrays.asList(res)));
     }
 
     @Override

@@ -17,48 +17,52 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
+import beast.base.spec.domain.PositiveReal;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealScalar;
+import beast.base.spec.type.RealVector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Description("A Function whose elements are the elements of an input Function " +
-        "scaled by another input Function.")
-public class Scale extends LoggableFunction {
+@Description("A RealVector whose elements are the elements of an input RealVector " +
+        "scaled by another input RealVector.")
+public class Scale<D extends Real> extends CalculatedRealVector<D> {
 
-    public Input<Function> functionInput = new Input<>("function",
+    public Input<RealVector> vectorInput = new Input<>("function",
             "Function to scale", Input.Validate.REQUIRED);
 
-    public Input<List<Function>> scalingFactorsInput = new Input<>("scaleBy",
+    public Input<List<RealScalar<PositiveReal>>> scalingFactorsInput = new Input<>("scaleBy",
             "Amount to scale by", new ArrayList<>());
 
-    Function function;
-    List<Function> scalingFactors;
+    RealVector realVector;
+    List<RealScalar<PositiveReal>> scalingFactors;
 
     @Override
     public void initAndValidate() {
-        function = functionInput.get();
+        realVector = vectorInput.get();
         scalingFactors = scalingFactorsInput.get();
-
-        for (Function scalingFactor : scalingFactors)
-        if (scalingFactor.getDimension() != 1)
-            throw new IllegalArgumentException("Dimension of scaleBy argument to Scale is not 1.");
     }
 
     @Override
-    public int getDimension() {
-        return function.getDimension();
+    public D getDomain() {
+        return (D) realVector.getDomain();
     }
 
     @Override
-    public double getArrayValue(int i) {
-        double res=function.getArrayValue(i);
-        for (Function scalingFactor : scalingFactors)
-            res *= scalingFactor.getArrayValue();
+    public int size() {
+        return realVector.size();
+    }
+
+    @Override
+    public double get(int i) {
+        double res=realVector.get(i);
+        for (RealScalar scalingFactor : scalingFactors)
+            res *= scalingFactor.get();
 
         return res;
     }

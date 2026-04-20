@@ -17,16 +17,17 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.evolution.tree.Tree;
+import beast.base.spec.domain.Real;
 
-@Description("Represents tree node metadata as a function with as many elements " +
+@Description("Represents tree node metadata as a RealVector with as many elements " +
         "as there are nodes in the tree.  Values are ordered according to node " +
         "number, and missing values are included as NaNs.")
-public class MetadataAsFunction extends LoggableFunction {
+public class MetadataAsRealVector<D extends Real> extends CalculatedRealVector<D> {
 
     public Input<Tree> treeInput = new Input<>("tree",
             "Tree whose metadata to represent as a function.",
@@ -46,12 +47,17 @@ public class MetadataAsFunction extends LoggableFunction {
     }
 
     @Override
-    public int getDimension() {
+    public D getDomain() {
+        return (D) D.INSTANCE;
+    }
+
+    @Override
+    public int size() {
         return tree.getNodeCount();
     }
 
     @Override
-    public double getArrayValue(int idx) {
+    public double get(int idx) {
         Object val = tree.getNode(idx).getMetaData(key);
         if (val instanceof Double valDouble)
             return valDouble;

@@ -1,3 +1,5 @@
+import feast.realvector.*;
+
 open module feast {
     requires beast.pkgmgmt;
     requires beast.base;
@@ -12,10 +14,9 @@ open module feast {
     requires org.antlr.antlr4.runtime;
     requires org.apache.commons.math4.legacy;
 
-    exports feast.app;
     exports feast.expressions;
     exports feast.fileio;
-    exports feast.function;
+    exports feast.realvector;
     exports feast.mapping;
     exports feast.modelselect;
     exports feast.nexus;
@@ -51,16 +52,16 @@ open module feast {
         feast.simulation.GPSimulator,
         feast.simulation.SimulatedAlignment,
         feast.simulation.ShuffledAlignment,
-        feast.function.Sequence,
-        feast.function.SampleAges,
-        feast.function.Reverse,
-        feast.function.Concatenate,
-        feast.function.TraitSetAsFunction,
-        feast.function.MetadataAsFunction,
-        feast.function.Interleave,
-        feast.function.Slice,
-        feast.function.UniqueElementCount,
-        feast.function.Scale,
+            Sequence,
+            SampleAges,
+            Reverse,
+            Concatenate,
+            TraitSetAsRealVector,
+            MetadataAsRealVector,
+            Interleave,
+            Slice,
+            UniqueElementCount,
+            Scale,
         feast.modelselect.DirichletProcessOperator,
         feast.modelselect.ModelSelectionParameter,
         feast.modelselect.DirichletProcessPrior,

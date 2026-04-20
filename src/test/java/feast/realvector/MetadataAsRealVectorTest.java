@@ -17,33 +17,34 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeParser;
+import beast.base.spec.domain.Real;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MetadataAsFunctionTest {
+public class MetadataAsRealVectorTest {
 
     @Test
     public void test() {
         Tree tree = new TreeParser("(0[&md=10]:1,(1[&md=11,anotherkey=\"hello\"]:1,2[&md=12]:2)3:1)4:0;");
 
-        MetadataAsFunction mdfunc = new MetadataAsFunction();
+        MetadataAsRealVector<Real> mdfunc = new MetadataAsRealVector<>();
         mdfunc.initByName("tree", tree, "key", "md");
 
         assertEquals((Double)tree.getNode(0).getMetaData("md"),
-         mdfunc.getArrayValue(0), 1e-10);
+         mdfunc.get(0), 1e-10);
         assertEquals((Double)tree.getNode(1).getMetaData("md"),
-         mdfunc.getArrayValue(1), 1e-10);
+         mdfunc.get(1), 1e-10);
         assertEquals((Double)tree.getNode(2).getMetaData("md"),
-         mdfunc.getArrayValue(2), 1e-10);
+         mdfunc.get(2), 1e-10);
 
-        assertTrue(Double.isNaN(mdfunc.getArrayValue(3)));
-        assertTrue(Double.isNaN(mdfunc.getArrayValue(4)));
+        assertTrue(Double.isNaN(mdfunc.get(3)));
+        assertTrue(Double.isNaN(mdfunc.get(4)));
     }
 
 }

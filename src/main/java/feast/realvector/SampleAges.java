@@ -17,38 +17,38 @@
  * along with feast. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package feast.function;
+package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
-import beast.base.evolution.alignment.TaxonSet;
-import beast.base.evolution.tree.TraitSet;
+import beast.base.evolution.tree.Tree;
+import beast.base.spec.domain.Real;
 
-@Description("All trait sets have at least some (potentially useless) representation " +
-        "as a vector of doubles.  This class just allows you to explicitly treat them " +
-        "as Functions.")
-public class TraitSetAsFunction extends LoggableFunction {
+import java.util.List;
 
-    public Input<TraitSet> traitSetInput = new Input<>("traitSet",
-            "Trait set to represent as a function.",
+@Description("RealVector representing ages of sample nodes of tree.")
+public class SampleAges<D extends Real> extends CalculatedRealVector<D> {
+
+    public Input<Tree> treeInput = new Input<>("tree",
+            "Tree to extract leaf ages from.",
             Input.Validate.REQUIRED);
-
-    TaxonSet taxonSet;
-    TraitSet traitSet;
 
     @Override
     public void initAndValidate() {
-        traitSet = traitSetInput.get();
-        taxonSet = traitSet.taxaInput.get();
     }
 
     @Override
-    public int getDimension() {
-        return taxonSet.getTaxonCount();
+    public D getDomain() {
+        return (D) Real.INSTANCE;
     }
 
     @Override
-    public double getArrayValue(int dim) {
-        return traitSet.getValue(taxonSet.asStringList().get(dim));
+    public int size() {
+        return treeInput.get().getLeafNodeCount();
+    }
+
+    @Override
+    public double get(int dim) {
+        return treeInput.get().getArrayValue(dim);
     }
 }
