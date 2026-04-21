@@ -66,6 +66,7 @@ open module feast {
         feast.modelselect.ModelSelectionParameter,
         feast.modelselect.DirichletProcessPrior,
         feast.expressions.ExpCalculator,
+        feast.expressions.ExpCalculatorDistribution,
         feast.parameter.RealParameterFromFunction,
         feast.parameter.IntegerParameterFromFunction,
         feast.parameter.TimeParameter,

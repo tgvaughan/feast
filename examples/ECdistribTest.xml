@@ -1,14 +1,13 @@
 <beast version='2.0'
        namespace='beast.base.inference
-                 :beast.base.inference.parameter
-                 :beast.base.inference.operator
-                 :beast.base.evolution.operator
+                 :beast.base.spec.inference.parameter
+                 :beast.base.spec.inference.operator
                  :feast:feast.expressions'>
 
     <run spec="MCMC" id="mcmc" chainLength="2000000">
         <state>
-            <input name='stateNode' spec='RealParameter' value="20" id="x" />
-            <input name='stateNode' spec='RealParameter' value="50" id="y" />
+            <input name='stateNode' spec='RealVectorParam' value="20" id="x" />
+            <input name='stateNode' spec='RealVectorParam' value="50" id="y" />
         </state>
 
         <distribution spec="ExpCalculatorDistribution" id="target"

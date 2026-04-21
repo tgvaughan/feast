@@ -72,7 +72,7 @@ public class ExpCalculator<D extends Real> extends LoggableRealVector<D> {
     public Input<String> expressionInput = new Input<>("value",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
     
-    public Input<List<RealVector>> realVectorsInput = new Input<>(
+    public Input<List<RealVector<? extends Real>>> realVectorsInput = new Input<>(
             "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
@@ -95,8 +95,8 @@ public class ExpCalculator<D extends Real> extends LoggableRealVector<D> {
     public void initAndValidate() {
         
         // Assemble name->param map
-        Map<String, RealVector> realVectorMap = new HashMap<>();
-        for (RealVector realVector : realVectorsInput.get()) {
+        Map<String, RealVector<? extends Real>> realVectorMap = new HashMap<>();
+        for (RealVector<? extends Real> realVector : realVectorsInput.get()) {
             BEASTObject obj = (BEASTObject)realVector;
             realVectorMap.put(obj.getID(), realVector);
         }

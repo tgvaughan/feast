@@ -19,7 +19,7 @@
 
 package feast.expressions.parser;
 
-import beast.base.core.Function;
+import beast.base.spec.domain.Real;
 import beast.base.spec.type.RealVector;
 import beast.base.util.GammaFunction;
 
@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
-    private Map<ExpressionParser.ExpressionContext, Double[]> cache = new HashMap<>();
+    private final Map<ExpressionParser.ExpressionContext, Double[]> cache = new HashMap<>();
 
     private Double[] getResultArray(ExpressionParser.ExpressionContext ctx, int length) {
         if (cache.containsKey(ctx)) {
@@ -47,14 +47,14 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
         }
     }
 
-    Map<String, RealVector> realVectorMap;
+    Map<String, RealVector<? extends Real>> realVectorMap;
     
     /**
      * Create a new Expression AST visitor.
      * 
      * @param realVectorMap map from RealVector names to RealVectors
      */
-    public ExpCalculatorVisitor(Map<String, RealVector> realVectorMap) {
+    public ExpCalculatorVisitor(Map<String, RealVector<? extends Real>> realVectorMap) {
         this.realVectorMap = realVectorMap;
     }
     

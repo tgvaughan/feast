@@ -57,7 +57,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
             "True if expression represents log(P), false if it represents P. "
                     + "Default is false.", false);
 
-    public Input<List<RealVector>> realVectorsInput = new Input<>(
+    public Input<List<RealVector<? extends Real>>> realVectorsInput = new Input<>(
             "arg", "Parameters/functions needed for the calculation",
             new ArrayList<>());
 
@@ -88,9 +88,9 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
         maxTimeToConsider = maxTimeToConsiderInput.get();
 
         // Assemble name->param map
-        Map<String, RealVector> realVectorMap = new HashMap<>();
+        Map<String, RealVector<? extends Real>> realVectorMap = new HashMap<>();
         realVectorMap.put("t", timeParam);
-        for (RealVector realVector : realVectorsInput.get()) {
+        for (RealVector<? extends Real> realVector : realVectorsInput.get()) {
             BEASTObject obj = (BEASTObject)realVector;
             realVectorMap.put(obj.getID(), realVector);
         }
