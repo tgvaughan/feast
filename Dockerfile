@@ -3,10 +3,10 @@
 FROM debian:stable
 
 RUN apt-get update
-RUN apt-get install -y openjdk-21-jdk openjfx ant
+RUN apt-get install -y openjdk-25-jdk maven
 
 WORKDIR /root
 
 ADD . ./
 
-ENTRYPOINT JAVA_FX_HOME=/usr/share/java/ ant test
+ENTRYPOINT mvn test
