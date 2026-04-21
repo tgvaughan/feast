@@ -1,0 +1,125 @@
+/*
+ * Copyright (c) 2014 Tim Vaughan
+ *
+ * This file is part of feast.
+ *
+ * feast is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * feast is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with feast. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package feast.expressions;
+
+import beast.base.core.BEASTObject;
+import beast.base.core.Description;
+import beast.base.core.Input;
+import beast.base.inference.Distribution;
+import beast.base.inference.State;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.RealVector;
+import feast.expressions.parser.ExpCalculatorVisitor;
+import feast.expressions.parser.ExpressionLexer;
+import feast.expressions.parser.ExpressionParser;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.util.*;
+
+/**
+ *
+ * @author Tim Vaughan
+ */
+@Description("A distribution composed from an expression string.")
+public class ExpCalculatorDistribution extends Distribution {
+    
+    public Input<String> expressionInput = new Input<>("value",
+            "Expression needed for calculations.", Input.Validate.REQUIRED);
+    
+    public Input<List<RealVector<? extends Real>>> realVectorsInput = new Input<>(
+            "arg", "Parameters/functions needed for the calculation",
+            new ArrayList<>());
+
+    public Input<Boolean> isLogInput = new Input<>("isLog",
+            "True if expression represents log(P), false if it represents P. "
+            + "Default is false.", false);
+    
+    
+    ParseTree parseTree;
+    ExpCalculatorVisitor visitor;
+    
+    Double [] res;
+
+    public ExpCalculatorDistribution () { }
+    
+    @Override
+    public void initAndValidate() {
+        
+        // Assemble name->param map
+        Map<String, RealVector<? extends Real>> realVectorsMap = new HashMap<>();
+        for (RealVector<? extends Real> realVector : realVectorsInput.get()) {
+            BEASTObject obj = (BEASTObject)realVector;
+            realVectorsMap.put(obj.getID(), realVector);
+        }
+
+        // Build AST from expression string
+        CharStream input = CharStreams.fromString(expressionInput.get());
+        ExpressionLexer lexer = new ExpressionLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        ExpressionParser parser = new ExpressionParser(tokens);
+        parseTree = parser.expression();
+        
+        // Create new visitor for calculating expression values:
+        visitor = new ExpCalculatorVisitor(realVectorsMap);
+        
+        update();
+        
+        if (res.length != 1)
+            throw new IllegalArgumentException("ExpCalculatorDistribution "
+                    + "expressions must be single-valued.");
+    }
+
+    private void update() {
+        if (parseTree != null)
+            res = visitor.visit(parseTree);
+    }
+
+    @Override
+    public double calculateLogP() {
+        update();
+        if (isLogInput.get())
+            logP = res[0];
+        else
+            logP = Math.log(res[0]);
+        
+        return logP;
+    }
+    
+    
+
+    @Override
+    public List<String> getArguments() {
+        return null;
+    }
+
+    @Override
+    public List<String> getConditions() {
+        return null;
+    }
+
+    @Override
+    public void sample(State state, Random random) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+}
