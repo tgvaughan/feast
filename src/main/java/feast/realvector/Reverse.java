@@ -25,17 +25,17 @@ import beast.base.spec.domain.Real;
 import beast.base.spec.type.RealVector;
 
 @Description("A Function whose elements are the elements of the input Function but in reverse order.")
-public class Reverse<D extends Real> extends CalculatedRealVector<D> {
+public class Reverse extends CalculatedRealVector<Real> {
 
-    public Input<RealVector<D>> realVectorInput = new Input<>("arg",
+    public Input<RealVector<? extends Real>> realVectorInput = new Input<>("arg",
             "Argument to reverse elements of.", Input.Validate.REQUIRED);
 
     @Override
     public void initAndValidate() { }
 
     @Override
-    public D getDomain() {
-        return (D) D.INSTANCE;
+    public Real getDomain() {
+        return realVectorInput.get().getDomain();
     }
 
     @Override

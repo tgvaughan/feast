@@ -21,7 +21,6 @@ package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
-import beast.base.spec.domain.PositiveReal;
 import beast.base.spec.domain.Real;
 import beast.base.spec.type.RealScalar;
 import beast.base.spec.type.RealVector;
@@ -31,26 +30,36 @@ import java.util.List;
 
 @Description("A RealVector whose elements are the elements of an input RealVector " +
         "scaled by another input RealVector.")
-public class Scale<D extends Real> extends CalculatedRealVector<D> {
+public class Scale extends CalculatedRealVector<Real> {
 
-    public Input<RealVector> vectorInput = new Input<>("function",
+    public Input<RealVector<? extends Real>> vectorInput = new Input<>("arg",
             "Function to scale", Input.Validate.REQUIRED);
 
-    public Input<List<RealScalar<PositiveReal>>> scalingFactorsInput = new Input<>("scaleBy",
+    public Input<List<RealScalar<? extends Real>>> scalingFactorsInput = new Input<>("scaleBy",
             "Amount to scale by", new ArrayList<>());
 
-    RealVector realVector;
-    List<RealScalar<PositiveReal>> scalingFactors;
+    RealVector<? extends Real> realVector;
+    List<RealScalar<? extends Real>> scalingFactors;
+
+    Real domain;
 
     @Override
     public void initAndValidate() {
         realVector = vectorInput.get();
         scalingFactors = scalingFactorsInput.get();
+
     }
 
     @Override
-    public D getDomain() {
-        return (D) realVector.getDomain();
+    public Real getDomain() {
+        return Real.INSTANCE;
+        /*
+        Could do something fancier here (e.g. when both realVector and scalingFactors
+        are UnitIntervals, result would be UnitInterval), but capturing all cases
+        is very tedious.  Alternatively, Domain classes themselves could
+        implement this algebra to define Domain1*Domain2 or Domain1+Domain2
+        for all pairs.
+         */
     }
 
     @Override
@@ -61,7 +70,7 @@ public class Scale<D extends Real> extends CalculatedRealVector<D> {
     @Override
     public double get(int i) {
         double res=realVector.get(i);
-        for (RealScalar scalingFactor : scalingFactors)
+        for (RealScalar<? extends Real> scalingFactor : scalingFactors)
             res *= scalingFactor.get();
 
         return res;

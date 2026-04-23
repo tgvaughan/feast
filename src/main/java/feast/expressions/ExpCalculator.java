@@ -67,7 +67,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
         + " parameters can be specified using [] notation.  Parameters with"
         + " differing dimension are combined as in R, with the shortest "
         + " parameter being repeated as many times as necessary.")
-public class ExpCalculator<D extends Real> extends LoggableRealVector<D> {
+public class ExpCalculator extends LoggableRealVector<Real> {
     
     public Input<String> expressionInput = new Input<>("value",
             "Expression needed for calculations.", Input.Validate.REQUIRED);
@@ -146,8 +146,8 @@ public class ExpCalculator<D extends Real> extends LoggableRealVector<D> {
     public void close(PrintStream out) { }
 
     @Override
-    public D getDomain() {
-        return (D) D.INSTANCE;
+    public Real getDomain() {
+        return Real.INSTANCE;
     }
 
     @Override

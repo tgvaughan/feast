@@ -22,12 +22,13 @@ package feast.realvector;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.evolution.tree.Tree;
+import beast.base.spec.domain.NonNegativeReal;
 import beast.base.spec.domain.Real;
 
 import java.util.List;
 
 @Description("RealVector representing ages of sample nodes of tree.")
-public class SampleAges<D extends Real> extends CalculatedRealVector<D> {
+public class SampleAges extends CalculatedRealVector<NonNegativeReal> {
 
     public Input<Tree> treeInput = new Input<>("tree",
             "Tree to extract leaf ages from.",
@@ -38,8 +39,8 @@ public class SampleAges<D extends Real> extends CalculatedRealVector<D> {
     }
 
     @Override
-    public D getDomain() {
-        return (D) Real.INSTANCE;
+    public NonNegativeReal getDomain() {
+        return NonNegativeReal.INSTANCE;
     }
 
     @Override

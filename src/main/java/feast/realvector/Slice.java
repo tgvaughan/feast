@@ -21,17 +21,16 @@ package feast.realvector;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
-import beast.base.spec.domain.Domain;
 import beast.base.spec.domain.Real;
 import beast.base.spec.type.RealVector;
 
 /**
  * @author Tim Vaughan
  */
-@Description("A Function representing a number of elements of another Function.")
-public class Slice<D extends Real> extends CalculatedRealVector<D> {
+@Description("A RealVector representing a number of elements of another RealVector.")
+public class Slice extends CalculatedRealVector<Real> {
 
-    public Input<RealVector> realVectorInput = new Input<>("arg",
+    public Input<RealVector<? extends Real>> realVectorInput = new Input<>("arg",
             "Argument to extract element from.", Input.Validate.REQUIRED);
 
     public Input<Integer> startIndexInput = new Input<>("index",
@@ -45,8 +44,6 @@ public class Slice<D extends Real> extends CalculatedRealVector<D> {
 
     protected int indexStart, indexEnd, count, by;
 
-    Domain domain;
-
     @Override
     public void initAndValidate() {
         indexStart = startIndexInput.get();
@@ -57,13 +54,11 @@ public class Slice<D extends Real> extends CalculatedRealVector<D> {
         if (indexEnd >= realVectorInput.get().size())
             throw new IllegalArgumentException("Index and count arguments to" +
                     " Slice are out of bounds.");
-
-        domain = realVectorInput.get().getDomain();
     }
 
     @Override
-    public D getDomain() {
-        return (D) domain;
+    public Real getDomain() {
+        return realVectorInput.get().getDomain();
     }
 
     @Override

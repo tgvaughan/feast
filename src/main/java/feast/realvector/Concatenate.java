@@ -29,16 +29,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Description("A RealVector whose elements are the result of concatenating the elements of the input RealVector.")
-public class Concatenate<D extends Real> extends LoggableRealVector<D> {
+public class Concatenate extends LoggableRealVector<Real> {
 
-    public Input<List<RealVector>> realVectorsInput = new Input<>("arg",
+    public Input<List<RealVector<? extends Real>>> realVectorsInput = new Input<>("arg",
             "One or more functions to concatenate.",
             new ArrayList<>());
 
-    List<RealVector> realVectors;
+    List<RealVector<? extends Real>> realVectors;
     int totalDim;
 
-    Domain domain;
+    Real domain;
 
     @Override
     public void initAndValidate() {
@@ -49,9 +49,8 @@ public class Concatenate<D extends Real> extends LoggableRealVector<D> {
 
         domain = realVectors.getFirst().getDomain();
 
-
         totalDim = 0;
-        for (RealVector vec : realVectorsInput.get()) {
+        for (RealVector<? extends Real> vec : realVectorsInput.get()) {
             if (vec.getDomain() != domain)
                 throw new IllegalArgumentException("All inputs to concatenate must have the same domain.");
             totalDim += vec.size();
@@ -68,8 +67,8 @@ public class Concatenate<D extends Real> extends LoggableRealVector<D> {
     }
 
     @Override
-    public D getDomain() {
-        return (D) domain;
+    public Real getDomain() {
+        return domain;
     }
 
     @Override

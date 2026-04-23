@@ -1,7 +1,5 @@
 package feast.realvector;
 
-import beast.base.core.Function;
-import beast.base.inference.parameter.RealParameter;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.parameter.RealVectorParam;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,7 @@ public class SliceTest {
     @Test
     public void test() {
         RealVectorParam<Real> param = new RealVectorParam<>(new double[] {0,1,2,3,4,5}, Real.INSTANCE);
-        Slice<Real> slicedParam = new Slice<>();
+        Slice slicedParam = new Slice();
         slicedParam.initByName(
                 "arg", param,
                 "index", 2,
@@ -29,7 +27,7 @@ public class SliceTest {
     @Test
     public void testBy() {
         RealVectorParam<Real> param = new RealVectorParam<>(new double[] {0,1,2,3,4,5,6,7,8,9,10}, Real.INSTANCE);
-        Slice<Real> slicedParam = new Slice<>();
+        Slice slicedParam = new Slice();
         slicedParam.initByName(
                 "arg", param,
                 "index", 2,

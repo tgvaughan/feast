@@ -20,9 +20,7 @@
 package feast.realvector;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.spec.domain.Domain;
 import beast.base.spec.domain.Real;
 import beast.base.spec.type.RealVector;
 
@@ -34,15 +32,15 @@ import java.util.List;
  */
 @Description("A RealVector produced by interleaving the elements of two " +
         "or more input RealVectors.")
-public class Interleave<D extends Real> extends CalculatedRealVector<D> {
+public class Interleave extends CalculatedRealVector<Real> {
 
-    public Input<List<RealVector>> argsInput = new Input<>("arg",
+    public Input<List<RealVector<? extends Real>>> argsInput = new Input<>("arg",
             "RealVectors to interleave.",
             new ArrayList<>());
 
     int maxLen, dim;
-    List<RealVector> args;
-    Domain domain;
+    List<RealVector<? extends Real>> args;
+    Real domain;
 
     @Override
     public void initAndValidate() {
@@ -54,7 +52,7 @@ public class Interleave<D extends Real> extends CalculatedRealVector<D> {
         domain = args.getFirst().getDomain();
 
         maxLen = 0;
-        for (RealVector arg : args) {
+        for (RealVector<? extends Real> arg : args) {
             if (arg.getDomain() != domain)
                 throw new IllegalArgumentException("Arguments to Interleave must have the same domain");
 
@@ -65,8 +63,8 @@ public class Interleave<D extends Real> extends CalculatedRealVector<D> {
     }
 
     @Override
-    public D getDomain() {
-        return (D) domain;
+    public Real getDomain() {
+        return domain;
     }
 
     @Override
@@ -82,7 +80,7 @@ public class Interleave<D extends Real> extends CalculatedRealVector<D> {
         int col = i / args.size();
         int row = i % args.size();
 
-        RealVector arg = args.get(row);
+        RealVector<? extends Real> arg = args.get(row);
         return arg.get(col % arg.size());
     }
 }

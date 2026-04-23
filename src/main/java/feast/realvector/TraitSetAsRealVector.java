@@ -28,7 +28,7 @@ import beast.base.spec.domain.Real;
 @Description("All trait sets have at least some (potentially useless) representation " +
         "as a vector of doubles.  This class just allows you to explicitly treat them " +
         "as RealVectors.")
-public class TraitSetAsRealVector<D extends Real> extends CalculatedRealVector<D> {
+public class TraitSetAsRealVector extends CalculatedRealVector<Real> {
 
     public Input<TraitSet> traitSetInput = new Input<>("traitSet",
             "Trait set to represent as a function.",
@@ -44,8 +44,8 @@ public class TraitSetAsRealVector<D extends Real> extends CalculatedRealVector<D
     }
 
     @Override
-    public D getDomain() {
-        return (D) D.INSTANCE;
+    public Real getDomain() {
+        return Real.INSTANCE;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package feast.realvector;
 
-import beast.base.inference.parameter.RealParameter;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.parameter.RealVectorParam;
 import org.junit.jupiter.api.Test;
@@ -11,12 +10,12 @@ public class InterleaveTest {
 
     @Test
     public void testInterleave() {
-        RealVectorParam<Real> arg1 = new RealVectorParam(new double[] {1,2,3,4}, Real.INSTANCE);
+        RealVectorParam<Real> arg1 = new RealVectorParam<>(new double[] {1,2,3,4}, Real.INSTANCE);
         RealVectorParam<Real> arg2 = new RealVectorParam<>(new double[] {5,6,7}, Real.INSTANCE);
         RealVectorParam<Real> arg3 = new RealVectorParam<>(new double[] {8,9}, Real.INSTANCE);
         RealVectorParam<Real> arg4 = new RealVectorParam<>(new double[] {0}, Real.INSTANCE);
 
-        Interleave<Real> interleave = new Interleave<>();
+        Interleave interleave = new Interleave();
         interleave.initByName(
                 "arg", arg1,
                 "arg", arg2,

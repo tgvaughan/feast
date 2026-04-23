@@ -25,6 +25,7 @@ import beast.base.core.Input;
 import beast.base.core.Loggable;
 import beast.base.inference.CalculationNode;
 import beast.base.spec.domain.Int;
+import beast.base.spec.domain.NonNegativeInt;
 import beast.base.spec.type.IntScalar;
 import beast.base.spec.type.RealVector;
 
@@ -33,7 +34,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Description("Function representing the number of unique elements of another function.")
-public class UniqueElementCount<D extends Int> extends CalculationNode implements Loggable, IntScalar<D> {
+public class UniqueElementCount extends CalculationNode implements Loggable, IntScalar<NonNegativeInt> {
 
     public Input<RealVector> argInput = new Input<>("arg",
             "Number of unique elements of this parameter will be logged.",
@@ -46,8 +47,8 @@ public class UniqueElementCount<D extends Int> extends CalculationNode implement
     }
 
     @Override
-    public D getDomain() {
-        return (D) D.INSTANCE;
+    public NonNegativeInt getDomain() {
+        return NonNegativeInt.INSTANCE;
     }
 
     @Override

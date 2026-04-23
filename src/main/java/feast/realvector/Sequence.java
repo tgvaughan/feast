@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Description("A Function representing an evenly-spaced sequence of real numbers.")
-public class Sequence<D extends Real> extends LoggableRealVector<D> {
+public class Sequence extends LoggableRealVector<Real> {
 
     public Input<Double> startInput = new Input<>("start",
             "Start value of sequence",
@@ -45,8 +45,8 @@ public class Sequence<D extends Real> extends LoggableRealVector<D> {
     Double[] values;
 
     @Override
-    public D getDomain() {
-        return (D) D.INSTANCE;
+    public Real getDomain() {
+        return Real.INSTANCE;
     }
 
     @Override

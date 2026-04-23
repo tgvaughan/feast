@@ -40,13 +40,13 @@ public class ExpCalculatorTest {
         jparam.setID("J");
 
         
-        ExpCalculator<Real> instance = new ExpCalculator<>();
+        ExpCalculator instance = new ExpCalculator();
         instance.initByName(
                 "value", "-(J[0]/J + log(exp(I))*-3 - 1.5 + 1.5 + 1 + -3)",
                 "arg", iparam,
                 "arg", jparam);
         
-        assertEquals(instance.size(), 3);
+        assertEquals(3, instance.size());
         assertTrue(Math.abs(instance.get(0)-4.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-6.0)<1e-15);
         assertTrue(Math.abs(instance.get(2)-10.0)<1e-15);
@@ -54,21 +54,21 @@ public class ExpCalculatorTest {
         instance.initByName(
                 "value", "sum(I*2)",
                 "arg", iparam);
-        assertEquals(instance.size(), 1);
+        assertEquals(1, instance.size());
         assertTrue(Math.abs(instance.get(0)-12.0)<1e-15);
         
         instance.initByName(
                 "value", "sqrt(sum(I*2)+4) + J",
                 "arg", iparam,
                 "arg", jparam);
-        assertEquals(instance.size(), 2);
+        assertEquals(2, instance.size());
         assertTrue(Math.abs(instance.get(0)-31.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-17.5)<1e-15);
         
         instance.initByName(
                 "value", "1.5^I^2",
                 "arg", iparam);
-        assertEquals(instance.size(), 3);
+        assertEquals(3, instance.size());
         assertTrue(Math.abs(instance.get(0)-1.5)<1e-15);
         assertTrue(Math.abs(instance.get(1)-5.0625)<1e-15);
         assertTrue(Math.abs(instance.get(2)-38.443359375)<1e-15);
@@ -76,7 +76,7 @@ public class ExpCalculatorTest {
         instance.initByName(
                 "value", "{I,J} + {1,2,3,4,5}",
                 "arg", iparam);
-        assertEquals(instance.size(), 5);
+        assertEquals(5, instance.size());
         assertTrue(Math.abs(instance.get(0)-2.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-4.0)<1e-15);
         assertTrue(Math.abs(instance.get(2)-6.0)<1e-15);
@@ -86,7 +86,7 @@ public class ExpCalculatorTest {
         instance.initByName(
                 "value", "theta(I-2)",
                 "arg", iparam);
-        assertEquals(instance.size(), 3);
+        assertEquals(3, instance.size());
         assertTrue(Math.abs(instance.get(0)-0.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-1.0)<1e-15);
         assertTrue(Math.abs(instance.get(2)-1.0)<1e-15);
@@ -94,7 +94,7 @@ public class ExpCalculatorTest {
         instance.initByName(
                 "value", "I>2",
                 "arg", iparam);
-        assertEquals(instance.size(), 3);
+        assertEquals(3, instance.size());
         assertTrue(Math.abs(instance.get(0)-0.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-0.0)<1e-15);
         assertTrue(Math.abs(instance.get(2)-1.0)<1e-15);
@@ -102,7 +102,7 @@ public class ExpCalculatorTest {
         instance.initByName(
                 "value", "I>=2 ? 42.0 : 53.0",
                 "arg", iparam);
-        assertEquals(instance.size(), 3);
+        assertEquals(3, instance.size());
         assertTrue(Math.abs(instance.get(0)-53.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-42.0)<1e-15);
         assertTrue(Math.abs(instance.get(2)-42.0)<1e-15);
@@ -112,14 +112,14 @@ public class ExpCalculatorTest {
     @Test
     public void testUnaryOps() {
 
-        ExpCalculator<Real> instance = new ExpCalculator<>();
+        ExpCalculator instance = new ExpCalculator();
         RealVectorParam<Real> iparam = new RealVectorParam<>(new double[] {1.0, 2.0, 3.0}, Real.INSTANCE);
         iparam.setID("I");
 
         instance.initByName(
                 "value", "{min(I),max(I),len(I),{1,2}[1]}",
                 "arg", iparam);
-        assertEquals(instance.size(), 4);
+        assertEquals(4, instance.size());
         assertTrue(Math.abs(instance.get(0)-1.0)<1e-15);
         assertTrue(Math.abs(instance.get(1)-3.0)<1e-15);
         assertTrue(Math.abs(instance.get(2)-3.0)<1e-15);
@@ -156,10 +156,10 @@ public class ExpCalculatorTest {
     @Test
     public void testIndexing() {
 
-        ExpCalculator<Real> instance = new ExpCalculator<>();
+        ExpCalculator instance = new ExpCalculator();
         instance.initByName("value", "0[1:5]");
 
-        assertEquals(instance.size(), 5);
+        assertEquals(5, instance.size());
         assertEquals(0.0, instance.get(0), 1e-15);
         assertEquals(0.0, instance.get(1), 1e-15);
         assertEquals(0.0, instance.get(2), 1e-15);
