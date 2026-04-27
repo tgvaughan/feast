@@ -24,18 +24,21 @@ import beast.base.core.Input;
 import beast.base.inference.Operator;
 import beast.base.inference.parameter.BooleanParameter;
 import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.BoolVectorParam;
+import beast.base.spec.inference.parameter.RealVectorParam;
 import beast.base.util.Randomizer;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Description("Operator which acts on subsets of elements of a RealParameter.")
+@Description("Operator which acts on subsets of elements of a RealVectorParam.")
 public class BlockScaleOperator extends Operator {
 
-    public Input<RealParameter> parameterInput = new Input<>(
+    public Input<RealVectorParam<? extends Real>> parameterInput = new Input<>(
             "parameter", "Parameter to be scaled", Input.Validate.REQUIRED);
 
-    public Input<BooleanParameter> indicatorInput = new Input<>(
+    public Input<BoolVectorParam> indicatorInput = new Input<>(
             "indicator",
             "Boolean vector indicating which elements to scale. " +
                     "(If absent, all elements are scaled together.)");
@@ -44,8 +47,8 @@ public class BlockScaleOperator extends Operator {
             "scaleFactor", "Lower bound of the scale factor.",
             0.8);
 
-    RealParameter parameter;
-    BooleanParameter indicator;
+    RealVectorParam<? extends Real> parameter;
+    BoolVectorParam indicator;
     boolean hasIndicator;
 
     double scaleFactor;
@@ -56,7 +59,7 @@ public class BlockScaleOperator extends Operator {
         indicator = indicatorInput.get();
         hasIndicator = indicator != null;
 
-        if (hasIndicator && indicator.getDimension() != parameter.getDimension())
+        if (hasIndicator && indicator.size() != parameter.size())
             throw new IllegalArgumentException("Indicator and parameter dimension must match.");
 
         scaleFactor = scaleFactorInput.get();
@@ -65,7 +68,7 @@ public class BlockScaleOperator extends Operator {
     /**
      * Set used for computing degrees of freedom.
      */
-    private Set<Double> uniqueValues = new HashSet<>();
+    private final Set<Double> uniqueValues = new HashSet<>();
 
     /**
      * Determine the number of degrees of freedom (unique element values)
@@ -76,14 +79,14 @@ public class BlockScaleOperator extends Operator {
     private int getScaledDegreesOfFreedom() {
         uniqueValues.clear();
 
-        for (int i=0; i<parameter.getDimension(); i++) {
-            if (hasIndicator && !indicator.getValue(i))
+        for (int i=0; i<parameter.size(); i++) {
+            if (hasIndicator && !indicator.get(i))
                 continue;
 
-            if (parameter.getValue(i) == 0.0)
+            if (parameter.get(i) == 0.0)
                 continue;
 
-            uniqueValues.add(parameter.getValue(i));
+            uniqueValues.add(parameter.get(i));
         }
 
         return uniqueValues.size();
@@ -106,16 +109,16 @@ public class BlockScaleOperator extends Operator {
      */
     private boolean scaleParameter(double f) {
 
-        for (int i=0; i<parameter.getDimension(); i++) {
-            if (hasIndicator && !indicator.getValue(i))
+        for (int i=0; i<parameter.size(); i++) {
+            if (hasIndicator && !indicator.get(i))
                 continue;
 
-            double newVal = parameter.getValue(i)*f;
+            double newVal = parameter.get(i)*f;
 
             if (newVal>parameter.getUpper() || newVal<parameter.getLower())
                 return false;
 
-            parameter.setValue(i, newVal);
+            parameter.set(i, newVal);
         }
 
         return true;

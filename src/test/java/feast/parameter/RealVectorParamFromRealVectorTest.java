@@ -19,23 +19,24 @@
 
 package feast.parameter;
 
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RealParameterFromFunctionTest {
+public class RealVectorParamFromRealVectorTest {
 
     @Test
     public void test() {
-        RealParameter originalParameter = new RealParameter("1.2 2.3 3.4");
+        RealVectorParam<Real> originalParameter = new RealVectorParam<>(new double[] {1.2,2.3,3.4}, Real.INSTANCE);
 
-        RealParameterFromFunction rpff = new RealParameterFromFunction();
-        rpff.initByName("function", originalParameter);
+        RealVectorParamFromRealVector newParameter = new RealVectorParamFromRealVector();
+        newParameter.initByName("realVector", originalParameter);
 
-        assertEquals(3, rpff.getDimension(), 1e-10);
-        assertEquals(originalParameter.getValue(0), rpff.getValue(0), 1e-10);
-        assertEquals(originalParameter.getValue(1), rpff.getValue(1), 1e-10);
-        assertEquals(originalParameter.getValue(2), rpff.getValue(2), 1e-10);
+        assertEquals(3, newParameter.size(), 1e-10);
+        assertEquals(originalParameter.get(0), newParameter.get(0), 1e-10);
+        assertEquals(originalParameter.get(1), newParameter.get(1), 1e-10);
+        assertEquals(originalParameter.get(2), newParameter.get(2), 1e-10);
     }
 }

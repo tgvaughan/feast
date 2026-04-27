@@ -22,13 +22,16 @@ package feast.fileio;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Description("Initializes a RealParameter with values read from a CSV/TSV file " +
         "in row-major order.")
-public class RealParameterFromXSV extends RealParameter {
+public class RealVectorParamFromXSV extends RealVectorParam<Real> {
 
     public Input<String> fileNameInput = new Input<>("fileName", "Name of CSV/TSV file to extract values from.",
             Input.Validate.REQUIRED);
@@ -52,7 +55,7 @@ public class RealParameterFromXSV extends RealParameter {
             "Maximum number of columns to include. (Default all.)",
             Integer.MAX_VALUE);
 
-    public RealParameterFromXSV() {
+    public RealVectorParamFromXSV() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
     }
 
@@ -74,6 +77,8 @@ public class RealParameterFromXSV extends RealParameter {
         int thisRow = 0;
         String thisLine;
 
+        List<Double> newValues = new ArrayList<>();
+
         while ((thisLine = is.readLine()) != null) {
             if (thisRow >= startRowInput.get()) {
 
@@ -87,7 +92,7 @@ public class RealParameterFromXSV extends RealParameter {
                         if (col - startColInput.get() + 1 > colCountInput.get())
                             break;
 
-                            valuesInput.setValue(Double.valueOf(field), this);
+                        newValues.add(Double.valueOf(field));
                     }
 
                     col ++;
@@ -95,5 +100,7 @@ public class RealParameterFromXSV extends RealParameter {
             }
             thisRow += 1;
         }
+
+        valuesInput.setValue(newValues, this);
     }
 }

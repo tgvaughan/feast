@@ -26,6 +26,12 @@ import beast.base.inference.Operator;
 import beast.base.inference.StateNode;
 import beast.base.inference.distribution.ParametricDistribution;
 import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.NonNegativeReal;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.distribution.ScalarDistribution;
+import beast.base.spec.inference.parameter.RealVectorParam;
+import beast.base.spec.type.RealScalar;
+import beast.base.spec.type.Scalar;
 import beast.base.util.Randomizer;
 
 import java.util.*;
@@ -34,24 +40,24 @@ import java.util.*;
         "by sampling from a Dirichlet process prior.")
 public class DirichletProcessOperator extends Operator {
 
-    public Input<RealParameter> parameterInput = new Input<>(
+    public Input<RealVectorParam<? extends Real>> parameterInput = new Input<>(
             "parameter",
             "Parameter to operate on.",
             Input.Validate.REQUIRED);
 
-    public Input<ParametricDistribution> baseDistribInput = new Input<>(
+    public Input<ScalarDistribution<?,Double>> baseDistribInput = new Input<>(
             "baseDistr",
             "Base distribution for Dirichlet process",
             Input.Validate.REQUIRED);
 
-    public Input<Function> scaleParameterInput = new Input<>(
+    public Input<RealScalar<? extends NonNegativeReal>> scaleParameterInput = new Input<>(
             "scaleParameter",
             "Scale parameter for Dirichlet process",
             Input.Validate.REQUIRED);
 
-    RealParameter param;
-    Function scaleParam;
-    ParametricDistribution distr;
+    RealVectorParam<? extends Real> param;
+    RealScalar<? extends NonNegativeReal> scaleParam;
+    ScalarDistribution<?,Double> distr;
 
     @Override
     public void initAndValidate() {
@@ -67,8 +73,8 @@ public class DirichletProcessOperator extends Operator {
 
         double logHR = 0.0;
 
-        int N = param.getDimension();
-        double alpha = scaleParam.getArrayValue();
+        int N = param.size();
+        double alpha = scaleParam.get();
 
         int idx = Randomizer.nextInt(N);
 
@@ -76,27 +82,27 @@ public class DirichletProcessOperator extends Operator {
         for (int i=0; i<N; i++) {
             if (i==idx)
                 continue;
-            counts.merge(param.getValue(i), 1, Integer::sum);
+            counts.merge(param.get(i), 1, Integer::sum);
         }
 
-        if (counts.get(param.getValue(idx)) == null)
-            logHR += Math.log(alpha/(alpha+N-1)) + distr.logDensity(param.getValue(idx));
+        if (counts.get(param.get(idx)) == null)
+            logHR += Math.log(alpha/(alpha+N-1)) + distr.logDensity(param.get(idx));
         else
-            logHR += Math.log(counts.get(param.getValue(idx))/(alpha+N-1));
+            logHR += Math.log(counts.get(param.get(idx))/(alpha+N-1));
 
         double u = Randomizer.nextDouble()*(alpha+N-1);
         if (u < alpha) {
             logHR -= Math.log(alpha/(alpha+N-1));
-            param.setValue(idx, distr.sample(1)[0][0]);
-            logHR -= distr.logDensity(param.getValue(idx));
+            param.set(idx, distr.sample().getFirst());
+            logHR -= distr.logDensity(param.get(idx));
         } else {
             int idxPrime = (int)Math.round(Math.floor(u-alpha));
 
             if (idxPrime>=idx)
                 idxPrime += 1;
 
-            param.setValue(idx, param.getValue(idxPrime));
-            logHR -= Math.log(counts.get(param.getValue(idxPrime))/(alpha+N-1));
+            param.set(idx, param.get(idxPrime));
+            logHR -= Math.log(counts.get(param.get(idxPrime))/(alpha+N-1));
         }
 
         return logHR;

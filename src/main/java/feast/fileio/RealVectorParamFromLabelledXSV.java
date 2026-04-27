@@ -21,15 +21,17 @@ package feast.fileio;
 
 import beast.base.core.Description;
 import beast.base.core.Input;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Description("Initializes a RealParameter with values read from a CSV/TSV file " +
         "in row-major order.")
-public class RealParameterFromLabelledXSV extends RealParameter {
+public class RealVectorParamFromLabelledXSV extends RealVectorParam<Real> {
 
     public Input<String> fileNameInput = new Input<>("fileName", "Name of CSV/TSV file to extract values from.",
             Input.Validate.REQUIRED);
@@ -47,7 +49,7 @@ public class RealParameterFromLabelledXSV extends RealParameter {
     List<String> rowLabels = null, colLabels = null;
     String sep;
 
-    public RealParameterFromLabelledXSV() {
+    public RealVectorParamFromLabelledXSV() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
     }
 
@@ -82,6 +84,8 @@ public class RealParameterFromLabelledXSV extends RealParameter {
                 colIndices[i] = colNames.indexOf(colLabels.get(i));
         }
 
+        List<Double> newValues = new ArrayList<>();
+
         String thisLine;
         while ((thisLine = is.readLine()) != null) {
             String[] elements = thisLine.trim().split(sep);
@@ -91,11 +95,13 @@ public class RealParameterFromLabelledXSV extends RealParameter {
 
             if (colIndices != null) {
                 for (int i : colIndices)
-                    valuesInput.setValue(Double.valueOf(elements[i]), this);
+                    newValues.add(Double.valueOf(elements[i]));
             } else {
                 for (int i=1; i<elements.length; i++)
-                    valuesInput.setValue(Double.valueOf(elements[i]), this);
+                    newValues.add(Double.valueOf(elements[i]));
             }
         }
+
+        valuesInput.setValue(newValues, this);
     }
 }

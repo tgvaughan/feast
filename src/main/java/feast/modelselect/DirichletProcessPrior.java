@@ -25,6 +25,11 @@ import beast.base.core.Input;
 import beast.base.inference.Distribution;
 import beast.base.inference.State;
 import beast.base.inference.distribution.ParametricDistribution;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.distribution.ScalarDistribution;
+import beast.base.spec.inference.parameter.RealVectorParam;
+import beast.base.spec.type.RealScalar;
+import beast.base.spec.type.RealVector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,21 +43,22 @@ import java.util.Random;
         " identical elements of function.")
 public class DirichletProcessPrior extends Distribution {
 
-    public Input<Function> parameterInput = new Input<>("parameter",
+    public Input<RealVector<? extends Real>> parameterInput = new Input<>("parameter",
             "Array to which to apply DPP.",
             Input.Validate.REQUIRED);
 
-    public Input<ParametricDistribution> baseDistribInput = new Input<>(
+    public Input<ScalarDistribution<?,Double>> baseDistribInput = new Input<>(
             "baseDistr",
             "Base distribution for Dirichlet process",
             Input.Validate.REQUIRED);
 
-    public Input<Function> scaleParameterInput = new Input<>("scaleParameter",
+    public Input<RealScalar<? extends Real>> scaleParameterInput = new Input<>("scaleParameter",
             "Scale parameter of DPP.",
             Input.Validate.REQUIRED);
 
-    Function parameter, scaleParameter;
-    ParametricDistribution baseDistr;
+    RealVector<? extends Real> parameter;
+    RealScalar<? extends Real> scaleParameter;
+    ScalarDistribution<?,Double> baseDistr;
 
     @Override
     public void initAndValidate() {
@@ -67,11 +73,11 @@ public class DirichletProcessPrior extends Distribution {
     public double calculateLogP() {
         logP = 0.0;
 
-        double alpha = scaleParameter.getArrayValue();
+        double alpha = scaleParameter.get();
 
         counts.clear();
-        for (int i=0; i<parameter.getDimension(); i++) {
-            double x = parameter.getArrayValue(i);
+        for (int i=0; i<parameter.size(); i++) {
+            double x = parameter.get(i);
             if (counts.get(x) != null)
                 logP += Math.log(counts.get(x)/(i+alpha));
             else

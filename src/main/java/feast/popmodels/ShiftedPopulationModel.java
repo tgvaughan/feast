@@ -20,11 +20,15 @@
 package feast.popmodels;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.evolution.tree.coalescent.ExponentialGrowth;
 import beast.base.evolution.tree.coalescent.PopulationFunction;
 import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.NonNegativeReal;
+import beast.base.spec.domain.PositiveReal;
+import beast.base.spec.domain.Real;
+import beast.base.spec.evolution.tree.coalescent.ExponentialGrowth;
+import beast.base.spec.inference.parameter.RealScalarParam;
+import beast.base.spec.type.RealScalar;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -38,13 +42,13 @@ public class ShiftedPopulationModel extends PopulationFunction.Abstract {
             "Population model to shift in time",
             Input.Validate.REQUIRED);
 
-    public Input<Function> offsetInput = new Input<>(
+    public Input<RealScalar<? extends Real>> offsetInput = new Input<>(
             "offset",
             "Time offset to use.",
             Input.Validate.REQUIRED);
 
     PopulationFunction popFunc;
-    Function offset;
+    RealScalar<? extends Real> offset;
 
     @Override
     public void initAndValidate() {
@@ -59,28 +63,28 @@ public class ShiftedPopulationModel extends PopulationFunction.Abstract {
 
     @Override
     public double getPopSize(double t) {
-        return popFunc.getPopSize(t+offset.getArrayValue());
+        return popFunc.getPopSize(t+offset.get());
     }
 
     @Override
     public double getIntensity(double t) {
-        return popFunc.getIntensity(t+offset.getArrayValue()) - popFunc.getIntensity(offset.getArrayValue());
+        return popFunc.getIntensity(t+offset.get()) - popFunc.getIntensity(offset.get());
     }
 
     @Override
     public double getInverseIntensity(double x) {
-        return popFunc.getInverseIntensity(x + popFunc.getIntensity(offset.getArrayValue())) - offset.getArrayValue();
+        return popFunc.getInverseIntensity(x + popFunc.getIntensity(offset.get())) - offset.get();
     }
 
     public static void main(String[] args) {
 
         ExponentialGrowth epm = new ExponentialGrowth();
-        epm.initByName("popSize", new RealParameter("10.0"),
-                "growthRate", new RealParameter("1.0"));
+        epm.initByName("popSize", new RealScalarParam<>(10.0, PositiveReal.INSTANCE),
+                "growthRate", new RealScalarParam<>(1.0, NonNegativeReal.INSTANCE));
 
         ShiftedPopulationModel spm = new ShiftedPopulationModel();
         spm.initByName("populationModel", epm,
-                "offset", new RealParameter("0.5"));
+                "offset", new RealScalarParam<>(0.5, Real.INSTANCE));
 
         try (PrintStream out = System.out) {
             out.println("t\tN\tx\ttprime");

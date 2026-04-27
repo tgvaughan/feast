@@ -1,3 +1,5 @@
+import feast.fileio.RealVectorParamFromLabelledXSV;
+import feast.fileio.RealVectorParamFromXSV;
 import feast.realvector.*;
 
 open module feast {
@@ -35,14 +37,14 @@ open module feast {
         feast.operators.DiscreteUniformJumpOperator,
         feast.fileio.TreeFromNewickFile,
         feast.fileio.TraitSetFromXSV,
-        feast.fileio.RealParameterFromLabelledXSV,
+            RealVectorParamFromLabelledXSV,
         feast.fileio.logfileiterator.TraceLogFileState,
         feast.fileio.logfileiterator.DummyPosterior,
         feast.fileio.logfileiterator.TreeLogFileState,
         feast.fileio.logfileiterator.LogFileIterator,
         feast.fileio.logfileiterator.LogFileRealParameter,
         feast.fileio.TreeFromNexusFile,
-        feast.fileio.RealParameterFromXSV,
+            RealVectorParamFromXSV,
         feast.fileio.AlignmentFromNexus,
         feast.fileio.TraitSetFromTaxonSet,
         feast.fileio.TaxonSetFromTree,
@@ -67,10 +69,10 @@ open module feast {
         feast.modelselect.DirichletProcessPrior,
         feast.expressions.ExpCalculator,
         feast.expressions.ExpCalculatorDistribution,
-        feast.parameter.RealParameterFromFunction,
-        feast.parameter.IntegerParameterFromFunction,
+        feast.parameter.RealVectorParamFromRealVector,
+        feast.parameter.IntVectorParamFromIntVector,
         feast.parameter.TimeParameter,
-        feast.parameter.RandomRealParameter,
+        feast.parameter.RandomRealVectorParam,
         feast.popmodels.ShiftedPopulationModel,
         feast.popmodels.CompoundPopulationModel,
         feast.popmodels.ExpressionPopulationModel;

@@ -20,28 +20,26 @@
 package feast.parameter;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.inference.parameter.IntegerParameter;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Int;
+import beast.base.spec.inference.parameter.IntVectorParam;
+import beast.base.spec.type.IntVector;
 
 @Description("A IntegerParameter initialized from a function.  (The elements of" +
         " the input function are rounded to the nearest integer.")
-public class IntegerParameterFromFunction extends IntegerParameter {
+public class IntVectorParamFromIntVector extends IntVectorParam<Int> {
 
-    public Input<Function> functionInput = new Input<>("function",
-            "Function used to initialize RealParameter.",
+    public Input<IntVector<? extends Int>> intVectorInput = new Input<>("intVector",
+            "IntVector used to initialize IntVectorParam.",
             Input.Validate.REQUIRED);
 
-    public IntegerParameterFromFunction() {
+    public IntVectorParamFromIntVector() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
     }
 
     @Override
     public void initAndValidate() {
-        for (double v : functionInput.get().getDoubleValues())
-            valuesInput.setValue((int)Math.round(v), this);
-
+        valuesInput.setValue(intVectorInput.get().getElements(), this);
         super.initAndValidate();
     }
 }

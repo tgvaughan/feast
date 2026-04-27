@@ -23,23 +23,22 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.StateNode;
 import beast.base.inference.StateNodeInitialiser;
-import beast.base.inference.distribution.OneOnX;
-import beast.base.inference.distribution.ParametricDistribution;
-import beast.base.inference.distribution.Uniform;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.distribution.ScalarDistribution;
+import beast.base.spec.inference.parameter.RealVectorParam;
 
 import java.util.List;
 
-@Description("Randomly initialise a RealParameter by sampling from a ParametricDistribution.")
-public class RandomRealParameter extends RealParameter implements StateNodeInitialiser {
-    final public Input<RealParameter> initialInput = new Input<>("initial",
+@Description("Randomly initialise a RealVectorParam by sampling from a ParametricDistribution.")
+public class RandomRealVectorParam extends RealVectorParam<Real> implements StateNodeInitialiser {
+    final public Input<RealVectorParam<Real>> initialInput = new Input<>("initial",
             "Parameter to initialize. (If absent, initialise RandomRealParameter itself.)");
-    final public Input<ParametricDistribution> distributionInput = new Input<>("distr",
-            "Distribution from which to draw a random value. Usually the prior ditribution for this parameter.",
+    final public Input<ScalarDistribution<?, Double>> distributionInput
+            = new Input<>("distr",
+            "Distribution from which to draw a random value. Usually the prior distribution for this parameter.",
             Input.Validate.REQUIRED);
 
-
-    public RandomRealParameter() {
+    public RandomRealVectorParam() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
     }
 
@@ -63,27 +62,12 @@ public class RandomRealParameter extends RealParameter implements StateNodeIniti
             sampleParameter(this);
     }
 
-    protected void sampleParameter(RealParameter parameter) {
-        int dim = parameter.getDimension();
-        ParametricDistribution distribution = distributionInput.get();
-        if (distribution instanceof Uniform)
-            if (Double.isInfinite(((Uniform) distribution).lowerInput.get()) ||
-                    Double.isInfinite(((Uniform) distribution).upperInput.get())){
-                System.out.println("Cannot sample from improper Uniform distribution." +
-                        "One or both bounds are infinite.");
-                System.exit(1);
-            }
-        if (distribution instanceof OneOnX){
-            System.out.println("Currently not implemented for OneOnX distribution.");
-            System.exit(1);
-        }
+    protected void sampleParameter(RealVectorParam<Real> parameter) {
+        int dim = parameter.size();
+        ScalarDistribution<?, Double> distribution = distributionInput.get();
 
         for (int i = 0; i < dim; i++){
-            Double rnd;
-            do {
-                rnd  = distribution.sample(1)[0][0];
-            } while (rnd < parameter.getLower() || rnd > parameter.getUpper());
-            parameter.setValue(i, rnd);
+            parameter.set(i, distribution.sample().getFirst());
         }
     }
 

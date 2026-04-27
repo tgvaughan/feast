@@ -19,23 +19,24 @@
 
 package feast.parameter;
 
-import beast.base.inference.parameter.IntegerParameter;
+import beast.base.spec.domain.Int;
+import beast.base.spec.inference.parameter.IntVectorParam;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IntegerParameterFromFunctionTest {
+public class IntVectorParamFromIntVectorTest {
 
     @Test
     public void test() {
-        IntegerParameter originalParameter = new IntegerParameter("1 2 3");
+        IntVectorParam<Int> originalParameter = new IntVectorParam<>(new int[] {1,2,3}, Int.INSTANCE);
 
-        IntegerParameterFromFunction rpff = new IntegerParameterFromFunction();
-        rpff.initByName("function", originalParameter);
+        IntVectorParamFromIntVector newParameter = new IntVectorParamFromIntVector();
+        newParameter.initByName("intVector", originalParameter);
 
-        assertEquals(3, rpff.getDimension());
-        assertEquals(originalParameter.getValue(0), rpff.getValue(0), 1e-10);
-        assertEquals(originalParameter.getValue(1), rpff.getValue(1), 1e-10);
-        assertEquals(originalParameter.getValue(2), rpff.getValue(2), 1e-10);
+        assertEquals(3, newParameter.size());
+        assertEquals(originalParameter.get(0), newParameter.get(0), 1e-10);
+        assertEquals(originalParameter.get(1), newParameter.get(1), 1e-10);
+        assertEquals(originalParameter.get(2), newParameter.get(2), 1e-10);
     }
 }

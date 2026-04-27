@@ -21,12 +21,14 @@ package feast.popmodels;
 
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.evolution.tree.coalescent.ConstantPopulation;
-import beast.base.evolution.tree.coalescent.ExponentialGrowth;
 import beast.base.evolution.tree.coalescent.PopulationFunction;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.evolution.tree.coalescent.ConstantPopulation;
+import beast.base.spec.evolution.tree.coalescent.ExponentialGrowth;
+import beast.base.spec.inference.parameter.RealScalarParam;
+import beast.base.spec.inference.parameter.RealVectorParam;
+import beast.base.spec.type.RealVector;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -40,7 +42,7 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
     public Input<List<PopulationFunction>> popFunctionsInput = new Input<>("populationModel",
             "Population model segment", new ArrayList<>());
 
-    public Input<Function> changeTimesInput = new Input<>("changeTimes",
+    public Input<RealVector<? extends Real>> changeTimesInput = new Input<>("changeTimes",
             "Times of transitions between individual model segments.",
             Input.Validate.REQUIRED);
 
@@ -49,7 +51,7 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
                     "function is continuous. (Default false)", false);
 
     List<PopulationFunction> popFuncs;
-    Function changeTimes;
+    RealVector<? extends Real> changeTimes;
 
     boolean makeContinuous;
     double[] scaleFactorCache, intensityCache, changeTimesCache;
@@ -63,13 +65,13 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
 
         scaleFactorCache = new double[popFuncs.size()];
         intensityCache = new double[popFuncs.size()];
-        changeTimesCache = new double[changeTimes.getDimension()];
+        changeTimesCache = new double[changeTimes.size()];
 
         Arrays.fill(scaleFactorCache, 1.0);
 
         cachesDirty = true;
 
-        if (popFuncs.size() != changeTimes.getDimension()+1)
+        if (popFuncs.size() != changeTimes.size()+1)
             throw new IllegalArgumentException("The dimension of changeTimes must be one less than the number of " +
                     "populationModel inputs.");
 
@@ -87,8 +89,8 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
 
         // Copy change times to array
 
-        for (int i=0; i<changeTimes.getDimension(); i++)
-            changeTimesCache[i] = changeTimes.getArrayValue(i);
+        for (int i=0; i<changeTimes.size(); i++)
+            changeTimesCache[i] = changeTimes.get(i);
 
         // Update scale factor cache
 
@@ -99,7 +101,7 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
             for (int i = 0; i < changeTimesCache.length; i++) {
                 double Nend = popFuncs.get(i).getPopSize(changeTimesCache[i] - tprev) * scaleFactorCache[i];
                 scaleFactorCache[i + 1] = Nend / popFuncs.get(i + 1).getPopSize(0);
-                tprev = changeTimes.getArrayValue(i);
+                tprev = changeTimes.get(i);
             }
         }
 
@@ -195,18 +197,18 @@ public class CompoundPopulationModel extends PopulationFunction.Abstract {
 
         CompoundPopulationModel cpm = new CompoundPopulationModel();
         ConstantPopulation pf1 = new ConstantPopulation();
-        pf1.initByName("popSize", new RealParameter("1.0"));
+        pf1.initByName("popSize", new RealScalarParam<>(1.0, Real.INSTANCE));
         ExponentialGrowth pf2 = new ExponentialGrowth();
-        pf2.initByName("popSize", new RealParameter("1.0"),
-                "growthRate", new RealParameter("1.0"));
+        pf2.initByName("popSize", new RealScalarParam<>(1.0, Real.INSTANCE),
+                "growthRate", new RealScalarParam<>(1.0, Real.INSTANCE));
         ConstantPopulation pf3 = new ConstantPopulation();
-        pf3.initByName("popSize", new RealParameter("2.0"));
+        pf3.initByName("popSize", new RealScalarParam<>(2.0, Real.INSTANCE));
 
         cpm.initByName(
                 "populationModel", pf1,
                 "populationModel", pf2,
                 "populationModel", pf3,
-                "changeTimes", new RealParameter("3.0 5.0"),
+                "changeTimes", new RealVectorParam<>(new double[] {3.0,5.0}, Real.INSTANCE),
                 "makeContinuous", true);
 
         double t0 = -1.0;

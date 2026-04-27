@@ -20,25 +20,26 @@
 package feast.parameter;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
+import beast.base.spec.type.RealVector;
 
 @Description("A RealParameter initialized from a function.")
-public class RealParameterFromFunction extends RealParameter {
+public class RealVectorParamFromRealVector extends RealVectorParam<Real> {
 
-    public Input<Function> functionInput = new Input<>("function",
-            "Function used to initialize RealParameter.",
+    public Input<RealVector<? extends Real>> realVectorInput = new Input<>("realVector",
+            "RealVector used to initialize RealParameter.",
             Input.Validate.REQUIRED);
 
-    public RealParameterFromFunction() {
+    public RealVectorParamFromRealVector() {
         valuesInput.setRule(Input.Validate.OPTIONAL);
     }
 
     @Override
     public void initAndValidate() {
-        for (double v : functionInput.get().getDoubleValues())
-            valuesInput.setValue(v, this);
+        for (int i=0; i<realVectorInput.get().size(); i++)
+            valuesInput.setValue(realVectorInput.get().get(i), this);
 
         super.initAndValidate();
     }

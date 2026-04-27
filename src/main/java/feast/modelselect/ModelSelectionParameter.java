@@ -25,6 +25,10 @@ import beast.base.core.Input;
 import beast.base.core.Loggable;
 import beast.base.inference.CalculationNode;
 import beast.base.inference.parameter.IntegerParameter;
+import beast.base.spec.domain.Int;
+import beast.base.spec.domain.Real;
+import beast.base.spec.type.IntVector;
+import beast.base.spec.type.RealVector;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -33,11 +37,11 @@ import java.util.List;
 @Description("Class of Functions useful for BSSVS-style model selection/averaging.")
 public class ModelSelectionParameter extends CalculationNode implements Function, Loggable {
 
-    public Input<List<Function>> parametersInput = new Input<>("parameter",
+    public Input<List<RealVector<? extends Real>>> parametersInput = new Input<>("parameter",
             "Parameter for the selection pool.",
             new ArrayList<>());
 
-    public Input<IntegerParameter> selectionIndicesInput = new Input<>("selectionIndices",
+    public Input<IntVector<? extends Int>> selectionIndicesInput = new Input<>("selectionIndices",
             "Integer parameter containing indicies to which each output parameter is mapped.",
             Input.Validate.REQUIRED);
 
@@ -54,12 +58,12 @@ public class ModelSelectionParameter extends CalculationNode implements Function
 
     @Override
     public int getDimension() {
-        return parametersInput.get().get(selectionIndicesInput.get().getValue(thisIndexInput.get())).getDimension();
+        return parametersInput.get().get(selectionIndicesInput.get().get(thisIndexInput.get())).size();
     }
 
     @Override
     public double getArrayValue(int dim) {
-        return parametersInput.get().get(selectionIndicesInput.get().getValue(thisIndexInput.get())).getArrayValue(dim);
+        return parametersInput.get().get(selectionIndicesInput.get().get(thisIndexInput.get())).get(dim);
     }
 
 

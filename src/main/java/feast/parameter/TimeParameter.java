@@ -22,16 +22,19 @@ package feast.parameter;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Log;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
-@Description("RealParameter with a constructor that sets initial values based " +
+@Description("RealScalarParam with a constructor that sets initial values based " +
         "on formatted dates converted to ages relative to the most recent sample " +
         "on the tree.")
-public class TimeParameter extends RealParameter {
+public class TimeParameter extends RealVectorParam<Real> {
 
     public Input<String> timeFormatInput = new Input<>("timeFormat",
             "The time format to be parsed, e.g. dd/M/yyyy");
@@ -39,14 +42,6 @@ public class TimeParameter extends RealParameter {
     public Input<String> timeInput = new Input<>("time",
             "One or more (space-delimited) times to be used in initializing parameter",
             Input.Validate.REQUIRED);
-
-    public Input<String> timeEarlierInput = new Input<>("timeEarlier",
-            "Time to be converted into an upper bound on the parameter value, " +
-                    "in format specified by timeFormat");
-
-    public Input<String> timeLaterInput = new Input<>("timeLater",
-            "Time to be converted into an lower bound on the parameter value, " +
-                    "in format specified by timeFormat");
 
     public Input<String> mostRecentSampleTimeInput = new Input<>("mostRecentSampleTime",
             "Time of the most recent sample, in format specified by timeFormat",
@@ -60,15 +55,11 @@ public class TimeParameter extends RealParameter {
     public void initAndValidate() {
         double offsetTime = getTimeAsDouble(mostRecentSampleTimeInput.get());
 
+        List<Double> newValues = new ArrayList<>();
         for (String timeString : timeInput.get().split(" "))
-            valuesInput.setValue(offsetTime - getTimeAsDouble(timeString), this);
+            newValues.add(offsetTime-getTimeAsDouble(timeString));
 
-        if (timeEarlierInput.get() != null) {
-            upperValueInput.setValue(offsetTime - getTimeAsDouble(timeEarlierInput.get()), this);
-        }
-
-        if (timeLaterInput.get() != null)
-            lowerValueInput.setValue(offsetTime - getTimeAsDouble(timeLaterInput.get()), this);
+        valuesInput.setValue(newValues, this);
 
         super.initAndValidate();
     }
