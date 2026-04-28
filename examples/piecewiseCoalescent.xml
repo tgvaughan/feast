@@ -1,12 +1,9 @@
 <beast version='2.0'
        namespace='beast.base.inference
-                  :beast.base.evolution.tree.coalescent
-                  :beast.base.evolution.nuc
-                  :beast.base.inference.parameter
-                  :beast.base.evolution.sitemodel
-                  :beast.base.evolution.operator
+                  :beast.base.spec.inference.parameter
                   :beast.base.evolution.tree
-                  :beast.base.evolution.substitutionmodel
+                  :beast.base.evolution.tree.coalescent
+                  :beast.base.evolution.operator
                   :beast.base.evolution.likelihood'>
 
     <!-- The sequence alignment (each sequence refers to a taxon above).         -->
@@ -34,15 +31,15 @@
     </data>
 
     <!-- The HKY substitution model (Hasegawa, Kishino & Yano, 1985)             -->
-    <input spec='HKY' id="hky">
+    <input spec='beast.base.spec.evolution.substitutionmodel.HKY' id="hky">
         <parameter name='kappa' idref='hky.kappa'/>
-        <input id='freqs' name='frequencies' spec='Frequencies'>
+        <input id='freqs' name='frequencies' spec='beast.base.spec.evolution.substitutionmodel.Frequencies'>
             <input name='data' idref='alignment'/>
         </input>
     </input>
 
     <!-- site model                                                              -->
-    <input spec='SiteModel' id="siteModel">
+    <input spec='beast.base.spec.evolution.sitemodel.SiteModel' id="siteModel">
         <input name='substModel' idref='hky'/>
     </input>
 
@@ -53,11 +50,11 @@
     </input>
 
 
-    <input spec='ClusterTree' id='tree' clusterType='upgma'>
+    <input spec='beast.base.spec.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
         <input name='taxa' idref='alignment'/>
     </input>
 
-    <input spec='RealParameter' id="hky.kappa">1.0</input>
+    <input spec='RealScalarParam' id="hky.kappa">1.0</input>
 
 
     <run spec="MCMC" id="mcmc" chainLength="1000000"> <!--autoOptimize="true"-->
@@ -72,42 +69,29 @@
                      <tree idref="tree"/>
                 </treeIntervals>
                 <populationModel spec="feast.popmodels.CompoundPopulationModel">
-                  <populationModel spec="ConstantPopulation">
-                    <popSize spec="RealParameter" value="5.0"/>
-                  </populationModel>
-                  <populationModel spec="ConstantPopulation">
-                    <popSize spec="RealParameter" value="0.01"/>
-                  </populationModel>
-                  <populationModel spec="ConstantPopulation">
-                    <popSize spec="RealParameter" value="3.0"/>
-                  </populationModel>
-                  <changeTimes spec="RealParameter" value="0.02 0.05"/>
+                  <populationModel spec="ConstantPopulation" popSize="5.0"/>
+                  <populationModel spec="ConstantPopulation" popSize="0.01"/>
+                  <populationModel spec="ConstantPopulation" popSize="3.0"/>
+                  <changeTimes spec="RealVectorParam" value="0.02 0.05"/>
                 </populationModel>
             </distribution>
             <distribution id='likelihood' idref="treeLikelihood"/>
         </distribution>
 
-        <operator id='kappaScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1">
+        <operator id='kappaScaler' spec='beast.base.spec.inference.operator.ScaleOperator' scaleFactor="0.5" weight="1">
             <parameter idref="hky.kappa"/>
         </operator>
-        <operator id='treeScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1">
-            <tree idref="tree"/>
-        </operator>
-        <operator spec='Uniform' weight="10">
-            <tree idref="tree"/>
-        </operator>
-        <operator spec='SubtreeSlide' weight="5" gaussian="true" size="1.0">
-            <tree idref="tree"/>
-        </operator>
-        <operator id='narrow' spec='Exchange' isNarrow='true' weight="1">
-            <tree idref="tree"/>
-        </operator>
-        <operator id='wide' spec='Exchange' isNarrow='false' weight="1">
-            <tree idref="tree"/>
-        </operator>
-        <operator spec='WilsonBalding' weight="1">
-            <tree idref="tree"/>
-        </operator>
+
+        <operator id='treeIntervalScaler' spec='beast.base.spec.evolution.operator.IntervalScaleOperator' scaleFactor="0.5" tree="@tree" weight="3"/>
+        <operator id="treeScaler" spec="beast.base.spec.evolution.operator.UpDownOperator" up="@tree" scaleFactor="0.1" weight="4.0"/>
+        <operator id="treeRootScaler" spec="kernel.BactrianScaleOperator" scaleFactor="0.5" tree="@tree" rootOnly="true" weight="3"/>
+        <operator id="uniformNodeOperator" spec="kernel.BactrianNodeOperator" tree="@tree" weight="30"/>
+        <operator id="subtreeSlide" spec="kernel.BactrianSubtreeSlide" size="1.0" tree="@tree" weight="15"/>
+        <operator id="exchangeNarrow" spec="Exchange" isNarrow="true" tree="@tree" weight="15"/>
+        <operator id="exchangeWidt" spec="Exchange" isNarrow="false" tree="@tree" weight="3"/>
+        <operator id="wilsonBalding" spec="WilsonBalding" tree="@tree" weight="3"/>
+
+
 
         <logger logEvery="10000" fileName="$(filebase).log">
    	        <model idref='posterior'/>

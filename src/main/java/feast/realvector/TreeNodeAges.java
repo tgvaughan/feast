@@ -23,12 +23,9 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.evolution.tree.Tree;
 import beast.base.spec.domain.NonNegativeReal;
-import beast.base.spec.domain.Real;
 
-import java.util.List;
-
-@Description("RealVector representing ages of sample nodes of tree.")
-public class SampleAges extends CalculatedRealVector<NonNegativeReal> {
+@Description("RealVector representing ages of nodes of tree.")
+public class TreeNodeAges extends CalculatedRealVector<NonNegativeReal> {
 
     public Input<Tree> treeInput = new Input<>("tree",
             "Tree to extract leaf ages from.",
@@ -45,11 +42,11 @@ public class SampleAges extends CalculatedRealVector<NonNegativeReal> {
 
     @Override
     public int size() {
-        return treeInput.get().getLeafNodeCount();
+        return treeInput.get().getNodeCount();
     }
 
     @Override
-    public double get(int dim) {
-        return treeInput.get().getArrayValue(dim);
+    public double get(int i) {
+        return treeInput.get().getNode(i).getHeight();
     }
 }

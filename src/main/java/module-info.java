@@ -55,7 +55,7 @@ open module feast {
         feast.simulation.SimulatedAlignment,
         feast.simulation.ShuffledAlignment,
             Sequence,
-            SampleAges,
+            TreeTipAges,
             Reverse,
             Concatenate,
             TraitSetAsRealVector,

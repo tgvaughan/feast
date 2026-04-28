@@ -25,6 +25,7 @@ import beast.base.inference.StateNode;
 import beast.base.inference.StateNodeInitialiser;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.distribution.ScalarDistribution;
+import beast.base.spec.inference.parameter.RealScalarParam;
 import beast.base.spec.inference.parameter.RealVectorParam;
 
 import java.util.List;
@@ -52,6 +53,15 @@ public class RandomRealVectorParam extends RealVectorParam<Real> implements Stat
         }
 
         initStateNodes();
+
+        double dummyParamVal = initialInput.get() != null ? initialInput.get().get(0) : this.get(0);
+
+        if (distributionInput.get().paramInput.get() == null) {
+            RealScalarParam<Real> dummyParam = new RealScalarParam<>(dummyParamVal, Real.INSTANCE);
+            distributionInput.get().paramInput.setValue(dummyParam, distributionInput.get());
+            distributionInput.get().initAndValidate();
+        }
+
     }
 
     @Override
