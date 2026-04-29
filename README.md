@@ -22,16 +22,15 @@ the "Install/Upgrade" button.
 Building from source
 --------------------
 
-To build the package you'll need OpenJDK 17 or later, together
-with an installation of the OpenJFX SDK. Once these dependencies
-are in place, issue the following command from the root directory
-of this repository:
+To build the package you'll need OpenJDK 25 or later and Apache Maven
+(https://maven.apache.org). With these dependencies in place, issue
+the following command from the root directory of this repository:
 
 ```sh
-JAVA_FX_HOME=/path/to/openjfx/libs ant
+mvn package
 ```
 
-The package archive will be left in the `dist/` directory.
+The package archive will be left in the `target/` directory.
 
 Documentation
 -------------
