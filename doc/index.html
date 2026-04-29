@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-18 Thu 17:26 -->
+<!-- 2026-04-29 Wed 13:45 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -35,34 +35,33 @@
 <li><a href="#id-3-TraitSetFromXSV">2.1.3. TraitSetFromXSV</a></li>
 <li><a href="#id-3-TaxonSetFromTree-&-TipDatesFromTree">2.1.4. TaxonSetFromTree &amp; TipDatesFromTree</a></li>
 <li><a href="#id-3-AlignmentFromNexus/Fasta">2.1.5. AlignmentFromNexus/Fasta</a></li>
-<li><a href="#id-3-Initialize-RealParameters-from-CSV/TSV-files">2.1.6. Initialize RealParameters from CSV/TSV files</a></li>
+<li><a href="#id-3-Initialize-RealVectorParams-from-CSV/TSV-files">2.1.6. Initialize RealVectorParams from CSV/TSV files</a></li>
 </ul>
 </li>
-<li><a href="#id-2-Function-(array)-creation-and-manipulation">2.2. Function (array) creation and manipulation</a>
+<li><a href="#id-2-RealVector-(array)-creation-and-manipulation">2.2. RealVector (array) creation and manipulation</a>
 <ul>
-<li><a href="#id-3-Numeric-sequences-as-Functions">2.2.1. Numeric sequences as Functions</a></li>
-<li><a href="#id-3-Function-Slicing">2.2.2. Function Slicing</a></li>
-<li><a href="#id-3-Function-reversing">2.2.3. Function reversing</a></li>
-<li><a href="#id-3-Function-concatenation">2.2.4. Function concatenation</a></li>
-<li><a href="#id-3-Function-scaling">2.2.5. Function scaling</a></li>
-<li><a href="#id-3-Function-interleaving">2.2.6. Function interleaving</a></li>
-<li><a href="#id-3-Functions-from-Trees-and-Tree-metadata">2.2.7. Functions from Trees and Tree metadata</a></li>
+<li><a href="#id-3-Numeric-sequences-as-RealVectors">2.2.1. Numeric sequences as RealVectors</a></li>
+<li><a href="#id-3-RealVector-Slicing">2.2.2. RealVector Slicing</a></li>
+<li><a href="#id-3-RealVector-reversing">2.2.3. RealVector reversing</a></li>
+<li><a href="#id-3-RealVector-concatenation">2.2.4. RealVector concatenation</a></li>
+<li><a href="#id-3-RealVector-scaling">2.2.5. RealVector scaling</a></li>
+<li><a href="#id-3-RealVector-interleaving">2.2.6. RealVector interleaving</a></li>
+<li><a href="#id-3-RealVectors-from-Trees-and-Tree-metadata">2.2.7. RealVectors from Trees and Tree metadata</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Mathematical-Expressions">2.3. Mathematical Expressions</a>
 <ul>
 <li><a href="#id-3-ExpCalculator">2.3.1. ExpCalculator</a></li>
 <li><a href="#id-3-ExpCalculatorDistribution">2.3.2. ExpCalculatorDistribution</a></li>
-<li><a href="#id-3-ExpCalculatorParametricDistribution">2.3.3. ExpCalculatorParametricDistribution</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Parameter-initialisation">2.4. Parameter initialisation</a>
 <ul>
-<li><a href="#id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions">2.4.1. Initialize RealParameters and IntegerParameters from Functions</a></li>
-<li><a href="#id-3-Initializing-RealParameters-using-formatted-times">2.4.2. Initializing RealParameters using formatted times</a></li>
+<li><a href="#id-3-Initialize-RealVectorParams/IntVectorParams-from-RealVectors/IntVectors">2.4.1. Initialize RealVectorParams/IntVectorParams from RealVectors/IntVectors</a></li>
+<li><a href="#id-3-Initializing-RealVectorParams-using-formatted-times">2.4.2. Initializing RealVectorParams using formatted times</a></li>
 </ul>
 </li>
-<li><a href="#id-2-RealParameter-and-IntegerParameter-Operators">2.5. RealParameter and IntegerParameter Operators</a>
+<li><a href="#id-2-RealVectorParam-and-IntVectorParam-Operators">2.5. RealVectorParam and IntVectorParam Operators</a>
 <ul>
 <li><a href="#id-3-Scaling-subsets-of-RealParameter-elements-together">2.5.1. Scaling subsets of RealParameter elements together</a></li>
 <li><a href="#id-3-Operators-on-IntegerParameters">2.5.2. Operators on IntegerParameters</a></li>
@@ -92,8 +91,6 @@
 </ul>
 </li>
 <li><a href="#id-2-Log-File-Post-processing">2.9. Log File Post-processing</a></li>
-<li><a href="#id-2-Single-BEAST-2.7-Jar-files">2.10. Single BEAST 2.7 Jar files</a></li>
-<li><a href="#id-2-Feast-Query:-BEAST-2.7-Object-Browser">2.11. Feast Query: BEAST 2.7 Object Browser</a></li>
 </ul>
 </li>
 <li><a href="#id-1-License">3. License</a></li>
@@ -133,20 +130,18 @@ the "Install/Upgrade" button.
 <h3 id="id-2-Building-from-source"><span class="section-number-3">1.2.</span> Building from source</h3>
 <div class="outline-text-3" id="text-id-2-Building-from-source">
 <p>
-To build the package you'll need OpenJDK 17 or later, the OpenJFX SDK
-(<a href="https://openjfx.io">https://openjfx.io</a>) and Apache ANT (<a href="http://ant.apache.org">http://ant.apache.org</a>). Once
-these dependencies are in place, issue the following command from the
-root directory of this repository:
+To build the package you'll need OpenJDK 25 or later, and Apache Maven
+(<a href="http://maven.apache.org">http://maven.apache.org</a>). Once these dependencies are in place, issue
+the following command from the root directory of this repository:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span class="org-variable-name">JAVA_FX_HOME</span>=/path/to/openjfx/libs ant
+<pre class="src src-sh">mvn package
 </pre>
 </div>
 
 <p>
-(Replace <code>/path/t/openjfx/libs</code> with the location of the OpenJFX libraries.)
-The package archive will be left in the <code>dist/</code> directory.
+The package archive will be left in the <code>target/</code> directory.
 </p>
 </div>
 </div>
@@ -387,23 +382,23 @@ fragment to disk.
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-Initialize-RealParameters-from-CSV/TSV-files" class="outline-4">
-<h4 id="id-3-Initialize-RealParameters-from-CSV/TSV-files"><span class="section-number-4">2.1.6.</span> Initialize RealParameters from CSV/TSV files</h4>
-<div class="outline-text-4" id="text-id-3-Initialize-RealParameters-from-CSV/TSV-files">
+<div id="outline-container-id-3-Initialize-RealVectorParams-from-CSV/TSV-files" class="outline-4">
+<h4 id="id-3-Initialize-RealVectorParams-from-CSV/TSV-files"><span class="section-number-4">2.1.6.</span> Initialize RealVectorParams from CSV/TSV files</h4>
+<div class="outline-text-4" id="text-id-3-Initialize-RealVectorParams-from-CSV/TSV-files">
 <p>
 When setting up complicated analyses, it can be useful to extract some
 (fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
-The <code>RealParameterFromXSV</code> and <code>RealParameterFromLabelledXSV</code> classes can be
+The <code>RealVectorParamFromXSV</code> and <code>RealVectorParamFromLabelledXSV</code> classes can be
 used to do this.
 </p>
 
 <p>
-<code>RealParameterFromXSV</code> simply initializes the parameter with values read
+<code>RealVectorParamFromXSV</code> simply initializes the parameter with values read
 (in row-major order) from a rectangular portion of the table in the specified
 file. For instance,
 </p>
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">migrationRates</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.RealParameterFromXSV"</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">migrationRates</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.RealVectorParamFromXSV"</span>
                 <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"migration_rates.csv"</span>
                 <span class="org-nxml-attribute-local-name">sep</span>=<span class="org-string">","</span>
                 <span class="org-nxml-attribute-local-name">startRow</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">rowCount</span>=<span class="org-string">"3"</span>
@@ -419,12 +414,12 @@ or column.
 </p>
 
 <p>
-<code>RealParameterFromLabelledXSV</code> works simillarly, but assumes that the either
+<code>RealVectorParamFromLabelledXSV</code> works simillarly, but assumes that the either
 or both of the first row or column contain labels, and allows these labels
 to be used to specify elements. For example,
 </p>
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingProportions</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.RealParameterFromLabelledXSV"</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingProportions</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.fileio.RealVectorParamFromLabelledXSV"</span>
     <span class="org-nxml-attribute-local-name">fileName</span>=<span class="org-string">"sampling.tsv"</span>
     <span class="org-nxml-attribute-local-name">colLabels</span>=<span class="org-string">"sampling"</span>
     <span class="org-nxml-attribute-local-name">rowLabels</span>=<span class="org-string">"early_cretaceous, late_cretaceous, jurassic"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
@@ -439,20 +434,20 @@ is read.
 </div>
 </div>
 </div>
-<div id="outline-container-id-2-Function-(array)-creation-and-manipulation" class="outline-3">
-<h3 id="id-2-Function-(array)-creation-and-manipulation"><span class="section-number-3">2.2.</span> Function (array) creation and manipulation</h3>
-<div class="outline-text-3" id="text-id-2-Function-(array)-creation-and-manipulation">
+<div id="outline-container-id-2-RealVector-(array)-creation-and-manipulation" class="outline-3">
+<h3 id="id-2-RealVector-(array)-creation-and-manipulation"><span class="section-number-3">2.2.</span> RealVector (array) creation and manipulation</h3>
+<div class="outline-text-3" id="text-id-2-RealVector-(array)-creation-and-manipulation">
 <p>
-This section describes feast classes which implement the BEAST 2 <code>Function</code> interface.
-A <code>Function</code> here refers to an array of real numbers.  (The naming is an unfortunate
-historical decision.)  Many <code>BEASTObject</code> classes implement <code>Function</code>, including <code>RealParameter</code>
-and <code>Tree</code>.  (In the example of <code>Tree</code>, the real numbers represent node ages.)
+This section describes feast classes which implement the BEAST 2
+<code>RealVector</code> interface.  A <code>RealVector</code> here refers to an array of
+real numbers.  Many <code>BEASTObject</code> classes implement <code>RealVector</code>,
+including <code>RealVectorParam</code>.
 </p>
 
 <p>
-Many of the classes here take one or more <code>Function</code> objects as input,
+Many of the classes here take one or more <code>RealVector</code> objects as input,
 and act to transform or combine the inputs to yield the value of the
-output <code>Function</code>.   This means that instances of these classes can be chained
+output <code>RealVector</code>.   This means that instances of these classes can be chained
 so as to achieve a variety of fairly complex transformations.
 </p>
 
@@ -462,40 +457,39 @@ meaning that they can be passed directly as inputs to the <code>&lt;logger/&gt;<
 XML.
 </p>
 </div>
-<div id="outline-container-id-3-Numeric-sequences-as-Functions" class="outline-4">
-<h4 id="id-3-Numeric-sequences-as-Functions"><span class="section-number-4">2.2.1.</span> Numeric sequences as Functions</h4>
-<div class="outline-text-4" id="text-id-3-Numeric-sequences-as-Functions">
+<div id="outline-container-id-3-Numeric-sequences-as-RealVectors" class="outline-4">
+<h4 id="id-3-Numeric-sequences-as-RealVectors"><span class="section-number-4">2.2.1.</span> Numeric sequences as RealVectors</h4>
+<div class="outline-text-4" id="text-id-3-Numeric-sequences-as-RealVectors">
 <p>
-An instance of <code>feast.function.Sequence</code> is a <code>Function</code> which contains a sequence
+An instance of <code>feast.realvector.Sequence</code> is a <code>RealVector</code> which contains a sequence
 of numbers evenly separated between two bounds.  For instance, the following
 XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
 i.e. 0,0.1,0.2,&#x2026;,9.9,10:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">function</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Sequence"</span> <span class="org-nxml-attribute-local-name">start</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">stop</span>=<span class="org-string">"10"</span> <span class="org-nxml-attribute-local-name">length</span>=<span class="org-string">"101"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realVector</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.Sequence"</span> <span class="org-nxml-attribute-local-name">start</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">stop</span>=<span class="org-string">"10"</span> <span class="org-nxml-attribute-local-name">length</span>=<span class="org-string">"101"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-id-3-Function-Slicing" class="outline-4">
-<h4 id="id-3-Function-Slicing"><span class="section-number-4">2.2.2.</span> Function Slicing</h4>
-<div class="outline-text-4" id="text-id-3-Function-Slicing">
+<div id="outline-container-id-3-RealVector-Slicing" class="outline-4">
+<h4 id="id-3-RealVector-Slicing"><span class="section-number-4">2.2.2.</span> RealVector Slicing</h4>
+<div class="outline-text-4" id="text-id-3-RealVector-Slicing">
 <p>
-An instance of the <code>feast.function.Slice</code> class is a <code>Function</code> which
-represent or more elements of another <code>Function</code>.  This allows
+An instance of the <code>feast.realvector.Slice</code> class is a <code>RealVector</code> which
+represent or more elements of another <code>RealVector</code>.  This allows
 element-specific priors to be set, and individual elements to be logged.
 </p>
 
 <p>
 Here's a simple example of using <code>Slice</code> to place a prior on a subset of elements
-of a <code>RealParameter</code>:
+of a <code>RealVectorParam</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distrib</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Prior"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">x</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Slice"</span> <span class="org-nxml-attribute-local-name">arg</span>=<span class="org-string">"@samplingProportion"</span> <span class="org-nxml-attribute-local-name">index</span>=<span class="org-string">"2"</span> <span class="org-nxml-attribute-local-name">count</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogNormalDistributionModel"</span> <span class="org-nxml-attribute-local-name">M</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">S</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distrib</span>  <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogNormalDistributionModel"</span> <span class="org-nxml-attribute-local-name">M</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">S</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">param</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.Slice"</span> <span class="org-nxml-attribute-local-name">arg</span>=<span class="org-string">"@samplingProportion"</span> <span class="org-nxml-attribute-local-name">index</span>=<span class="org-string">"2"</span> <span class="org-nxml-attribute-local-name">count</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">distrib</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
@@ -503,137 +497,154 @@ of a <code>RealParameter</code>:
 <p>
 The optional <code>by</code> input can be used to increase the step size between elements.  For
 example, here's how one could use <code>Slice</code> to apply a prior to elements 1,3,5 of the
-same <code>RealParamter</code>:
+same <code>RealVectorParam</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distrib</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Prior"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distrib</span>  <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogNormalDistributionModel"</span> <span class="org-nxml-attribute-local-name">M</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">S</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">x</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Slice"</span> <span class="org-nxml-attribute-local-name">arg</span>=<span class="org-string">"@samplingProportion"</span> <span class="org-nxml-attribute-local-name">index</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">count</span>=<span class="org-string">"3"</span> <span class="org-nxml-attribute-local-name">by</span>=<span class="org-string">"2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">distrib</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-id-3-Function-reversing" class="outline-4">
-<h4 id="id-3-Function-reversing"><span class="section-number-4">2.2.3.</span> Function reversing</h4>
-<div class="outline-text-4" id="text-id-3-Function-reversing">
+<div id="outline-container-id-3-RealVector-reversing" class="outline-4">
+<h4 id="id-3-RealVector-reversing"><span class="section-number-4">2.2.3.</span> RealVector reversing</h4>
+<div class="outline-text-4" id="text-id-3-RealVector-reversing">
 <p>
-Instances of the <code>feast.function.Reverse</code> class are
-<code>Funtion</code> and <code>Loggable</code> which represent the elements of another
-<code>Function</code> but in reverse order.
+Instances of the <code>feast.realvector.Reverse</code> class are
+<code>RealVector</code> and <code>Loggable</code> which represent the elements of another
+<code>RealVector</code> but in reverse order.
+</p>
+
+<p>
+For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">reversed</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.Reverse"</span> <span class="org-nxml-attribute-local-name">arg</span>=<span class="org-string">"1 2 3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+<p>
+behaves as a <code>RealVectorParam</code> with elements 3,2,1.
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-Function-concatenation" class="outline-4">
-<h4 id="id-3-Function-concatenation"><span class="section-number-4">2.2.4.</span> Function concatenation</h4>
-<div class="outline-text-4" id="text-id-3-Function-concatenation">
+<div id="outline-container-id-3-RealVector-concatenation" class="outline-4">
+<h4 id="id-3-RealVector-concatenation"><span class="section-number-4">2.2.4.</span> RealVector concatenation</h4>
+<div class="outline-text-4" id="text-id-3-RealVector-concatenation">
 <p>
-An instance of the <code>feast.function.Concatenate</code> class is a <code>Function</code>
+An instance of the <code>feast.realvector.Concatenate</code> class is a <code>RealVector</code>
 whose elements are composed of the elements of their
-input <code>Function</code> objects joined together.  For example, here is a <code>Function</code>
+input <code>RealVector</code> objects joined together.  For example, here is a <code>RealVector</code>
 representing a piecewise constant reproductive number to be used as
 input to the BDSKY tree prior, but composed of distinct input parameters
 rather than a single real parameter with multiple dimensions:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">reproductiveNumber</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Concatenate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">reproductiveNumber</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.Concatenate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">reproductiveNumber</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-id-3-Function-scaling" class="outline-4">
-<h4 id="id-3-Function-scaling"><span class="section-number-4">2.2.5.</span> Function scaling</h4>
-<div class="outline-text-4" id="text-id-3-Function-scaling">
+<div id="outline-container-id-3-RealVector-scaling" class="outline-4">
+<h4 id="id-3-RealVector-scaling"><span class="section-number-4">2.2.5.</span> RealVector scaling</h4>
+<div class="outline-text-4" id="text-id-3-RealVector-scaling">
 <p>
-Instances of <code>feast.function.Scale</code> allow one <code>Function</code> to be scaled
+Instances of <code>feast.realvector.Scale</code> allow one <code>RealVector</code> to be scaled
 by another:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaledBirthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.Scale"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">function</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0 2.0 3.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaleBy</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaledBirthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.Scale"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0 2.0 3.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaleBy</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealScalarParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">scaledBirthRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-id-3-Function-interleaving" class="outline-4">
-<h4 id="id-3-Function-interleaving"><span class="section-number-4">2.2.6.</span> Function interleaving</h4>
-<div class="outline-text-4" id="text-id-3-Function-interleaving">
+<div id="outline-container-id-3-RealVector-interleaving" class="outline-4">
+<h4 id="id-3-RealVector-interleaving"><span class="section-number-4">2.2.6.</span> RealVector interleaving</h4>
+<div class="outline-text-4" id="text-id-3-RealVector-interleaving">
 <p>
-Instances of <code>feast.function.Interleave</code> represent the result of interleaving
-the elements of several input <code>Function</code> objects.  For example:
+Instances of <code>feast.realvector.Interleave</code> represent the result of interleaving
+the elements of several input <code>RealVector</code> objects.  For example:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">twoDemeBirthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.interleave"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1 3 5 7"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2 4 6 8"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">twoDemeBirthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.interleave"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1 3 5 7"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2 4 6 8"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">twoDemeBirthRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
 <p>
-is as a <code>Function</code> with elements 1,2,3,4,5,6,7,8.
+is as a <code>realvector</code> with elements 1,2,3,4,5,6,7,8.
 </p>
 
 <p>
-Finally, instances of <code>feast.function.UniqueElementCount</code> are
-<code>Function</code> objects which contain a single integer representing the
+Finally, instances of <code>feast.realvector.UniqueElementCount</code> are
+<code>RealVector</code> objects which contain a single integer representing the
 number of unique values contained in the elements of an input
-<code>Function</code>.  For example,
+<code>RealVector</code>.  For example,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">uniqueValues</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.UniqueElementCount"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.5 10 1.5 1.4"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">uniqueValues</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.UniqueElementCount"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.5 10 1.5 1.4"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">uniqueValues</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
 <p>
-is a <code>Function</code> with a value of 3.
+is a <code>IntScalar</code> with a value of 3.
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-Functions-from-Trees-and-Tree-metadata" class="outline-4">
-<h4 id="id-3-Functions-from-Trees-and-Tree-metadata"><span class="section-number-4">2.2.7.</span> Functions from Trees and Tree metadata</h4>
-<div class="outline-text-4" id="text-id-3-Functions-from-Trees-and-Tree-metadata">
+<div id="outline-container-id-3-RealVectors-from-Trees-and-Tree-metadata" class="outline-4">
+<h4 id="id-3-RealVectors-from-Trees-and-Tree-metadata"><span class="section-number-4">2.2.7.</span> RealVectors from Trees and Tree metadata</h4>
+<div class="outline-text-4" id="text-id-3-RealVectors-from-Trees-and-Tree-metadata">
 <p>
-Every BEAST <code>Tree</code> object is already a <code>Function</code> whose $i^{\text{th}}$ element is the
+The <code>feast.realvector.TreeNodeAges</code> class can be used to represent a
+BEAST <code>Tree</code> object as a RealVector $i^{\text{th}}$ element is the
 age of the node with index (node number) $i$.
 </p>
 
 <p>
-The <code>feast.function.TraitSetAsFunction</code> class can be used to represent numeric <code>TraitSet</code>
-elements as elements of a <code>Function</code>.  For instance,
-</p>
-<div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nodeAges</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.TraitSetAsFunction"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-</pre>
-</div>
-<p>
-Represents such an <code>Function</code>.
+The <code>feast.realvector.TreeTipAges</code> class is similar, but includes only
+the ages of the leaf nodes in the tree.
 </p>
 
 <p>
-Similarly, the <code>feast.function.MetadataAsFunction</code> class can be used to represent
-arbitrary numeric metadata included in the tree object as a <code>Function</code>.  For instance,
+The <code>feast.realvector.TraitSetAsRealVector</code> class can be used to represent numeric <code>TraitSet</code>
+elements as elements of a <code>RealVector</code>.  For instance,
 </p>
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nodeMeta</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.MetadataAsFunction"</span> <span class="org-nxml-attribute-local-name">key</span>=<span class="org-string">"md"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nodeAges</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.realvector.TraitSetAsRealVector"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+</pre>
+</div>
+<p>
+represents such an <code>RealVector</code>.
+</p>
+
+<p>
+Similarly, the <code>feast.realvector.MetadataAsRealVector</code> class can be used to represent
+arbitrary numeric metadata included in the tree object as a <code>RealVector</code>.  For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nodeMeta</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.MetadataAsRealVector"</span> <span class="org-nxml-attribute-local-name">key</span>=<span class="org-string">"md"</span><span class="org-nxml-tag-delimiter">&gt;</span>
   <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">tree</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TreeParser"</span> <span class="org-nxml-attribute-local-name">newick</span>=<span class="org-string">"(0[&amp;md=10]:1,(1[&amp;md=11]:1,2[&amp;md=12]:2)3:1)4:0;"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">nodeMeta</span><span class="org-nxml-tag-delimiter">&gt;</span> 
 </pre>
 </div>
 <p>
-is a <code>Function</code> of length 5 having elements [10,11,12,NaN,NaN].  (Note that missing
-values are represented in the <code>Function</code> with NaN.)
+is a <code>RealVector</code> of length 5 having elements [10,11,12,NaN,NaN].  (Note that missing
+values are represented in the <code>RealVector</code> with NaN.)
 </p>
 </div>
 </div>
@@ -651,8 +662,8 @@ support for parsing of simple arithmetic expressions.
 <div class="outline-text-4" id="text-id-3-ExpCalculator">
 <p>
 Takes an arithmetic expression and returns the result by acting
-as a Loggable or a Function.  Binary operators can be applied to
-Functions (including Parameters) of different lengths as in R, with
+as a Loggable or a RealVector.  Binary operators can be applied to
+RealVector (including Parameters) of different lengths as in R, with
 the result having the maximum of the two lengths, and the index into
 the shortest parameter being the result index modulo the length of
 that parameter. True and false are represented by 1.0 and 0.0 respectively.
@@ -674,7 +685,7 @@ Example expressions follow. (I and J are IDs of RealParameters with elements
 <thead>
 <tr>
 <th scope="col" class="org-left">Expression</th>
-<th scope="col" class="org-left">Loggable/Function value</th>
+<th scope="col" class="org-left">Loggable/RealVector value</th>
 </tr>
 </thead>
 <tbody>
@@ -787,7 +798,7 @@ Example expressions follow. (I and J are IDs of RealParameters with elements
 
 
 <p>
-Note that since each ExpCalculator is a Function object itself, it can
+Note that since each ExpCalculator is a RealVector object itself, it can
 be used as the input for other ExpCalculators.
 </p>
 
@@ -808,7 +819,7 @@ representing the birth rate of some birth-death model:
 
 <p>
 Notice that the expression is supplied as the <code>value</code> input.  The
-<code>arg</code> inputs provide one or more <code>Function</code> objects to be referenced
+<code>arg</code> inputs provide one or more <code>RealVector</code> objects to be referenced
 within the expression by their IDs.
 </p>
 
@@ -840,35 +851,26 @@ density.
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-ExpCalculatorParametricDistribution" class="outline-4">
-<h4 id="id-3-ExpCalculatorParametricDistribution"><span class="section-number-4">2.3.3.</span> ExpCalculatorParametricDistribution</h4>
-<div class="outline-text-4" id="text-id-3-ExpCalculatorParametricDistribution">
-<p>
-This provides a cut-down version of the ExpCalculatorDistribution
-functionality that is compatible with beast.math.distributions.Prior.
-</p>
-</div>
-</div>
 </div>
 <div id="outline-container-id-2-Parameter-initialisation" class="outline-3">
 <h3 id="id-2-Parameter-initialisation"><span class="section-number-3">2.4.</span> Parameter initialisation</h3>
 <div class="outline-text-3" id="text-id-2-Parameter-initialisation">
 </div>
-<div id="outline-container-id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions" class="outline-4">
-<h4 id="id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions"><span class="section-number-4">2.4.1.</span> Initialize RealParameters and IntegerParameters from Functions</h4>
-<div class="outline-text-4" id="text-id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions">
+<div id="outline-container-id-3-Initialize-RealVectorParams/IntVectorParams-from-RealVectors/IntVectors" class="outline-4">
+<h4 id="id-3-Initialize-RealVectorParams/IntVectorParams-from-RealVectors/IntVectors"><span class="section-number-4">2.4.1.</span> Initialize RealVectorParams/IntVectorParams from RealVectors/IntVectors</h4>
+<div class="outline-text-4" id="text-id-3-Initialize-RealVectorParams/IntVectorParams-from-RealVectors/IntVectors">
 <p>
-The <code>feast.parameter.RealParameterFromFunction</code> and
-<code>feast.parameter.IntegerParameterFromFunction</code> classes each provide a
-<code>Parameter</code> which is <b><b>initialized</b></b> from a <code>Function</code>.  Thus you can
-do things like
+The <code>feast.parameter.RealVectorParamFromRealVector</code> and
+<code>feast.parameter.IntVectorParamFromRealVector</code> classes each provide a
+<code>Parameter</code> which is <b><b>initialized</b></b> from a <code>RealVector</code> or
+<code>IntVector</code>.  Thus you can do things like
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RealParameterFromFunction"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">function</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.expressions.ExpCalculator"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"{0,max(taxonTimes)+0.1}"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"taxonTimes"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.TraitSetAsFunction"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">function</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RealParameterFromRealVector"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realVector</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.expressions.ExpCalculator"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"{0,max(taxonTimes)+0.1}"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"taxonTimes"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.TraitSetAsRealVector"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">realVector</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
@@ -879,15 +881,15 @@ automatically falls just before the oldest sample.
 </p>
 
 <p>
-Beware that these classes retrieve the <code>Function</code> values only during
-initialization. <b><b>Changes in the <code>Function</code> values after
+Beware that these classes retrieve the <code>RealVector</code> values only during
+initialization. <b><b>Changes in the <code>RealVector</code> values after
 initialization will not be reflected in the parameter!</b></b>
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-Initializing-RealParameters-using-formatted-times" class="outline-4">
-<h4 id="id-3-Initializing-RealParameters-using-formatted-times"><span class="section-number-4">2.4.2.</span> Initializing RealParameters using formatted times</h4>
-<div class="outline-text-4" id="text-id-3-Initializing-RealParameters-using-formatted-times">
+<div id="outline-container-id-3-Initializing-RealVectorParams-using-formatted-times" class="outline-4">
+<h4 id="id-3-Initializing-RealVectorParams-using-formatted-times"><span class="section-number-4">2.4.2.</span> Initializing RealVectorParams using formatted times</h4>
+<div class="outline-text-4" id="text-id-3-Initializing-RealVectorParams-using-formatted-times">
 <p>
 Particularly in birth-death models, it is often desirable to specify
 several points in time as ages relative to the "present".  This is done
@@ -918,19 +920,13 @@ This is completely equivalent to
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span>
            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"9.825137 9.844262"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
 <p>
 but much more readable.
-</p>
-
-<p>
-In addition, the <code>timeEarlier</code> and <code>timeLater</code> inputs can be used to
-set the bounds of the parameter.  These are equivalent to <code>upper</code> and
-<code>lower</code> inputs of <code>RealParameter</code>, but accept formatted times.
 </p>
 
 <p>
@@ -944,9 +940,9 @@ TimeParameter is to subtract this value from <code>mostRecentSampleTime</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-id-2-RealParameter-and-IntegerParameter-Operators" class="outline-3">
-<h3 id="id-2-RealParameter-and-IntegerParameter-Operators"><span class="section-number-3">2.5.</span> RealParameter and IntegerParameter Operators</h3>
-<div class="outline-text-3" id="text-id-2-RealParameter-and-IntegerParameter-Operators">
+<div id="outline-container-id-2-RealVectorParam-and-IntVectorParam-Operators" class="outline-3">
+<h3 id="id-2-RealVectorParam-and-IntVectorParam-Operators"><span class="section-number-3">2.5.</span> RealVectorParam and IntVectorParam Operators</h3>
+<div class="outline-text-3" id="text-id-2-RealVectorParam-and-IntVectorParam-Operators">
 </div>
 <div id="outline-container-id-3-Scaling-subsets-of-RealParameter-elements-together" class="outline-4">
 <h4 id="id-3-Scaling-subsets-of-RealParameter-elements-together"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
@@ -957,7 +953,7 @@ together, for instance to represent a vector of rates where a subset of
 these rates are conditioned to be identical.  The <code>BlockScaleOperator</code>
 operator makes this possible.  It behaves essentially identically to the
 standard BEAST 2 <code>ScaleOperator</code>, with inputs "parameter" and "indicator"
-specifying respectively the <code>RealParameter</code> to scale and the <code>BooleanParameter</code>
+specifying respectively the <code>RealVectorParam</code> to scale and the <code>BoolVectorParam</code>
 indicating which elements to scale.  The differences are that <code>BlockScaleOperator</code>
 </p>
 
@@ -974,7 +970,7 @@ An example usage of this operator is as follows:
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">operator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.operators.BlockScaleOperator"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@paramToScale"</span>
           <span class="org-nxml-attribute-local-name">scaleFactor</span>=<span class="org-string">"0.8"</span> <span class="org-nxml-attribute-local-name">weight</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">indicator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BooleanParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"true true false false"</span> <span class="org-nxml-attribute-local-name">estimate</span>=<span class="org-string">"false"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">indicator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BoolVector"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"true true false false"</span> <span class="org-nxml-attribute-local-name">estimate</span>=<span class="org-string">"false"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">operator</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
@@ -993,7 +989,7 @@ to be scaled together must be initialised to the same value:
 
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">state</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">stateNode</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramToScale"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1 1 2 2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">stateNode</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramToScale"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1 1 2 2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">state</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">operator</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.operators.SmartScaleOperator"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@paramToScale"</span>
@@ -1012,7 +1008,7 @@ elements.
 <h4 id="id-3-Operators-on-IntegerParameters"><span class="section-number-4">2.5.2.</span> Operators on IntegerParameters</h4>
 <div class="outline-text-4" id="text-id-3-Operators-on-IntegerParameters">
 <p>
-Parameters of type <code>IntegerParameter</code> require special operators.  Beast has
+Parameters of type <code>IntVectorParam</code> require special operators.  Beast has
 two main operators for this type: <code>IntUniformOperator</code> (now deprecated in favour
 of <code>UniformOperator</code>) and <code>IntRandomWalkOperator</code>.  Feast exptends this
 collection with a pair of operators allowing for joint operation on a subset
@@ -1027,7 +1023,7 @@ of elements of a single <code>IntegerParameter</code>.  The new operators are:
 <p>
 These operators take the same inputs as the vanilla (non-block) BEAST 2 versions,
 but with the addition of an input named <code>indicator</code> which takes the same
-<code>BooleanParameter</code> input as the similarly-named input of the <code>BlockScaleOperator</code>
+<code>BoolVectorParam</code> input as the similarly-named input of the <code>BlockScaleOperator</code>
 described above.
 </p>
 </div>
@@ -1061,7 +1057,7 @@ the population size of the exponential growth model at time 0.5.
 </p>
 
 <p>
-The <code>offset</code> input expects a <code>Function</code> value, so <code>RealParameter</code> objectss etc. can
+The <code>offset</code> input expects a <code>RealScalar</code> value, so <code>RealScalarParam</code> objects etc. can
 also be used here.
 </p>
 </div>
@@ -1088,10 +1084,10 @@ by joining together three <code>ConstantPopulation</code> models:
 </p>
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.popmodels.CompoundPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span><span class="org-nxml-tag-delimiter">&gt;</span> <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">popSize</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"5.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span><span class="org-nxml-tag-delimiter">&gt;</span> <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">popSize</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"10.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span><span class="org-nxml-tag-delimiter">&gt;</span> <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">popSize</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">changeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0 3.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span> <span class="org-nxml-attribute-local-name">popSize</span>=<span class="org-string">"5.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span> <span class="org-nxml-attribute-local-name">popSize</span>=<span class="org-string">"10.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ConstantPopulation"</span> <span class="org-nxml-attribute-local-name">popSize</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">changeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0 3.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
@@ -1138,7 +1134,7 @@ an exponentially-decaying amplitude:
 </div>
 
 <p>
-These models can also depend on one or more <code>RealParameter</code> or <code>Function</code> objects:
+These models can also depend on one or more <code>RealVector</code> objects:
 </p>
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">
@@ -1189,7 +1185,7 @@ model, particularly for quickly-changing population functions!
 <div class="outline-text-4" id="text-id-3-DirichletProcessOperator-and-DirichletProcessPrior">
 <p>
 The <code>DirichletProcessPrior</code> and <code>DirichletProcessOperator</code> allow the application
-of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
+of Dirichlet Process Priors (DPPs) to the elements of ~RealVector~s.
 </p>
 
 <p>
@@ -1235,9 +1231,9 @@ general model.
 
 <p>
 The <code>ModelSelectionParameter</code> is created with this kind of BSSVS-style model
-selection in mind. It is a <code>CalculationNode</code> implementing <code>Function</code> which takes
-one or more parameters (also <code>Function~s) as input, together with an
-~IntegerParameter</code> known as the selection index. The <code>ModelSelectionParameter</code>
+selection in mind. It is a <code>CalculationNode</code> implementing <code>RealVector</code> which takes
+one or more parameters (also <code>RealVector~s) as input, together with an
+~IntVector</code> known as the selection index. The <code>ModelSelectionParameter</code>
 acts as though it is the parameter specified by the selection index.
 </p>
 
@@ -1252,22 +1248,22 @@ We can implement this by defining the death rate to be a <code>ModelSelectionPar
 </p>
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">deathRate</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"deathRate"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.modelselect.ModelSelectionParameter"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"nonZeroDeathRate"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">selectionIndices</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"selectionIdx"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">parameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"nonZeroDeathRate"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">selectionIndices</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"selectionIdx"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">deathRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 <p>
 We then use this "deathRate" parameter as input to the tree prior, place some
 sensible prior on "nonZeroDeathRate", and add an operator to modify the
-"selectionIdx" <code>IntegerParameter</code>.  The result is equivalent to placing a
+"selectionIdx" <code>IntVector</code>.  The result is equivalent to placing a
 "spike and slab" prior on the death rate parameter, which is a mixture between
 a point mass at zero and whatever prior you place on "nonZeroDeathRate".
 </p>
 
 <p>
-In addition to this simple case, if "selectionIndices" is an <code>IntegerParameter</code>
+In addition to this simple case, if "selectionIndices" is an <code>IntVector</code>
 with more than one element, the additional <code>ModelSelectionParameter</code> input,
 "thisIndex", can be used to specify which element to use to select the parameter.
 This allows you to sample across models where, for example, subsets of different
@@ -1279,8 +1275,8 @@ is its own <code>ModelSelectionParameter</code>, shares exactly the same set of
 
 <p>
 Beware that <code>ModelSelectionParameter</code> is that is only compatible with
-distributions which take <code>Function</code> objects rather than
-<code>RealParameter</code> objects as input.
+distributions which take <code>RealVector</code> objects rather than
+<code>RealVectorParam</code> objects as input.
 </p>
 </div>
 </div>
@@ -1597,12 +1593,13 @@ is as follows:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">beast</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">'2.0'</span> <span class="org-nxml-attribute-local-name">namespace</span>=<span class="org-string">'feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">beast</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">'2.0'</span> <span class="org-nxml-attribute-local-name">namespace</span>=<span class="org-string">'feast.fileio.logfileiterator
+                                :beast.base.spec.core.parameter'</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
   <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">run</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogFileIterator"</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logFileState</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"TraceLogFileState"</span> <span class="org-nxml-attribute-local-name">logFileName</span>=<span class="org-string">"original_analysis.log"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logFileEntry</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogFileRealParameter"</span> <span class="org-nxml-attribute-local-name">fieldName</span>=<span class="org-string">"hky.kappa"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">fieldParameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"kappa"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logFileEntry</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogFileRealVectorParam"</span> <span class="org-nxml-attribute-local-name">fieldName</span>=<span class="org-string">"hky.kappa"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">fieldParameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"kappa"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
       <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logFileEntry</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">logFileState</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
@@ -1627,108 +1624,10 @@ is as follows:
 <p>
 In this example (which is also provided in the examples directory as <code>TreeLogFileIteratorTest.xml</code>)
 we use the "hky.kappa" field of the <code>original_analysis.log</code> trace log file to set the value of a
-<code>RealParameter</code> named "kappa".  Simultaneously, we use the trees in the tree log file <code>original_analysis.trees</code>
+<code>RealVectorParam</code> named "kappa".  Simultaneously, we use the trees in the tree log file <code>original_analysis.trees</code>
 to set the value of the <code>Tree</code> named "tree".  The value of "kappa" and the height and length statistics
 of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
 </p>
-</div>
-</div>
-<div id="outline-container-id-2-Single-BEAST-2.7-Jar-files" class="outline-3">
-<h3 id="id-2-Single-BEAST-2.7-Jar-files"><span class="section-number-3">2.10.</span> Single BEAST 2.7 Jar files</h3>
-<div class="outline-text-3" id="text-id-2-Single-BEAST-2.7-Jar-files">
-<p>
-Unlike earlier versions, BEAST 2.7 has a sophisticated system for
-controlling which package classes are available to use in analyses.
-While this is a great step forward, its implementation currently
-precludes building the stand-alone jar file bundles of BEAST 2 and its
-packages which are so helpful for collaboration using in-development
-BEAST 2 models.
-</p>
-
-<p>
-Feast now includes a class <code>feast.app.FeastMain</code> which addresses this
-problem.  It is a small wrapper around <code>beastfx.app.beast.BeastMain</code>
-which, before handing control of the execution over to BEAST, seaches
-through all of the directories and jar files in the runtime classpath
-for files named <code>beast_services.xml</code>.  When it finds one of these files,
-<code>FeastMain</code> treats these the same as a standard <code>version.xml</code> file by
-registering all of the services it contains.
-</p>
-
-<p>
-In order to use this wrapper to make a stand-alone jar file for a package,
-follow these steps:
-</p>
-
-<ol class="org-ol">
-<li>Copy (or symlink) any necessary version.xml files into a package
-directory below the <code>src/</code>
-directory of your project. You can place them in any package
-directory you like, but be sure to name each file <code>beast_services.xml</code>.
-<b><b>Beware:</b></b> jar files share a single namespace, so avoid placing
-the file directly in the <code>src/</code> directory itself when bundling multiple BEAST 2 projects into the jar.</li>
-<li>Build a jar file with the <code>Main-Class:</code> attribute in <code>MANIFEST.MF</code>
-set to <code>feast.app.FeastMain</code>.  (You don't necessarily need to edit
-this file directly, most software that builds jar files will ask
-you at some point for the main class: simply enter <code>feast.app.FeastMain</code>
-when asked.)</li>
-</ol>
-
-<p>
-To launch an analysis using this jar file (here we suppose it's named
-<code>my.jar</code>), use either
-</p>
-<div class="org-src-container">
-<pre class="src src-sh">java -jar my.jar analysis.xml
-</pre>
-</div>
-<p>
-or, if you are not using a combined openjdk+openjfx installation, 
-</p>
-<div class="org-src-container">
-<pre class="src src-sh">java --module-path=/path/to/openjfx/libs --add-modules javafx.fxml -jar my.jar analysis.xml
-</pre>
-</div>
-<p>
-here <code>/path/to/openjfx/libs</code> specifies the location of the JavaFX libraries.
-</p>
-</div>
-</div>
-<div id="outline-container-id-2-Feast-Query:-BEAST-2.7-Object-Browser" class="outline-3">
-<h3 id="id-2-Feast-Query:-BEAST-2.7-Object-Browser"><span class="section-number-3">2.11.</span> Feast Query: BEAST 2.7 Object Browser</h3>
-<div class="outline-text-3" id="text-id-2-Feast-Query:-BEAST-2.7-Object-Browser">
-<p>
-Feast includes a simple GUI application called <code>FeastQuery</code> which
-can be launched using BEAST 2.7's <code>AppLauncher</code> utility
-or by selection "launch apps" from BEAUti's File menu.
-</p>
-
-<p>
-<code>FeastQuery</code> provides information about the XML-compatible
-BEASTObjects in all of the packages currently installed on your system.
-It is intended to be used as an aid to writing and editing BEAST 2.7 XML
-scripts.
-</p>
-
-
-<figure id="org2f3364d">
-<img src="figures/feastquery.png" alt="feastquery.png">
-
-</figure>
-
-<p>
-The documentation provided by <code>FeastQuery</code> is mostly equivalent to
-that provided by the BEAST 2.7 core utility, <code>DocMaker</code>.  The main
-advantages of <code>FeastQuery</code> are:
-</p>
-
-<ol class="org-ol">
-<li>It doesn't require you to create, store and continually update a
-directory full of HTML files.</li>
-<li>It doesn't require a separate web browser.</li>
-<li>It has a dynamic filtering facility that lets you quickly identify
-the class you're looking for.</li>
-</ol>
 </div>
 </div>
 </div>
@@ -1746,7 +1645,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2025-09-18 Thu 17:26</p>
+<p class="date">Created: 2026-04-29 Wed 13:45</p>
 </div>
 </body>
 </html>

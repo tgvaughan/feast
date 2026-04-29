@@ -35,17 +35,15 @@ the "Install/Upgrade" button.
 :CUSTOM_ID: id-2-Building-from-source
 :END:
 
-To build the package you'll need OpenJDK 17 or later, the OpenJFX SDK
-(https://openjfx.io) and Apache ANT (http://ant.apache.org). Once
-these dependencies are in place, issue the following command from the
-root directory of this repository:
+To build the package you'll need OpenJDK 25 or later, and Apache Maven
+(http://maven.apache.org). Once these dependencies are in place, issue
+the following command from the root directory of this repository:
 
 #+begin_src sh
-JAVA_FX_HOME=/path/to/openjfx/libs ant
+mvn package
 #+end_src
 
-(Replace ~/path/t/openjfx/libs~ with the location of the OpenJFX libraries.)
-The package archive will be left in the ~dist/~ directory.
+The package archive will be left in the ~target/~ directory.
 
 * Features
 :PROPERTIES:
@@ -232,21 +230,21 @@ is sometimes convenient to be able to do this.  As a bonus, the
 ~xmlFileName~ attribute can be used to write the appropriate XML
 fragment to disk.
 
-*** Initialize RealParameters from CSV/TSV files
+*** Initialize RealVectorParams from CSV/TSV files
 :PROPERTIES:
-:CUSTOM_ID: id-3-Initialize-RealParameters-from-CSV/TSV-files
+:CUSTOM_ID: id-3-Initialize-RealVectorParams-from-CSV/TSV-files
 :END:
 
 When setting up complicated analyses, it can be useful to extract some
 (fixed) parameter values from an external CSV or TSV (or whatever-SV) file.
-The ~RealParameterFromXSV~ and ~RealParameterFromLabelledXSV~ classes can be
+The ~RealVectorParamFromXSV~ and ~RealVectorParamFromLabelledXSV~ classes can be
 used to do this.
 
-~RealParameterFromXSV~ simply initializes the parameter with values read
+~RealVectorParamFromXSV~ simply initializes the parameter with values read
 (in row-major order) from a rectangular portion of the table in the specified
 file. For instance,
 #+begin_src xml
-<migrationRates spec="feast.fileio.RealParameterFromXSV"
+<migrationRates spec="feast.fileio.RealVectorParamFromXSV"
                 fileName="migration_rates.csv"
                 sep=","
                 startRow="1" rowCount="3"
@@ -258,11 +256,11 @@ default to "0", while leaving either ~rowCount~ and ~colCount~ undefined
 will cause values to be taken up until the end of the corresponding row
 or column.
 
-~RealParameterFromLabelledXSV~ works simillarly, but assumes that the either
+~RealVectorParamFromLabelledXSV~ works simillarly, but assumes that the either
 or both of the first row or column contain labels, and allows these labels
 to be used to specify elements. For example,
 #+begin_src xml
-<samplingProportions spec="feast.fileio.RealParameterFromLabelledXSV"
+<samplingProportions spec="feast.fileio.RealVectorParamFromLabelledXSV"
     fileName="sampling.tsv"
     colLabels="sampling"
     rowLabels="early_cretaceous, late_cretaceous, jurassic"/>
@@ -272,161 +270,175 @@ external data file.  If ~rowLabels~ is omitted, the entire column
 will be read.  Similarly, if ~colLabels~ is omitted, the entire row
 is read.
 
-** Function (array) creation and manipulation
+** RealVector (array) creation and manipulation
 :PROPERTIES:
-:CUSTOM_ID: id-2-Function-(array)-creation-and-manipulation
+:CUSTOM_ID: id-2-RealVector-(array)-creation-and-manipulation
 :END:
 
-This section describes feast classes which implement the BEAST 2 ~Function~ interface.
-A ~Function~ here refers to an array of real numbers.  (The naming is an unfortunate
-historical decision.)  Many ~BEASTObject~ classes implement ~Function~, including ~RealParameter~
-and ~Tree~.  (In the example of ~Tree~, the real numbers represent node ages.)
+This section describes feast classes which implement the BEAST 2
+~RealVector~ interface.  A ~RealVector~ here refers to an array of
+real numbers.  Many ~BEASTObject~ classes implement ~RealVector~,
+including ~RealVectorParam~.
 
-Many of the classes here take one or more ~Function~ objects as input,
+Many of the classes here take one or more ~RealVector~ objects as input,
 and act to transform or combine the inputs to yield the value of the
-output ~Function~.   This means that instances of these classes can be chained
+output ~RealVector~.   This means that instances of these classes can be chained
 so as to achieve a variety of fairly complex transformations.
 
 Note that all of the classes discussed here also implement the ~Loggable~ interface,
 meaning that they can be passed directly as inputs to the ~<logger/>~ elements in the
 XML.
 
-*** Numeric sequences as Functions
+*** Numeric sequences as RealVectors
 :PROPERTIES:
-:CUSTOM_ID: id-3-Numeric-sequences-as-Functions
+:CUSTOM_ID: id-3-Numeric-sequences-as-RealVectors
 :END:
 
-An instance of ~feast.function.Sequence~ is a ~Function~ which contains a sequence
+An instance of ~feast.realvector.Sequence~ is a ~RealVector~ which contains a sequence
 of numbers evenly separated between two bounds.  For instance, the following
 XML fragment represents a sequence of 101 numbers evenly spaced between 0 and 10,
 i.e. 0,0.1,0.2,...,9.9,10:
 
 #+begin_src xml
-<function spec="feast.function.Sequence" start="0" stop="10" length="101"/>
+<realVector spec="feast.realvector.Sequence" start="0" stop="10" length="101"/>
 #+end_src
-*** Function Slicing
+
+*** RealVector Slicing
 :PROPERTIES:
-:CUSTOM_ID: id-3-Function-Slicing
+:CUSTOM_ID: id-3-RealVector-Slicing
 :END:
 
-An instance of the ~feast.function.Slice~ class is a ~Function~ which
-represent or more elements of another ~Function~.  This allows
+An instance of the ~feast.realvector.Slice~ class is a ~RealVector~ which
+represent or more elements of another ~RealVector~.  This allows
 element-specific priors to be set, and individual elements to be logged.
 
 Here's a simple example of using ~Slice~ to place a prior on a subset of elements
-of a ~RealParameter~:
+of a ~RealVectorParam~:
 
 #+begin_src xml
-<distrib spec="Prior">
-    <x spec="feast.function.Slice" arg="@samplingProportion" index="2" count="1"/>
-    <distr spec="LogNormalDistributionModel" M="0" S="1"/>
+<distrib  spec="LogNormalDistributionModel" M="0" S="1">
+    <param spec="feast.realvector.Slice" arg="@samplingProportion" index="2" count="1"/>
 </distrib>
 #+end_src
 
 The optional ~by~ input can be used to increase the step size between elements.  For
 example, here's how one could use ~Slice~ to apply a prior to elements 1,3,5 of the
-same ~RealParamter~:
+same ~RealVectorParam~:
 
 #+begin_src xml
-<distrib spec="Prior">
+<distrib  spec="LogNormalDistributionModel" M="0" S="1">
     <x spec="feast.function.Slice" arg="@samplingProportion" index="1" count="3" by="2"/>
 </distrib>
 #+end_src
-*** Function reversing
+
+*** RealVector reversing
 :PROPERTIES:
-:CUSTOM_ID: id-3-Function-reversing
+:CUSTOM_ID: id-3-RealVector-reversing
 :END:
 
-Instances of the ~feast.function.Reverse~ class are
-~Funtion~ and ~Loggable~ which represent the elements of another
-~Function~ but in reverse order.
-*** Function concatenation
+Instances of the ~feast.realvector.Reverse~ class are
+~RealVector~ and ~Loggable~ which represent the elements of another
+~RealVector~ but in reverse order.
+
+For instance,
+#+begin_src xml
+  <reversed spec="feast.realvector.Reverse" arg="1 2 3"/>
+#+end_src
+behaves as a ~RealVectorParam~ with elements 3,2,1.
+
+*** RealVector concatenation
 :PROPERTIES:
-:CUSTOM_ID: id-3-Function-concatenation
+:CUSTOM_ID: id-3-RealVector-concatenation
 :END:
 
-An instance of the ~feast.function.Concatenate~ class is a ~Function~
+An instance of the ~feast.realvector.Concatenate~ class is a ~RealVector~
 whose elements are composed of the elements of their
-input ~Function~ objects joined together.  For example, here is a ~Function~
+input ~RealVector~ objects joined together.  For example, here is a ~RealVector~
 representing a piecewise constant reproductive number to be used as
 input to the BDSKY tree prior, but composed of distinct input parameters
 rather than a single real parameter with multiple dimensions:
 
 #+begin_src xml
-<reproductiveNumber spec="feast.function.Concatenate">
-    <arg spec="RealParameter" value="1.0"/>
-    <arg spec="RealParameter" value="2.0"/>
+<reproductiveNumber spec="feast.realvector.Concatenate">
+    <arg spec="RealVectorParam" value="1.0"/>
+    <arg spec="RealVectorParam" value="2.0"/>
 </reproductiveNumber>
 #+end_src
-*** Function scaling
+
+*** RealVector scaling
 :PROPERTIES:
-:CUSTOM_ID: id-3-Function-scaling
+:CUSTOM_ID: id-3-RealVector-scaling
 :END:
 
-Instances of ~feast.function.Scale~ allow one ~Function~ to be scaled
+Instances of ~feast.realvector.Scale~ allow one ~RealVector~ to be scaled
 by another:
 
 #+begin_src xml
-<scaledBirthRate spec="feast.function.Scale">
-  <function spec="RealParameter" value="1.0 2.0 3.0"/>
-  <scaleBy spec="RealParameter" value="1.5"/>
+<scaledBirthRate spec="feast.realvector.Scale">
+  <arg spec="RealVectorParam" value="1.0 2.0 3.0"/>
+  <scaleBy spec="RealScalarParam" value="1.5"/>
 </scaledBirthRate>
 #+end_src
-*** Function interleaving
+
+*** RealVector interleaving
 :PROPERTIES:
-:CUSTOM_ID: id-3-Function-interleaving
+:CUSTOM_ID: id-3-RealVector-interleaving
 :END:
 
-Instances of ~feast.function.Interleave~ represent the result of interleaving
-the elements of several input ~Function~ objects.  For example:
+Instances of ~feast.realvector.Interleave~ represent the result of interleaving
+the elements of several input ~RealVector~ objects.  For example:
 
 #+begin_src xml
-<twoDemeBirthRate spec="feast.function.interleave">
-  <arg spec="RealParameter" value="1 3 5 7"/>
-  <arg spec="RealParameter" value="2 4 6 8"/>
+<twoDemeBirthRate spec="feast.realvector.interleave">
+  <arg spec="RealVectorParam" value="1 3 5 7"/>
+  <arg spec="RealVectorParam" value="2 4 6 8"/>
 </twoDemeBirthRate>
 #+end_src
 
-is as a ~Function~ with elements 1,2,3,4,5,6,7,8.
+is as a ~realvector~ with elements 1,2,3,4,5,6,7,8.
 
-Finally, instances of ~feast.function.UniqueElementCount~ are
-~Function~ objects which contain a single integer representing the
+Finally, instances of ~feast.realvector.UniqueElementCount~ are
+~RealVector~ objects which contain a single integer representing the
 number of unique values contained in the elements of an input
-~Function~.  For example,
+~RealVector~.  For example,
 
 #+begin_src xml
-<uniqueValues spec="feast.function.UniqueElementCount">
-    <arg spec="RealParameter" value="1.5 10 1.5 1.4"/>
+<uniqueValues spec="feast.realvector.UniqueElementCount">
+    <arg spec="RealVectorParam" value="1.5 10 1.5 1.4"/>
 </uniqueValues>
 #+end_src
 
-is a ~Function~ with a value of 3.
+is a ~IntScalar~ with a value of 3.
 
 
-*** Functions from Trees and Tree metadata
+*** RealVectors from Trees and Tree metadata
 :PROPERTIES:
-:CUSTOM_ID: id-3-Functions-from-Trees-and-Tree-metadata
+:CUSTOM_ID: id-3-RealVectors-from-Trees-and-Tree-metadata
 :END:
 
-Every BEAST ~Tree~ object is already a ~Function~ whose $i^{\text{th}}$ element is the
+The ~feast.realvector.TreeNodeAges~ class can be used to represent a
+BEAST ~Tree~ object as a RealVector $i^{\text{th}}$ element is the
 age of the node with index (node number) $i$.
 
-The ~feast.function.TraitSetAsFunction~ class can be used to represent numeric ~TraitSet~
-elements as elements of a ~Function~.  For instance,
-#+begin_src xml
-  <nodeAges spec="feast.function.TraitSetAsFunction" traitSet="@dateTrait"/>
-#+end_src
-Represents such an ~Function~.
+The ~feast.realvector.TreeTipAges~ class is similar, but includes only
+the ages of the leaf nodes in the tree.
 
-Similarly, the ~feast.function.MetadataAsFunction~ class can be used to represent
-arbitrary numeric metadata included in the tree object as a ~Function~.  For instance,
+The ~feast.realvector.TraitSetAsRealVector~ class can be used to represent numeric ~TraitSet~
+elements as elements of a ~RealVector~.  For instance,
 #+begin_src xml
-  <nodeMeta spec="feast.function.MetadataAsFunction" key="md">
+  <nodeAges spec="feast.realvector.TraitSetAsRealVector" traitSet="@dateTrait"/>
+#+end_src
+represents such an ~RealVector~.
+
+Similarly, the ~feast.realvector.MetadataAsRealVector~ class can be used to represent
+arbitrary numeric metadata included in the tree object as a ~RealVector~.  For instance,
+#+begin_src xml
+  <nodeMeta spec="feast.function.MetadataAsRealVector" key="md">
     <tree spec="TreeParser" newick="(0[&md=10]:1,(1[&md=11]:1,2[&md=12]:2)3:1)4:0;"/>
   </nodeMeta> 
 #+end_src
-is a ~Function~ of length 5 having elements [10,11,12,NaN,NaN].  (Note that missing
-values are represented in the ~Function~ with NaN.)
+is a ~RealVector~ of length 5 having elements [10,11,12,NaN,NaN].  (Note that missing
+values are represented in the ~RealVector~ with NaN.)
 
 ** Mathematical Expressions 
 :PROPERTIES:
@@ -436,15 +448,14 @@ values are represented in the ~Function~ with NaN.)
 The following classes, which are found in ~feast.expressions~, provide
 support for parsing of simple arithmetic expressions.
 
-
 *** ExpCalculator
 :PROPERTIES:
 :CUSTOM_ID: id-3-ExpCalculator
 :END:
 
 Takes an arithmetic expression and returns the result by acting
-as a Loggable or a Function.  Binary operators can be applied to
-Functions (including Parameters) of different lengths as in R, with
+as a Loggable or a RealVector.  Binary operators can be applied to
+RealVector (including Parameters) of different lengths as in R, with
 the result having the maximum of the two lengths, and the index into
 the shortest parameter being the result index modulo the length of
 that parameter. True and false are represented by 1.0 and 0.0 respectively.
@@ -453,7 +464,7 @@ Example expressions follow. (I and J are IDs of RealParameters with elements
 1.0,2.0,3.0 and 5.0,10.0, respectively.)
 
 |-------------------------------+----------------------------|
-| Expression                    | Loggable/Function value    |
+| Expression                    | Loggable/RealVector value |
 |-------------------------------+----------------------------|
 | ~2.5*I~                       | {2.5, 5.0, 7.5}            |
 | ~I+J~                         | {6.0, 12.0, 8.0}           |
@@ -479,7 +490,7 @@ Example expressions follow. (I and J are IDs of RealParameters with elements
 |-------------------------------+----------------------------|
 
 
-Note that since each ExpCalculator is a Function object itself, it can
+Note that since each ExpCalculator is a RealVector object itself, it can
 be used as the input for other ExpCalculators.
 
 As an example, here is a use of ~ExpCalculator~ to transform a
@@ -495,7 +506,7 @@ representing the birth rate of some birth-death model:
 #+end_src
 
 Notice that the expression is supplied as the ~value~ input.  The
-~arg~ inputs provide one or more ~Function~ objects to be referenced
+~arg~ inputs provide one or more ~RealVector~ objects to be referenced
 within the expression by their IDs.
 
 *When used exclusively for logging*, the value caching behaviour
@@ -520,48 +531,38 @@ above.  The file ~ECdistribArraytest.xml~ in the same folder samples
 the same posterior, but uses array notation to express the target
 density.
 
-
-*** ExpCalculatorParametricDistribution
-:PROPERTIES:
-:CUSTOM_ID: id-3-ExpCalculatorParametricDistribution
-:END:
-
-This provides a cut-down version of the ExpCalculatorDistribution
-functionality that is compatible with beast.math.distributions.Prior.
-
-
 ** Parameter initialisation
 :PROPERTIES:
 :CUSTOM_ID: id-2-Parameter-initialisation
 :END:
-*** Initialize RealParameters and IntegerParameters from Functions
+*** Initialize RealVectorParams/IntVectorParams from RealVectors/IntVectors
 :PROPERTIES:
-:CUSTOM_ID: id-3-Initialize-RealParameters-and-IntegerParameters-from-Functions
+:CUSTOM_ID: id-3-Initialize-RealVectorParams/IntVectorParams-from-RealVectors/IntVectors
 :END:
 
-The ~feast.parameter.RealParameterFromFunction~ and
-~feast.parameter.IntegerParameterFromFunction~ classes each provide a
-~Parameter~ which is **initialized** from a ~Function~.  Thus you can
-do things like
+The ~feast.parameter.RealVectorParamFromRealVector~ and
+~feast.parameter.IntVectorParamFromRealVector~ classes each provide a
+~Parameter~ which is **initialized** from a ~RealVector~ or
+~IntVector~.  Thus you can do things like
 
 #+begin_src xml
-<samplingRateChangeTimes spec="feast.parameter.RealParameterFromFunction">
-    <function spec="feast.expressions.ExpCalculator" value="{0,max(taxonTimes)+0.1}">
-        <arg id="taxonTimes" spec="feast.function.TraitSetAsFunction" traitSet="@dateTrait"/>
-    </function>
+<samplingRateChangeTimes spec="feast.parameter.RealParameterFromRealVector">
+    <realVector spec="feast.expressions.ExpCalculator" value="{0,max(taxonTimes)+0.1}">
+        <arg id="taxonTimes" spec="feast.function.TraitSetAsRealVector" traitSet="@dateTrait"/>
+    </realVector>
 </samplingRateChangeTimes>
 #+end_src
 
 which initializes a BDSKY sampling rate change time array so that the change
 automatically falls just before the oldest sample.
 
-Beware that these classes retrieve the ~Function~ values only during
-initialization. **Changes in the ~Function~ values after
+Beware that these classes retrieve the ~RealVector~ values only during
+initialization. **Changes in the ~RealVector~ values after
 initialization will not be reflected in the parameter!**
 
-*** Initializing RealParameters using formatted times
+*** Initializing RealVectorParams using formatted times
 :PROPERTIES:
-:CUSTOM_ID: id-3-Initializing-RealParameters-using-formatted-times
+:CUSTOM_ID: id-3-Initializing-RealVectorParams-using-formatted-times
 :END:
 
 Particularly in birth-death models, it is often desirable to specify
@@ -587,15 +588,11 @@ a ~RealParameter~ with the ages corresponding to the times above, use
 This is completely equivalent to
 
 #+begin_src xml
-<parameter spec="RealParameter"
+<parameter spec="RealVectorParam"
            value="9.825137 9.844262"/>
 #+end_src
 
 but much more readable.
-
-In addition, the ~timeEarlier~ and ~timeLater~ inputs can be used to
-set the bounds of the parameter.  These are equivalent to ~upper~ and
-~lower~ inputs of ~RealParameter~, but accept formatted times.
 
 Note that the time format specification string is the same as used by
 the ~dateFormat~ input to ~TraitSet~, and applies both to the values
@@ -605,9 +602,9 @@ converted to fractional years, so the only action taken by
 TimeParameter is to subtract this value from ~mostRecentSampleTime~.
 
 
-** RealParameter and IntegerParameter Operators
+** RealVectorParam and IntVectorParam Operators
 :PROPERTIES:
-:CUSTOM_ID: id-2-RealParameter-and-IntegerParameter-Operators
+:CUSTOM_ID: id-2-RealVectorParam-and-IntVectorParam-Operators
 :END:
 *** Scaling subsets of RealParameter elements together
 :PROPERTIES:
@@ -619,7 +616,7 @@ together, for instance to represent a vector of rates where a subset of
 these rates are conditioned to be identical.  The ~BlockScaleOperator~
 operator makes this possible.  It behaves essentially identically to the
 standard BEAST 2 ~ScaleOperator~, with inputs "parameter" and "indicator"
-specifying respectively the ~RealParameter~ to scale and the ~BooleanParameter~
+specifying respectively the ~RealVectorParam~ to scale and the ~BoolVectorParam~
 indicating which elements to scale.  The differences are that ~BlockScaleOperator~
 
   1. _always_ scales the selected elements together (i.e. using the same
@@ -631,7 +628,7 @@ An example usage of this operator is as follows:
 #+begin_src xml
 <operator spec="feast.operators.BlockScaleOperator" parameter="@paramToScale"
           scaleFactor="0.8" weight="1.0">
-    <indicator spec="BooleanParameter" value="true true false false" estimate="false"/>
+    <indicator spec="BoolVector" value="true true false false" estimate="false"/>
 </operator>
 #+end_src
 Here "@paramToScale" references a ~RealParameter~ with 4 elements, and the
@@ -645,7 +642,7 @@ to be scaled together must be initialised to the same value:
 
 #+begin_src xml
 <state>
-    <stateNode spec="RealParameter" id="paramToScale" value="1 1 2 2"/>
+    <stateNode spec="RealVectorParam" id="paramToScale" value="1 1 2 2"/>
 </state>
 
 <operator spec="feast.operators.SmartScaleOperator" parameter="@paramToScale"
@@ -661,7 +658,7 @@ elements.
 :CUSTOM_ID: id-3-Operators-on-IntegerParameters
 :END:
 
-Parameters of type ~IntegerParameter~ require special operators.  Beast has
+Parameters of type ~IntVectorParam~ require special operators.  Beast has
 two main operators for this type: ~IntUniformOperator~ (now deprecated in favour
 of ~UniformOperator~) and ~IntRandomWalkOperator~.  Feast exptends this
 collection with a pair of operators allowing for joint operation on a subset
@@ -672,10 +669,8 @@ of elements of a single ~IntegerParameter~.  The new operators are:
 
 These operators take the same inputs as the vanilla (non-block) BEAST 2 versions,
 but with the addition of an input named =indicator= which takes the same
-~BooleanParameter~ input as the similarly-named input of the ~BlockScaleOperator~
+~BoolVectorParam~ input as the similarly-named input of the ~BlockScaleOperator~
 described above.
-
-
 
 ** Coalescent population functions
 :PROPERTIES:
@@ -699,8 +694,9 @@ For example, here is a time-shifted exponential growth population mode:
 At time 0, the population size of this shifted model is the same as
 the population size of the exponential growth model at time 0.5.
 
-The ~offset~ input expects a ~Function~ value, so ~RealParameter~ objectss etc. can
+The ~offset~ input expects a ~RealScalar~ value, so ~RealScalarParam~ objects etc. can
 also be used here.
+
 *** Compound coalescent population functions
 :PROPERTIES:
 :CUSTOM_ID: id-3-Compound-coalescent-population-functions
@@ -719,10 +715,10 @@ For example, here is a piecewise-constant population function created
 by joining together three ~ConstantPopulation~ models:
 #+begin_src xml
 <populationModel spec="feast.popmodels.CompoundPopulationModel">
-    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="5.0"/></populationModel>
-    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="10.0"/></populationModel>
-    <populationModel spec="ConstantPopulation"> <popSize spec="RealParameter" value="2.0"/></populationModel>
-    <changeTimes spec="RealParameter" value="1.0 3.0"/>
+    <populationModel spec="ConstantPopulation" popSize="5.0"/>
+    <populationModel spec="ConstantPopulation" popSize="10.0"/>
+    <populationModel spec="ConstantPopulation" popSize="2.0"/>
+    <changeTimes spec="RealVectorParam" value="1.0 3.0"/>
 </populationModel>
 #+end_src
 The ~changeTimes~ input specifies the times of the transitions between
@@ -757,7 +753,7 @@ an exponentially-decaying amplitude:
   </populationModel>
 #+end_src
 
-These models can also depend on one or more ~RealParameter~ or ~Function~ objects:
+These models can also depend on one or more ~RealVector~ objects:
 #+begin_src xml
   <populationModel spec="ExpressionPopulationModel">
     exp(gamma*t)*(cos(omega*t) + 2)
@@ -795,7 +791,7 @@ model, particularly for quickly-changing population functions!
 :END:
 
 The ~DirichletProcessPrior~ and ~DirichletProcessOperator~ allow the application
-of Dirichlet Process Priors (DPPs) to the elements of ~Function~s.
+of Dirichlet Process Priors (DPPs) to the elements of ~RealVector~s.
 
 For example, suppose you have a model with parameter ~X~ to which you wish
 to apply such a prior.  To do this, include the following prior for ~X~
@@ -817,6 +813,7 @@ You also need to include the following operator:
 
 Other operators on ~X~ can be included, but only if they do not alter the
 number of elements of ~X~ which are identical.
+
 *** ModelSelectionParameter
 :PROPERTIES:
 :CUSTOM_ID: id-3-ModelSelectionParameter
@@ -829,9 +826,9 @@ can be regarded as special cases of either each other
 general model.
 
 The ~ModelSelectionParameter~ is created with this kind of BSSVS-style model
-selection in mind. It is a ~CalculationNode~ implementing ~Function~ which takes
-one or more parameters (also ~Function~s) as input, together with an
-~IntegerParameter~ known as the selection index. The ~ModelSelectionParameter~
+selection in mind. It is a ~CalculationNode~ implementing ~RealVector~ which takes
+one or more parameters (also ~RealVector~s) as input, together with an
+~IntVector~ known as the selection index. The ~ModelSelectionParameter~
 acts as though it is the parameter specified by the selection index.
 
 The simplest application of this is to allow BEAST to select between models
@@ -841,18 +838,18 @@ in model 2 the extinction rate has some unknown non-zero value.
 We can implement this by defining the death rate to be a ~ModelSelectionParameter~:
 #+begin_src xml
 <deathRate id="deathRate" spec="feast.modelselect.ModelSelectionParameter">
-    <parameter spec="RealParameter" value="0.0"/>
-    <parameter id="nonZeroDeathRate" spec="RealParameter" value="1.0"/>
-    <selectionIndices id="selectionIdx" spec="IntegerParameter" value="1" lower="0" upper="1"/>
+    <parameter spec="RealVectorParam" value="0.0"/>
+    <parameter id="nonZeroDeathRate" spec="RealVectorParam" value="1.0"/>
+    <selectionIndices id="selectionIdx" spec="IntVectorParam" value="1" lower="0" upper="1"/>
 </deathRate>
 #+end_src
 We then use this "deathRate" parameter as input to the tree prior, place some
 sensible prior on "nonZeroDeathRate", and add an operator to modify the
-"selectionIdx" ~IntegerParameter~.  The result is equivalent to placing a
+"selectionIdx" ~IntVector~.  The result is equivalent to placing a
 "spike and slab" prior on the death rate parameter, which is a mixture between
 a point mass at zero and whatever prior you place on "nonZeroDeathRate".
 
-In addition to this simple case, if "selectionIndices" is an ~IntegerParameter~
+In addition to this simple case, if "selectionIndices" is an ~IntVector~
 with more than one element, the additional ~ModelSelectionParameter~ input,
 "thisIndex", can be used to specify which element to use to select the parameter.
 This allows you to sample across models where, for example, subsets of different
@@ -862,8 +859,9 @@ is its own ~ModelSelectionParameter~, shares exactly the same set of
 "thisIndex".
 
 Beware that ~ModelSelectionParameter~ is that is only compatible with
-distributions which take ~Function~ objects rather than
-~RealParameter~ objects as input.
+distributions which take ~RealVector~ objects rather than
+~RealVectorParam~ objects as input.
+
 *** Sampling from a discrete set of states
 :PROPERTIES:
 :CUSTOM_ID: id-3-Sampling-from-a-discrete-set-of-states
@@ -1120,12 +1118,13 @@ in place of BEAST's usual ~MCMC~ class at the top level.  A trivial example
 is as follows:
 
 #+begin_src xml
-<beast version='2.0' namespace='feast.fileio.logfileiterator:beast.evolution.tree:beast.core.parameter'>
+<beast version='2.0' namespace='feast.fileio.logfileiterator
+                                :beast.base.spec.core.parameter'>
 
   <run spec="LogFileIterator">
     <logFileState spec="TraceLogFileState" logFileName="original_analysis.log">
-      <logFileEntry spec="LogFileRealParameter" fieldName="hky.kappa">
-        <fieldParameter id="kappa" spec="RealParameter" value="0.0"/>
+      <logFileEntry spec="LogFileRealVectorParam" fieldName="hky.kappa">
+        <fieldParameter id="kappa" spec="RealVectorParam" value="0.0"/>
       </logFileEntry>
     </logFileState>
 
@@ -1148,83 +1147,10 @@ is as follows:
 
 In this example (which is also provided in the examples directory as ~TreeLogFileIteratorTest.xml~)
 we use the "hky.kappa" field of the ~original_analysis.log~ trace log file to set the value of a
-~RealParameter~ named "kappa".  Simultaneously, we use the trees in the tree log file ~original_analysis.trees~
+~RealVectorParam~ named "kappa".  Simultaneously, we use the trees in the tree log file ~original_analysis.trees~
 to set the value of the ~Tree~ named "tree".  The value of "kappa" and the height and length statistics
 of "tree" are then written to the file "processed.log" and the screen in the usual way using loggers.
 
-** Single BEAST 2.7 Jar files
-:PROPERTIES:
-:CUSTOM_ID: id-2-Single-BEAST-2.7-Jar-files
-:END:
-
-Unlike earlier versions, BEAST 2.7 has a sophisticated system for
-controlling which package classes are available to use in analyses.
-While this is a great step forward, its implementation currently
-precludes building the stand-alone jar file bundles of BEAST 2 and its
-packages which are so helpful for collaboration using in-development
-BEAST 2 models.
-
-Feast now includes a class =feast.app.FeastMain= which addresses this
-problem.  It is a small wrapper around =beastfx.app.beast.BeastMain=
-which, before handing control of the execution over to BEAST, seaches
-through all of the directories and jar files in the runtime classpath
-for files named ~beast_services.xml~.  When it finds one of these files,
-=FeastMain= treats these the same as a standard ~version.xml~ file by
-registering all of the services it contains.
-
-In order to use this wrapper to make a stand-alone jar file for a package,
-follow these steps:
-
-1. Copy (or symlink) any necessary version.xml files into a package
-   directory below the ~src/~
-   directory of your project. You can place them in any package
-   directory you like, but be sure to name each file ~beast_services.xml~.
-   **Beware:** jar files share a single namespace, so avoid placing
-   the file directly in the ~src/~ directory itself when bundling multiple BEAST 2 projects into the jar.
-2. Build a jar file with the =Main-Class:= attribute in ~MANIFEST.MF~
-   set to =feast.app.FeastMain=.  (You don't necessarily need to edit
-   this file directly, most software that builds jar files will ask
-   you at some point for the main class: simply enter =feast.app.FeastMain=
-   when asked.)
-
-To launch an analysis using this jar file (here we suppose it's named
-~my.jar~), use either
-#+begin_src sh
-java -jar my.jar analysis.xml
-#+end_src
-or, if you are not using a combined openjdk+openjfx installation, 
-#+begin_src sh
-java --module-path=/path/to/openjfx/libs --add-modules javafx.fxml -jar my.jar analysis.xml
-#+end_src
-here ~/path/to/openjfx/libs~ specifies the location of the JavaFX libraries.
-
-** Feast Query: BEAST 2.7 Object Browser
-:PROPERTIES:
-:CUSTOM_ID: id-2-Feast-Query:-BEAST-2.7-Object-Browser
-:END:
-
-Feast includes a simple GUI application called ~FeastQuery~ which
-can be launched using BEAST 2.7's ~AppLauncher~ utility
-or by selection "launch apps" from BEAUti's File menu.
-
-~FeastQuery~ provides information about the XML-compatible
-BEASTObjects in all of the packages currently installed on your system.
-It is intended to be used as an aid to writing and editing BEAST 2.7 XML
-scripts.
-
-[[file:figures/feastquery.png]]
-
-The documentation provided by ~FeastQuery~ is mostly equivalent to
-that provided by the BEAST 2.7 core utility, ~DocMaker~.  The main
-advantages of ~FeastQuery~ are:
-
-1. It doesn't require you to create, store and continually update a
-   directory full of HTML files.
-2. It doesn't require a separate web browser.
-3. It has a dynamic filtering facility that lets you quickly identify
-   the class you're looking for.
-
-   
 * License
 :PROPERTIES:
 :CUSTOM_ID: id-1-License
