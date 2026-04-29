@@ -1,5 +1,6 @@
 import feast.fileio.RealVectorParamFromLabelledXSV;
 import feast.fileio.RealVectorParamFromXSV;
+import feast.fileio.logfileiterator.LogFileRealVectorParam;
 import feast.realvector.*;
 
 open module feast {
@@ -42,7 +43,7 @@ open module feast {
         feast.fileio.logfileiterator.DummyPosterior,
         feast.fileio.logfileiterator.TreeLogFileState,
         feast.fileio.logfileiterator.LogFileIterator,
-        feast.fileio.logfileiterator.LogFileRealParameter,
+            LogFileRealVectorParam,
         feast.fileio.TreeFromNexusFile,
             RealVectorParamFromXSV,
         feast.fileio.AlignmentFromNexus,

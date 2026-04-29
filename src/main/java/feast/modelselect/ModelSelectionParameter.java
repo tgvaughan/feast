@@ -29,13 +29,14 @@ import beast.base.spec.domain.Int;
 import beast.base.spec.domain.Real;
 import beast.base.spec.type.IntVector;
 import beast.base.spec.type.RealVector;
+import feast.realvector.CalculatedRealVector;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Description("Class of Functions useful for BSSVS-style model selection/averaging.")
-public class ModelSelectionParameter extends CalculationNode implements Function, Loggable {
+public class ModelSelectionParameter extends CalculatedRealVector<Real> {
 
     public Input<List<RealVector<? extends Real>>> parametersInput = new Input<>("parameter",
             "Parameter for the selection pool.",
@@ -53,17 +54,22 @@ public class ModelSelectionParameter extends CalculationNode implements Function
 
 
     /*
-     * Function
+     * RealVector
      */
 
     @Override
-    public int getDimension() {
+    public Real getDomain() {
+        return parametersInput.get().getFirst().getDomain();
+    }
+
+    @Override
+    public int size() {
         return parametersInput.get().get(selectionIndicesInput.get().get(thisIndexInput.get())).size();
     }
 
     @Override
-    public double getArrayValue(int dim) {
-        return parametersInput.get().get(selectionIndicesInput.get().get(thisIndexInput.get())).get(dim);
+    public double get(int i) {
+        return parametersInput.get().get(selectionIndicesInput.get().get(thisIndexInput.get())).get(i);
     }
 
 
@@ -73,7 +79,7 @@ public class ModelSelectionParameter extends CalculationNode implements Function
 
     @Override
     public void init(final PrintStream out) {
-        final int valueCount = getDimension();
+        final int valueCount = size();
         if (valueCount == 1) {
             out.print(getID() + "\t");
         } else {
@@ -85,8 +91,8 @@ public class ModelSelectionParameter extends CalculationNode implements Function
 
     @Override
     public void log(final long sample, final PrintStream out) {
-        for (int i = 0; i < getDimension(); i++) {
-            out.print(getArrayValue(i) + "\t");
+        for (int i = 0; i < size(); i++) {
+            out.print(get(i) + "\t");
         }
     }
 

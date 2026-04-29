@@ -31,12 +31,12 @@ import java.util.stream.Collectors;
         "samples to BEAST 2 Parameters.")
 public class TraceLogFileState extends LogFileState {
 
-    public Input<List<LogFileRealParameter>> logFileEntryInput = new Input<>("logFileEntry",
+    public Input<List<LogFileRealVectorParam>> logFileEntryInput = new Input<>("logFileEntry",
             "Associates column of logfile with BEASTObject",
             new ArrayList<>());
 
-    List<LogFileRealParameter> logFileEntries;
-    Map<Integer, LogFileRealParameter> columnEntryMap;
+    List<LogFileRealVectorParam> logFileEntries;
+    Map<Integer, LogFileRealVectorParam> columnEntryMap;
 
     int colCount;
 
@@ -52,7 +52,7 @@ public class TraceLogFileState extends LogFileState {
 
         columnEntryMap = new HashMap<>();
         for (int c=0; c<colCount; c++) {
-            for (LogFileRealParameter entry : logFileEntries) {
+            for (LogFileRealVectorParam entry : logFileEntries) {
                 if (entry.getFieldName().equals(logFileVariables[c])) {
                     columnEntryMap.put(c, entry);
                     break;

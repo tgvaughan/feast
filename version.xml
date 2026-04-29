@@ -19,7 +19,7 @@
     <provider classname="feast.fileio.logfileiterator.TreeLogFileState"/>
     <provider classname="feast.fileio.logfileiterator.LogFileState"/>
     <provider classname="feast.fileio.logfileiterator.LogFileIterator"/>
-    <provider classname="feast.fileio.logfileiterator.LogFileRealParameter"/>
+    <provider classname="feast.fileio.logfileiterator.LogFileRealVectorParam"/>
     <provider classname="feast.fileio.TreeFromNexusFile"/>
     <provider classname="feast.fileio.RealVectorParamFromXSV"/>
     <provider classname="feast.fileio.AlignmentFromNexus"/>

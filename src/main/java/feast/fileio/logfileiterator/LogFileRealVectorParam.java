@@ -23,15 +23,17 @@ import beast.base.core.BEASTObject;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 
 @Description("Represents a RealParameter to be read in from a log file as part of " +
         "a LogFileIterator run.")
-public class LogFileRealParameter extends BEASTObject {
+public class LogFileRealVectorParam extends BEASTObject {
 
     public Input<String> fieldNameInput = new Input<>("fieldName", "Name of field in log file.",
             Input.Validate.REQUIRED);
 
-    public Input<RealParameter> fieldParameterInput = new Input<>("fieldParameter",
+    public Input<RealVectorParam<? extends Real>> fieldParameterInput = new Input<>("fieldParameter",
             "Parameter with which to associate log file entry values.",
             Input.Validate.REQUIRED);
 
@@ -40,7 +42,7 @@ public class LogFileRealParameter extends BEASTObject {
             0);
 
     String fieldName;
-    RealParameter fieldParameter;
+    RealVectorParam<? extends Real> fieldParameter;
     int paramIndex;
 
     @Override
@@ -55,6 +57,6 @@ public class LogFileRealParameter extends BEASTObject {
     }
 
     public void setFieldParameterValue(String newValue) {
-        fieldParameter.setValue(paramIndex, Double.valueOf(newValue));
+        fieldParameter.set(paramIndex, Double.parseDouble(newValue));
     }
 }

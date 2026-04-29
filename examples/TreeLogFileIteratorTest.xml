@@ -1,15 +1,12 @@
 <!-- IMPORTANT: Requires coalescent.xml to be run first. -->
 
-<beast version='2.0' namespace='beast.base.inference.parameter
-                                :beast.base.evolution.operator
-                                :feast
-                                :feast.expressions
+<beast version='2.0' namespace='beast.base.spec.inference.parameter
                                 :feast.fileio.logfileiterator'>
 
   <run spec="LogFileIterator">
     <logFileState spec="TraceLogFileState" logFileName="coalescent.log">
-      <logFileEntry spec="LogFileRealParameter" fieldName="hky.kappa">
-        <fieldParameter id="kappa" spec="RealParameter" value="0.0"/>
+      <logFileEntry spec="LogFileRealVectorParam" fieldName="hky.kappa">
+        <fieldParameter id="kappa" spec="RealVectorParam" value="0.0"/>
       </logFileEntry>
     </logFileState>
 
