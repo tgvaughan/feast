@@ -1,4 +1,4 @@
-<package name="feast" version="11.0.0-beta1">
+<package name="feast" version="11.0.0">
   <depends on="BEAST.base" atleast="2.8.0" atmost="2.8.9"/>
   <depends on="BEAST.app" atleast="2.8.0" atmost="2.8.9"/>
 
