@@ -1,6 +1,7 @@
 # IntelliJ cruft
 /.idea
 /out
+/target
 /feast.iml
 /META-INF
 
