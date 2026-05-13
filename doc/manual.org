@@ -460,7 +460,7 @@ the result having the maximum of the two lengths, and the index into
 the shortest parameter being the result index modulo the length of
 that parameter. True and false are represented by 1.0 and 0.0 respectively.
 
-Example expressions follow. (I and J are IDs of RealParameters with elements
+Example expressions follow. (I and J are IDs of RealVectors with elements
 1.0,2.0,3.0 and 5.0,10.0, respectively.)
 
 |-------------------------------+----------------------------|
@@ -546,7 +546,7 @@ The ~feast.parameter.RealVectorParamFromRealVector~ and
 ~IntVector~.  Thus you can do things like
 
 #+begin_src xml
-<samplingRateChangeTimes spec="feast.parameter.RealParameterFromRealVector">
+<samplingRateChangeTimes spec="feast.parameter.RealVectorParamFromRealVector">
     <realVector spec="feast.expressions.ExpCalculator" value="{0,max(taxonTimes)+0.1}">
         <arg id="taxonTimes" spec="feast.function.TraitSetAsRealVector" traitSet="@dateTrait"/>
     </realVector>
@@ -575,8 +575,8 @@ values become extremely important yet difficult to interpret entries in
 the final BEAST XML file.
 
 The ~TimeParameter~ class is intended to combat this.  It can be used
-anywhere that a ~RealParameter~ is expected.  For example, to create
-a ~RealParameter~ with the ages corresponding to the times above, use
+anywhere that a ~RealVectorParam~ is expected.  For example, to create
+a ~RealVectorParam~ with the ages corresponding to the times above, use
 
 #+begin_src xml
 <parameter spec="feast.parameter.TimeParameter"
@@ -606,12 +606,12 @@ TimeParameter is to subtract this value from ~mostRecentSampleTime~.
 :PROPERTIES:
 :CUSTOM_ID: id-2-RealVectorParam-and-IntVectorParam-Operators
 :END:
-*** Scaling subsets of RealParameter elements together
+*** Scaling subsets of RealVectorParam elements together
 :PROPERTIES:
-:CUSTOM_ID: id-3-Scaling-subsets-of-RealParameter-elements-together
+:CUSTOM_ID: id-3-Scaling-subsets-of-RealVectorParam-elements-together
 :END:
 
-It's occasionally necessary to tie multiple elements of a RealParameter
+It's occasionally necessary to tie multiple elements of a RealVectorParam
 together, for instance to represent a vector of rates where a subset of
 these rates are conditioned to be identical.  The ~BlockScaleOperator~
 operator makes this possible.  It behaves essentially identically to the
@@ -631,7 +631,7 @@ An example usage of this operator is as follows:
     <indicator spec="BoolVector" value="true true false false" estimate="false"/>
 </operator>
 #+end_src
-Here "@paramToScale" references a ~RealParameter~ with 4 elements, and the
+Here "@paramToScale" references a ~RealVectorParam~ with 4 elements, and the
 operator jointly scales the first two.
 
 An alternative approach is available in the ~SmartScaleOperator~, which
@@ -653,16 +653,16 @@ The ~SmartRealRandomWalkOperator~ acts analogously, but implements a random
 walk equivalent to BEAST's ~RealRandomWalkOperator~ applied only to unique
 elements.
 
-*** Operators on IntegerParameters
+*** Operators on IntVectorParams
 :PROPERTIES:
-:CUSTOM_ID: id-3-Operators-on-IntegerParameters
+:CUSTOM_ID: id-3-Operators-on-IntVectorParams
 :END:
 
 Parameters of type ~IntVectorParam~ require special operators.  Beast has
 two main operators for this type: ~IntUniformOperator~ (now deprecated in favour
 of ~UniformOperator~) and ~IntRandomWalkOperator~.  Feast exptends this
 collection with a pair of operators allowing for joint operation on a subset
-of elements of a single ~IntegerParameter~.  The new operators are:
+of elements of a single ~IntVectorParam~.  The new operators are:
 
 1. ~BlockIntUniformOperator~ and
 2. ~BlockIntRandomWalkOperator~.
@@ -757,7 +757,7 @@ These models can also depend on one or more ~RealVector~ objects:
 #+begin_src xml
   <populationModel spec="ExpressionPopulationModel">
     exp(gamma*t)*(cos(omega*t) + 2)
-    <arg id="omega" spec="RealParameter" value="0.3"/>
+    <arg id="omega" spec="RealVectorParam" value="0.3"/>
     <arg idref="gamma"/>
   </populationModel>
 #+end_src
@@ -799,7 +799,7 @@ in the target density:
 
 #+begin_src xml
 <distribution spec="feast.modelselect.DirichletProcessPrior" parameter="@X">
-    <scaleParameter id="dppScale" spec="RealParameter" value="1.0"/>
+    <scaleParameter id="dppScale" spec="RealScalarParam" value="1.0"/>
     <baseDistrib id="dppBase" spec="LogNormalDistributionModel" M="0.8" S="0.5"/>
 </distribution>
 #+end_src
@@ -971,30 +971,30 @@ most recent leaf at which the lineage above the root (the stem lineage) held the
 specified sequence.  This might be useful for birth-death models which
 consider the stem lineage to be part of the tree.
 
-*** Randomly initializing RealParameter values
+*** Randomly initializing RealVectorParam values
 :PROPERTIES:
-:CUSTOM_ID: id-3-Randomly-initializing-RealParameter-values
+:CUSTOM_ID: id-3-Randomly-initializing-RealVectorParam-values
 :END:
 
 Sometimes several attempts are needed to find a acceptable starting
 state for MCMC. An initializer for trees, capable of generating a new
 starting tree at each attempt is implemented in BEAST. In the same
-way, ~RandomRealParameter~ allows you to sample new initial parameter
+way, ~RandomRealVectorParam~ allows you to sample new initial parameter
 values at each attempt. The distribution, from which to sample, can be
 the parameter prior or any other proper distribution.
 
 For example, here we sample a birth rate value from a uniform distribution
 at each initialization attempt:
 #+begin_src xml
-  <init spec="feast.parameter.RandomRealParameter" initial="@birthRate">
-      <distr spec="beast.base.inference.distribution.Uniform" lower="0" upper="1.5"/>
+  <init spec="feast.parameter.RandomRealVectorParam" initial="@birthRate">
+      <distr spec="beast.base.spec.inference.distribution.Uniform" lower="0" upper="1.5"/>
   </init>
 #+end_src
 
-Alternatively, you can use ~RandomRealParameter~ wherever BEAST expects a ~RealParameter~:
+Alternatively, you can use ~RandomRealVectorParameter~ wherever BEAST expects a ~RealVectorParam~:
 #+begin_src xml
-  <birthRate spec="feast.parameter.RandomRealParameter">
-    <distr spec="beast.base.inference.distribution.Uniform" lower="0" upper="1.5"/>
+  <birthRate spec="feast.parameter.RandomRealVectorParam">
+    <distr spec="beast.base.spec.inference.distribution.Uniform" lower="0" upper="1.5"/>
   </birthRate>
 #+end_src
 
@@ -1036,33 +1036,31 @@ thus takes the place of the ~MCMC~ class in a regular BEAST XML.  To use
 general form:
 
 #+begin_src xml
-<beast version="2.0">
-    <run spec="feast.mapping.DensityMapper">
-        <distribution id="distrib" ... />
+  <beast version="2.8">
+      <run spec="feast.mapping.DensityMapper">
+          <distribution id="distrib" ... />
 
-        <realParam spec="RealParameter" id="paramA"
-            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
-        <steps spec="IntegerParameter"
-            value="STEPS_A"/>
+          <realParam spec="RealVectorParam" id="paramA" value="V_A"/>
+          <range spec="RealVectorParam" id="rangeA" value="LOWER_A UPPER_A"/>
+          <steps spec="IntVectorParam" value="STEPS_A"/>
 
-        <realParam spec="RealParameter" id="paramB"
-            value="V_B1 V_B2" lower="LOWER_B" upper="UPPER_B"/>
-        <steps spec="IntegerParameter"
-            value="STEPS_B1 STEPS_B2"/>
+          <realParam spec="RealVectorParam" id="paramB" value="V_B1 V_B2"/>
+          <range spec="RealVectorParam" id="rangeB" value="LOWER_B UPPER_B"/>
+          <steps spec="IntVectorParam" value="STEPS_B1 STEPS_B2"/>
 
-        <logger spec="Logger" logEvery="1">
-            <log idref="paramA"/>
-            <log idref="paramB"/>
-            <log idref="distrib"/>
-        </logger>
+          <logger spec="Logger" logEvery="1">
+              <log idref="paramA"/>
+              <log idref="paramB"/>
+              <log idref="distrib"/>
+          </logger>
 
-        <!-- Additional (screen?) loggers -->
-    </run>
-</beast>
+          <!-- Additional (screen?) loggers -->
+      </run>
+  </beast>
 #+end_src
 
-The ~<realParam>~ elements specify which parameters are varied, the upper and
-lower bounds of these parameters specify the range over which the parameter is
+The ~<realParam>~ inputs specify which parameters are varied, the ~<range>~ 
+inputs specify the ranges over which the parameters are
 varied, and the corresponding ~<steps>~ elements specify the number of steps to
 use for each parameter. When the number of steps is 1 the parameter is not
 varied and instead the contents of the ~value~ attribute is used.
@@ -1077,19 +1075,17 @@ To keep one component of a vector parameter fixed, set the corresponding steps
 element to 1.
 
 If, in addition to the ~<realParam>~ and ~<steps>~ elements a
-~<logScale>~ BooleanParameter element is provided, DensityMapper will
+~<logScale>~ BoolScalar element is provided, DensityMapper will
 evaluate the densities at a logarithmic distribution of parameter
 values between the same bounds.  I.e., the following snippet will
 cause ~paramA~ to be set to values logarithmically distributed between
 ~LOWER_A~ and ~UPPER_A~:
 
 #+begin_src xml
-        <realParam spec="RealParameter" id="paramA"
-            value="V_A" lower="LOWER_A" upper="UPPER_A"/>
-        <steps spec="IntegerParameter"
-            value="STEPS_A"/>
-        <logScale spec="BooleanParameter"
-            value="true"/>
+  <realParam spec="RealVectorParam" id="paramA" value="V_A"/>
+  <range spec="RealVectorParam" value="LOWER_A UPPER_A"/>
+  <steps spec="IntVectorParam" value="STEPS_A"/>
+  <logScale spec="BoolScalarParam" value="true"/>
 #+end_src
 
 Take care that if the log-scale element is provided for one parameter that it is

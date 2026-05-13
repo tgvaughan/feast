@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-04-29 Wed 13:45 -->
+<!-- 2026-05-13 Wed 13:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feast</title>
@@ -63,8 +63,8 @@
 </li>
 <li><a href="#id-2-RealVectorParam-and-IntVectorParam-Operators">2.5. RealVectorParam and IntVectorParam Operators</a>
 <ul>
-<li><a href="#id-3-Scaling-subsets-of-RealParameter-elements-together">2.5.1. Scaling subsets of RealParameter elements together</a></li>
-<li><a href="#id-3-Operators-on-IntegerParameters">2.5.2. Operators on IntegerParameters</a></li>
+<li><a href="#id-3-Scaling-subsets-of-RealVectorParam-elements-together">2.5.1. Scaling subsets of RealVectorParam elements together</a></li>
+<li><a href="#id-3-Operators-on-IntVectorParams">2.5.2. Operators on IntVectorParams</a></li>
 </ul>
 </li>
 <li><a href="#id-2-Coalescent-population-functions">2.6. Coalescent population functions</a>
@@ -85,7 +85,7 @@
 <ul>
 <li><a href="#id-3-Easy-state-simulation">2.8.1. Easy state simulation</a></li>
 <li><a href="#id-3-Sequence-alignment-simulation">2.8.2. Sequence alignment simulation</a></li>
-<li><a href="#id-3-Randomly-initializing-RealParameter-values">2.8.3. Randomly initializing RealParameter values</a></li>
+<li><a href="#id-3-Randomly-initializing-RealVectorParam-values">2.8.3. Randomly initializing RealVectorParam values</a></li>
 <li><a href="#id-3-Sequence-alignment-shuffling">2.8.4. Sequence alignment shuffling</a></li>
 <li><a href="#id-3-DensityMapper">2.8.5. DensityMapper</a></li>
 </ul>
@@ -670,7 +670,7 @@ that parameter. True and false are represented by 1.0 and 0.0 respectively.
 </p>
 
 <p>
-Example expressions follow. (I and J are IDs of RealParameters with elements
+Example expressions follow. (I and J are IDs of RealVectors with elements
 1.0,2.0,3.0 and 5.0,10.0, respectively.)
 </p>
 
@@ -867,7 +867,7 @@ The <code>feast.parameter.RealVectorParamFromRealVector</code> and
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RealParameterFromRealVector"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">samplingRateChangeTimes</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RealVectorParamFromRealVector"</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realVector</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.expressions.ExpCalculator"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"{0,max(taxonTimes)+0.1}"</span><span class="org-nxml-tag-delimiter">&gt;</span>
         <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"taxonTimes"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.function.TraitSetAsRealVector"</span> <span class="org-nxml-attribute-local-name">traitSet</span>=<span class="org-string">"@dateTrait"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">realVector</span><span class="org-nxml-tag-delimiter">&gt;</span>
@@ -903,8 +903,8 @@ the final BEAST XML file.
 
 <p>
 The <code>TimeParameter</code> class is intended to combat this.  It can be used
-anywhere that a <code>RealParameter</code> is expected.  For example, to create
-a <code>RealParameter</code> with the ages corresponding to the times above, use
+anywhere that a <code>RealVectorParam</code> is expected.  For example, to create
+a <code>RealVectorParam</code> with the ages corresponding to the times above, use
 </p>
 
 <div class="org-src-container">
@@ -944,11 +944,11 @@ TimeParameter is to subtract this value from <code>mostRecentSampleTime</code>.
 <h3 id="id-2-RealVectorParam-and-IntVectorParam-Operators"><span class="section-number-3">2.5.</span> RealVectorParam and IntVectorParam Operators</h3>
 <div class="outline-text-3" id="text-id-2-RealVectorParam-and-IntVectorParam-Operators">
 </div>
-<div id="outline-container-id-3-Scaling-subsets-of-RealParameter-elements-together" class="outline-4">
-<h4 id="id-3-Scaling-subsets-of-RealParameter-elements-together"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealParameter elements together</h4>
-<div class="outline-text-4" id="text-id-3-Scaling-subsets-of-RealParameter-elements-together">
+<div id="outline-container-id-3-Scaling-subsets-of-RealVectorParam-elements-together" class="outline-4">
+<h4 id="id-3-Scaling-subsets-of-RealVectorParam-elements-together"><span class="section-number-4">2.5.1.</span> Scaling subsets of RealVectorParam elements together</h4>
+<div class="outline-text-4" id="text-id-3-Scaling-subsets-of-RealVectorParam-elements-together">
 <p>
-It's occasionally necessary to tie multiple elements of a RealParameter
+It's occasionally necessary to tie multiple elements of a RealVectorParam
 together, for instance to represent a vector of rates where a subset of
 these rates are conditioned to be identical.  The <code>BlockScaleOperator</code>
 operator makes this possible.  It behaves essentially identically to the
@@ -975,7 +975,7 @@ An example usage of this operator is as follows:
 </pre>
 </div>
 <p>
-Here "@paramToScale" references a <code>RealParameter</code> with 4 elements, and the
+Here "@paramToScale" references a <code>RealVectorParam</code> with 4 elements, and the
 operator jointly scales the first two.
 </p>
 
@@ -1004,15 +1004,15 @@ elements.
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-Operators-on-IntegerParameters" class="outline-4">
-<h4 id="id-3-Operators-on-IntegerParameters"><span class="section-number-4">2.5.2.</span> Operators on IntegerParameters</h4>
-<div class="outline-text-4" id="text-id-3-Operators-on-IntegerParameters">
+<div id="outline-container-id-3-Operators-on-IntVectorParams" class="outline-4">
+<h4 id="id-3-Operators-on-IntVectorParams"><span class="section-number-4">2.5.2.</span> Operators on IntVectorParams</h4>
+<div class="outline-text-4" id="text-id-3-Operators-on-IntVectorParams">
 <p>
 Parameters of type <code>IntVectorParam</code> require special operators.  Beast has
 two main operators for this type: <code>IntUniformOperator</code> (now deprecated in favour
 of <code>UniformOperator</code>) and <code>IntRandomWalkOperator</code>.  Feast exptends this
 collection with a pair of operators allowing for joint operation on a subset
-of elements of a single <code>IntegerParameter</code>.  The new operators are:
+of elements of a single <code>IntVectorParam</code>.  The new operators are:
 </p>
 
 <ol class="org-ol">
@@ -1139,7 +1139,7 @@ These models can also depend on one or more <code>RealVector</code> objects:
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">populationModel</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"ExpressionPopulationModel"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">
   exp(gamma*t)*(cos(omega*t) + 2)
-  </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"omega"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  </span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"omega"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"0.3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
   <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">arg</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"gamma"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">populationModel</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
@@ -1196,7 +1196,7 @@ in the target density:
 
 <div class="org-src-container">
 <pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distribution</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.modelselect.DirichletProcessPrior"</span> <span class="org-nxml-attribute-local-name">parameter</span>=<span class="org-string">"@X"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaleParameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"dppScale"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">scaleParameter</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"dppScale"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealScalarParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">baseDistrib</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"dppBase"</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"LogNormalDistributionModel"</span> <span class="org-nxml-attribute-local-name">M</span>=<span class="org-string">"0.8"</span> <span class="org-nxml-attribute-local-name">S</span>=<span class="org-string">"0.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">distribution</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
@@ -1416,14 +1416,14 @@ consider the stem lineage to be part of the tree.
 </p>
 </div>
 </div>
-<div id="outline-container-id-3-Randomly-initializing-RealParameter-values" class="outline-4">
-<h4 id="id-3-Randomly-initializing-RealParameter-values"><span class="section-number-4">2.8.3.</span> Randomly initializing RealParameter values</h4>
-<div class="outline-text-4" id="text-id-3-Randomly-initializing-RealParameter-values">
+<div id="outline-container-id-3-Randomly-initializing-RealVectorParam-values" class="outline-4">
+<h4 id="id-3-Randomly-initializing-RealVectorParam-values"><span class="section-number-4">2.8.3.</span> Randomly initializing RealVectorParam values</h4>
+<div class="outline-text-4" id="text-id-3-Randomly-initializing-RealVectorParam-values">
 <p>
 Sometimes several attempts are needed to find a acceptable starting
 state for MCMC. An initializer for trees, capable of generating a new
 starting tree at each attempt is implemented in BEAST. In the same
-way, <code>RandomRealParameter</code> allows you to sample new initial parameter
+way, <code>RandomRealVectorParam</code> allows you to sample new initial parameter
 values at each attempt. The distribution, from which to sample, can be
 the parameter prior or any other proper distribution.
 </p>
@@ -1433,18 +1433,18 @@ For example, here we sample a birth rate value from a uniform distribution
 at each initialization attempt:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">init</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealParameter"</span> <span class="org-nxml-attribute-local-name">initial</span>=<span class="org-string">"@birthRate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.base.inference.distribution.Uniform"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">init</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealVectorParam"</span> <span class="org-nxml-attribute-local-name">initial</span>=<span class="org-string">"@birthRate"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.base.spec.inference.distribution.Uniform"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">init</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
 <p>
-Alternatively, you can use <code>RandomRealParameter</code> wherever BEAST expects a <code>RealParameter</code>:
+Alternatively, you can use <code>RandomRealVectorParameter</code> wherever BEAST expects a <code>RealVectorParam</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">birthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealParameter"</span><span class="org-nxml-tag-delimiter">&gt;</span>
-  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.base.inference.distribution.Uniform"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">birthRate</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.parameter.RandomRealVectorParam"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distr</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"beast.base.spec.inference.distribution.Uniform"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"0"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"1.5"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">birthRate</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
@@ -1495,19 +1495,17 @@ general form:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">beast</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">"2.0"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">beast</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">"2.8"</span><span class="org-nxml-tag-delimiter">&gt;</span>
     <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">run</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"feast.mapping.DensityMapper"</span><span class="org-nxml-tag-delimiter">&gt;</span>
         <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">distribution</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"distrib"</span> ... <span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramA"</span>
-            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_A"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"LOWER_A"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"UPPER_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span>
-            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramA"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">range</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"rangeA"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"LOWER_A UPPER_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
-        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramB"</span>
-            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_B1 V_B2"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"LOWER_B"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"UPPER_B"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span>
-            <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_B1 STEPS_B2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramB"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_B1 V_B2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">range</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"rangeB"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"LOWER_B UPPER_B"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_B1 STEPS_B2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 
         <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logger</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"Logger"</span> <span class="org-nxml-attribute-local-name">logEvery</span>=<span class="org-string">"1"</span><span class="org-nxml-tag-delimiter">&gt;</span>
             <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">log</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"paramA"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
@@ -1522,8 +1520,8 @@ general form:
 </div>
 
 <p>
-The <code>&lt;realParam&gt;</code> elements specify which parameters are varied, the upper and
-lower bounds of these parameters specify the range over which the parameter is
+The <code>&lt;realParam&gt;</code> inputs specify which parameters are varied, the <code>&lt;range&gt;</code> 
+inputs specify the ranges over which the parameters are
 varied, and the corresponding <code>&lt;steps&gt;</code> elements specify the number of steps to
 use for each parameter. When the number of steps is 1 the parameter is not
 varied and instead the contents of the <code>value</code> attribute is used.
@@ -1542,7 +1540,7 @@ element to 1.
 
 <p>
 If, in addition to the <code>&lt;realParam&gt;</code> and <code>&lt;steps&gt;</code> elements a
-<code>&lt;logScale&gt;</code> BooleanParameter element is provided, DensityMapper will
+<code>&lt;logScale&gt;</code> BoolScalar element is provided, DensityMapper will
 evaluate the densities at a logarithmic distribution of parameter
 values between the same bounds.  I.e., the following snippet will
 cause <code>paramA</code> to be set to values logarithmically distributed between
@@ -1550,12 +1548,10 @@ cause <code>paramA</code> to be set to values logarithmically distributed betwee
 </p>
 
 <div class="org-src-container">
-<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealParameter"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramA"</span>
-    <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_A"</span> <span class="org-nxml-attribute-local-name">lower</span>=<span class="org-string">"LOWER_A"</span> <span class="org-nxml-attribute-local-name">upper</span>=<span class="org-string">"UPPER_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntegerParameter"</span>
-    <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
-<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logScale</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BooleanParameter"</span>
-    <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"true"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<pre class="src src-xml"><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">realParam</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"paramA"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"V_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">range</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"RealVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"LOWER_A UPPER_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">steps</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"IntVectorParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"STEPS_A"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">logScale</span> <span class="org-nxml-attribute-local-name">spec</span>=<span class="org-string">"BoolScalarParam"</span> <span class="org-nxml-attribute-local-name">value</span>=<span class="org-string">"true"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
 </pre>
 </div>
 
@@ -1645,7 +1641,7 @@ or may be found online at <a href="https://www.gnu.org/licenses/gpl-3.0.html">ht
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Tim Vaughan</p>
-<p class="date">Created: 2026-04-29 Wed 13:45</p>
+<p class="date">Created: 2026-05-13 Wed 13:28</p>
 </div>
 </body>
 </html>
