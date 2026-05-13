@@ -1,6 +1,6 @@
 <!-- IMPORTANT: Requires coalescent.xml to be run first. -->
 
-<beast version='2.0' namespace='beast.base.spec.inference.parameter
+<beast version="2.8" namespace='beast.base.spec.inference.parameter
                                 :feast.fileio.logfileiterator'>
 
   <run spec="LogFileIterator">

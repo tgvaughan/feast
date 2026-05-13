@@ -1,4 +1,4 @@
-<beast version='2.0' namespace='beast.base.inference
+<beast version="2.8" namespace='beast.base.inference
                                 :beast.base.spec.inference.parameter
                                 :beast.base.spec.inference.operator
                                 :feast:feast.expressions'>

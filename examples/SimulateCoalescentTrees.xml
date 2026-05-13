@@ -1,11 +1,9 @@
-<beast version="2.0"
-       namespace="beast.base.inference.parameter
-                 :beast.base.evolution.alignment
-                 :beast.base.evolution.tree
-                 :beast.base.evolution.tree.coalescent">
+<beast version="2.8"
+       namespace="beast.base.spec.inference.parameter
+                 :beast.base.evolution.alignment">
 
     <run spec="feast.simulation.GPSimulator" nSims="100">
-        <simulationObject spec="RandomTree" id="tree">
+        <simulationObject spec="beast.base.spec.evolution.tree.coalescent.RandomTree" id="tree">
             <taxonset spec="TaxonSet">
                 <taxon spec="Taxon" id="t1"/>
                 <taxon spec="Taxon" id="t2"/>
@@ -19,8 +17,8 @@
                 <taxon spec="Taxon" id="t10"/>
             </taxonset>
 
-            <populationModel spec="ConstantPopulation">
-                <popSize spec="RealParameter" value="1.0"/>
+            <populationModel spec="beast.base.spec.evolution.tree.coalescent.ConstantPopulation">
+                <popSize spec="RealScalarParam" value="1.0"/>
             </populationModel>
         </simulationObject>
 
