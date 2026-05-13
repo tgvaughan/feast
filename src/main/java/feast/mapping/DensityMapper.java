@@ -24,15 +24,12 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.*;
 import beast.base.inference.Runnable;
-import beast.base.inference.parameter.BooleanParameter;
-import beast.base.inference.parameter.IntegerParameter;
-import beast.base.inference.parameter.RealParameter;
-import beast.base.spec.domain.Bool;
 import beast.base.spec.domain.Int;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.parameter.RealVectorParam;
-import beast.base.spec.type.BoolVector;
+import beast.base.spec.type.BoolScalar;
 import beast.base.spec.type.IntVector;
+import beast.base.spec.type.RealVector;
 
 import java.util.*;
 
@@ -47,13 +44,21 @@ public class DensityMapper extends Runnable {
             "Real parameter to vary.",
             new ArrayList<>());
 
+    public Input<List<RealVector<? extends Real>>> rangesInput = new Input<>(
+            "range",
+            "Start and end of range over which to vary parameter. (This " +
+                    "vector have exactly two elements, and there must be as " +
+                    "many of these vectors as there are inputs to realParam.",
+            new ArrayList<>());
+
+
     public Input<List<IntVector<? extends Int>>> stepsInput = new Input<>(
             "steps",
             "Number of steps to take between parameter bounds. 1 means use" +
             "initial value.",
             new ArrayList<>());
 
-    public Input<List<BoolVector>> logScaleInput = new Input<>(
+    public Input<List<BoolScalar>> logScaleInput = new Input<>(
             "logScale",
             "Whether to use log scale when stepping. Default false.",
             new ArrayList<>());
@@ -84,6 +89,10 @@ public class DensityMapper extends Runnable {
     @Override
     public void initAndValidate() {
 
+        if (realParamsInput.get().size() != rangesInput.get().size())
+            throw new IllegalArgumentException("Number of ranges " +
+                    "must match number of real params.");
+
         if (realParamsInput.get().size() != stepsInput.get().size())
             throw new IllegalArgumentException("Number of step sizes " +
                     "must match number of real params.");
@@ -95,6 +104,11 @@ public class DensityMapper extends Runnable {
         // Calculate total number of params to vary
         nValues = 0;
         for (int i=0; i<realParamsInput.get().size(); i++) {
+            if (rangesInput.get().get(i).size() != 2 ||
+                    rangesInput.get().get(i).get(0) >= rangesInput.get().get(i).get(1)) {
+                throw new IllegalArgumentException("Each range input must have " +
+                        "exactly 2 elements, l and u, satisfying l<u.");
+            }
             int thisN = realParamsInput.get().get(i).size();
             if (stepsInput.get().get(i).size() != 1
                     && stepsInput.get().get(i).size() != thisN)
@@ -185,6 +199,8 @@ public class DensityMapper extends Runnable {
                 nSteps = stepsInput.get().get(paramIdx).get(elIdx);
 
             RealVectorParam<? extends Real> param = realParamsInput.get().get(paramIdx);
+            double lower = rangesInput.get().get(paramIdx).get(0);
+            double upper = rangesInput.get().get(paramIdx).get(1);
 
             boolean useLog = logScaleInput.get().isEmpty()
                     ? false
@@ -193,9 +209,9 @@ public class DensityMapper extends Runnable {
             double delta;
             if (nSteps>1) {
                 if (useLog) {
-                    delta = (Math.log(param.getUpper()) - Math.log(param.getLower()))/(nSteps-1);
+                    delta = (Math.log(upper) - Math.log(lower))/(nSteps-1);
                 } else {
-                    delta = (param.getUpper()-param.getLower())/(nSteps-1);
+                    delta = (upper-lower)/(nSteps-1);
                 }
             } else {
                 delta = 0.0;
@@ -206,9 +222,9 @@ public class DensityMapper extends Runnable {
                     for (elIdx = 0; elIdx < param.size(); elIdx++) {
                         if (delta > 0.0) {
                             if (useLog) {
-                                param.set(elIdx, Math.exp(Math.log(param.getLower()) + i * delta));
+                                param.set(elIdx, Math.exp(Math.log(lower) + i * delta));
                             } else {
-                                param.set(elIdx, param.getLower() + i * delta);
+                                param.set(elIdx, lower + i * delta);
                             }
                         }
                     }
