@@ -33,7 +33,7 @@ import java.util.List;
 @Description("Randomly initialise a RealVectorParam by sampling from a ParametricDistribution.")
 public class RandomRealVectorParam extends RealVectorParam<Real> implements StateNodeInitialiser {
     final public Input<RealVectorParam<Real>> initialInput = new Input<>("initial",
-            "Parameter to initialize. (If absent, initialise RandomRealParameter itself.)");
+            "Parameter to initialize. (If absent, initialise RandomRealVectorParam itself.)");
     final public Input<ScalarDistribution<?, Double>> distributionInput
             = new Input<>("distr",
             "Distribution from which to draw a random value. Usually the prior distribution for this parameter.",
@@ -47,7 +47,7 @@ public class RandomRealVectorParam extends RealVectorParam<Real> implements Stat
     public void initAndValidate() {
         if (valuesInput.get().isEmpty()) {
             if (initialInput.get() == null)
-                throw new IllegalArgumentException("Either value or initial input of RandomRealParameter must be set.");
+                throw new IllegalArgumentException("Either value or initial input of RandomRealVectorParam must be set.");
         } else {
             super.initAndValidate();
         }

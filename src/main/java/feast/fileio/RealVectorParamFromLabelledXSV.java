@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Description("Initializes a RealParameter with values read from a CSV/TSV file " +
+@Description("Initializes a RealVectorParam with values read from a CSV/TSV file " +
         "in row-major order.")
 public class RealVectorParamFromLabelledXSV extends RealVectorParam<Real> {
 

@@ -20,23 +20,19 @@
 package feast.modelselect;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
 import beast.base.inference.StateNode;
-import beast.base.inference.distribution.ParametricDistribution;
-import beast.base.inference.parameter.RealParameter;
 import beast.base.spec.domain.NonNegativeReal;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.distribution.ScalarDistribution;
 import beast.base.spec.inference.parameter.RealVectorParam;
 import beast.base.spec.type.RealScalar;
-import beast.base.spec.type.Scalar;
 import beast.base.util.Randomizer;
 
 import java.util.*;
 
-@Description("An operator for sampling the elements of a RealParameter (parameter) " +
+@Description("An operator for sampling the elements of a RealVectorParam " +
         "by sampling from a Dirichlet process prior.")
 public class DirichletProcessOperator extends Operator {
 

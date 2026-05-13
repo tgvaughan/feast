@@ -25,7 +25,7 @@ import beast.base.spec.domain.Int;
 import beast.base.spec.inference.parameter.IntVectorParam;
 import beast.base.spec.type.IntVector;
 
-@Description("A IntegerParameter initialized from a function.  (The elements of" +
+@Description("A IntVectorParam initialized from a function.  (The elements of" +
         " the input function are rounded to the nearest integer.")
 public class IntVectorParamFromIntVector extends IntVectorParam<Int> {
 

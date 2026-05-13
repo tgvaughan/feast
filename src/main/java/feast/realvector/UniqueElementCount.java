@@ -32,7 +32,7 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
-@Description("Function representing the number of unique elements of another function.")
+@Description("IntScalar representing the number of unique elements of another function.")
 public class UniqueElementCount extends CalculationNode implements Loggable, IntScalar<NonNegativeInt> {
 
     public Input<RealVector<? extends Real>> argInput = new Input<>("arg",

@@ -22,11 +22,10 @@ package feast.fileio.logfileiterator;
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
 import beast.base.core.Input;
-import beast.base.inference.parameter.RealParameter;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.parameter.RealVectorParam;
 
-@Description("Represents a RealParameter to be read in from a log file as part of " +
+@Description("Represents a RealVectorParam to be read in from a log file as part of " +
         "a LogFileIterator run.")
 public class LogFileRealVectorParam extends BEASTObject {
 

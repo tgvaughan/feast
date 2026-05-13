@@ -25,11 +25,11 @@ import beast.base.spec.domain.Real;
 import beast.base.spec.inference.parameter.RealVectorParam;
 import beast.base.spec.type.RealVector;
 
-@Description("A RealParameter initialized from a function.")
+@Description("A RealVectorParam initialized from a function.")
 public class RealVectorParamFromRealVector extends RealVectorParam<Real> {
 
     public Input<RealVector<? extends Real>> realVectorInput = new Input<>("realVector",
-            "RealVector used to initialize RealParameter.",
+            "RealVector used to initialize RealVectorParam.",
             Input.Validate.REQUIRED);
 
     public RealVectorParamFromRealVector() {

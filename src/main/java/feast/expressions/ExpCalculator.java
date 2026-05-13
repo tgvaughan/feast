@@ -35,17 +35,17 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
- * Simple expression calculator.  Takes simple arithmetic expressions
- * and returns the result by acting as a Loggable ora Function.
+ * Simple expression calculator.  Takes simple arithmetic expressions and
+ * returns the result by acting as a Loggable RealVector with that value.
  * Binary operators can be applied to Parameters of different lengths as in R,
  * with the result having the maximum of the two lengths, and the index into
  * the shortest parameter being the result index modulo the length of that
  * parameter.
  * 
- * Example expressions (I and J are IDs of RealParameters with elements
+ * Example expressions (I and J are IDs of RealVectors with elements
  * {1.0, 2.0, 3.0} and {5.0, 10.0}, respectively.)
  * 
- * Expression                 |  Loggable/Function value
+ * Expression                 |  RealVector value
  * ------------------------------------------------------
  * 2*(I+J)                    | {6.0, 12.0, 8.0}
  * exp(I[0])                  | {2.718...}

@@ -33,7 +33,7 @@ import java.util.List;
 public class Scale extends CalculatedRealVector<Real> {
 
     public Input<RealVector<? extends Real>> vectorInput = new Input<>("arg",
-            "Function to scale", Input.Validate.REQUIRED);
+            "RealVector to scale", Input.Validate.REQUIRED);
 
     public Input<List<RealScalar<? extends Real>>> scalingFactorsInput = new Input<>("scaleBy",
             "Amount to scale by", new ArrayList<>());

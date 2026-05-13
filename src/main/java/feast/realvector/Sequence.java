@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Description("A Function representing an evenly-spaced sequence of real numbers.")
+@Description("A RealVector representing an evenly-spaced sequence of real numbers.")
 public class Sequence extends LoggableRealVector<Real> {
 
     public Input<Double> startInput = new Input<>("start",

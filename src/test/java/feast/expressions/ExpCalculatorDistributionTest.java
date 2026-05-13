@@ -6,7 +6,6 @@
 
 package feast.expressions;
 
-import beast.base.inference.parameter.RealParameter;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.parameter.RealVectorParam;
 import org.junit.jupiter.api.Test;

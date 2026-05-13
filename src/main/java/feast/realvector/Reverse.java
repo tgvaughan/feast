@@ -24,7 +24,7 @@ import beast.base.core.Input;
 import beast.base.spec.domain.Real;
 import beast.base.spec.type.RealVector;
 
-@Description("A Function whose elements are the elements of the input Function but in reverse order.")
+@Description("A RealVector whose elements are the elements of the input RealVector but in reverse order.")
 public class Reverse extends CalculatedRealVector<Real> {
 
     public Input<RealVector<? extends Real>> realVectorInput = new Input<>("arg",

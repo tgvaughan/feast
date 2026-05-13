@@ -20,9 +20,7 @@
 package feast.simulation;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.core.Log;
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.alignment.TaxonSet;
@@ -37,7 +35,6 @@ import beast.base.spec.evolution.substitutionmodel.JukesCantor;
 import beast.base.spec.type.RealVector;
 import beast.base.util.Randomizer;
 import beast.pkgmgmt.BEASTClassLoader;
-import beast.pkgmgmt.PackageManager;
 import feast.nexus.CharactersBlock;
 import feast.nexus.NexusBuilder;
 import feast.nexus.TaxaBlock;

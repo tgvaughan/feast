@@ -77,9 +77,9 @@ public class ExpCalculatorVisitor extends ExpressionBaseVisitor<Double []>{
 
         String paramName = ctx.IDENT().getText();
         if (!realVectorMap.containsKey(paramName))
-            throw new IllegalArgumentException("Paramter/Function " + paramName
+            throw new IllegalArgumentException("RealVector " + paramName
                     + " in expression was not found in list of provided"
-                    + " parameters/functions.");
+                    + " RealVector arguments.");
 
         RealVector param = realVectorMap.get(paramName);
 

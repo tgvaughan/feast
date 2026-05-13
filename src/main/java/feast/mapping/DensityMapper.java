@@ -119,7 +119,7 @@ public class DensityMapper extends Runnable {
             nValues += thisN;
         }
 
-        // Add RealParameters to dummy state:
+        // Add RealVectorParams to dummy state:
         dummyState = new State();
 
         Set<StateNode> stateNodes = new HashSet<>();

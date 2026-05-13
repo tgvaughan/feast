@@ -20,11 +20,7 @@
 package feast.modelselect;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
-import beast.base.core.Loggable;
-import beast.base.inference.CalculationNode;
-import beast.base.inference.parameter.IntegerParameter;
 import beast.base.spec.domain.Int;
 import beast.base.spec.domain.Real;
 import beast.base.spec.type.IntVector;
@@ -35,7 +31,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-@Description("Class of Functions useful for BSSVS-style model selection/averaging.")
+@Description("Class of RealVectors useful for BSSVS-style model selection/averaging.")
 public class ModelSelectionParameter extends CalculatedRealVector<Real> {
 
     public Input<List<RealVector<? extends Real>>> parametersInput = new Input<>("parameter",
@@ -43,7 +39,7 @@ public class ModelSelectionParameter extends CalculatedRealVector<Real> {
             new ArrayList<>());
 
     public Input<IntVector<? extends Int>> selectionIndicesInput = new Input<>("selectionIndices",
-            "Integer parameter containing indicies to which each output parameter is mapped.",
+            "IntVector containing indicies to which each output parameter is mapped.",
             Input.Validate.REQUIRED);
 
     public Input<Integer> thisIndexInput = new Input<>("thisIndex",

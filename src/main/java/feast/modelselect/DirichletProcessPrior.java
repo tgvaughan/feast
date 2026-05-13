@@ -20,14 +20,11 @@
 package feast.modelselect;
 
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.inference.Distribution;
 import beast.base.inference.State;
-import beast.base.inference.distribution.ParametricDistribution;
 import beast.base.spec.domain.Real;
 import beast.base.spec.inference.distribution.ScalarDistribution;
-import beast.base.spec.inference.parameter.RealVectorParam;
 import beast.base.spec.type.RealScalar;
 import beast.base.spec.type.RealVector;
 
@@ -37,8 +34,8 @@ import java.util.Map;
 import java.util.Random;
 
 @Description("A distribution representing the probability of the elements of" +
-        " an input function (parameter) under a Dirichlet process prior with a " +
-        "particular base distribution (baseDistr) and scale paraemter (scaleParameter). " +
+        " an input vector (parameter) under a Dirichlet process prior with a " +
+        "particular base distribution (baseDistr) and scale parameter (scaleParameter). " +
         "In order to use this, you'll need to ensure operators preserve the equivalence of" +
         " identical elements of function.")
 public class DirichletProcessPrior extends Distribution {

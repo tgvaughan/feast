@@ -21,11 +21,11 @@ package feast.popmodels;
 
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
-import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.evolution.tree.coalescent.PopulationFunction;
-import beast.base.inference.parameter.RealParameter;
+import beast.base.spec.domain.NonNegativeReal;
 import beast.base.spec.domain.Real;
+import beast.base.spec.inference.parameter.RealVectorParam;
 import beast.base.spec.type.RealVector;
 import feast.expressions.parser.ExpCalculatorVisitor;
 import feast.expressions.parser.ExpressionLexer;
@@ -260,7 +260,7 @@ public class ExpressionPopulationModel extends PopulationFunction.Abstract {
      */
     public static void main(String[] args) {
 
-        RealParameter arg = new RealParameter("1.0");
+        RealVectorParam arg = new RealVectorParam(new double[] {1.0}, NonNegativeReal.INSTANCE);
         arg.setID("alpha");
 
         ExpressionPopulationModel epm = new ExpressionPopulationModel();
