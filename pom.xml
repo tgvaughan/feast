@@ -6,7 +6,7 @@
 
     <groupId>io.github.tgvaughan</groupId>
     <artifactId>feast</artifactId>
-    <version>11.0.0</version>
+    <version>11.0.1</version>
 
     <name>Feast</name>
     <description>Feast utilities library</description>
@@ -45,7 +45,7 @@
         <beast.main>beast.base.minimal.BeastMain</beast.main>
         <beast.args/>
         <beast.pkg.name>feast</beast.pkg.name>
-        <beast.pkg.version>11.0.0</beast.pkg.version>
+        <beast.pkg.version>11.0.1</beast.pkg.version>
     </properties>
 
     <repositories>
