@@ -22,11 +22,9 @@ package feast.operators;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
-import beast.base.inference.parameter.BooleanParameter;
-import beast.base.inference.parameter.IntegerParameter;
 import beast.base.spec.domain.Int;
-import beast.base.spec.inference.parameter.BoolVectorParam;
 import beast.base.spec.inference.parameter.IntVectorParam;
+import beast.base.spec.type.BoolVector;
 import beast.base.util.Randomizer;
 
 @Description("Operator which acts on subsets of elements of an InVectorParam," +
@@ -40,13 +38,13 @@ public class BlockIntRandomWalkOperator extends Operator {
     public Input<IntVectorParam<? extends Int>> parameterInput = new Input<>(
             "parameter", "Parameter to operate on", Input.Validate.REQUIRED);
 
-    public Input<BoolVectorParam> indicatorInput = new Input<>(
+    public Input<BoolVector> indicatorInput = new Input<>(
             "indicator",
             "Boolean vector indicating which elements to operate on. " +
                     "(If absent, all elements are operated on.)");
 
     IntVectorParam<? extends Int> parameter;
-    BoolVectorParam indicator;
+    BoolVector indicator;
     boolean hasIndicator;
 
     int windowSize;
